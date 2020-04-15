@@ -1,0 +1,101 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: emacs帮助系统
+#+KEYWORDS: emacs,emacs-help
+#+LANGUAGE: zh-CN
+
+
+* C-h w :: 查看某个函数绑定的快捷键
+where-is 命令
+
+C-h w 函数名称
+
+如果您希望知道某个特定函数的快捷键绑定
+可以使用 where-is 函数
+
+
+* C-h k :: 查看某个快捷键的用处和绑定的函数
+describe-key 命令
+C-h k查看快捷键绑定的函数
+
+
+* C-h f :: 查看函数的用处和绑定的快捷键
+describe-function 命令
+C-h f查看函数的详细信息
+   
+
+* C-h v :: 查看emacs变量的详细信息
+describe-variable
+查看变量的命令
+   
+   
+* C-h m :: 查看当前mode的详细信息和快捷键
+describe-mode 命令
+C-h m查看当前mode的详细信息和快捷键
+
+
+* M-x decribe-face :: 查看某个mode的文档
+查看某个mode的文档
+   
+
+* C-h b :: 查看所有组合式快捷键
+describe-bindings 命令
+列出当前mode组合键开头的快捷键
+   
+
+* C-h l :: 查看最近100个按键组合
+view-lossage
+
+查看最近100个按键组合
+
+
+* C-h i emacs :: 的详细信息
+   info--emacs
+
+
+* 相关全部命令
+
+- apropos	对于给定的正则表达式，这个命令将给出 apropos 命令和变量的列表。
+
+- open-dribble-file	这个命令将打开指定的文件，并将所有键盘输入的副本保存到该文件。
+
+- Tab	这个命令将执行命令完成功能（如果给定了某个命令的部分内容），显示给定命令的所有可能的输入值。
+
+- command prefix 或者 keystroke C-h	对于给定的命令前缀 或者键盘输入，这个命令将描述所有可能命令和函数。
+
+- C-h C-c	describe-copying	可用于查看 GNU 通用公共许可证 (GNU GPL)。
+
+- C-h C-d	describe-distribution	可用于查看获得 Emacs 软件最新分发版的副本的信息。
+
+- C-h C-p	describe-project	可以查看 RSM 所撰写的关于 GNU 工程建立的文章。
+
+- C-h C-w	describe-no-warranty	可用于查看 GNU GPL 的“NO WARRANTY”部分。
+
+- C-h a regexp	command-apropos	对于给定的正则表达式，将给出 apropos 命令的列表。
+
+- C-h b	describe-bindings	将在一个新的帮助缓冲区窗口中描述当前主要模式的所有有效键绑定。
+
+- C-h c keystroke	describe-key-briefly	将在迷你缓冲区中报告与给定键盘输入 进行了绑定的函数的名
+
+- C-h F	view-emacs-faq	可用于查看 Emacs FAQ Info 文档。
+
+- C-h f function	describe-function	将在一个新的帮助缓冲区窗口中描述给定函数 的用途。
+
+- C-h k keystroke	describe-key	一个新的帮助缓冲区窗口，其中描述了与给定键盘输入 进行绑定的函数。
+
+- C-h l	view-lossage	将打开一个新的缓冲区，并显示最后键入的 100 个字符。
+
+- C-h n	view-emacs-news	可用于查看关于 Emacs 当前版本的最新更改的信息。
+
+- C-h P	view-emacs-problems	可用于查看 Emacs 问题文件。
+
+- C-h t	help-with-tutorial	将打开一个学习 Emacs 基础知识的实践教程。
+
+- C-h v variable	describe-variable	将在一个新的帮助缓冲区窗口中描述给定变量 的用途。
+
+- C-h w function	where-is	将描述特定的函数所绑定到的键盘输入（如果有的话）。
+
+
+* fn:1 https://www.ibm.com/developerworks/cn/education/aix/au-emacs7/index.html
+
+
+

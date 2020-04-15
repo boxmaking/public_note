@@ -1,0 +1,129 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil f:nil toc:t
+#+TITLE: org-publish-tutorial
+#+KEYWORDS: emacs, org-mode, org-publish-tutorial
+#+LANGUAGE: zh-CN
+
+
+* 文件导出教程,以及相关的css文件和头部文件
+
+1. 做好准备工作后，就可以导出了
+   C-c C-e
+   然后选择相应的格式，就可以导出对应的文件了。
+2. 导出到HTML教程
+   1. 借鉴了[[https://github.com/lijigang][lijigang]]的头文件
+      css模板https://github.com/lijigang/org-notes-style
+  
+   2. 头文件
+      
+      #+INCLUDE: "~/.emacs.d/org-other-file/org-level-1.org"
+
+   3. 然后在org文件的头部添加上加载头文件的语句就可以了
+      #+begin_example
+      #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+      #+end_example
+
+   4. css文件地址
+      css文件最好是放到跟文件夹内部
+
+   5. 直接css嵌入文件内部(我没有使用,作为备用选项)
+
+      刚开始调试本地 Emacs Org Mode 发布成网页工程时，往往容易发现 CSS 没有起到应有的效果。
+
+      因为 Emacs Org Mode 默认是采用 Web 服务器的方式来导入 CSS 文件的，其中最重要的参数，就是你设置的 Web 服务器根目录。
+
+      所以，当你需要在本地调试 Emacs Org Mode 生成的 html 页面，最好的办法是安装一个 Web 服务器，并且把 Emacs 生成的 html 页面放到这个服务器的根目录下进行调试，这样就可以避免 CSS 导入位置出错的问题了。
+
+      当然，如果只是想生成供本地阅读的 html（比如说，作为笔记使用的 org 文件，发布成 html 更方便阅读），也可以采用把 CSS 内容直接内嵌到 html 页面里的方式：
+
+      首先设置好一个变量，把 CSS 属性导入：
+     
+      #+BEGIN_src lisp
+       ;; set the stylesheet string
+       (setq waterstyle "<style>
+        body {
+            padding: 50px 150px 50px 150px;
+            border-style: solid;
+            border-width: 20pt;
+            border-color: #790000;
+        }
+
+        body, p, li {
+                /*font-family: monospace;*/
+                    font-family: \"Microsoft YaHei\" ! important;
+                font-size: 1em;
+        }
+        /* more CSS style */
+                     </style>")
+       #+END_src
+      然后在 org 工程设置里有关添加 CSS 的地方使用该变量，可以使用如下方式来直接把 CSS 内容加进去：
+  
+      #+BEGIN_SRC
+      :style , waterstyle
+      #+END_SRC
+      这样，本地使用 html 页面就会变得非常舒服，不会依赖于外部的 CSS 文件。 
+
+
+
+* 批量导出文件
+教程直接就是配置文件
+
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-org-publish.el" src emacs-lisp
+
+
+* 批量到处文件跳过未修改设置方法(在基本完善了之后,不太需要了,现在用不太到了)
+1. 本来认为org只发布修改过的文件是它对比了org文件和导出文件的时间戳。
+   后来我把导出文件删除，又重新发布。发现都跳过了，
+   并没有重新导出文件，可见它并没有对比org文件和导出文件的时间戳
+   后来在家目录下发现了一个目录.org-timestamps
+   原来所有的东西都在这里放着
+   想不改变org文件而重新导出html等文件可以把这个目录删除，然后现重新发布。 
+2. 或者直接暴力的
+   C-u M-x org-purblish
+   这样也是可以的
+3. Orgmode 发布项目缓存说明
+   在使用 Orgmode 进行 M-x org-publish-project 来进行将 org 文件导出为项目时，发现它会有缓存，即如果 org 文件没有再修改过，它就不会再生成该文件相应的 HTML 文件了。
+
+   参数
+   1. org-publish-use-timestamps-flag 1
+      (可通过 C-h v 变量名 来查看变量的说明及设置) 这个在第一次时可以看到，设置过之后就看不到了。( 我的环境是 Mac+Emacs25.1 )，它显示是否使用时间戳来埋发布。 这个就是导致缓存的原因。即对应的文件的的修改时间戳要比它新才会进行发布。
+   1. org-publish-timestamp-directory
+      这个就是保存时间戳文件的缓存目录。（删除该目录下的所有文件，即可进行全量重新发布）
+
+
+
+
+* 清除上下标的设置
+导出时如果需要目录(类似本文开头), 
+要在org文件的开头出添加metadata. 
+默认情况下org-mode会把^, _, []等字符当做latex中的上标,下标和脚注
+如果不想让org-mode误会, 也要在metadata中注明. 于是, 每次写笔记时, 开头就要加一行
+
+#+BEGIN_EXAMPLE
+#+OPTIONS: ^:nil _:nil f:nil toc:t
+#+END_EXAMPLE
+
+* 导出的html不显示目录
+一般文字文章我不喜欢
+导出html文章不显示目录，toc 选项设置为 nil 
+
+
+* 主页的设置(据说和低版本有区别,我最初用的教程是低版本的,各种错误.)
+
+1. 配置文件选项设置
+   #+BEGIN_EXAMPLE
+   :auto-sitemap t
+   :sitemap-filename "sitemap.org"  ; ... call it sitemap.org ...
+   :sitemap-title "Sitemap"         ; ... with title 'Sitemap'.
+   #+END_EXAMPLE
+
+2. 然后每次发布这个工程的时候，就会生成一个 sitemap.org 的文件，这个文件会递归地遍历你工程里的所有文件并生成链接，并会生成一个名叫 sitemap.html 的文件。
+
+3. 然后，我们只要在我们的 index.org 里 include 这个文件即可：
+   #+BEGIN_EXAMPLE
+   #+INCLUDE: sitemap.org
+   #+END_EXAMPLE
+
+   这样我们就再也不用手动添加页面的索引链接了。
+
+4. 我们可以在每个页面的页脚里把这个 sitemap.org 的链接给加上，方便随手访问这个索引。 

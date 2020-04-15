@@ -1,0 +1,92 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: scrot-tutorial:一个截屏软件教程
+#+KEYWORDS: scrot 
+#+LANGUAGE: zh-CN
+
+
+
+* 在Linux中安装Scrot
+
+在 Debian，Ubuntu 或 Linux Mint 上安装Scrot：
+#+BEGIN_SRC shell
+sudo apt-get install scrot
+#+END_SRC 
+* 在 Fedora 上安装Scrot：
+#+BEGIN_SRC shell
+ sudo yum install scrot
+#+END_SRC 
+
+要在CentOS上安装Scrot，你可以按照下列步骤从源码编译：
+
+首先在CentOS上启用Repoforge，然后使用下列命令：
+#+BEGIN_SRC shell
+ sudo yum install giblib-devel
+ wget http://ift.tt/1hVRsWW
+ tar xvfvz scrot-0.8.tar.gz
+ cd scrot-0.8
+ ./configure
+ make
+ sudo make install
+#+END_SRC 
+
+* 用Scrot截屏
+
+
+1. 截下整个桌面
+
+   截取整个桌面十分简单。只需运行Scrot命令，不需要任何参数
+   然后它会保存一张整个桌面的截屏，以(日期标记).png的文件形式保存在当前文件目录下。
+#+BEGIN_SRC shell
+   $ scrot
+#+END_SRC
+
+
+   你也可以指定保存目标文件夹和截图文件名。
+#+BEGIN_SRC shell
+   $ scrot ~/Pictures/my_desktop.png
+#+END_SRC
+
+
+2. 截取特定窗口或矩形区域
+
+   Scrot允许你在桌面选择一个特定的窗口或定义一个矩形区域来截图。使用下列命令来实现：
+#+BEGIN_SRC shell
+   $ scrot -s
+#+END_SRC
+
+
+   运行这个命令后，继续用你的鼠标单击任意窗口或画出一个矩形，它能够触发对选定窗口/区域的屏幕截取。
+
+   
+3. 延迟截屏
+
+   使用“-d N”参数，我们可以将截屏进程延迟N秒。
+#+BEGIN_SRC shell
+   $ scrot -s -d 5
+#+END_SRC
+
+
+4. 调整截屏质量
+
+   你可以在1到100的范围内调整截取的图像质量（数字越大质量越高）。默认质量设置为75。
+#+BEGIN_SRC shell
+   $ scrot -q 50
+#+END_SRC
+
+
+5. 调整截屏尺寸
+
+   你可以在1到100的范围内调整截取的图像尺寸（数字越大尺寸越大）。减小截屏的尺寸到原图的10％：
+#+BEGIN_SRC shell
+   $ scrot -t 10
+#+END_SRC
+
+
+6. 将截取的截屏传递给其它命令
+
+   这个选项在你想对截屏图像做任意后期处理的时候十分实用。截屏的文件名/路径跟随于“$f”字符串之后。
+#+BEGIN_SRC shell
+   $ scrot -e 'mv $f ~/screenshots'
+#+END_SRC
+
+

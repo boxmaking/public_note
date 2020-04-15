@@ -1,0 +1,94 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: emule情怀
+#+KEYWORDS: emule情怀
+#+LANGUAGE: zh-CN
+
+* 电骡的eD2k链接地址的基本介绍-电骡情怀
+曾几何时，电骡这个开放源代码的分享软件风靡一时，给高墙内的人们带来了，自由，分享，互助等精神，并且还附带这irc聊天室，很多年前整夜的混迹于irc聊天(那是08-10年的时间吧,由于我10年走到了一个十字路口导致那个时候断了irc,有多少年了呢,大约已经十年了.) irc.mindforge.org 服务器的china频道（不知道feng那个台湾人还在不在，不过lengyanling还有联系，还有那个忧伤的机器人，哈哈），id使用过GFW和PS，虽然过去了这么久想起来仍能会心的笑一笑，今天特意下在了一个xchat看了看,依然有一个熟悉的面孔angvil,可是等了好长时间依然是afk状态尝试说了句话,也没有当年的大哥哥大姐姐和我聊天了,)现在电骡也处于半死亡状态，即使是分享软件现在只用btsync固定了几个高质量用户的秘钥，就像曾经的QQ一样，网络聊天室也伴随着新兴的聊天软件没落到及其小众，但就是这样一个埋葬着自己的青春的软件，他的根基ed2k连接地址一直搞不明白，以前只是知道单纯的去复制黏贴，后来偶然的一次机会看到了，从外网翻译过来的ed2k链接地址的介绍，就忍不住要分享一下了。
+[[file:image/banner.jpg]]
+天使骡logo
+
+
+* eD2k链接
+（eDonkey 2000 URI scheme - 电驴链接）是一种特殊的链接格式，可以让你直接添加一个下载到eMule（电骡）中。这些链接可以让网站管理员在他们的网站上直接提供下载给eMule， 并且非常简单的就实现了用户间下载来源的交换。一个很好的例子可以参见eMule官方的eD2k资源下载站点eMule Content DB
+
+** 链接格式
+eMule支持生成和使用如下复杂的链接格式。
++ 	基本eD2k链接	
+
+  ed2k://|file|<file name>|<file size>|<file hash>|/
+  这是最基本的eD2k链接格式，仅包含了必需的文件描述信息比如：文件名，文件大小和文件hash值	
++ 	带Hash Set的eD2k链接	
+
+  ed2k://|file|<file name>|<file size>|<file hash>|p=<hash set>|/
+  完整的包含Hash set的链接可以确保文件正确并帮助新文件和稀有文件的传播	
++ 	带来源的eD2k链接	
+
+  ed2k://|file|<file name>|<file size>|<file hash >|/|sources,<IP:port>|/
+  使用格式<IP:port>添加一个或多个已知的eMule客户端来源到链接中，可以直接从某个客户端来源那里获取下载。	
++ 	带主机名的eD2k链接	
+
+  ed2k://|file|<file name>|<file size>|<file hash >|/|sources,<host name:port>|/
+  和带来源的eD2k链接一样，但是使用主机名来代替IP地址。这样可以更加灵活的添加使用动态IP的来源。主机名需要在选项->扩展设置->自身eD2k链接的主机名处进行设置。	
++ 	在HTML中使用eD2k来链接	
+
+	<a href="ed2k://|file|<file name>|<file size>|<file hash >|/">网页上显示的名称</a>
+快捷的生成一个可以在网页上显示的链接。	
++ 	带HTTP来源eD2k链接	
+
+  ed2k://|file|<file name>|<file size>|<file hash>|s=http://anyweb.net/filename|/
+  eMule还可以直接从Web网站上下载资源。一种非常有用并适合于网站管理员使用的链接格式。请查看下一段落中的链接创建工具（Link Creator）来了解更多信息。	
++ 	带根Hash值（Root Hash）的eD2k链接	
+
+  ed2k://|file|<file name>|<file size>|<file hash>|h=<Root Hash>|/
+  带根Hash值的链接可以让AICH支持高级错误校正和文件检查方法。查看此文来了解更多关于AICH和根Hash的信息。	
++ 	服务器的eD2k链接	
+
+  ed2k://|server|<IP>|<port>|/
+  服务器eD2k链接可以让你方便的添加一个新的服务器到你的eMule服务器列表中。	
++ 	搜索的eD2k链接	
+
+  ed2k://|search|<searchterm>|/
+  从v0.50a版本开始支持，这是一个用于搜索的链接格式，由searh标示和searchterm(搜索表达式)组成，这可以让你的浏览器和eMule程序结合的更紧密。在常见浏览器中实现在网页上对文字进行eMule划词搜索的方法：Internet Explorer，Firefox，Opera	
++ 	服务器列表的eD2k链接	
+
+  ed2k://|serverlist|http://anyweb.net/server.met|/
+  服务器列表的eD2k链接可以让你下载一个服务器列表文件server.met。	
++ 	KAD节点列表的eD2k链接	
+
+	ed2k://|nodeslist|http://anyweb.net/nodes.dat|/
+    KAD节点列表的eD2k链接可以让你下载一个Kad网络节点列表文件nodes.dat。	
+
+** 在eMule中获取链接
+在eMule中可以很容易的得到或生成文件的eD2k链接，当然除了eD2k-HTTP链接。
+
+    1. 在已共享文件窗口里中选中一些文件，然后点击鼠标右键显示eD2k链接
+       [[file:image/emule-ed2k-link-show1.png]]
+
+    2. 在你的下载列表中选中一些文件，然后点击鼠标右键显示eD2k链接。
+       [[file:image/emule-ed2k-link-detail.png]]
+
+* eMule查看eD2k链接
+在文件链接窗口里提供了详细的链接选项：
+eMule文件链接
++ 链接创建工具（Link Creator）
+  Web网站管理员在网站上发布热门软件后常常面对网络阻塞和巨大的传输流量等问题，使用eD2k链接来发布网站文件下载可以很好的应对这种情况。用 户们可以很轻松的将下载添加到eMule中，就像使用下载工具那样。而且还可以在网络中相互交换已下载的文件段并且同时从HTTP服务器获取更高的下载速 度。
+  [[file:image/emule-linkcreator.png]]
+  链接创建工具 Link Creator 是一个可以快速生成这种链接的易用的小工具。
+
++ eMule链接创建工具
+  将文件导入然后计算文件的Hash值并生成文件链接。添加HTTP文件下载来源是一个可选项。使用移除按钮将选中的HTTP来源删除或者使用清除按钮将所有HTTP来源删除。同样也可以添加，移除，清除客户端来源。
+  建议添加Hashset来帮助稀有文件传播，虽然这会增加链接的长度。最后点击开始按钮生成最终的eD2k链接。
+
+
+[[http://emulefans.com/ed2k-links/][eD2k链接]] 由[[http://emulefans.com/][uralhan]]翻译自eMule官方网站英文版帮助与支持[[http://www.emule-project.net/home/perl/help.cgi?l=1&rm=show_topic&topic_id=422][《eD2k Links》]]。有改动与更新。已编入官网简体中文版[[http://www.emule-project.net/home/perl/help.cgi?l=42&topic_id=1588&rm=show_topic][《eD2k链接》]]
+
+曾经看到分享上传的窗口中，有各个国家的小国旗的时候，心中那种仿佛吃了德芙巧克力的顺滑感仍记忆犹新，不知道为什么，我总是喜欢这些互联网蛮荒时代的古老软件，可能自己是个伪极客的原因吧，总喜欢那些大神开发的，大牛维护的，让我这样的小白死折腾，最重要的是，自己的记忆在里面的那些软件。
+
+（最近因为手机上面的firefox的同步服务器什么的由于不可描述的原因，国际版和中文定制版不一样，折腾了一段时间，也像放弃用了10年的firefox转投chrome了，有点舍不得。）
+
+不过这篇文章太古老了一点,现在我又重回firefox怀抱了<2020-04-05-096/Sunday>
+
+好吧，到电骡爱好者论坛下载个天使骡最新版玩玩吧，不知道最新版是多少年前的了，不知道现在的服务器还有多少能在墙内顺畅的浏览呢。
+
+<2020-04-05/Sunday 23:45:44>

@@ -1,0 +1,51 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: who,last-reboot,top,w,uptime,命令教程
+#+KEYWORDS: linux-time-command
+#+LANGUAGE: zh-CN
+
+
+* 查看系统时间相关命令
+
+1. who 命令查看
+   #+BEGIN_SRC shell
+   who -b
+   #查看最后一次系统启动的时间。
+   who -r
+   #查看当前系统运行时间
+   #+END_SRC
+   
+2. last  reboot
+
+   last reboot可以看到Linux系统历史启动的时间
+
+   #+BEGIN_SRC shell
+   last reboot | head -1
+   #如果只需要查看最后一次Linux系统启动的时间
+   #+END_SRC
+
+3. TOP命令查看
+   up后表示系统到目前运行了多久时间。反过来推算系统重启时间
+
+4. w命令查看
+   up后表示系统到目前运行了多久时间。反过来推算系统重启时间
+
+5. uptime 
+   查看开机时间
+
+6. 查看/proc/uptime
+   #+BEGIN_SRC shell
+   [root@DB-Server ~]# cat /proc/uptime
+   1415.59 1401.42
+
+   [root@DB-Server ~]# date -d "`cut -f1 -d. /proc/uptime` seconds ago"
+   Thu May 29 15:24:57 CST 2014
+
+   [root@DB-Server ~]# date -d "$(awk -F. '{print $1}' /proc/uptime) second ago" +"%Y-%m-%d %H:%M:%S" 
+   2014-05-29 15:24:57
+   #+END_SRC
+* 参考资料：
+
+http://www.thegeekstuff.com/2011/10/linux-reboot-date-and-time/
+
+http://www.averainy.info/linux-system-operation-time-and-the-view-of-the-latest-powered-up-time/
+

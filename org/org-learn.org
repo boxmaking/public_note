@@ -1,0 +1,750 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil
+#+TITLE: 我的orgmode学习笔记
+#+KEYWORDS: emacs  org-mode
+#+LANGUAGE: zh-CN
+
+* 标题和章节
+** 章节表
+大纲结构确定了导出文档的结构基础,由于大纲结构也用于（比如说）列表和任务
+因此只有前三个级别用作标题,更深的级别会被看作项目列表
+你可以通过变量 org-export-headline-levels 在全局设置这个开关
+或者只是在单个文件中设置：
+
+#+BEGIN_EXAMPLE
+#+OPTIONS: H:4
+#+END_EXAMPLE
+
+
+** 目录表
+目录表通常会直接插入在文档第一个标题之前。
+#+BEGIN_EXAMPLE
+#+OPTIONS: toc:2 (目录中只显示二级标题)
+#+OPTIONS: toc:nil (无目录)
+#+END_EXAMPLE
+
+
+
+** 标题显示效果
+#+BEGIN_SRC lisp
+
+#+END_SRC
+* 列表和任务
+** 如何将一段文本变成org-mode中的列表
+1. 假设有这么一段文本
+   thing one
+   thing two
+   thing three
+   etc 
+
+2. 那么先全选在通过 C-c - 转换成
+   - thing one
+   - thing two
+   - thing three
+   - etc 
+
+3. 也可以通过先全选,再通过 C-u C-x r N RET DEL . SPC RET 转换成
+   1. thing one
+   2. thing two
+   3. thing three
+   4. etc  
+
+
+** 这个是复选框的使用方法[0/1]
++ [-] 只有在纯文本下面前面不带星号的文本才行
+  - [X] 并且必须是有序或者是无序标签
+  - [ ] C-c C-c -- 改变标签的选项
+  - [ ] S-左/右 -- 可以改变列表头样式
+        [[my-anchor][内部链接教程1]]
+
+
+
+* 查看版本
+
+M-x org-version
+M-x emacs-version
+
+
+* 重要
+ -- 必须用英文标点
+
+
+* emacs显示图片
+1. 下载iimage.el文件
+2. 加载iimage.el文件
+3. M-x iimage-mode 载入这个minor mode之后
+4. 就能够C-c C-o,在新的buffer显示图片了
+5. [[file:~/psnote_public/mylife/image/002.jpg]]
+
+
+* Tags标签
+** 设置标签
+- C-c C-q (org-set-tags-command) ::
+  为当前标题输入新的tag. Org-mode同时也提供补全功能,或給key设定单字符的快捷键,具体内容见下文. 
+  在按下<RET>之后,就会插入tag,并且tag自动与`org-tags-column`代表的列对齐. 
+  当调用时带了`C-u`前缀参数时, 当前buffer中的所有tag都会与该列对齐,这样会显得很工整. 
+
+- C-c C-c (org-set-tags-command) ::
+  当光标位于标题上时,这个功能与`C-c C-q`一样.
+	
+
+** 预设tags
+- 可以通过变量`org-tag-alist`来设置一个全局的固定的tag列表
+  当然你也可以单独为一个文件设置默认的tag列表.
+  #+BEGIN_SRC org
+  ,#+TAGS: @work @home @tennisclub
+  ,#+TAGS: laptop car pc sailboat
+  #+END_SRC
+
+- 如果你通过变量`org-tag-alist`设置了一个全局的tag列表
+  但是在某些文件中,又希望能够动态获取tag列表
+  只需要在文件中加入一个空白的TAG选项即刻
+  #+BEGIN_SRC org
+  ,#+TAGS:
+  #+END_SRC
+
+- 如果你有一些tag是每个文件都要用到的,你可以把这些tag放入变量`org-tag-persistent-alist`中
+  这样org文件除了具有TAGS选项所设定的tag外,还具有这个变量所定义的那些tag.
+  如果某个文件不想包含该变量所定义的tag,只需要在STARTUP选项行中添加:
+  #+BEGIN_SRC org
+  ,#+STARTUP: noptag
+  #+END_SRC
+	
+
+** tags补全
+默认情况下,Org-mode在输入tag时提供的是标准minibuffer补全方式.
+然而其实它具有另一个更快捷的tag选择方法名叫`快速tag选择法(fast tag selection)`.
+它可以让你只用一个按键就可以选择/取消一个tag.
+为了让该方法能够很好的工作,你需要为你最常用的tag都分配唯一的单独键.
+
+- 配置变量`org-tag-alist`来实现
+  #+BEGIN_SRC org
+  ,(setq org-tag-alist '(("@work" . ?w) ("@home" . ?h) ("laptop" . ?l)))
+  #+END_SRC
+
+- 如果tag只是在当前文件中有效,你可以在文件中设置TAGS选项行像这样:
+  #+BEGIN_SRC org
+  ,#+TAGS: @work(w)  @home(h)  @tennisclub(t)  laptop(l)  pc(p)
+  #+END_SRC
+
+- 插入tag时会在一个新窗口中显示可用的tag供你选择. 若你想在某个tag之后换行显示,你只需要在它之后插入`\n`即刻:
+  #+BEGIN_SRC org
+  ,#+TAGS: @work(w)  @home(h)  @tennisclub(t) \n laptop(l)  pc(p)    
+  #+END_SRC
+  或者你也可用写成两行
+  #+BEGIN_SRC org
+  ,#+TAGS: @work(w)  @home(h)  @tennisclub(t)
+  ,#+TAGS: laptop(l)  pc(p)
+  #+END_SRC
+
+- 用大括号括起来的tag,相互之间只能选择一个标识,例如
+  #+BEGIN_SRC org
+  ,#+TAGS: { @work(w)  @home(h)  @tennisclub(t) }  laptop(l)  pc(p)
+  #+END_SRC
+	
+- 如果至少有一个tag分配了快捷键,那么在按下`C-c C-c`之后会显示给你一个特殊的界面
+  在这里列出了继承到的tag,当前标题行所明确指定的tag和所有其他可用tag
+  在这个界面中,你可以使用如下快捷键:
+  - a-z... ::
+	按下分配給tag的快捷键会添加/删除当前行的相应tag
+  - <TAB> :: 
+	会在minibuffer中提示你输入tag,这个tag可用是全新的. 你也可以同时添加多个tag:只需要用冒号将它们分开就行
+  - <SPC> :: 
+	清空当前行的所有tag
+  - <RET> :: 
+	保存当前的tag修改
+  - C-g :: 
+	放弃当前的修改
+  - q :: 
+	如果`q`没有被分配給tag当快捷键,那么它跟`C-g`一样
+  - ! :: 
+	关闭相互排斥组的约束,用这个命令可用将相互排斥组的多个tag放在一起
+  - C-c :: 
+    开/闭自动退出模式,如果打开自动退出模式,则org只接收下一个tag的命令,然后就自动退出(见下文). 如果你处于expert mode下,那么这个`C-c`会显示tag选择窗口(也就是说,在expert模式下,C-c C-c默认也不显示tag选择窗口)
+  
+
+** 搜索Tag
+一旦完善的tag系统建立起来了,我们就可以利用它将相关联的信息搜集起来
+- C-c / m 或 C-c \ (org-match-sparse-tree) ::
+	 将所有匹配tag搜索的标题搜集起来放到一个sparse tree中. 如果带了`C-u`前缀参,则会忽略哪些不是TODO事项的标题
+- C-c a m (org-tags-view) :: 
+		从agenda文件中搜集所有匹配tag搜索的标题.
+- C-c a M (org-tags-view) :: 
+		从agenda文件中搜索所有匹配tag搜索的标题,但是只搜索TODO事项,并且强制进行子树的匹配(参见变量`org-tags-match-list-sublevels`)
+
+#+CAPTION: 表格
+|---------+-------------------------------------|
+| C-c \   | 按照tags搜索                        |
+| C-c / m | 搜索并且按照树状目录现实            |
+| C-c a m | 搜索全局文件,需要将标签加入全局文件 |
+|---------+-------------------------------------|
+
+
+** tag显示效果配置
+变量'org-tag-faces'设置方法和'org-todo-keyword-faces'的设置方法应该一样
+#+BEGIN_SRC lisp
+;;'org-tag-faces'
+(setf org-tag-faces '(
+		      ("上班" . (:foreground "black" :background "#95A5A6"   :weight bold))
+                      ("休班" . (:foreground "red" :background "#2E8B57"  :weight bold))
+                      ;("DONE" . (:foreground "white" :background "#3498DB" :weight bold))
+		      )
+      )
+
+#+END_SRC
+
+
+* Time选项的设置
+
+** 自动计算和添加时间段的教程
+1. 第一种是添加开始和结束的时间
+   1. 添加方法
+      C-c C-s -- 添加开始的时间
+      C-c C-d -- 添加结束的时间
+      用 C-c C-s 插入的时间是在标题的下面；而 C-c . 插入的时间是在光标处。
+   2. 效果
+      DEADLINE: <2020-03-11 三> SCHEDULED: <2020-03-09 一>
+
+2. 第二种是通过org内置clock函数添加时间
+   1. 添加方法
+      org-clock-in -- 添加开始时间
+      org-clock-out -- 添加结束时间
+
+   2. 效果
+      #+BEGIN_EXAMPLE
+      :LOGBOOK:
+      CLOCK: [2020-03-12 Fri 22:34]--[2020-03-20 Fri 22:34] => 192:00
+      :END:
+      #+END_EXAMPLE
+
+   3. 打印时间明细
+      1. org-clock-report -- 打印时间明细表格
+
+      2. 时间明细表格效果
+         #+BEGIN: clocktable :scope file :maxlevel 2
+         #+CAPTION: Clock summary at [2020-03-20 Fri 22:35]
+         | Headline           | Time      |         |
+         |--------------------+-----------+---------|
+         | *Total time*       | *8d 0:00* |         |
+         |--------------------+-----------+---------|
+         | org-moad 入门教程  | 8d 0:00   |         |
+         | \_  Time选项的设置 |           | 8d 0:00 |
+         #+END:
+
+
+** 时间标记添加方法
+1. 添加时间标记C-c .可以添加时间标记<2020-03-03 二>
+   <2020-03-09 一>S-left/right可以前一天后一天
+   <2020-03-09 一>S-up/down可以调整光标所在的日期
+
+2. 连续使用C-c .可以创建时间段,C-c C-y可以计算时间段
+   <2020-03-09 一>--<2020-03-11 三>
+
+3. 还可以通过自己设定的emacs的时间添加标记来添加时间
+   1. C-c m t -- 带时间的日期添加
+      <2020-03-22/Sunday 22:42:11>
+
+   2. C-c m d -- 不带时间的日期添加
+      <2020-03-22/Sunday>
+
+   3. 设置格式和配置文件在
+      #+INCLUDE: ~/.emacs.d/loadfile/pengshao-insert-date.el src lisp
+
+
+* TODO的使用教程
+ - C-c C-t ::
+   来改变todo列表的状态地方的
+   S-左,S-右,来改变选项
+
+ - C-c :: 
+   来设置优先级别
+   S-上,S-下,来设置优先级
+
+**  文件状态关键词todo选项和类型关键词todo选项的自定义操作
+
+1. 在Org文件中定义的TODO关键词仅适用于当前文件
+   状态关键词使用 #+SEQ_TODO: 定义
+   类型关键词使用 #+TYP_TODO: 定义
+
+2. 可以定义多系列的TODO关键词
+   可以使用中文关键词。
+   #+begin_example
+   #+TYP_TODO: 工作(w!) 学习(s!) 休闲(l!) |
+   #+SEQ_TODO: PENDING(p!) TODO(t!) | DONE(d!) ABORT(a@/!)
+   #+end_example
+
+3. “|”用来分隔“未完成”和“完成”两种状态的关键词
+   前面为未完成项，后面为完成项
+   如果没有“|”符号,最后一个关键词将被设为完成项，其余为未完成项
+
+4. 可以在（）中定义附加选项
+   1. 字符：该状态的快捷键
+   2. ！：切换到该状态时会自动增加时间戳
+   3. @ ：切换到该状态时要求输入文字说明
+   4. 如果同时设定@和！，使用“@/!” 
+ 
+   使用 C-c C-t 设置或改变当前标题的TODO状态或类型时将出现选项菜单
+   此时可以用快捷键进行选择
+   输入后将光标置于该行内使用 C-c C-c 命令可使该定义立刻生效
+
+
+** 全局配置文件内定义关键词
+1. 如果想要所有的org-mode文件都想用这个功能的话必须要在
+
+2. emacs配置文件中中设置如下的代码就行了
+   #+begin_src lisp
+     (setq org-todo-keywords
+     '((sequence "TODO(T!)" "|" "DONE(D!)" "CANCELED(C@/!)")
+       (typ "工作(w)" "|" "休息(r)")
+     ))    
+   #+end_src
+
+3. 显示效果
+   其实就是'org-todo-keyword-faces'变量的设置
+
+   #+BEGIN_SRC lisp
+   ;定义多组状态序列，每个“#+SEQ_TODO”行定义一组
+   (setq org-todo-keywords
+         '((sequence "TODO(T!)" "DOING(H!)"  "|" "DONE(D!)" "CANCELED(C@/!)")
+   
+         ))
+
+
+   ;; org-todo-keyword-faces
+   (setq org-todo-keyword-faces
+        '(
+	   ("TODO"      . (:foreground "#FF0033" :background "#FFFF33"  :weight bold))
+	   ("CANCELED"  . (:foreground "yellow" :background "#2E8B57"  :weight bold))
+	   ("DOING"     . (:foreground "#990066" :background "#00FF00"  :weight bold))
+    	))
+
+   #+END_SRC
+
+
+
+
+* link的使用
+
+ C-c C-l (org-insert-link)
+
+   #+begin_example
+     [[链接地址][描述]]  或者 [[链接]]
+   #+end_example
+
+** 内部链接
+1. Org-mode支持内部链接,也就是锚点
+
+    定义锚点 #<<my-anchor>>
+
+    #+begin_example
+    [[my-anchor][内部链接]]
+    #+end_example
+
+    [[my-anchor][内部链接]]
+
+    前面加上#是为了输出时候隐藏
+
+
+** 外部链接
+
+1. Ｃ-u C-c C-l来添加外部文件标签
+   或者使用C-c C-l输入file+:来文件链接
+   输入完file+:后可以RET来进行补全
+
+2. 使用的是双括考套住的显示方式,前面是url后面是distable
+   #+begin_example
+   [[file:emacs.help.org][emacs-help.org]]
+   #+end_example
+
+   输入文件的地址,然后distable项目是要显示的文件名
+
+3. 如果不输入distable的话就能直接以文件的链接地址显示
+
+4. 在输入文件url的时候后面加上双冒号::就能够实现文件内部操作
+   #+begin_example
+   [[file:org-tutorial.org::2]] 就能现实这个文件的第2行
+   [[file:org-tutorial.org::emacs]] 这样就是搜索其中的emacs
+   #+end_example
+
+
+
+
+** 网址链接
+1. C-c C-l 就能添加链接了
+   #+begin_example
+   链接地址 [[https:www.google.com][google]]
+   #+end_example
+   同样的也使用中括号嵌套
+   地址和顺序也和file时候一样使用
+
+
+** 脚注使用
+
+#+begin_example
+   [[链接地址][描述]]  或者 [[链接]]
+#+end_example
+同样也是用中括号嵌套
+也是前面是脚注链接,后面是distable
+C-c C-o就能在底部打开脚注
+就能编辑脚注想要的信息了
+
+
+** 链接补全
+1. 如果你要插入的链接前缀类似于'http:'或'ftp:'
+   你可用通过按<TAB>键来自动补全
+2. 你可以只写链接的简写形式,然后按TAB键扩充它.
+   如果你在输入前缀部分之后直接按<RET>
+   Org会根据前缀的不通为各种不通类型的链接提供不通的补全模式.
+   例如,如果你输入`file <RET>`,
+   就会进入文件路径补全状态
+3. 另一种进入该状态的方式是用C-u C-c C-l
+4. 而如果你输入`bbdb <RET>`,
+   就会进入联系人名称补全的状态
+
+
+* TODO 稀疏树的建立
+   
+- State "TODO"       from              [2020-03-22 Sun 23:14]
+C-c /会提示一个字符来建立稀疏树的建立
+C-c / r 会在输入关键词之后将所有的匹配的项先书城稀疏树木
+C-c C-c取消高亮
+
+
+* TODO 表格的输入
+
+- State "TODO"       from              [2020-03-22 Sun 23:14]
+在表格中'|-'开头之后就能输入表格列的线段
+或者是输入表头之后按下Tab键盘就能新建表格了
+表格中ENT键可以向下移动,Tab键盘可以向上移动
+M-上下左右,可以上下左右移动行和列
+M-S-上下左右,可以在上下左右插入行或者是列
+C-c C-c,可以对齐表格
+   |----------+-----------------+----------------------|
+   | pengshao | <2020-03-03 二> | pengshao58@gmail.com |
+   |----------+-----------------+----------------------|
+
+
+* TODO 大纲缩进模式
+
+1. #+STARTUP： indent
+   这个是教给org-moad缩进样式的文件头
+   也可以在.emacs中定义这样的语句
+   (setq org-startup-indented t)
+   这样也可以
+
+
+* TODO #+SETUP:默认启动选项教程
+
+|---------------------------+----------------|
+| #+STARTUP: overview       | 只显示最顶层   |
+| #+STARTUP: content        | 显示一二层     |
+| #+STARTUP: showall        | 显示所有层     |
+| #+STARTUP: showeverything | 显示所有的一切 |
+|---------------------------+----------------|
+
+** likethis
+#+begin_example
+  #+STARTUP: overview
+  #+STARTUP: content
+  #+STARTUP: showall
+  #+STARTUP: showeverything
+#+end_example
+
+
+**  也可以通过改变setq org-startup-folded 函数来解决问题
+
+#+BEGIN_SRC lisp
+  ;;设置org-mode的启动显示选项,有#+STARTUP: overview : content : showall : showeverything :等值
+  (setq org-startup-folded 'showall)
+  ;; prevent editing an invisible part of the buffer防止编辑缓冲区不可见部分
+  (setq org-catch-invisible-edits nil) 
+#+END_SRC 
+
+
+* 字体设置
+  *粗体*
+
+  /斜体/
+
+  +删除线+
+
+  _下划线_
+
+  下标： H_2 O
+
+  上标： E=mc^2
+
+  等宽字：  =git=  或者  ～git～
+
+
+* TODO 文档的元数据整理
+
+1. 文档元数据
+   后缀为'.org'的文件在打开时会进入Org-mode. 
+
+   如果你想不这么配置,作为替代,把下面这句放到文件的一行也可以.
+   MY PROJECTS    -*- mode: org; -*-       
+
+2. 自动补全输入模板 
+
+
+   以 < 开头，然后再以下面一个字母来表示想输入的模板，然后再按一下 TAB 即可。
+   #+BEGIN_EXAMPLE
+   s	#+BEGIN_SRC ... #+END_SRC 
+   e	#+BEGIN_EXAMPLE ... #+END_EXAMPLE
+   q	#+BEGIN_QUOTE ... #+END_QUOTE 
+   v	#+BEGIN_VERSE ... #+END_VERSE 
+   c	#+BEGIN_CENTER ... #+END_CENTER 
+   l	#+BEGIN_LaTeX ... #+END_LaTeX 
+   L	#+LaTeX: 
+   h	#+BEGIN_HTML ... #+END_HTML 
+   H	#+HTML: 
+   a	#+BEGIN_ASCII ... #+END_ASCII 
+   A	#+ASCII: 
+   i	#+INDEX: line 
+   I	#+INCLUDE: line
+
+   #+END_EXAMPLE
+
+   #+BEGIN_EXAMPLE
+    #+TITLE:       the title to be shown (default is the buffer name)
+    #+AUTHOR:      the author (default taken from user-full-name)
+    #+DATE:        a date, an Org timestamp1, or a format string for format-time-string
+    #+EMAIL:       his/her email address (default from user-mail-address)
+    #+DESCRIPTION: the page description, e.g. for the XHTML meta tag
+    #+KEYWORDS:    the page keywords, e.g. for the XHTML meta tag
+    #+LANGUAGE:    language for HTML, e.g. ‘en’ (org-export-default-language)
+    #+TEXT:        Some descriptive text to be inserted at the beginning.
+    #+TEXT:        Several lines may be given.
+    #+OPTIONS:     H:2 num:t toc:t \n:nil @:t ::t |:t ^:t f:t TeX:t ...
+    #+BIND:        lisp-var lisp-val, e.g.: org-export-latex-low-levels itemize
+                   You need to confirm using these, or configure org-export-allow-BIND
+    #+LINK_UP:     the ``up'' link of an exported page
+    #+LINK_HOME:   the ``home'' link of an exported page
+    #+LATEX_HEADER: extra line(s) for the LaTeX header, like \usepackage{xyz}
+    #+EXPORT_SELECT_TAGS:   Tags that select a tree for export
+    #+EXPORT_EXCLUDE_TAGS:  Tags that exclude a tree from export
+    #+XSLT:        the XSLT stylesheet used by DocBook exporter to generate FO file
+
+   #+END_EXAMPLE
+   其中#+OPTIONS是复合的选项，包括：
+
+   #+BEGIN_EXAMPLE
+
+    H:         set the number of headline levels for export
+    num:       turn on/off section-numbers
+    toc:       turn on/off table of contents, or set level limit (integer)
+    \n:        turn on/off line-break-preservation (DOES NOT WORK)
+    @:         turn on/off quoted HTML tags
+    ::         turn on/off fixed-width sections
+    |:         turn on/off tables
+    ^:         turn on/off TeX-like syntax for sub- and superscripts.  If
+               you write "^:{}", a_{b} will be interpreted, but
+               the simple a_b will be left as it is.
+    -:         turn on/off conversion of special strings.
+    f:         turn on/off footnotes like this[1].
+    todo:      turn on/off inclusion of TODO keywords into exported text
+    tasks:     turn on/off inclusion of tasks (TODO items), can be nil to remove
+               all tasks, todo to remove DONE tasks, or list of kwds to keep
+    pri:       turn on/off priority cookies
+    tags:      turn on/off inclusion of tags, may also be not-in-toc
+    <:         turn on/off inclusion of any time/date stamps like DEADLINES
+    *:         turn on/off emphasized text (bold, italic, underlined)
+    TeX:       turn on/off simple TeX macros in plain text
+    LaTeX:     configure export of LaTeX fragments.  Default auto
+    skip:      turn on/off skipping the text before the first heading
+    author:    turn on/off inclusion of author name/email into exported file
+    email:     turn on/off inclusion of author email into exported file
+    creator:   turn on/off inclusion of creator info into exported file
+    timestamp: turn on/off inclusion creation time into exported file
+    d:         turn on/off inclusion of drawers
+   #+END_EXAMPLE
+
+   这些元数据可以根据需要设置。建议放在文档的开头部分。如，本文采用的元数据如下：
+
+   #+BEGIN_EXAMPLE
+    #+TITLE: org-learn-我的orgmode学习笔记
+    #+AUTHOR:pengshao58
+    #+EMAIL: pengshao58@gmail.com
+    #+KEYWORDS: emacs, org-mode
+    #+OPTIONS: H:4 toc:t 
+   #+END_EXAMPLE
+
+
+* TODO 内容元数据的整理
+
+通常在行首以“#+”开头，可以有多种用途。
+
+1. 分行区块
+   默认内容不换行，需要留出空行才能换行。定义了分行的区块可以实现普通换行：
+
+   #+BEGIN_VERSE
+         Great clouds overhead
+         Tiny black birds rise and fall
+         Snow covers Emacs
+             -- AlexSchroeder
+   #+END_VERSE
+
+2. 缩进区块
+   通常用于引用，与默认格式相比左右都会留出缩进：
+
+   #+BEGIN_QUOTE
+   缩进区块
+   #+END_QUOTE
+
+3.ppp 居中区块
+
+   #+BEGIN_CENTER
+   Everything should be made as simple as possible, \\
+   but not any simpler
+   #+END_CENTER
+
+4. 代码区块
+
+   #+BEGIN_SRC ruby
+   require 'redcarpet'
+   md = Redcarpet.new("Hello, world.")
+   puts md.to_html
+   #+END_SRC
+
+5. 例子
+
+  : 单行的例子以冒号开头
+
+  #+BEGIN_EXAMPLE
+  多行的例子
+  使用区块
+  #+END_EXAMPLE
+
+6. 注释
+   以‘#‘开头的行被看作注释，不会被导出
+
+   区块注释采用如下写法：
+
+   #+BEGIN_COMMENT
+   块注释
+   ...
+   #+END_COMMENT
+
+7. 表格与图片
+   对于表格和图片，可以在前面增加标题和标签的说明，以方便交叉引用。
+
+   比如在表格的前面添加：
+
+   #+CAPTION: This is the caption for the next table (or link)
+   #+LABEL: tbl:table1
+
+   则在需要的地方可以通过
+
+   \ref{table1}
+
+   来引用该表格。
+
+
+
+* TODO 嵌入文件
+1. 嵌入Html
+
+   对于导出html以及发布，嵌入html代码就很有用。比如下面的例子适用于格式化为cnblogs的代码块：
+
+   #+BEGIN_HTML
+   <div class="cnblogs_Highlighter">
+   <pre class="brush:cpp">
+   int main()
+   {
+   return 0;
+   }
+   </pre>
+   </div>
+   #+END_HTML
+
+   相当于在cnblogs的网页编辑器中插入"c++"代码。
+
+2. 包含文件
+
+   当导出文档时，你可以包含其他文件中的内容。比如，想包含你的“init.el”文件，你可以用：
+
+   #+INCLUDE: ~/.emacs.d/loadfile/pengshao-org-mode.el src lisp
+
+   可选的第二个第三个参数是组织方式
+   （例如，“quote”，“example”，或者“src”），如果是 “src”，语言用来格式化内容。
+   组织方式是可选的，如果不给出，文本会被当作 Org 模式的正常处理。用 C-c ,可以访问包含的文件。
+
+3.  嵌入 LaTex
+
+   对于需要包含数学符号和特殊方程的科学笔记，Org 模式支持嵌入 LaTeX 代码到文件中。你可以直接使用类 TeX 的宏来输入特殊符号，输入方程，或者整个 LaTeX 环境。
+
+   Angles are written as Greek letters \alpha, \beta and \gamma. The mass if
+   the sun is M_sun = 1.989 x 10^30 kg. The radius of the sun is R_{sun} =
+   6.96 x 10^8 m. If $a^2=b$ and $b=2$, then the solution must be either
+   $a=+\sqrt{2}$ or $a=-\sqrt{2}$.
+   \begin{equation}
+   x=\sqrt{b}
+   \end{equation}
+
+   特殊设置之后，导出 HTML 时 LaTeX 代码片断会生成图片并包含进来。
+
+
+
+
+* TODO 加密文件
+
+加密 Org 文件
+
+添加以下的配置到你的 init 文件
+#+BEGIN_SRC lisp
+(require 'org-crypt)
+(org-crypt-use-before-save-magic)
+(setq org-tags-exclude-from-inheritance (quote("crypt")))
+(setq org-crypt-key nil)
+#+END_SRC
+
+
+- 加密
+
+  为需要加密的标题添加crypt标签
+  保存文件
+  该标题下的所有内容都被加密了（包含子标题）
+
+- 解密
+
+  将光标移动到需要解密的标题上
+  M-x org-decrypt-entry
+  解密后的内容将出现的Buffer中
+
+- 取消加密
+
+  为指定的标题删除crypt标签，并保存即可
+
+
+* 快速链接 C-c l
+快速插入一个链接到另一个 org 文件的地方
+
+有两个文件： file1.org 和 file2.org
+
+现在想在 file1.org 快速插入一个链接，它是链接到 file2.org 的一个标题 * Hello
+
+1. 在 file2.org 的 * Hello 的位置，按 C-c l (M-x org-store-link)
+
+2. 然后返回到 file1.org 你想插入链接的位置，然后按 C-c C-l (M-x org-insert-link)
+
+
+* orgmode画树形图
+Org 中画树形图
+
+用LaTeX的包 synttree。下面是示例：
+#+BEGIN_EXAMPLE
+\documentclass{article}
+\usepackage{synttree}
+\begin{document}
+\synttree[+[*[a] [b]][-[c] [d][e][f]][/[3[3]]]]
+\end{document}
+#+END_EXAMPLE
+
+\documentclass{article}
+\usepackage{synttree}
+\begin{document}
+\synttree[+[*[a] [b]][-[c] [d][e][f]][/[3[3]]]]
+\end{document}
+
+

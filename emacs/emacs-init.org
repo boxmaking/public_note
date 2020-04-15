@@ -1,0 +1,178 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: emacs-配置文件
+#+KEYWORDS: emacs,emacs-init.el
+#+LANGUAGE: zh-CN
+
+* load,load-file
+** 加载文件,在.emacs中加载默认的文件
+#+BEGIN_SRC lisp
+(load "~/.emacs.d/loadfile/xxx.el ")
+#+END_SRC
+
+** 加载插件,在.emacs中指定插件文件夹,然后加载
+#+BEGIN_SRC lisp
+1. (add-to-list 'load-path "~/.emacs.d/lisp/")
+   (require '***-***)
+
+2. 想要被加载,插件的.el文件最后一定要proide
+   (provide '***-***)
+#+END_SRC
+** 关于这些加载项目的差别可以在这个网站查看
+http://ergoemacs.org/emacs/elisp_library_system.html
+
+* 配置文件不用重启就起效
+1. 打开 .emacs 文件
+   C-x C-e 光标前面的运行一条语句
+   立即生效
+ 
+2. 选择一个 region
+   #+BEGIN_SRC emacs
+   M-x eval-region
+   M-x load-file ~/.emacs
+   M-x eval-buffer
+   #+END_SRC
+
+3. 都是立即生效，可以马上试验一条语句的效果
+   #+BEGIN_SRC lisp
+   (setq frame-title-format "emacs@%b") 
+   #+END_SRC
+
+* 我的配置文件
+#+INCLUDE: "~/.emacs.d/init.el" src lisp
+
+* 默认的一些配置
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-default.el" src lisp
+
+* org-mode相关的两个配置
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-org-mode.el" src lisp
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-org-publish.el" src lisp
+
+* 我比较喜欢些东西加入日期
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-insert-date.el" src lisp
+
+* 关于复制粘帖的一些设置
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-copy-cut-paste-killring.el" src lisp
+
+* 我的键配置(主要是f1-f10)
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-key-building.el" src lisp
+
+* 日期的配置(没用到也没有测试)
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-calendar.el" src lisp
+
+* 备份相关的设置
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-backup.el" src lisp
+
+
+
+* frame-title-format设置相关
+
+** 我的设置
+#+BEGIN_SRC lisp
+;; buffer name (if the buffer isn't visiting a file)
+(setq frame-title-format
+      '("" " 上马提枪, 去干他娘 - "
+        (:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name)) "%b"))))
+#+END_SRC
+
+
+** frame-title-format选项相关
+
+#+BEGIN_EXAMPLE
+A string is printed verbatim in the mode line except for %-constructs:
+(%-constructs are allowed when the string is the entire mode-line-format
+or when it is found in a cons-cell or a list)
+%b -- print buffer name.      %f -- print visited file name.
+%F -- print frame name.
+%* -- print %, * or hyphen.   %+ -- print *, % or hyphen.
+%& -- is like %*, but ignore read-only-ness.
+%  -- means buffer is read-only and * means it is modified.For a modified read-only buffer, %* gives % and %+ gives *.
+%s -- print process status.
+%p -- print percent of buffer above top of window, or Top, Bot or All.
+%P -- print percent of buffer above bottom of window, perhaps plus Top,or print Bottom or All.
+%m -- print the mode name.
+%n -- print Narrow if appropriate.
+%z -- print mnemonics of buffer, terminal, and keyboard coding systems.
+%Z -- like %z, but including the end-of-line format.
+%[ -- print one [ for each recursive editing level.  %] similar.
+%% -- print %.   %- -- print infinitely many dashes.
+Decimal digits after the % specify field width to which to pad.
+#+END_EXAMPLE
+
+
+* 配置目录的文件树
+[https://github.com/boxmaking/.emacs.d]
+
+#+BEGIN_EXAMPLE
+/home/pengshao/.emacs.d/
+├── ac-comphist.dat
+├── bookmarks
+├── init.el
+├── lisp
+│   ├── ac-dict
+│   │   ├── ada-mode
+│   │   ├── caml-mode
+│   │   ├── clojure-mode
+│   │   ├── clojurescript-mode
+│   │   ├── c++-mode
+│   │   ├── c-mode
+│   │   ├── coq-mode
+│   │   ├── css-mode
+│   │   ├── erlang-mode
+│   │   ├── ess-julia-mode
+│   │   ├── go-mode
+│   │   ├── haskell-mode
+│   │   ├── java-mode
+│   │   ├── js-mode
+│   │   ├── julia-mode
+│   │   ├── lua-mode
+│   │   ├── nim-mode
+│   │   ├── objc-mode
+│   │   ├── octave-mode
+│   │   ├── org-mode
+│   │   ├── php-mode
+│   │   ├── python-mode
+│   │   ├── qml-mode
+│   │   ├── ruby-mode
+│   │   ├── scala-mode
+│   │   ├── scheme-mode
+│   │   ├── sclang-mode
+│   │   ├── sh-mode
+│   │   ├── swift-mode
+│   │   ├── tcl-mode
+│   │   ├── ts-mode
+│   │   ├── tuareg-mode
+│   │   └── verilog-mode
+│   ├── auto-complete-config.el
+│   ├── auto-complete.el
+│   ├── auto-complete-pkg.el
+│   ├── browse-kill-ring.el
+│   ├── color-theme.el
+│   ├── htmlize.el
+│   ├── iimage.el
+│   ├── popup.el
+│   ├── tabbar.el
+│   ├── themes
+│   │   ├── color-theme-example.el
+│   │   └── color-theme-library.el
+│   └── word-like-count-mode.el
+├── loadfile
+│   ├── pengshao-backup.el
+│   ├── pengshao-calendar.el
+│   ├── pengshao-copy-cut-paste-killring.el
+│   ├── pengshao-default.el
+│   ├── pengshao-insert-date.el
+│   ├── pengshao-key-building.el
+│   ├── pengshao-org-mode.el
+│   └── pengshao-org-publish.el
+├── org-other-file
+│   ├── css
+│   │   ├── org2.css
+│   │   └── org.css
+│   ├── org-info.js
+│   ├── org-level-0.org
+│   ├── org-level-1.org
+│   └── org-level-3.org
+├── timelog
+└── url
+#+END_EXAMPLE

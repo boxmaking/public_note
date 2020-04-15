@@ -1,0 +1,130 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: tree-详解
+#+KEYWORDS: tree-详解
+#+LANGUAGE: zh-CN
+
+
+* 安装,语法,选项
+#+BEGIN_SRC shell
+$ sudo apt  install tree
+#+END_SRC
+
+** 版本
+#+BEGIN_SRC shell
+$ tree --version
+tree v1.7.0 (c) 1996 - 2014 by Steve Baker, Thomas Moore, Francesc Rocher, Florian Sesser, Kyosuke Tokoro
+#+END_SRC
+
+** tree语法
+
+tree [-adfgilnopqrstuxACDFNS] [-L level [-R]] [-H baseHREF] [-T title]
+     [-o file name] [--nolinks] [-P pattern] [-I pattern] [--inodes]
+     [--device] [--noreport] [--dirsfirst] [--version] [--help]
+     [--filelimit #] [--si] [--prune] [--du] [--timefmt format]
+     [directory ...]
+** 选项
+--help	输出详细的使用情况列表。
+--version	输出tree的版本。
+-a	打印所有文件。默认情况下，tree不会打印隐藏文件（以点“.”开头的文件）。
+    在任何情况下，tree都不会打印文件系统构造`.' （当前目录）和`..'（上一个目录）。
+-d	仅列出目录。
+-f	打印每个文件的完整路径前缀。
+-i	tree不会打印缩进线。与-f选项一起使用时很有用。
+-l	跟随目录的符号链接，就像它们是目录一样。避免了导致递归循环的链接。
+-x	仅保留当前文件系统，与find -xdev一样。
+-Ppattern  仅列出与通配符模式匹配的文件。
+           注意：您必须使用-a选项来考虑以点“。”开头的那些文件。
+           匹配。有效的通配符运算符是“*”（任何零个或多个字符），“？” （任何单个字符），
+           `[...]'（括号内列出的任何单个字符（可选 -  - 破折号）可用于字符范围：ex：[AZ]）
+           和`[^ ...]'（ 任何单个字符未在括号中列出）和“|”分隔交替模式。
+-Ipattern	不要列出与通配符模式匹配的文件。
+--prune	从输出中创建tree修剪空目录，与-P或-I一起使用时非常有用。
+--filelimit#	不要下载包含多个＃条目的目录。
+--timefmtformat	打印（隐含-D）并根据使用strftime语法的格式字符串格式化日期。
+--noreport	忽略在tree列表末尾打印文件和目录报告。
+
+-p	打印每个文件的保护（根据ls -l）。
+-s	打印每个文件的大小以及名称。
+-u	打印文件的用户名或UID #（如果没有可用的用户名）。
+-g	打印文件的组名称或GID #（如果没有可用的组名称）。
+-D	打印列出文件的上次修改时间的日期。
+--inodes	打印文件或目录的inode编号
+--device	打印文件或目录所属的设备编号
+-F	根据ls -F，为目录添加一个' /'，为套接字文件添加一个' ='，为可执行文件添加一个' *'，为FIFO添加一个' |'
+-q	将文件名中的不可打印字符作为问号打印，而不是使用默认胡萝卜表示法。
+-N	按原样打印不可打印的字符，而不是默认的胡萝卜表示法。
+-r	按反向字母顺序对输出进行排序。
+-t	按上次修改时间而不是按字母顺序对输出进行排序。
+--dirsfirst	在文件之前列出目录。
+-n	始终关闭着色，由-C选项覆盖。
+-C	如果未设置LS_COLORS环境变量，则使用内置颜色默认值始终打开颜色。用于将输出着色到管道。
+-A	当打印压痕线时，打开ANSI线图形hack。
+-S	打开ASCII线图形（使用linux控制台模式字体时很有用）。此选项现在等效于`charset=IBM437'，最终将被折旧。
+-Llevel	目录树的最大显示深度。
+-R	递归地遍历树的每个级别目录(请参见-L选项)，并在每个目录下执行树，再次添加`-o 00Tree.html'作为一个新选项。
+-HbaseHREF	打开HTML输出，包括HTTP引用。适用于ftp站点。当使用HTML输出时，baseHREF给出基本ftp位置。也就是说，本地目录可能是“/local/ftp/pub”，但是它必须被引用为“ftp://hostname.organiz.domain/pub”(baseHREF应该是“ftp://hostname.organiz.domain”)。提示:不要使用带有此选项的ANSI行，并且在目录列表中不要给出多个目录。如果您想通过CSS样式表使用颜色，除了这个选项外，还可以使用-C选项强制输出颜色。
+-Ttitle	在HTML输出模式下设置标题和H1标题字符串。
+--charsetcharset	设置输出HTML和绘图时使用的字符集。
+--nolinks	关闭HTML输出中的超链接。
+-ofile name	将输出发送到文件名。
+
+
+* tree 实例
+#+BEGIN_SRC shell
+$ tree /home/pengshao/psnote_public/linux/
+#+END_SRC
+
+显示tree中当前目录和子目录的内容。输出采用图形形式，类似于以下示例：
+
+#+BEGIN_EXAMPLE
+ps-debian:~/psnote_public/linux$ tree ./
+./
+├── after-install-debian.org
+├── apt-get-tutorial.org
+├── crontab.org
+├── date-calendar.org
+├── figlet.org
+├── find-tutorial.org
+├── install-xfce.org
+├── kill.org
+├── linux-common-command.org
+├── linux-proxy.org
+├── ln.org
+├── locales-setting.org
+├── man.org
+├── root-completion.org
+├── scrot.org
+├── systeminfo.org
+├── tar.org
+├── tree.org
+├── wget-mirror.sh
+├── wget.org
+└── who-last-top-w-uptime.org
+
+0 directories, 21 files
+#+END_EXAMPLE
+
+* 实例
+#+BEGIN_SRC shell
+$ tree -a /home/pengshao
+#显示/home/pengshao所有文件
+
+#+BEGIN_SRC shell
+$ tree -I 'ps*|lib|note'
+#显示树没有包含ps开头和lib和note
+
+$ tree -P 'ps*'
+#使用大写“P”，仅包含ps开头文件
+
+$ tree -p
+#使用小写的“p”显示目录树,也显示文件权限。
+
+$ tree -Ld 1 /home/
+$ tree -L 1  -d /home/pengshao/tmp/gitlearn/
+#只显示一层
+
+$ tree -l /home/pengshao/tmp/gitlearn/
+#如果内部有目录的符号链接,会显示该目录
+
+
+#+END_SRC

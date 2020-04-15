@@ -1,0 +1,14 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 三体读后感
+#+KEYWORDS: <<三体>>读后感
+#+LANGUAGE: zh-CN
+
+
+* 三体
+** 
+
+
+
+** 语句摘录
+1. 给岁月以文明,而不是给文明以岁月.
+2. 

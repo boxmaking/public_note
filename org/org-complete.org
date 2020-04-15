@@ -1,0 +1,32 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: org-complete
+#+LANGUAGE: zh-CN
+
+* Completion
+
+Org has in-buffer completions. Unlike minibuffer completions, which are useful for quick command interactions, Org’s in-buffer completions are more suitable for content creation in Org documents. Type one or more letters and invoke the hot key to complete the text in-place. Depending on the context and the keys, Org offers different types of completions. No minibuffer is involved. Such mode-specific hot keys have become an integral part of Emacs and Org provides several shortcuts.
+
+** M-TAB
+
+Complete word at point.
+
+1. At the beginning of an empty headline, complete TODO keywords.
+
+2. After ‘\’, complete TeX symbols supported by the exporter.
+
+3. After ‘*’, complete headlines in the current buffer so that they can be used in search links like: 
+
+4. After ‘:’ in a headline, complete tags. Org deduces the list of tags from the ‘TAGS’ in-buffer option (see Setting Tags), the variable org-tag-alist, or from all tags used in the current buffer.
+
+5. After ‘:’ and not in a headline, complete property keys. The list of keys is constructed dynamically from all keys used in the current buffer.
+
+6. After ‘[’, complete link abbreviations (see Link Abbreviations).
+
+7. After ‘#+’, complete the special keywords like ‘TYP_TODO’ or file-specific ‘OPTIONS’. After option keyword is complete, pressing M-TAB again inserts example settings for this keyword.
+
+8. After ‘STARTUP’ keyword, complete startup items.
+
+9. When point is anywhere else, complete dictionary words using Ispell. 
+
+* footnotes
+https://orgmode.org/manual/Completion.html

@@ -1,0 +1,94 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: english-learn
+#+KEYWORDS: english,
+#+LANGUAGE: zh-CN
+
+
+* 我的英文学习计划
+这次一定要坚持下去了阿,英文版本的系统也安装完成了.
+多少年之后回想起这个霍乱年,可能这是唯一让我欣慰的事情吧.
+必须.
+
+* 数字和计算相关(数字和计算相关)
+
+* git相关
+|------------+----------|
+| command    | Chinese  |
+|------------+----------|
+| commit     | 写下提交 |
+| status     | 状态近况 |
+| difference | 不同     |
+| index      | 索引     |
+| branch     | 分支     |
+| directory  | 目录     |
+| repository | 仓库     |
+| stage      | 阶段     |
+| master     | 大师(主) |
+| add        | 加       |
+| license    | 声明     |
+| reset      | 重启     |
+| Modified   | 更改的   |
+| clone      | 克隆     |
+|            |          |
+
+
+* 时间日期相关(时间日期相关)
+|-----------------+---------|
+| Month           | chinese |
+|-----------------+---------|
+| January(Jan)    |         |
+| February(Feb)   |         |
+| March(Mar)      |         |
+| April(Apr)      |         |
+| May             |         |
+| June(Jun)       |         |
+| July(Jul)       |         |
+| August(Aug)     |         |
+| September(Sept) |         |
+| October(Oct)    |         |
+| November(Nov)   |         |
+| December(Dec)   |         |
+|-----------------+---------|
+
+|---------------+---------|
+| Week          | chinese |
+|---------------+---------|
+| Monday  (Mon) |         |
+| Tuerday (Tue) |         |
+| Wenesday(Wen) |         |
+| Thursday(Thu) |         |
+| Friday  (Fri) |         |
+| Saturday(Sat) |         |
+| Sunday  (Sun) |         |
+|---------------+---------|
+
+|---------+---------|
+| seasons | Chinese |
+|---------+---------|
+| spring  |         |
+| summer  |         |
+| autumn  |         |
+| winter  |         |
+|---------+---------|
+
+
+
+* debian系统设置相关(debian系统设置相关)
+
+
+* 日常生活物品相关(日常生活物品相关)
+
+
+* 家庭人员称谓相关(家庭人员称谓相关)
+
+
+* 交通出行相关(交通出行相关)
+
+* something else
+|---------+-----------|
+| english | chinese   |
+|---------+-----------|
+| guid    | 指引      |
+| matrix  | 矩阵,模型 |
+|         |           |
+|---------+-----------|

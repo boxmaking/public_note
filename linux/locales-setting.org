@@ -1,0 +1,67 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: locales-setting
+#+KEYWORDS: locales-setting, linux
+#+LANGUAGE: zh-CN
+
+
+* 进入全文本的linux桌面环境后要办的事情
+** 编辑~/.bash.rc or /etc/bash.bashrc 文件添加如下字符
+就能在自己的用户登录的时候选择英文语系了,
+/etc/bash.bashrc是所有的用户都使用的文件 
+use english
+#+BEGIN_SRC 
+export LANG=en_US.UTF-8
+export LANGUAGE=en_
+#+END_SRC
+
+** 启动终端输入命令
+#+BEGIN_SRC 
+sudo apt-get install locales
+#+END_SRC
+
+** 重新配置LOCALE
+#+BEGIN_SRC 
+dpkg-reconfigure locales
+#+END_SRC
+1. 第一个页面将能勾选的项目全部勾选完成
+   + 将能够勾选的全部勾选zh_CN和en_US主要是
+   + 勾选完成后会加载以下,完成后会提示
+2. 第二个页面选择默认的与语系环境
+   + en_US.UTF-8或者是zh_CN.UTF-8
+3. 运行LOCALE命令来查看当前的LOCALE环境
+   + 成功后会提示的
+
+** 安装字体和输入法
+设置完成必要的时候还是需要中文输入和显示的这时候怎么办呢
+#+BEGIN_SRC sh
+apt-get install ttf-wqy-zenhei
+apt-get install xfonts-intl-chinese wqy*
+apt-get install ibus ibus-gtk ibus-pinyin
+#+END_SRC
++ 安装之后就能够在ibu的设置里面添加任何你想要的输入法
++ 设置快捷键,测试.
+
+* locale指令
+运行locale指令得到当前系统编码设置的详细资料
+
+** 指令详细解释
+1. 语言符号及其分类(LC_CTYPE)
+2. 数字(LC_NUMERIC)
+3. 比较和排序习惯(LC_COLLATE)
+4. 时间显示格式(LC_TIME)
+5. 货币单位(LC_MONETARY)
+6. 信息主要是提示信息,错误信息, 状态信息, 标题, 标签, 按钮和菜单等(LC_MESSAGES)
+7. 姓名书写方式(LC_NAME)
+8. 地址书写方式(LC_ADDRESS)
+9. 电话号码书写方式(LC_TELEPHONE)
+10. 度量衡表达方式(LC_MEASUREMENT)
+11. 默认纸张尺寸大小(LC_PAPER)
+12. 对locale自身包含信息的概述(LC_IDENTIFICATION)
+
+版权声明：本文为CSDN博主「JeanCheng」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明
+原文链接：https://blog.csdn.net/gatieme/article/details/50991584
+
+
+* Footnotes
+1. https://wiki.debian.org/ChangeLanguage
+

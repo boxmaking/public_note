@@ -1,0 +1,50 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: root-completion
+#+KEYWORDS: linux,root-completion
+#+LANGUAGE: zh-CN
+
+
+* 1. ubuntu bash 自动补齐
+
+打开~/.bashrc把最后的注释/etc/bash_completion的三行打开。
+
+
+* 2. debian下增强bash的自动补全功能
+
+根据zhllg的提示，在debian下增强了自动补齐功能，现在很多命令的参数也可以自动补全了。
+按照缺省安装，bash-completion是自动安装的，如果没有，请先安装。
+
+修改/etc/bash.bashrc文件，将
+#+BEGIN_SRC sh
+#if [ -f /etc/bash_completion ]; then
+# . /etc/bash_completion
+#fi
+#+END_SRC
+前面的#去掉
+
+修改/etc/profile文件，在最后增加一行
+
+source /etc/bash.bashrc
+
+重新登录之后就可以在命令的参数中使用自动补全了。
+
+
+* 3. centos bash自动补全
+
+用过Debian或Ubuntu的用户或许都习惯了其命令行的补全功能，其实在CentOS下也可使实现，只是需要安装bash-completion这个包而已，具体提安装方法：
+ 
+rpm -ivh http://www.caliban.org/files/redhat/RPMS/noarch/bash-completion-20060301-1.noarch.rpm
+
+在需要启用该用能的用户下的 ~/.bashrc 里增加
+ 
+. /etc/bash_completion
+
+如果需要全局开启，请在/etc/profile文件中增加
+ 
+. /etc/bash_completion
+
+如果是CentOS 6，在RPMForge这个repo里有这个软件包，只需执行
+ 
+yum install bash-completion
+
+重新登陆就可以用

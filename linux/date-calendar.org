@@ -1,0 +1,22 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: date-cal-使用
+#+KEYWORDS: linux-command, linux
+#+LANGUAGE: zh-CN
+
+
+* date命令
+| %a+%A    | 星期的简写+星期的全称 |
+| %b+%B    | 月份的简写+月份的全称 |
+| %D       | mm/dd/yy格式          |
+| %c       | 当前时区的时间        |
+| %e+%d+%m | 去零的日期+日期+月份  |
+| %H+%M+%S | 24小时制式的时间+秒数 |
+| %j       | 一年中的第几天        |
+| %n       | 换行现实              |
+| %Y+%y    | 全称的年和简写的年    |
+| %U       | 一年中的第几个星期    |
+
+
+
+* cal calender命令
+cal 10 2009

@@ -1,0 +1,45 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: emacs-pdf
+
+#+KEYWORDS: emacs,emacs-pdf 
+#+LANGUAGE: zh-CN
+
+
+* docviewmode 安装
+从Emacs v23开始，默认包括了DocViewMode。但需要系统中安装基础的软件包：
+
+首先，ghostscript是必需的
+   
+然后要安装xpdf
+
+
+* 使用
+   
+在DocViewMode中可以使用部分Emacs快捷键，同时也DocViewMode也定义了自己的一些快捷键：
+快捷键	功能
+p/n 	上下翻页
++/- 	缩放
+C-s 	搜索
+q 	退出
+
+
+* 书签
+   
+1. Emacs一个插件BookMarks， 可以与DocViewMode结合使用。
+   
+2. BookMarks是Emacs自带的插件，支持以下操作：
+   
+   | 快捷键              | 	操作         |
+   |---------------------+----------------------|
+   | C-x r m             | 	设置书签     |
+   | C-x r b             | 	跳转到书签   |
+   | C-x r l             | 	列出所有书签 |
+   | M-x bookmark-delete | 	删除书签     |
+   |---------------------+----------------------|
+
+   
+3. 每个文件只能设置一个书签,如果要在一个文件中使用多个书签，参考Bookmark+
+   默认将所有书签保存在~/.emacs.bmk
+   
+4. 更多的功能，可以用 M-x bookmark TAB查看
+

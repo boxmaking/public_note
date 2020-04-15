@@ -1,0 +1,356 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: git-学习笔记
+#+KEYWORDS: git-learn
+#+LANGUAGE: zh-CN
+
+
+* git set proxy
+git设置代理教程
+[[file:git-proxy.org]]
+
+
+* git设置信息: git config
+1. 所有的配置都在~/.gitconfig内
+   
+2. 完善自己的用户名和信息
+   #+BEGIN_SRC shell
+   $ git config --global user.name "pengshao"
+   $ git config --global user.email "pengshao@gmail.com"
+   #+END_SRC
+   --global参数是整个机器上面的全局参数
+3. git设置颜色
+   #+BEGIN_SRC shell
+   $ git config --global color.ui true
+   $ git config --global color.ui 1
+   #+END_SRC
+4. 自动更正
+   #+BEGIN_SRC shell
+   $ git config --global help.autocorrect 1
+   #+END_SRC
+5. Git 命令自定义别名
+
+   别名用来帮助你定义自己的 git 命令
+   比如你可以定义 git a 来运行 git add --all。
+
+  - 要添加一个别名， 一种方法是打开 ~/.gitconfig 文件并添加如下内容：
+    #+BEGIN_EXAMPLE
+    [alias]
+    co = checkout
+    cm = commit
+    p = push
+    # Show verbose output about tags, branches or remotes
+    tags = tag -l
+    branches = branch -a
+    remotes = remote -v
+    #+END_EXAMPLE
+   
+   - 或者在命令行里键入：
+     #+BEGIN_SRC shell
+     $ git config --global alias.new_alias git_function
+     #+END_SRC
+
+     例如：
+     #+BEGIN_SRC shell
+     $ git config --global alias.cm commit
+     #指向多个命令的别名可以用引号来定义：
+     $ git config --global alias.ac 'add -A . && commit'
+     #+END_SRC
+
+   - 下面列出了一些有用的别名：
+     | Alias        | 	Command                                                |
+     | git cm       | 	git commit                                             |
+     | git co       | 	git checkout                                           |
+     | git ac       | 	git add . -A git commit 	                       |
+     | git st       | 	git status -sb                                         |
+     | git tags     | 	git tag -l                                             |
+     | git branches | 	git branch -a                                          |
+     | git cleanup  | 	git branch --merged \ grep -v '*'  xargs git branch -d |
+     | git remotes  | 	git remote -v                                          |
+
+
+
+* 建立repository: git init
+git init---添加当前目录为git仓库
+#+BEGIN_SRC shell
+git init
+Initialized empty Git repository in /home/pengshao/tmp/gitlearn/.git/
+#+END_SRC
+
+
+* git添加文件: git add ***.***/git commit 
+1. git add ***.***
+
+   #+BEGIN_SRC shell
+   pengshao@ps-debian:~/tmp/gitlearn$ 
+   pengshao@ps-debian:~/tmp/gitlearn$ git add readme.org 
+   pengshao@ps-debian:~/tmp/gitlearn$ 
+   #+END_SRC
+ 
+   这样就添加了一个git文件到自己的git仓库了.
+
+2. git commit -m 'add readme.txt to my Git repository'
+
+   #+BEGIN_SRC shell
+   pengshao@ps-debian:~/tmp/gitlearn$ git commit -m 'add 2.org file'
+
+   [master 528d873] add 2.org file
+   
+   your configuration file:
+
+    git config --global --edit
+
+    After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+    1 file changed, 1 insertion(+)
+    create mode 100644 2.org
+    pengshao@ps-debian:~/tmp/gitlearn$ 
+   #+END_SRC
+   
+   git会告诉你,1 file changed, 1 insertion(+)
+
+3. git add 和 git commit 介绍
+   1. git add 一次只能添加一个文件
+
+   2. git commit一次可以添加很多文件
+   #+BEGIN_SRC shell
+   $ git add file1.txt
+   $ git add file2.txt file3.txt
+   $ git commit -m "add 3 files."
+   #+END_SRC
+
+
+* repository status: git status
+1. 修改2.org这个文件
+2. git status--命令
+   查看git repository 近况
+   #+BEGIN_SRC shell
+   pengshao@ps-debian:~/tmp/gitlearn$ git status
+   On branch master
+   Changes not staged for commit:
+   (use "git add <file>..." to update what will be committed)
+   (use "git checkout -- <file>..." to discard changes in working directory)
+
+   modified:   2.org
+
+   no changes added to commit (use "git add" and/or "git commit -a")
+   pengshao@ps-debian:~/tmp/gitlearn$ 
+   #+END_SRC
+3. 上面的代码告诉我们,有一个文件修改了
+   但是没有commit到git repository
+
+
+* 查看文件不同: git diff ***.***/git
+git diff---查看文件的不同之处
+1. 可以用git diff ***.***查看两个文件之间的不同之处.
+   #+BEGIN_SRC shell
+   pengshao@ps-debian:~/tmp/gitlearn$ git diff
+   WARNING: terminal is not fully functional
+   -  (press RETURN)
+   diff --git a/2.org b/2.org
+   index 77a872f..dc92c40 100644
+   --- a/2.org
+   +++ b/2.org
+   @@ -1 +1,2 @@
+   -my git test
+   +this is my git test file
+   +我要继续学习git
+   pengshao@ps-debian:~/tmp/gitlearn$ 
+   #+END_SRC
+   通过上面的代码就能看到两个文件之间的不同了
+2. 知道了文件之间的不同之处之后就能够放心的commit了
+3. git add ***.***
+   #+BEGIN_SRC shell
+   pengshao@ps-debian:~/tmp/gitlearn$ git add 2.org 
+   pengshao@ps-debian:~/tmp/gitlearn$ 
+   #+END_SRC
+   linux哲学,没有任何的输出
+4. git status 查看一下当前的 repository
+   这时候会提示modefied文件会有一个2.org
+   这时候就能进行commit了
+5. git commit -m '我要继续学习git'
+   #+BEGIN_SRC shell
+   pengshao@ps-debian:~/tmp/gitlearn$ git commit -m '2.org->我要继续学习git字行'
+   [master 197daf9] 2.org->我要继续学习git字行
+   your configuration file:
+
+    git config --global --edit
+
+    After doing this, you may fix the identity used for this commit with:
+
+   git commit --amend --reset-author
+
+   1 file changed, 2 insertions(+), 1 deletion(-)
+   pengshao@ps-debian:~/tmp/gitlearn$ 
+  #+END_SRC
+  告诉我们一个文件改动了,添加了新的两行(+),删除了一行(-)
+6. git status 在查看一下啊
+   #+BEGIN_SRC shell
+   pengshao@ps-debian:~/tmp/gitlearn$ git status
+   On branch master
+   nothing to commit, working tree clean
+   pengshao@ps-debian:~/tmp/gitlearn$ 
+   #+END_SRC
+   更改已经完成
+
+
+* 版本的回退: git reset --hard HEAD^
+** 在Git中，用HEAD表示当前版本
+HEAD^: 上一个版本就是
+HEAD^^: 上上一个版本就是
+当然往上100个版本写100个^比较容易数不过来
+HEAD~100: 回到第一百个版本
+#+BEGIN_SRC shell
+$git reset --hard HEAD^
+HEAD is now at b0c58a0 这是我的第一个git文件
+#+END_SRC
+
+** 也可以红SHA1计算出来的那个大的数字--版本号来代替HEAD^
+
+#+BEGIN_SRC shell
+$ git reset --hard b0c58a0
+#+END_SRC
+这样和那样的效果是一样的
+只要没有关电脑能找到版本号就能这样回退版本
+
+
+** 如果关掉电脑找不到版本号了可以通过: git reflog来找到全部的版本号码
+#+BEGIN_SRC shell
+pengshao@ps-debian:~/tmp/gitlearn$ git reflog
+b0c58a0 (HEAD -> master) HEAD@{0}: reset: moving to HEAD^
+bcc625b HEAD@{1}: commit: 添加了记笔记的选项
+b0c58a0 (HEAD -> master) HEAD@{2}: commit (initial): 这是我的第一个git文件
+pengshao@ps-debian:~/tmp/gitlearn$ 
+#+END_SRC
+
+
+* 操作日志: git log/git reflog
+
+* working dirctory + Repository+stage概念
+[[file:iamge/workingdirectory.jpeg]]
+当前目录就是工作区
+工作区里面的.git文件就是版本库
+最重要的就是称为stage（或者叫index）的暂存区
+还有Git为我们自动创建的第一个分支master
+以及指向master的一个指针叫HEAD
+1. git add ***.*** 实际上是把文件或者修改提交到stage
+2. git commit 实际上是把缓存区的更新提交到master分支
+
+
+* 撤销修改: git checkout -- ./my-first-git.org 
+git checkout    可以撤销没有提交到stage的修改
+git reset HEAD  可以撤销掉提交到stage的修改
+
+
+* 删除文件: git rm ***.***
+** 用rm或者git rm删掉的文件也是一个针对版本库的修改项目
+git rm ***.*** 从而在版本库中同步删除
+git commit -m '******' 来提交到版本库中
+
+** 删错了恢复: git checkout -- ./***.***
+
+
+* 远程仓库: github 使用教程
+** 本地上传远程库
+1. 在github上面 create a new repository
+
+2. 本地关联远程仓库
+   #+BEGIN_SRC shell
+   $git remote add origin https://github.com/boxmaking/learngit-note.git
+   #+END_SRC
+   这一步是关联远程仓库的命令
+   并且在本地仓库新建一个origin的远程分支
+
+3. 第一次推送master和所有内容
+   #+BEGIN_SRC shell
+   $git push -u origin master
+   #+END_SRC
+   实际上就是把本地的master分支推送到远程
+   由于远程库是空的，我们第一次推送master分支时，加上了-u参数
+   Git不但会把本地的master分支内容推送的远程新的master分支
+   还会把本地的master分支和远程的master分支关联起来
+   在以后的推送或者拉取时就可以简化命令
+
+4. 推送最新的内容
+   #+BEGIN_SRC shell
+   $git push origin master
+   #+END_SRC
+   把本地master分支的最新修改推送至GitHub
+
+
+5. 远程仓库比本地仓库提前一个版本
+   #+BEGIN_SRC shell
+   $git pull origin master
+   #+END_SRC
+
+
+** 远程仓库的clone
+要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆
+
+* 快速添加许可证文件
+
+创建一个仓库时，Github会为你提供一个预置的软件许可列表：
+
+对于已有的仓库，可以通过 web 界面创建文件来添加软件许可
+
+输入LICENSE作为文件名后，同样可以从预置的列表中选择一个作为模板。
+
+这个技巧也适用于 .gitignore 文件。
+
+* 工作区去除大量已删除文件
+
+当用 /bin/rm 命令删除了大量文件之后
+你可以用下面一条命令从工作区和索引中去除这些文件
+#+BEGIN_SRC shell
+$ git rm $(git ls-files -d)
+#+END_SRC
+
+例如:
+#+BEGIN_SRC shell
+$ git status
+On branch master
+Changes not staged for commit:
+	deleted:    a
+	deleted:    c
+
+$ git rm $(git ls-files -d)
+rm 'a'
+rm 'c'
+
+$ git status
+On branch master
+Changes to be committed:
+	deleted:    a
+	deleted:    c
+
+#+END_SRC
+
+* 没有任何改动的提交
+
+可以使用--allow-empty选项强制创建一个没有任何改动的提交：
+#+BEGIN_SRC shell
+$ git commit -m "Big-ass commit" --allow-empty
+#+END_SRC
+
+这样做在如下几种情况下是有意义的：
+
+- 标记新的工作或一个新功能的开始。
+- 记录对项目的跟代码无关的改动。
+- 跟使用你仓库的其他人交流。
+- 作为仓库的第一次提交，因为第一次提交后不能被 
+  
+
+
+* 美化相关
+- 美化git status
+  git status加上-sb选项:
+  #+BEGIN_SRC shell
+  $ git status -sb
+  #+END_SRC
+
+- 美化 Git Log
+  输入如下命令:
+  #+BEGIN_SRC shell
+  $ git log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  #+END_SRC

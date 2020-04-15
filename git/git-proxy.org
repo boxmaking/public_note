@@ -1,0 +1,54 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: git使用代理教程
+#+KEYWORDS: git-proxy
+#+LANGUAGE: zh-CN
+
+
+* 基本设置
+不需要设置https,反正我设置了心理安慰吧
+实测能行地址就不要引号实在不行加上引号试试反正我没加
+
+#+BEGIN_SRC shell
+#查看所有设置
+git config -l
+#+END_SRC
+
+#+BEGIN_SRC shell
+#查看代理
+git config --global --get http.proxy
+#+END_SRC
+
+
+* socks5设置
+#+BEGIN_SRC shell
+git config --global http.proxy socks5://127.0.0.1:1090
+git config --global https.proxy socks5://127.0.0.1:1090
+#+END_SRC
+* http设置,设置了socks5可忽略
+#+BEGIN_SRC shell
+#仅仅针对http
+git config --global http.proxy http://127.0.0.1:41091
+git config --global https.proxy https://127.0.0.1:41091
+#+END_SRC
+  
+* 针对 github.com 的单独配置：
+
+#+BEGIN_SRC shell
+#socks5协议，1080端口修改成自己的本地代理端口
+git config --global http.https://github.com.proxy socks5://127.0.0.1:1090
+git config --global https.https://github.com.proxy socks5://127.0.0.1:1090
+
+#http协议，1081端口修改成自己的本地代理端口
+git config --global http.https://github.com.proxy https://127.0.0.1:41091
+git config --global https.https://github.com.proxy https://127.0.0.1:41091
+#+END_SRC
+
+
+* 取消代理
+
+#+BEGIN_SRC shell
+#reset 代理设置
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+#+END_SRC
+

@@ -1,0 +1,24 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: auto-complete插件教程
+#+KEYWORDS: emacs,auto-complete
+#+LANGUAGE: zh-CN
+#+TAGS: 
+
+* 安装
+#+BEGIN_SRC lisp
+(require 'auto-complete)
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/lisp/ac-dict/")
+(ac-config-default)
+(define-key ac-mode-map (kbd "C-c c") 'auto-complete)
+#+END_SRC
+
+
+* 使用
+1. 更改文件
+   [[file:~/.emacs.d/lisp/auto-complete.el::199]]
+   添加上自己想自动补全的mode
+   我这里添加的是org-mode
+2. 添加文件
+   [[file:~/.emacs.d/lisp/ac-dict/org-mode]]
+   里面以行为单位就能设置自己想要的自动不全命令了

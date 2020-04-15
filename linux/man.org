@@ -1,0 +1,21 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: man-tutorial
+#+KEYWORDS: linux-man, man
+#+LANGUAGE: zh-CN
+
+
+
+* man 7 man查看命令代号数字的含义
+| /XXX                | 向下搜索                                   |
+| ?XXX                | 向上搜索                                   |
+| n+N                 | 下一个关键词+上一个关键词                  |
+| q                   | 退出                                       |
+|---------------------+--------------------------------------------|
+| /etc/manpath.config | man的配置文件                              |
+| /usr/share/man      | man文档的所在地                            |
+| man -f command      | 查看某个命令相关的文件数量和文件代号       |
+| man -N command      | 进入上个命令显示的文件代号去查看该相关文件 |
+| man -k command      | 将说明文档中含有command的文档全部列出来    |
+
+
+* 相应的还有info和/usr/share/doc目录

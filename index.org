@@ -1,0 +1,7 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-0.org
+#+LANGUAGE: zh-CN
+
+#+INCLUDE: sitemap.org
+
+-----
+end here

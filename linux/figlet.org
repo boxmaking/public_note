@@ -1,0 +1,22 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: figlet-tutorial
+#+KEYWORDS: figlet
+#+LANGUAGE: zh-CN
+
+
+* figlet命令使用教程
+感觉没什么太难的样子
+
+* 第一步showfigfonts命令
+showfigfonts
+显示各个字体的效果
+喜欢之后就可以在figlet后面加上-f的选项然后就能得到好看的字符了
+
+/usr/share/figlet 这里可以查看所有的字符
+
+watch -n1 "date '+%D%n%T'|figlet -k"[/cc]
+可以用watch+date命令
+制作一个铉酷的时钟
+
+就先学习这么多吧,没事的时候玩玩再弄吧.
+

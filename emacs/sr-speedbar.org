@@ -1,0 +1,82 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: sr-speedbar使用教程
+#+KEYWORDS: emacs, sr-speedbar
+#+LANGUAGE: zh-CN
+
+* 安装
+地址[[https://www.emacswiki.org/emacs/sr-speedbar.el]]
+
+* 配置
+#+BEGIN_SRC lisp
+(require 'sr-speedbar)
+;;左侧显示
+(setq sr-speedbar-right-side nil)
+;;宽度
+(setq sr-speedbar-width 30)
+;;显示.的头文件
+(setq speedbar-directory-unshown-regexp "^\(\.\.*$\)\'")
+;;设置快捷键f5,默认在快捷键配置文件内
+;;(global-set-key [f3] 'sr-speedbar-open)
+;;(global-set-key [f5] 'sr-speedbar-select-window)
+;;窗口跳转跳过sr-speedbar
+(setq sr-speedbar-skip-other-window-p t)
+;;打开sr-speedbar
+;;(sr-speedbar-open)
+#+END_SRC
+
+* 快捷键
+- +-打开文件内部索引
+- ---关闭文件内部索引
+- U--上一层
+- D--删除文件
+- b--buffer mode
+- f--file mode
+- r--mode 回退
+- C-p/C-n同级之间跳跃
+- g--刷新
+- RET/e--打开文件
+
+
+* sr-speedbar 函数解释
+- sr-speedbar-open ::
+  打开Sr Speedbar窗口。
+
+- sr-speedbar-close ::
+  关闭Sr Speedbar窗口。
+
+- sr-speedbar-toggle ::
+  切换Sr Speedbar窗口。
+
+- sr-speedbar-select-window ::
+  选择Sr Speedbar窗口，即切换到到Sr Speedbar窗口。
+
+- sr-speedbar-refresh-turn-on ::
+  开启Sr Speedbar内容刷新。
+
+- sr-speedbar-refresh-turn-off ::
+  关闭Sr Speedbar内容刷新。
+
+- sr-speedbar-refresh-toggle ::
+  切换Sr Speedbar内容刷新。 
+
+- sr-speedbar-width-x ::
+  图形界面下sr-speedbar窗口的宽度
+
+- sr-speedbar-width-console ::
+  console界面下,sr-speedbar窗口的宽度
+
+- sr-speedbar-max-width ::
+  允许存储的最大宽度,若设置sr-speedbar-width-x超过此宽度,则该值并不永久生效
+
+- sr-speedbar-delete-windows ::
+  打开sr-speedbar时,是否移除其他的window
+
+- sr-speedbar-skip-other-window-p ::
+  当使用命令`other-window`遍历window是,是否跳过‘sr-speedbar’ window
+
+- sr-speedbar-auto-refresh ::
+  是否自动刷新sr-speedbar的内容
+
+- sr-speedbar-right-side ::
+  nil表示sr-speedbar显示在左列, t表示显示在右列
+

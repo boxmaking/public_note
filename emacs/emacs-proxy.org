@@ -1,0 +1,16 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: emacs使用代理教程
+#+KEYWORDS: english,
+#+LANGUAGE: zh-CN
+
+
+* 在命令行中启动 Emacs 时加上 
+#+BEGIN_SRC shell
+http_proxy=your-proxy-server-ip:port 前缀.
+#+END_SRC
+
+
+例如,
+#+BEGIN_SRC shell
+http_proxy=http://127.0.0.1:41091 emacs -nw
+#+END_SRC

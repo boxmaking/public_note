@@ -1,0 +1,79 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil f:nil toc:t
+#+TITLE: linux的代理设置
+#+KEYWORDS: linux-proxy-setting
+#+LANGUAGE: zh-CN
+
+
+
+* 在终端中直接运行命令
+
+   #+BEGIN_SRC sh
+   export http_proxy=http://proxyAddress:port 
+   #+END_SRC
+
+
+   这个办法的好处是简单直接，并且影响面很小（只对当前终端有效，退出就不行了）。
+
+   如果你用的是ss代理，在当前终端运行以下命令，那么wget curl 这类网络命令都会经过ss代理
+   #+BEGIN_SRC shell
+   export ALL_PROXY=socks5://127.0.0.1:1080
+   #+END_SRC
+
+* 把代理服务器地址写入shell配置文件.bashrc或者.zshrc
+
++ 直接在.bashrc或者.zshrc添加下面内容
+
+  #+BEGIN_SRC sh
+  export http_proxy="http://localhost:port"
+  export https_proxy="http://localhost:port"
+  #+END_SRC 
+
++ 以使用shadowsocks代理为例，ss的代理端口为1080,那么应该设置为
+
+  #+BEGIN_SRC sh
+  export http_proxy="socks5://127.0.0.1:1080"
+  export https_proxy="socks5://127.0.0.1:1080"
+  #+END_SRC 
+
++ 或者直接设置ALL_PROXY
+
+  #+BEGIN_SRC sh
+  export ALL_PROXY=socks5://127.0.0.1:1080
+  #+END_SRC 
+
+  localhost就是一个域名，域名默认指向 127.0.0.1，两者是一样的。
+
++ 然后ESC后:wq保存文件，接着在终端中执行
+
+  #+BEGIN_SRC sh
+  source ~/.bashrc
+  #+END_SRC 
+
+  或者退出当前终端再起一个终端。 这个办法的好处是把代理服务器永久保存了，下次就可以直接用了。
+
+  或者通过设置alias简写来简化操作，每次要用的时候输入setproxy，不用了就unsetproxy。
+
+  #+BEGIN_SRC sh
+   alias setproxy="export ALL_PROXY=socks5://127.0.0.1:1080"
+   alias unsetproxy="unset ALL_PROXY"
+   alias ip="curl -i http://ip.cn"
+  #+END_SRC 
+
+* 其他软件的代理设置
++ apt的代理设置
+  #+BEGIN_SRC sh
+  emacs /etc/apt/apt.conf
+  #+END_SRC 
+  在文件末尾加入下面这行
+  #+BEGIN_SRC sh
+  Acquire::http::Proxy "http://proxyAddress:port"
+  #+END_SRC 
+  保存apt.conf文件即可。
+
++ 关于git和github的代理设置看这里:[[file:~/psnote_public/git/git-proxy.org]]
+
++ 关于emacs代理设置看这里:[[file:~/psnote_public/emacs/emacs-proxy.org]]
+
++ 关于get的代理设置看这里:[[file:wget.org::54]]
+

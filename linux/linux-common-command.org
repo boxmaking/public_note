@@ -1,0 +1,88 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 未整理的linux学习笔记
+#+KEYWORDS: linux-command, linux
+#+LANGUAGE: zh-CN
+
+
+* 实现命令关机
+echo "PASSWORD" | sudo -S shutdown -h now
+
+
+
+* shell 快捷键
+
+** 字母大小写控制
+   | M+c | 首字母大写   |
+   | M+u | 全部字母大写 |
+   | M+l | 全字母小写   |
+
+** shell语系的支持
+   | echo $LANG       | 显示当前的语系               |
+   | LANG=en_UC       | 调整语系为美国英语           |
+   | LANG=zh_CN.UTF-8 | 调整语系为中文简体,UTF-8编码 |
+
+
+
+* echo {a,b}{a,b}{a,b}
+   这个命令是应用了linux的大括号展开功能
+   常用与快速的备份一个文件
+   cp xxx{,.back}
+   这个命令就是用了大括号展开功能来悲愤xxx文件
+
+
+
+* netstat -tulnp
+   查看端口的监听情况
+  | -t | tcp               |
+  | -u | udp               |
+  | -l | listen            |
+  | -n | 显示ip            |
+  | -p | 现实pid,need root |
+
+
+
+
+* TODO bc命令学习
+:LOGBOOK:
+CLOCK: [2020-03-21 Sat 19:57]
+:END:
+
+scale=N
+N为想要计算的小数点数位
+
+
+* TODO mc学习
+
+
+
+
+* sync,shutdown,reboot
+| sync                                | 关机之前必须的命令 |
+| shutdown                            | 关机命令           |
+| shutdown -h 10 '我要在十分钟后关机' | 十分钟后关机       |
+| shutdown -h now                     | 马上关机           |
+| shutdown -c                         | 取消正在进行的关机 |
+
+
+* TODO fsck,fdisk命令教程
+
+
+* suer相关命令
+1. 用户相关文件
+   | /etc/shadow | 密码文件 |
+   | /etc/passwd | 用户名   |
+   | /etc/group  | 群组     |
+
+
+* 文件相关知识
+| d | 目录文件                  |
+| l | 链接文件                  |
+| - | 文件                      |
+| b | 可随机存储的文件          |
+| c | 一次性存储文件,鼠标键盘等 |
+
+
+* grep命令教程
+** -i选项来不区分大小写
+
+

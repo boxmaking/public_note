@@ -1,0 +1,14 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: root用户使用自定义的配置
+#+KEYWORDS: emacs, 
+#+LANGUAGE: zh-CN
+
+* 为了使得sudo emacs时也可以使用pengshao用户的配置
+1. 创建相应的符号链接到 root用户目录下,代码如下:
+
+#+BEGIN_SRC shell
+sudo ln -s /home/pengshao/.emacs /root/
+sudo ln -s /home/pengshao/.emacs.d/ /root/
+#+END_SRC
+
+

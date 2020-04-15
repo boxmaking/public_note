@@ -1,0 +1,66 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 安装xfce
+#+KEYWORDS: install-xfce
+#+LANGUAGE: zh-CN
+
+
+
+* 要安装最小的 X 窗口，使用以下命令：
+#+BEGIN_SRC shell
+aptitude install xorg
+#+END_SRC
+
+
+** 如果希望完全删除 Gnome，可以依次运行以下命令：
+#+BEGIN_SRC shell
+aptitude purge `dpkg --get-selections | grep gnome | cut -f 1`
+aptitude -f install
+aptitude purge `dpkg --get-selections | grep deinstall | cut -f 1`
+aptitude -f install
+ #+END_SRC
+    
+
+* 安装 Xfce，运行以下命令：
+#+BEGIN_SRC shell
+aptitude install xfce4
+#+END_SRC 
+   
+这将安装一组元软件包，包括 XFCE 核心模块和运行脚本。
+    
+XFCE 带有很多实用的工具，可以用以下命令安装：
+#+BEGIN_SRC shell
+aptitude install xfce4-goodies
+#+END_SRC
+    
+同时建议安装轻型的登录管理器 slim：
+#+BEGIN_SRC shell
+aptitude install slim
+#+END_SRC
+
+    
+
+* 运行 Xfce
+   
+对于 GDM/KDM 选择 xfce4 会话。
+
+对于 startx 在 ~/.xinitrc 里添加一行：
+#+BEGIN_EXAMPLE
+exec ck-launch-session startxfce4
+#+END_EXAMPLE    
+
+    
+对于 slim 在 /etc/slim.conf 里添加以下行：
+#+BEGIN_EXAMPLE
+login_cmd exec ck-launch-session /bin/bash -login /etc/X11/Xsession %session
+#+END_EXAMPLE    
+    
+你可以安装 xdm 以登录到 Xfce。
+    
+其他软件包
+和 xfce4 有关的软件包可以这样查找
+#+BEGIN_SRC shell
+aptitude search xfce4
+#+END_SRC
+
+
+

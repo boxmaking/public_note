@@ -1,0 +1,353 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: wget-用法详解释
+#+KEYWORDS: wget-tutorial wget-用法详解释
+#+LANGUAGE: zh-CN
+
+* wget -c URL  断点续传
+当文件特别大或者网络特别慢的时候，往往一个文件还没有下载完，连接就已经被切断，此时就需要断点续传。wget的断点续传是自动的，只需要使用-c参数，例如：
+ #+BEGIN_SRC shell
+ wget -c http://the.url.of/incomplete/file
+ #+END_SRC
+
+使用断点续传要求服务器支持断点续传。
+
+- -t-----表示重试次数
+- -t 100-----要重试100次，那么
+- -t 0-----表示无穷次重试，直到连接成功
+- -T-----参数表示超时等待时间
+- -T 120----表示等待120秒连接不上就算超时。
+
+若下载中断后你没有用 -c 进行断点续传，而是重新下载, wget 会在文件名后加上 “.1” 防止与前面下载的文件重名.
+
+
+* 使用wget –mirror镜像网站
+1. 我常用的镜像方法
+   wget -c --mirror -p --convert-links -P ./LOCAL URL
+   
+   说明：
+   下载整个网站到本地。
+      
+   -p:下载所有为了html页面显示正常的文件
+   
+   –convert-links:下载后，转换成本地的链接
+   
+   -P ./LOCAL：保存所有文件和目录到本地指定目录
+
+   --convert-links 强制转换文件链接为本地
+
+   -x: 会强制建立服务器上一模一样的目录，如果使用-nd参数，那么服务器上下载的所有内容都会加到本地当前目录。
+   
+   -m,  --mirror
+   -N -r -l inf --no-remove-listing 的缩写形式。
+   wget会登录到服务器上，读入robots.txt并按robots.txt的规定来执行。
+
+   -r: 指定递归下载，下载服务器上所有的目录和文件，实质就是下载整个网站
+   这个命令一定要小心使用，因为在下载的时候，被下载网站指向的所有地址同 样会被下载
+   如果这个网站引用了其他网站，那么被引用的网站也会被下载下来！
+   由于这个原因，这个参数不常用
+   
+   -l number参数来指定下载的层次
+   -l2--下载两层，
+   -l info或0--无限制
+  
+   -N,  --timestamping
+   只获取比本地文件新的文件。
+
+
+* 后台下载
+
+当下载大型文件时, 可以使用 -b 选项让wget在后台下载文件.
+#+BEGIN_SRC shell
+wget -b http://example.com/big-file.zip
+#+END_SRC
+
+输出内容会写入同目录下的 “wget-log” 文件, 这样你就可以用下面命令来检查下载状态了:
+#+BEGIN_SRC shell
+tail -f wget-log
+#+END_SRC
+
+
+* 指定下载目录
+
+使用 -P 选项指定下载目录:
+#+BEGIN_SRC shell
+wget -P /opt/wordpress https://wordpress.org/latest.zip
+#+END_SRC
+
+就会把文件下载到 /opt/wordpress 目录中.
+
+
+* 下载文件并重命名
+
+若你想以其他名称保存下载的文件，可以使用 -O 选项:
+#+BEGIN_SRC shell
+wget -O wordpress.zip https://wordpress.org/latest.zip
+#+END_SRC
+
+wget会下载文件并以”wordpress.zip”为名存放到当前目录中.zip” name.
+
+
+* wget使用代理来下载
+1. 如果用户的网络需要经过代理服务器，那么可以让wget通过代理服务器进行文件的下载。此时需要在当前用户的目录下创建一个.wgetrc文件。文件中可以设置代理服务器：
+   #+BEGIN_SRC shell
+   https_proxy = http://127.0.0.1:41091/
+   http_proxy = http://127.0.0.1:41091/
+   #+END_SRC
+
+2. 分别表示http的代理服务器和ftp的代理服务器。如果代理服务器需要密码则使用：
+   –proxy-user=USER设置代理用户
+   –proxy-passwd=PASS设置代理密码
+
+3. 这两个参数。
+   使用参数–proxy=on/off 使用或者关闭代理。
+   wget还有很多有用的功能，需要用户去挖掘。
+
+
+* 批量下载
+若你想同时下载多个文件,你可以将要在的文件URL存放在一个文本文件中(假设该文件名为download.txt).
+
+下面命令创建一个文本文件:
+#+BEGIN_SRC shell
+touch download.txt
+#+END_SRC
+
+然后可以用 nano 编辑该文件，输入所有想下载的文件URL:
+#+BEGIN_SRC shell
+nano download.txt
+
+http://example.com/file1.zip
+
+http://example.com/file2.zip
+
+http://example.com/file3.zip
+#+END_SRC
+
+
+保存该文件, 然后使用 -i 选项下载文本文件中保存的所有文件:
+#+BEGIN_SRC shell
+wget -i download.txt
+#+END_SRC
+
+
+* 选择性的下载
+
+   wget -m –reject=gif http://target.web.site/subdirectory --表示忽略gif文件
+   wget -m –accept=gif http://target.web.site/subdirectory --表示只接受gif文件
+
+   –accept=LIST 可以接受的文件类型
+   –reject=LIST 拒绝接受的文件类型
+
+
+* 密码和认证
+** 下载http文件
+wget只能处理利用用户名/密码方式限制访问的网站，可以利用两个参数：
+   –http-user=USER设置HTTP用户
+   –http-passwd=PASS设置HTTP密码
+   对于需要证书做认证的网站，就只能利用其他下载工具了，例如curl。
+** 下载FTP文件
+wget还支持下载FTP文件，可以为它设置用户名和密码，如下所示:
+#+BEGIN_SRC shell
+wget --ftp-user=username --ftp-password=password ftp://url-to-ftp-file
+#+END_SRC
+
+   
+* 附录 ::
+命令参数：
+
+启动参数：
+
+-V, –version 显示wget的版本后退出
+
+-h, –help 打印语法帮助
+
+-b, –background 启动后转入后台执行
+
+-e, –execute=COMMAND 执行`.wgetrc’格式的命令，wgetrc格式参见/etc/wgetrc或~/.wgetrc
+
+记录和输入文件参数：
+
+-o, –output-file=FILE 把记录写到FILE文件中
+
+-a, –append-output=FILE 把记录追加到FILE文件中
+
+-d, –debug 打印调试输出
+
+-q, –quiet 安静模式(没有输出)
+
+-v, –verbose 冗长模式(这是缺省设置)
+
+-nv, –non-verbose 关掉冗长模式，但不是安静模式
+
+-i, –input-file=FILE 下载在FILE文件中出现的URLs
+
+-F, –force-html 把输入文件当作HTML格式文件对待
+
+-B, –base=URL 将URL作为在-F -i参数指定的文件中出现的相对链接的前缀
+
+–sslcertfile=FILE 可选客户端证书
+
+–sslcertkey=KEYFILE 可选客户端证书的KEYFILE
+
+–egd-file=FILE 指定EGD socket的文件名
+
+下载参数：
+
+–bind-address=ADDRESS 指定本地使用地址(主机名或IP，当本地有多个IP或名字时使用)
+
+-t, –tries=NUMBER 设定最大尝试链接次数(0 表示无限制).
+
+-O –output-document=FILE 把文档写到FILE文件中
+
+-nc, –no-clobber 不要覆盖存在的文件或使用.#前缀
+
+-c, –continue 接着下载没下载完的文件
+
+–progress=TYPE 设定进程条标记
+
+-N, –timestamping 不要重新下载文件除非比本地文件新
+
+-S, –server-response 打印服务器的回应
+
+–spider 不下载任何东西
+
+-T, –timeout=SECONDS 设定响应超时的秒数
+
+-w, –wait=SECONDS 两次尝试之间间隔SECONDS秒
+
+–waitretry=SECONDS 在重新链接之间等待1…SECONDS秒
+
+–random-wait 在下载之间等待0…2*WAIT秒
+
+-Y, –proxy=on/off 打开或关闭代理
+
+-Q, –quota=NUMBER 设置下载的容量限制
+
+–limit-rate=RATE 限定下载输率
+
+目录参数：
+
+-nd –no-directories 不创建目录
+
+-x, –force-directories 强制创建目录
+
+-nH, –no-host-directories 不创建主机目录
+
+-P, –directory-prefix=PREFIX 将文件保存到目录 PREFIX/…
+
+–cut-dirs=NUMBER 忽略 NUMBER层远程目录
+
+HTTP 选项参数：
+
+–http-user=USER 设定HTTP用户名为 USER.
+
+–http-passwd=PASS 设定http密码为 PASS
+
+-C, –cache=on/off 允许/不允许服务器端的数据缓存 (一般情况下允许)
+
+-E, –html-extension 将所有text/html文档以.html扩展名保存
+
+–ignore-length 忽略 `Content-Length’头域
+
+–header=STRING 在headers中插入字符串 STRING
+
+–proxy-user=USER 设定代理的用户名为 USER
+
+–proxy-passwd=PASS 设定代理的密码为 PASS
+
+–referer=URL 在HTTP请求中包含 `Referer: URL’头
+
+-s, –save-headers 保存HTTP头到文件
+
+-U, –user-agent=AGENT 设定代理的名称为 AGENT而不是 Wget/VERSION
+
+–no-http-keep-alive 关闭 HTTP活动链接 (永远链接)
+
+–cookies=off 不使用 cookies
+
+–load-cookies=FILE 在开始会话前从文件 FILE中加载cookie
+
+–save-cookies=FILE 在会话结束后将 cookies保存到 FILE文件中
+
+FTP 选项参数：
+
+-nr, –dont-remove-listing 不移走 `.listing’文件
+
+-g, –glob=on/off 打开或关闭文件名的 globbing机制
+
+–passive-ftp 使用被动传输模式 (缺省值).
+
+–active-ftp 使用主动传输模式
+
+–retr-symlinks 在递归的时候，将链接指向文件(而不是目录)
+
+递归下载参数：
+
+-r, –recursive 递归下载－－慎用!
+
+-l, –level=NUMBER 最大递归深度 (inf 或 0 代表无穷)
+
+–delete-after 在现在完毕后局部删除文件
+
+-k, –convert-links 转换非相对链接为相对链接
+
+-K, –backup-converted 在转换文件X之前，将之备份为 X.orig
+
+-m, –mirror 等价于 -r -N -l inf -nr
+
+-p, –page-requisites 下载显示HTML文件的所有图片
+
+递归下载中的包含和不包含(accept/reject)：
+
+-A, –accept=LIST 分号分隔的被接受扩展名的列表
+
+-R, –reject=LIST 分号分隔的不被接受的扩展名的列表
+
+-D, –domains=LIST 分号分隔的被接受域的列表
+
+–exclude-domains=LIST 分号分隔的不被接受的域的列表
+
+–follow-ftp 跟踪HTML文档中的FTP链接
+
+–follow-tags=LIST 分号分隔的被跟踪的HTML标签的列表
+
+-G, –ignore-tags=LIST 分号分隔的被忽略的HTML标签的列表
+
+-H, –span-hosts 当递归时转到外部主机
+
+-L, –relative 仅仅跟踪相对链接
+
+-I, –include-directories=LIST 允许目录的列表
+
+-X, –exclude-directories=LIST 不被包含目录的列表
+
+-np, –no-parent 不要追溯到父目录
+
+wget -S –spider url 不下载只显示过程
+
+** 中文文档名在平常的情况下会被编码， 但是在 –cut-dirs 时又是正常的，
+wget -r -np -nH –cut-dirs=3 ftp://host/test/
+测试.txt
+wget -r -np -nH -nd ftp://host/test/
+%B4%FA%B8%D5.txt
+wget “ftp://host/test/*”
+%B4%FA%B8%D5.txt
+    
+由 於不知名的原因，可能是为了避开特殊档名， wget 会自动将抓取档名的部分用 encode_string 处理过， 所以该 patch 就把被 encode_string 处理成 “%3A” 这种东西， 用 decode_string 还原成 “:”，并套用在目录与档案名称的部分，decode_string 是 wget 内建的函式。
+    
+wget -t0 -c -nH -x -np -b -m -P /home/sunny/NOD32view/  http://downloads1.kaspersky-labs.com/bases/ -o wget.log
+    
+** 更多的教程使用
+Linux wget命令详解 http://www.linuxidc.com/Linux/2012-08/67837.htm
+    
+Linux 下使用 wget/aria2 进行离线迅雷批量下载 http://www.linuxidc.com/Linux/2011-10/46052.htm
+    
+Linux使用wget请求地址时报错 http://www.linuxidc.com/Linux/2011-07/39345.htm
+    
+Linux下载命令wget使用详解 http://www.linuxidc.com/Linux/2011-01/30980.htm
+    
+wget 使用大全 http://www.linuxidc.com/Linux/2008-09/15722.htm
+    
+Linux 命令行下载工具 wget 的使用技巧 http://www.linuxidc.com/Linux/2007-10/8293.htm
+    
+wget 命令实例 http://www.linuxidc.com/Linux/2014-10/108733.htm
+

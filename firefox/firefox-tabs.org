@@ -1,0 +1,29 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: firefox-tabs
+#+KEYWORDS: firefox
+#+LANGUAGE: zh-CN
+
+
+
+* firefox标签页打开方式设置
+进入正题，FireFox更新了之后，搜索页默认是在当前页面打开，书签也是，那么如何在新标签页打开呢？
+网上看一圈全都是让安装插件，忍不住牙疼，所以研究半天，功夫不负苦心人，终于找到在新标签页打开的方法
+
+** 设置方法
+1. 在新标签中开启搜索结果在地址栏中输入 about:config
+2. 在过滤器中输入 browser.search.openintab
+3. 双击显示的值更改为True
+4. 如果你不愿意修改,还可以在输入关键字后直接按Alt+Enter组合键,有同样的效果。
+5. 在新标签页打开书签在地址栏中输入about:config
+6. 在过滤器中输入browser.tabs.loadBookmarksInTabs
+7. 双击显示的值更改为True
+
+
+** 再介绍一下其他的
+1. browser.tabs.loadBookmarksInBackground允许firefox从后台打开书签（true）（后台打开的意思就是你打开之后，页面还是在当前页面，前台打开就是打开并跳转到新标签页，试一下就知道）
+2. browser.tabs.loadDivertedinbackground选择标签页打开方式True=在后台打开连接；False=在前台打开连接
+3. browser.tabs.loadFolderAndReplace书签菜单的在标签中打开是否替换掉原来已经打开的标签true=替换,默认值;false=不替换
+————————————————
+
+** 版权声明：本文为CSDN博主「初来灬炸到」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明
+原文链接：https://blog.csdn.net/u011334221/article/details/78587824

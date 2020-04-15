@@ -1,0 +1,9 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 十六进制颜色查看
+#+KEYWORDS:十六进制颜色查看
+#+LANGUAGE: zh-CN
+
+
+
+[[file:hex-color.pdf]]
+

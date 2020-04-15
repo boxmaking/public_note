@@ -1,0 +1,7 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 多年以来收藏的书签
+#+LANGUAGE: zh-CN
+
+
+[[file:bookmarks.html]]
+

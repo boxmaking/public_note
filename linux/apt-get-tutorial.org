@@ -1,0 +1,30 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: apt-get-tutorial
+#+KEYWORDS: apt-get 
+#+LANGUAGE: zh-CN
+
+
+* 查看软件包的详细网址和各种依赖情况
+#+BEGIN_SRC shell
+apt-cache show programname
+#+END_SRC
+
+
+* apt-get意外中断解决办法
+ Ctrl+c/z中断后
+ 中断后会现实已经锁定,并且用fg和bg都无法恢复
+ 用sudo kill -9 apt-get也无法关闭的时候
+ 
+ 解决方法
+ #+BEGIN_SRC shell
+ sudo killall apt-get
+ sudo killall dpkg
+ sudo dpkg --configure -a
+ #就完美的搞定了
+ #+END_SRC
+
+* 尾声
+ 其实我以前也碰到过这几个个问题,当时没能解决掉,现在终于完成了
+ 有了配置文件的备份之后真的很简单的就能更换系统
+ 这点确实是linux的优点啊.
+

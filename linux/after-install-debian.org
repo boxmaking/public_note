@@ -1,0 +1,65 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 安装debian后进行的设置
+#+KEYWORDS: debian, linux-software
+#+LANGUAGE: zh-CN
+
+* 安装sudo
+#+BEGIN_SRC shell
+su
+apt-get install sudo -y
+#+END_SRC
+
+
+* 校正日期和时间
+#+BEGIN_SRC shell
+cp /usr/share/zoneinfo/Asia/ShangHai  /etc/localtime     #时区为亚洲/上海
+#+END_SRC
+
+
+1. 网络校时
+#+BEGIN_SRC shell
+apt-get install ntpdate
+ntpdate 210.72.145.44        # 中国国家时间服务器: 210.72.145.44
+#+END_SRC
+
+2. 手动校时
+#+BEGIN_SRC shell
+sudo date -s 11/13/2019                #2019年11月13日
+sudo date -s 10:05:30                  #10点05分30秒
+#+END_SRC
+
+
+* 中文输入环境教程
+1. sudo apt-get install locales
+2. sudo apt-get install fonts-wqy-*
+3. sudo apt-get install ibus ibus-gtk ibus-pinyin 
+
+
+* must install softwares
+1. sudo apt-get install neofetch dpkg-dev figlet net-tools 
+   + figlet [[file:linux-common-command.org::2266]]
+   + neofetch 
+2. sudo apt-get install  gvfs-bin python-gi gir1.2-appindicator3-0.1
+3. sudo apt-get install emacs w3m-img w3m-el unzip unrar-free 
+4. sudo apt-get install gnucash
+5. sudo apt-get install tree
+ |-----------+---------------------|
+ | tree -a   | display all thefile |
+ |-----------+---------------------|
+ | tree -l N | 多少层              |
+ |-----------+---------------------|
+
+
+* 建议安装的软件
+1. sudo apt-get install mc 
+   mc教程[[file:linux-common-command.org::2244]]
+
+2. sudo apt-get install scrot
+   scrot是一款截屏软件
+   scrot教程[[file:linux-common-command.org::2279]]
+
+3. sudo apt-get install vlc
+
+4. sudo apt-get install thunderbird
+
+5. 我还安装了,百度云,网易云音乐,坚果云盘,panderpn,wps,
