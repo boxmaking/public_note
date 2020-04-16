@@ -1,0 +1,121 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: youtube-dl使用教程
+#+DATE: <2020-04-16/Thursday 23:36:34>
+#+KEYWORDS: youtube-dl使用教程
+#+LANGUAGE: zh-CN
+
+
+* youtube-dl下载
+下载地址----->[[https://ytdl-org.github.io/youtube-dl/download.html]] 
+
+
+* youtube-dl安装
+下载地址都有
+1. To install it right away for all UNIX users (Linux, OS X, etc.), type:
+   #+BEGIN_SRC shell
+   sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+   sudo chmod a+rx /usr/local/bin/youtube-dl
+   #+END_SRC
+
+2. If you do not have curl, you can alternatively use a recent wget:
+   #+BEGIN_SRC shell
+   sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+   sudo chmod a+rx /usr/local/bin/youtube-dl
+   #+END_SRC
+
+* youtube-dl代理
+#+BEGIN_SRC shell
+#socks5代理
+youtube-dl --proxy socks5://127.0.0.1:1080 https://www.youtube.com/watch?v=6_gLU_OStK0
+
+#http代理
+youtube-dl --proxy http://127.0.0.1:8118 https://www.youtube.com/watch?v=6_gLU_OStK0
+#+END_SRC
+
+
+* youtube-dl使用
+1. 首先因为youtube-dl会下载到当前的目录，
+   #+BEGIN_SRC shell
+   mkdir Test
+   cd ./Test
+   #+END_SRC
+
+2. 进入到Test目录里后就可以使用youtube-dl下载视频了
+   语法: youtube-dl 视频网址
+   #+BEGIN_SRC shell
+   youtube-dl --proxy socks5://127.0.0.1:1080 https://www.youtube.com/watch?v=6_gLU_OStK0
+   #+END_SRC
+
+3. 用以下代码查看可供下载的格式：
+  #+BEGIN_SRC shell
+  #查看格式编号-F/--all-formats
+  youtube-dl -F https://www.youtube.com/watch?v=lW9Uudkx42g
+  #下载指定编号-f/--list-formats
+  youtube-dl -f 138 https://www.youtube.com/watch?v=lW9Uudkx42g
+  #+END_SRC
+
+4. 批量下载的参数
+   将链接全部保存到一个文本文件里
+   一行一个网址，文件保存在Downloads文件夹下面。
+   #+BEGIN_SRC shell
+   youtube-dl -c -i -a video_url.txt
+   #+END_SRC
+
+   youtube-dl提供了很多有用的附加参数，这里用到的是：
+
+   -c 断点续传（如果由于意外原因下载中断了，再次启动下载命令时，可以实现断点续传）
+   -i 忽略报错（如果出现某些链接无法打开或者下载的问题，会自动绕过，继续下载其他视频）
+   -a 包含要下载的URL的文件,每行一个URL。行开始用'＃'，';'或']'被认为是评论和忽略)
+
+5. 下载youtube播放列表
+   #+BEGIN_EXAMPLE
+   youtube-dl -cit https://www.youtube.com/playlist?list=PLCJcQMZOafICYrx7zhFu_RWHRZqpB8fIW
+   #+END_EXAMPLE
+   找到列表，复制并替换掉PLCJcQMZOafICYrx7zhFu_RWHRZqpB8fIW即可。
+
+   例如下载播放列表选择质量最好的MP4格式的视频 -i跳过错误
+   #+BEGIN_EXAMPLE
+   youtube-dl -cit -f mp4  https://www.youtube.com/playlist?list=PLCJcQMZOafICYrx7zhFu_RWHRZqpB8fIW
+   #+END_EXAMPLE
+
+   那如何获取视频列表呢？其实我们只需要获取到这一串列表码即可，
+   如PLCJcQMZOafIC81DKkddectaYwp20xDMwf
+   1. 进入用户的播放列表界面
+   2. 例如：https://www.youtube.com/user/GreatOnlineTutorials/playlists，
+   3. 并在源码中找到每个播放列表的list值
+   4. 拼接在https://www.youtube.com/playlist/?list=后面即可。
+   
+
+ 
+
+
+
+* CONFIGURATION
+
+ On Linux and macOS, 
+- /etc/youtube-dl.conf--->the system wide configuration file is located
+- ~/.config/youtube-dl/config---->the user wide configuration file
+
+For example, with the following configuration file youtube-dl will always extract the audio, not copy the mtime, use a proxy and save all videos under Movies directory in your home directory:
+#+BEGIN_SRC shell
+# Lines starting with # are comments
+
+# Always extract audio
+-x
+
+# Do not copy the mtime
+# --no-mtime
+
+# Use this proxy
+--proxy socks5://127.0.0.1:1090
+
+# Save all videos under Movies directory in your home directory
+# -o ~/Movies/%(title)s.%(ext)s
+
+#+END_SRC
+
+Note that options in configuration file are just the same options aka switches used in regular command line calls thus there must be no whitespace after - or --, e.g. -o or --proxy but not - o or -- proxy.
+
+You can use --ignore-config if you want to disable the configuration file for a particular youtube-dl run.
+
+You can also use --config-location if you want to use custom configuration file for a particular youtube-dl run.

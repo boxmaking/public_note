@@ -1,55 +1,76 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: tar命令详细功能和格式
+#+TITLE: tar命令详细功能和格式---ar解压缩deb文件
 #+KEYWORDS: linux-tar tar
 #+LANGUAGE: zh-CN
 
 
 * 各种格式介绍
 常见打包压缩文件
-+ windows  .rar   .zip   .7z
-+ Linux       .tar  .tar.gz  .tar.bz2 .tar.Xz  .gz   .bz2 Xz
++ windows ***.rar,  ***.zip, ***.7z
++ Linux ***.tar, ***.tar.gz, ***.tar.bz2,***.tar.Xz, ***.gz, ***.bz2, Xz ,ar
 
-其中的.tar是Unix和类Unix(linux)系统上的归档打包工具，可以将多个文件合并为一个文件，打包后的文件名亦为“XXX.tar”.代表未压缩的tar文件。已压缩的tar文件则附加数据压缩格式的扩展名，如经过gzip压缩后的tar文件，扩展名为“.tar.gz”。由于受到DOS8.3文件名格式的限制，常用的压缩格式使用下列缩写：
-+ .tgz和.tar.gz代表tar调用gzip来完成打包和压缩的格式
-+ .tbz和.tar.bz2代表tar调用bzip2来完成打包和压缩的格式
-+ .taz和.tar.Z代表tar调用compress来完成打包和压缩的格式
-+ .tar代表没有经过压缩的打包文件
-+ .zip代表zip压缩格式
-+ rar代表rar格式
-+ 7z代表用7zip软件压缩的格式
+其中的.tar是Unix和类Unix(linux)系统上的归档打包工具
+可以将多个文件合并为一个文件
+打包后的文件名亦为“XXX.tar”.代表未压缩的tar文件
+已压缩的tar文件则附加数据压缩格式的扩展名
+如经过gzip压缩后的tar文件，扩展名为“.tar.gz”
+由于受到DOS8.3文件名格式的限制，常用的压缩格式使用下列缩写：
+ |----------------+---------------------------------------|
+ | .tgz和.tar.gz  | tar调用gzip来完成打包和压缩的格式     |
+ |----------------+---------------------------------------|
+ | .tbz和.tar.bz2 | tar调用bzip2来完成打包和压缩的格式    |
+ |----------------+---------------------------------------|
+ | .taz和.tar.Z   | tar调用compress来完成打包和压缩的格式 |
+ |----------------+---------------------------------------|
+ | .tar           | 没有经过压缩的打包文件                |
+ |----------------+---------------------------------------|
+ | .zip           | zip压缩格式                           |
+ |----------------+---------------------------------------|
+ | rar            | rar格式                               |
+ |----------------+---------------------------------------|
+ | 7z             | 用7zip软件压缩的格式                  |
+ |----------------+---------------------------------------|
+ | Xz             | 用Xz软件解压缩                        |
+ |----------------+---------------------------------------|
+ | Z              | compress压缩                          |
+ |----------------+---------------------------------------|
+ | ar             | 可以解压缩.deb文件                    |
+ |----------------+---------------------------------------|
 
 
-** .tar文件相关命令示例
+* 各种格式解压操作
+** .tar文件命令示例
 #+BEGIN_SRC shell
-tar -cvf home_backup.tar *------>可以将当前目录下的所有文件打包进home_backup.tar文件中,后面的是文件也可以是目录 
-tar -tvf home_backup.tar----->列出home_backup.tar文件里已被打包的文件 
-tar -xvf home_backup.tar ./home----->在当前目录的home子目录下下解压home_back.tar 
-tar -xvf home_backup.tar home/test.c----->指定解压出test.c这个文件。解压过程中会自动创建home这个子目录。 
-tar -uvf home_backup.tar test.txt------>更新(覆盖替换)包中的,test.txt文件  
-tar -rvf home_backup.tar test.txt------>将test.txt文件添加到包中
+tar -cvf home_backup.tar * #------>可以将当前目录下的所有文件打包进home_backup.tar文件中,后面的是文件也可以是目录 
+tar -tvf home_backup.tar #----->列出home_backup.tar文件里已被打包的文件 
+tar -xvf home_backup.tar ./home #----->在当前目录的home子目录下下解压home_back.tar 
+tar -xvf home_backup.tar home/test.c #----->指定解压出test.c这个文件。解压过程中会自动创建home这个子目录。 
+tar -uvf home_backup.tar test.txt #------>更新(覆盖替换)包中的,test.txt文件  
+tar -rvf home_backup.tar test.txt #------>将test.txt文件添加到包中
 #+END_SRC
 
 *解压后的文件，其访问权限得到保留；其所有者是执行tar命令的用户，如果tar的执行者是root，则所有者是文件原来的所有者。
 
-** .tgz/tar.gz文件相关命令示例
+
+** .tgz/tar.gz文件命令示例
 #+BEGIN_SRC shell
-tar -zcvf home_backup.tar.gz /home---->可以将/home目录下的所有文件打包并用gzip压缩入home_backup.tar.gz文件中.
-tar -zcvf home_backup.tar.gz *------>可以将当前目录下的所有文件打包并用gzip压缩进home_backup.tar.gz文件中. 
-tar -ztvf home_backup.tar.gz------>列出home_backup.tar.gz文件里已被打包的文件 
-tar -zxvf home_backup.tar.gz ./home------>在当前目录的home子目录下下解压home_back.tar.gz。 
-tar -zxvf home_backup.tar.gz home/test.c------>指定解压出test.c这个文件。解压过程中会自动创建home这个子目录。
+tar -zcvf home_backup.tar.gz /home #---->可以将/home目录下的所有文件打包并用gzip压缩入home_backup.tar.gz文件中.
+tar -zcvf home_backup.tar.gz * #------>可以将当前目录下的所有文件打包并用gzip压缩进home_backup.tar.gz文件中. 
+tar -ztvf home_backup.tar.gz #------>列出home_backup.tar.gz文件里已被打包的文件 
+tar -zxvf home_backup.tar.gz ./home #------>在当前目录的home子目录下下解压home_back.tar.gz。 
+tar -zxvf home_backup.tar.gz home/test.c #------>指定解压出test.c这个文件。解压过程中会自动创建home这个子目录。
 #+END_SRC
 
 * 总之tar调用gzip就是在选项加一个  z  来解决语句与tar格式都是一样的
 
 
-** .tbz/tar.bz2文件相关命令示例
+** .tbz/tar.bz2文件命令示例
 #+BEGIN_SRC shell
-tar -jcvf home_backup.tar.bz2 /home------>可以将/home目录打包并用bzip2压缩入home_backup.tar.bz2文件中. 
-tar -jcvf home_backup.tar.bz2 *------>可以将当前目录下的所有文件打包并用bzip2压缩进home_backup.tar.bz2文件中. 
-tar -jtvf home_backup.tar.bz2------>列出home_backup.tar.bz2文件里被打包的文件名,权限,所有者,大小,时间,等信息.否则只显示文件名
-. tar -jxvf home_backup.tar.bz2 ./home------>在当前目录的home子目录下下解压home_back.tar.bz2。
- tar -jxvf home_backup.tar.bz2 home/test.c------>指定解压出test.c这个文件。解压过程中会自动创建home这个子目录。
+tar -jcvf home_backup.tar.bz2 /home #------>可以将/home目录打包并用bzip2压缩入home_backup.tar.bz2文件中. 
+tar -jcvf home_backup.tar.bz2 * #------>可以将当前目录下的所有文件打包并用bzip2压缩进home_backup.tar.bz2文件中. 
+tar -jtvf home_backup.tar.bz2 #------>列出home_backup.tar.bz2文件里被打包的文件名,权限,所有者,大小,时间,等信息.否则只显示文件名
+. tar -jxvf home_backup.tar.bz2 ./home #------>在当前目录的home子目录下下解压home_back.tar.bz2。
+ tar -jxvf home_backup.tar.bz2 home/test.c #------>指定解压出test.c这个文件。解压过程中会自动创建home这个子目录。
 #+END_SRC
 
 *** tar调用bzip2就是在选项中加一个小写  j  来解决,注意，由于部分老版本的tar使用-I实现本功能，因此，编写脚本时，最好使用–bzip2。
@@ -61,12 +82,13 @@ tar -cZvf home_backup.tar.Z /home------>可以将/home目录打包并用compress
 
 *tar调用compress就是在语句中加入大写的Z
 
-** .rar和.zip文件相关命令示例
+
+** .rar和.zip文件命令示例
 #+BEGIN_SRC shell
-unzip home_backup.zip ------>解压缩该压缩文件
-zip txt_backup.zip *.txt------>将文件夹内所有txt文件打包为txt_backup.zip文件
-unrar e home_backup.rar------>解压缩该文件夹
-rar a txt_backup *.txt------>将文件夹内所有txt文件打包为txt_backup.rar文件(自动添加后缀)
+unzip home_backup.zip #------>解压缩该压缩文件
+zip txt_backup.zip *.txt #------>将文件夹内所有txt文件打包为txt_backup.zip文件
+unrar e home_backup.rar #------>解压缩该文件夹
+rar a txt_backup *.txt #------>将文件夹内所有txt文件打包为txt_backup.rar文件(自动添加后缀)
 #+END_SRC
 
 *** 由于rarlinux是收费软件，所以我们首先要下载rarlinux，然后安装它.安装方法：现在下载rarlinux的包，官方网址是：www.rarsoft.com
@@ -81,37 +103,127 @@ make && make install
 apt-get install zip unzip
 #+END_SRC
 
-** 7zip和7z文件相关命令示例
+
+*** gbkunzip解压缩zip文件---->解决解压zip乱码问题
+
+[[https://www.lujun9972.win/blog/2017/06/04/%E4%BD%BF%E7%94%A8gbkunzip%E8%A7%A3%E5%86%B3linux%E4%B8%8Bzip%E6%96%87%E4%BB%B6%E8%A7%A3%E5%8E%8B%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/index.html][原文链接]]
+
+由于Windows下的文件名为GBK编码,而linux一般为UTF-8,因此当解压在Windows上生成的zip文件后,会发现解压出来的文件都是乱码的.
+
+网上有个解决方法是使用 unzip 的 -O 选项来指定编码格式,然而不知道为何,我在archlinux下的unzip并没有这个选项.
+
+好在找到了一个 gbkunzip 脚本,可以解决这个问题.
+
+在archlinux上,可以通过yaourt来安装 gbkunzip
 #+BEGIN_SRC shell
-yum install p7zip------>Redhat、Fedora、Centos安装命令
-apt-get install p7zip------>Debian、Ubuntu安装命令
-7za x home_backup.7z------>解压缩文件  
-7za a -r txt_backup.7z *.txt----->压缩文件
+yaourt -S gbkunzip
+#+END_SRC
+
+安装后,直接执行 gbkunzip zip文件 就行了.
+
+
+gbkunzip实际上就是一段python代码,它其实就是对 gbzip module中 ZipFile 类的一个封装.
+#+BEGIN_SRC shell
+cat $(whereis gbkunzip |awk '{print $2}')
+
+#!/usr/bin/env python3
+# fileencoding=utf-8
+
+'''
+解压 zip 文件，其中的文件名是 GB18030 编码，但系统是 Unicode 编码
+'''
+
+import sys
+import os
+from gbzip import ZipFile
+from getpass import getpass
+
+def main():
+  try:
+    z = ZipFile(sys.argv[1])
+    while True:
+      try:
+        z.extractall()
+      except RuntimeError: # encrypted zipfile
+        passwd = getpass('Enter correct password: ').encode()
+        z.setpassword(passwd)
+      else:
+        break
+    print('Everything is ok.')
+  except IndexError:
+    sys.exit('give me exactly one zipfile to extract.')
+
+if __name__ == '__main__':
+  main()
+
+#+END_SRC
+
+
+** 7zip和7z文件命令示例
+#+BEGIN_SRC shell
+yum install p7zip #------>Redhat、Fedora、Centos安装命令
+apt-get install p7zip #------>Debian、Ubuntu安装命令
+7za x home_backup.7z #------>解压缩文件  
+7za a -r txt_backup.7z *.txt #----->压缩文件
 #+END_SRC
 
 
 ** tar.Xz文件压缩操作指南
 #+BEGIN_SRC shell
-xz -d home_backup.tar.Xz------>首先解压缩Xz文件然后第二部再解包.tar文件
-tar xvf home_backup.tar------>第二部解包.tar文件
+xz -d home_backup.tar.Xz #------>首先解压缩Xz文件然后第二部再解包.tar文件
+tar xvf home_backup.tar #------>第二部解包.tar文件
 #+END_SRC
 
-*tar.Xz文件可分成两部解压,由于不常用,有的教程也说可以直接-xvjf来解压,我没试过.
+*tar.Xz文件可分成两部解压,
+有的教程也说可以直接-xvjf来解压
 Xz文件压缩命令的选项是xz -z,有兴趣的大家可以man一下.这个压缩方式压缩率很厉害.
 
 
 ** .gz,.bz2,.Z文件压缩解压操作
+
 #+BEGIN_SRC shell
-gzip -d home_backup.gz------>解压缩
-gunzip home_backup.gz------>压缩
-bzip2 -d home_backup.bz2------>解压缩
-bunzip2 home_backup.bz2------>压缩
-uncompress home_backup.Z------>解压缩
-compress home_backup.Z------>压缩
+#.gz文件
+gzip -d home_backup.gz #------>解压缩
+gunzip home_backup.gz #------>压缩
+#.bz2文件
+bzip2 -d home_backup.bz2 #------>解压缩
+bunzip2 home_backup.bz2 #------>压缩
+#.Z文件
+uncompress home_backup.Z #------>解压缩
+compress home_backup.Z #------>压缩
 #+END_SRC
 
 
-* tar命令详细功能和格式
+** ar解压缩-->deb文件的格式
+
+一个 deb 包其实就是一个ar格式的打包文件. 可以用 ar 命令解开 deb 包.
+#+BEGIN_SRC shell
+debdir=/tmp/sl
+mkdir -p $debdir
+debfile=$debdir/sl.deb
+if ! [[ -f $debfile ]];then
+    wget http://mirrors.kernel.org/ubuntu/pool/restricted/s/sl-modem/sl-modem-daemon_2.9.11~20110321-12_i386.deb -O $debfile
+fi
+ar -x $debfile
+ls $debdir
+
+control.tar.gz
+data.tar.xz
+debian-binary
+sl.deb
+#+END_SRC
+
+
+解开后,会发现 deb 包中包含了三个文件:
+
+1. debian-binary – 这是个文本文件,指明deb包格式的版本号.
+2. control.tar.gz – 这个压缩文件中包含了md5验证码,并且包含了安装package时的一些配置信息.
+3. data.tar.xz – 这个压缩文件中包含的是所有会安装到系统中的文件.
+
+
+
+
+* tar详细功能和格式
 可以将代表功能和选项的单个字母合并；当使用单个字母时，可以不用在字母前面加“-”
 某些版本的tar要求严格按照功能字、选项字的顺序，而有些版本的tar并不在意这个顺序。
 
@@ -134,3 +246,34 @@ compress home_backup.Z------>压缩
   + -J，–xz，–lzma 调用XZ Utils执行压缩或解压缩。依赖XZ Utils。
   + -z，–gzip，–gunzip，–ungzip 调用gzip执行压缩或解压缩
   + -Z，–compress，–uncompress 调用compress执行压缩或解压缩
+
+
+* 使用tar代替cp进行拷贝
+
+一般来说我们都是使用cp进行拷贝的,然而使用cp拷贝时会修改被拷贝文件的创建日期,修改日期以及所有权.
+
+另外,如果一个文件是另一个文件的硬链接的话,这个文件在拷贝时也会被复制成一个完全独立的新文件.
+
+- 为了解决这些问题,可以使用tar来代替cp进行拷贝. 像这样:
+  #+BEGIN_SRC shell
+  tar cvf - * | (cd /dest/dir && tar xvfp -)
+  #+END_SRC
+
+  这里第一个tar将文件打包后写入标准输出,然后通过管道传递给第二个tar,由第二个tar进行解压. 注意到第二个tar里面使用了 -p, 以保证文件权限不会被更改.
+
+  使用这种方式的好处除了可以保持文件的硬连接,创建时间,修改时间以及所有权以外
+
+- 还可以做到 通过ssh复制到远程服务器上!
+  #+BEGIN_SRC shell
+  tar -cvf - * | ssh remote_host 'cd /dest;tar xvfp -'
+  #+END_SRC
+
+  这在没有rsync或scp时非常好用(不过这种情况应该很少见吧^_^).
+
+- 也可以与find命令相结合
+  #+BEGIN_SRC shell
+  find . -depth |xargs tar cvf - | (cd ../tar_cp/ && tar xvfp -)
+  #+END_SRC
+
+
+

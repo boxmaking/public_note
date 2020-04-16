@@ -152,9 +152,7 @@ wget --ftp-user=username --ftp-password=password ftp://url-to-ftp-file
 
    
 * 附录 ::
-命令参数：
-
-启动参数：
+** 启动参数：
 
 -V, –version 显示wget的版本后退出
 
@@ -164,7 +162,7 @@ wget --ftp-user=username --ftp-password=password ftp://url-to-ftp-file
 
 -e, –execute=COMMAND 执行`.wgetrc’格式的命令，wgetrc格式参见/etc/wgetrc或~/.wgetrc
 
-记录和输入文件参数：
+** 记录和输入文件参数：
 
 -o, –output-file=FILE 把记录写到FILE文件中
 
