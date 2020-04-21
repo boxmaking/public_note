@@ -1,12 +1,12 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+TITLE: emacs帮助系统
+#+DATE:<2020-04-21-112/Tuesday>
 #+KEYWORDS: emacs,emacs-help
 #+LANGUAGE: zh-CN
 
 
 * C-h w :: 查看某个函数绑定的快捷键
 where-is 命令
-
 C-h w 函数名称
 
 如果您希望知道某个特定函数的快捷键绑定

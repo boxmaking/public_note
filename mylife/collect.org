@@ -1,7 +1,14 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+TITLE: 我的朝花夕拾
+#+DATE:<2020-04-20-111/Monday>
 #+KEYWORDS: collect
 #+LANGUAGE: zh-CN
+
+* 未曾清贫难成人,
+不经打击老天真。
+自古英雄出炼狱,
+从来富贵入凡尘。
+<2020-04-20/Monday 20:37:13>
 
 * 铁指寸进，零秒精通
 铁指寸进，零秒精通

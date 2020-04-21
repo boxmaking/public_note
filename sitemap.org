@@ -8,6 +8,7 @@
   - [[file:emacs/color-theme.org][emacs-color-theme主题]]
   - [[file:emacs/emacs-pdf.org][emacs-pdf]]
   - [[file:emacs/emacs-tutorial.org][emacs-tutorial]]
+  - [[file:emacs/cua-mode.org][emacs-可视化编辑教程]]
   - [[file:emacs/emacs-init.org][emacs-配置文件]]
   - [[file:emacs/emacs-bookmark.org][emacs书签使用教程]]
   - [[file:emacs/emacs-proxy.org][emacs使用代理教程]]
