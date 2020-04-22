@@ -1,5 +1,6 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: 安装xfce
+#+TITLE: debian安装xfce相关
+#+DATE:<2020-04-22-113/Wednesday>
 #+KEYWORDS: install-xfce
 #+LANGUAGE: zh-CN
 
