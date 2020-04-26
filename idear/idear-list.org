@@ -1,144 +1,48 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+TITLE: idear-list
-#+KEYWORDS: ps-idear
+#+DATE:<2020-04-23-114/Thursday>
+#+KEYWORDS: 我的计划
 #+LANGUAGE: zh-CN
 
+* TODO tar-密码设置[0/2]
+- [ ] 密码设置
+- [ ] 加密教程
 
-
-#+BEGIN: clocktable :scope file :maxlevel 2
-#+CAPTION: Clock summary at [2020-03-22 Sun 22:25]
-| Headline                    | Time       |         |
-|-----------------------------+------------+---------|
-| *Total time*                | *6d 15:51* |         |
-|-----------------------------+------------+---------|
-| emacs -- learn[2/6]         | 4d 20:01   |         |
-| \_  emacs-color-theme插件   |            |   22:00 |
-| \_  emacs-linenumber[1/1]   |            |   22:00 |
-| \_  emacs-key-绑定设置[1/2] |            | 3d 0:01 |
-| linux -- learn[2/8]         | 1d 19:50   |         |
-| \_  linux-locales设置教程   |            |   23:50 |
-| \_  linux-figlet教程        |            |   20:00 |
-#+END:
-
-* DOING org-mode -- learn
-
-- State "DOING"      from "TODO"       [2020-03-22 Sun 23:21]
-** DOING org-mode教程
-- State "DOING"      from "TODO"       [2020-03-22 Sun 23:21]
-:LOGBOOK:
-CLOCK: [2020-03-17 Sun 22:27]--[2020-03-22 Sun 23:17] => 120:50
-:END:
-
-自己编写的教程 -- [[file:emacs/org-learn.org]]
-
-
-
-* TODO emacs -- learn[2/6]
-
-
-** DOING 自己编写的教程
-- State "DOING"      from "TODO"       [2020-03-22 Sun 23:21]
-:LOGBOOK:
-CLOCK: [2020-03-20 Fri 19:04]--[2020-03-22 Sun 22:27] => 51:23
-:END:
-
-   [[file:emacs/emacs-tutorial.org::738]]
-
-
-** DONE emacs-color-theme插件
-:LOGBOOK:
-CLOCK: [2020-03-19 Thu 22:20]--[2020-03-20 Fri 20:20] => 22:00
-:END:
-
-
-相关教程文件[[file:emacs/emacs-tutorial.org::217]]
-
-
-
-** TODO emacs-autocomlete插件[0/2]
-+ [ ] emacs-autocomplete,的使用
-+ [ ] 与教程文件tutorial
-
-
-
-** DONE emacs-linenumber[1/1]
-:LOGBOOK:
-CLOCK: [2020-03-20 Fri 22:15]--[2020-03-21 Sat 20:15] => 22:00
-:END:
-
-+ [X] emacs的行号模式
-  用(global-linum-mode t)就可以了
-  网络教程地址:[https://www.xuebuyuan.com/1616793.html]
-
-
-
-
-** DOING emacs-key-绑定设置[1/2]
-
-- State "DOING"      from "TODO"       [2020-03-22 Sun 23:22]
-+ [X] 今天学习了,f1-f10的键盘绑定设置
-  :LOGBOOK:
-  CLOCK: [2020-03-19 Thu 22:21]--[2020-03-22 Sun 22:22] => 72:01
- :END:
-
-  我也忘记从网上那个地方找的键绑定文件了,不过还是挺全面的.
-  文件地址[[file:~/.emacs.d/loadfile/pengshao-key-building.el]]
+* TODO emacs-key-绑定设置[0/2]
 + [ ] 等有机会学习以下org-mode的键盘绑定那三个,一直不明白.
++ [ ] 学习键绑定的设置教程
 
 
-
-
-** TODO emacs-autoinsert插件[0/2]
+* TODO emacs-autoinsert插件[0/2]
 + [ ] autoinsert使用
 + [ ] autoinsert tutorial
 
 
+* TODO linux-fdisk磁盘相关命令使用
 
 
-* linux -- learn[2/8]
-
-** TODO linux-fdisk磁盘相关命令使用
-
-
-** DONE linux-locales设置教程
-:LOGBOOK:
-CLOCK: [2020-03-17 Tue 22:22]--[2020-03-18 Wed 22:12] => 23:53
-:END:
-
-相关教程文件[[file:linux/linux-common-command.org::7]]
-
-
-** DONE linux-figlet教程
-:LOGBOOK:
-CLOCK: [2020-03-17 Sun 22:23]--[2020-03-18 Sun 18:23] => 20:00
-:END:
-
-相关教程文件[[file:linux/linux-common-command.org::2322]]
-
-
-** TODO linux-find使用[0/3]
+* TODO linux-find使用[0/3]
 + [ ] fine use tutorial
 + [ ] find -mtime use tutorial
 + [ ] 如何嵌套别的命令
 
 
-** TODO linux-file-time[0/2]
+* TODO linux-file-time[0/2]
 + [ ] atime/ctime/mtime区别
 + [ ] atime/ctime/mtime使用
 
 
-** TODO stat命令使用
+* TODO stat命令使用
 
 
-** TODO ln命令使用[0/2]
+* TODO ln命令使用[0/2]
 + [ ] ln -s
 + [ ] ln
 
 
-** TODO exec和xargs使用教程[0/2]
+* TODO exec和xargs使用教程[0/2]
 + [ ] exec教程
 + [ ] xargs教程
-相关教程文件[[file:linux/linux-common-command.org::168]]
 
 
 * TODO DEFERRED 电子电路
@@ -148,7 +52,3 @@ CLOCK: [2020-03-17 Sun 22:23]--[2020-03-18 Sun 18:23] => 20:00
 
 
 * TODO 三角函数
-* Tasks
-** TODO 
-  [2020-04-01 Wed]
-  [[file:~/.emacs.d/loadfile/org-mode.el][file:~/.emacs.d/loadfile/org-mode.el]]

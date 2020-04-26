@@ -1,0 +1,14 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 更改文件的属性相关
+#+DATE:<2020-04-24-115/Friday>
+#+KEYWORDS: 更改文件的属性相关
+#+LANGUAGE: zh-CN
+
+
+* chgrp chown
+
+| chgrp | 更改文件或目录的群组 |
+| chown | 更改文件的所有者     |
+
+| '-R' | 递归 |
+|      |      |

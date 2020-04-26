@@ -5,12 +5,8 @@
 #+LANGUAGE: zh-CN
 
 
-* youtube-dl下载
-下载地址----->[[https://ytdl-org.github.io/youtube-dl/download.html]] 
-
-
 * youtube-dl安装
-下载地址都有
+下载地址都有https://ytdl-org.github.io/youtube-dl/download.html]] 
 1. To install it right away for all UNIX users (Linux, OS X, etc.), type:
    #+BEGIN_SRC shell
    sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
@@ -31,44 +27,115 @@ youtube-dl --proxy socks5://127.0.0.1:1080 https://www.youtube.com/watch?v=6_gLU
 
 #http代理
 youtube-dl --proxy http://127.0.0.1:8118 https://www.youtube.com/watch?v=6_gLU_OStK0
+
+#https代理
+youtube-dl --proxy https://127.0.0.1:8118 https://www.youtube.com/watch?v=6_gLU_OStK0
 #+END_SRC
 
+也可以在youtube-dl的配置文件中设置代理.
 
-* youtube-dl使用
-1. 首先因为youtube-dl会下载到当前的目录，
-   #+BEGIN_SRC shell
-   mkdir Test
-   cd ./Test
-   #+END_SRC
 
-2. 进入到Test目录里后就可以使用youtube-dl下载视频了
+* 调用arai2,下载
+#+BEGIN_SRC sh
+#下载支持块文件的视频
+youtube-dl url --external-downloader aria2c --external-downloader-args "-x 16 -k 1M"
+#下载不支持块文件的视频,youtube 不支持块大小
+youtube-dl url --external-downloader aria2c --external-downloader-args "-x 16 "
+#+END_SRC
+
+#+CAPTION: 参数说明
+ | '--external-downloader aria2c' | 调用外部下载工具                     |
+ | '--external-downloader-args'  | 外部下载工具指定参数                 |
+ | '-x 16'                       | 启用aria2 16个线程，最多就支持16线程 |
+ | '-K 1M'                       | 指定块的大小                         |
+
+ 
+* youtube-dl下载
+1. 下载选项(附加代理选项)
    语法: youtube-dl 视频网址
    #+BEGIN_SRC shell
    youtube-dl --proxy socks5://127.0.0.1:1080 https://www.youtube.com/watch?v=6_gLU_OStK0
    #+END_SRC
 
-3. 用以下代码查看可供下载的格式：
+2. 用以下代码查看可供下载的格式：
   #+BEGIN_SRC shell
   #查看格式编号-F/--all-formats
   youtube-dl -F https://www.youtube.com/watch?v=lW9Uudkx42g
+
   #下载指定编号-f/--list-formats
   youtube-dl -f 138 https://www.youtube.com/watch?v=lW9Uudkx42g
   #+END_SRC
 
-4. 批量下载的参数
-   将链接全部保存到一个文本文件里
-   一行一个网址，文件保存在Downloads文件夹下面。
+
+* 批量下载的参数
+1. 将链接全部保存到一个文本文件里
+
+2. 一行一个网址，文件保存在Downloads文件夹下面。
    #+BEGIN_SRC shell
    youtube-dl -c -i -a video_url.txt
    #+END_SRC
-
-   youtube-dl提供了很多有用的附加参数，这里用到的是：
-
+   
+   参数说明 :
    -c 断点续传（如果由于意外原因下载中断了，再次启动下载命令时，可以实现断点续传）
    -i 忽略报错（如果出现某些链接无法打开或者下载的问题，会自动绕过，继续下载其他视频）
    -a 包含要下载的URL的文件,每行一个URL。行开始用'＃'，';'或']'被认为是评论和忽略)
 
-5. 下载youtube播放列表
+
+* 常用参数
+#+BEGIN_SRC shell
+youtube-dl --list-extractors  #查看支持网站列表
+youtube-dl -U  #程序升级
+youtube-dl --get-format URL #获取视频格式
+youtube-dl -F URL #获取所有格式（目前仅支持YouTube），例如：
+
+youtube-dl -F https://www.youtube.com/watch?v=nCfrfCzaB2A
+[youtube] Setting language
+[youtube] n-BXNXvTvV4: Downloading video webpage
+[youtube] n-BXNXvTvV4: Downloading video info webpage
+[youtube] n-BXNXvTvV4: Extracting video information
+格式编号
+format code extension resolution  note
+171         webm      audio only  DASH audio , audio@ 48k (worst)
+140         m4a       audio only  DASH audio , audio@128k
+160         mp4       144p        DASH video , video only
+242         webm      240p        DASH video , video only
+133         mp4       240p        DASH video , video only
+243         webm      360p        DASH video , video only
+134         mp4       360p        DASH video , video only
+244         webm      480p        DASH video , video only
+135         mp4       480p        DASH video , video only
+247         webm      720p        DASH video , video only
+136         mp4       720p        DASH video , video only
+248         webm      1080p       DASH video , video only
+137         mp4       1080p       DASH video , video only
+271         webm      1440p       DASH video , video only
+264         mp4       1440p       DASH video , video only
+272         webm      2160p       DASH video , video only
+138         mp4       2160p       DASH video , video only
+100         webm      360p        3D
+82          mp4       360p        3D
+84          mp4       720p        3D
+17          3gp       176x144
+36          3gp       320x240
+5           flv       400x240
+43          webm      640x360
+18          mp4       640x360
+22          mp4       1280x720    (best)
+
+如果你想下真正的最高画质需要分别下上面的138和140，然后用视频软件合成。
+
+下载普通的视频只需要youtube-dl https://www.youtube.com/watch?v=nCfrfCzaB2A 
+默认下载下来的格式为webm
+
+youtube-dl -f format URL #下载指定格式的视频，这里以下载1080p原画质量的视频格式为例:
+youtube-dl -f 137 http://www.youtube.com/watch?v=n-BXNXvTvV4
+
+所以要下载最快的就得用下面这样的例子记住这个`22`
+youtube-dl -f 22 http://www.youtube.com/watch?v=n-BXNXvTvV4
+#+END_SRC
+
+
+* 下载youtube播放列表
    #+BEGIN_EXAMPLE
    youtube-dl -cit https://www.youtube.com/playlist?list=PLCJcQMZOafICYrx7zhFu_RWHRZqpB8fIW
    #+END_EXAMPLE
@@ -81,45 +148,25 @@ youtube-dl --proxy http://127.0.0.1:8118 https://www.youtube.com/watch?v=6_gLU_O
 
    那如何获取视频列表呢？其实我们只需要获取到这一串列表码即可，
    如PLCJcQMZOafIC81DKkddectaYwp20xDMwf
-   1. 进入用户的播放列表界面
+      1. 进入用户的播放列表界面
    2. 例如：https://www.youtube.com/user/GreatOnlineTutorials/playlists，
    3. 并在源码中找到每个播放列表的list值
    4. 拼接在https://www.youtube.com/playlist/?list=后面即可。
-   
-
+  
  
-
-
-
 * CONFIGURATION
-
- On Linux and macOS, 
+On Linux and macOS
 - /etc/youtube-dl.conf--->the system wide configuration file is located
 - ~/.config/youtube-dl/config---->the user wide configuration file
 
-For example, with the following configuration file youtube-dl will always extract the audio, not copy the mtime, use a proxy and save all videos under Movies directory in your home directory:
-#+BEGIN_SRC shell
-# Lines starting with # are comments
+我的配置文件
+#+INCLUDE: "~/.config/youtube-dl/config"
 
-# Always extract audio
--x
+如果不想用配置文件启动
+You can use "--ignore-config" if you want to disable the configuration file for a particular youtube-dl run.
+也可以用另外的配置文件
+You can also use "--config-location PATH" if you want to use custom configuration file for a particular youtube-dl run.
 
-# Do not copy the mtime
-# --no-mtime
-
-# Use this proxy
---proxy socks5://127.0.0.1:1090
-
-# Save all videos under Movies directory in your home directory
-# -o ~/Movies/%(title)s.%(ext)s
-
-#+END_SRC
-
-Note that options in configuration file are just the same options aka switches used in regular command line calls thus there must be no whitespace after - or --, e.g. -o or --proxy but not - o or -- proxy.
-
-You can use --ignore-config if you want to disable the configuration file for a particular youtube-dl run.
-
-You can also use --config-location if you want to use custom configuration file for a particular youtube-dl run.
 
 * man youtube-dl
 #+BEGIN_EXAMPLE
@@ -136,8 +183,7 @@ Options:
     --list-extractors                列出所有的提取器(支持的网站)
     --extractor-descriptions         同上
     --force-generic-extractor        强制使用通用提取器下载
-    --default-search PREFIX          使用此前缀补充不完整的URLs，例如："ytsearch2 yt-dl" 从youtube搜索并下载两个关于yt-dl视频. 使用"auto"youtube-dl就会猜一个，一般效果等价于"ytsearch"("auto_warning"猜测时加入警告).我已知支持的PREFIX：ytsearch (youtube), ytsearchdate (youtube), yvsearch (yahoo videos), gvsearch (google videos)
-    --ignore-config                  不读取配置文件，当时用了全局配置文件/etc/youtube-dl.conf:不再读取 ~/.config/youtube-dl/config (%APPDATA%/youtube-dl/config.txt on Windows)
+    --ignore-config                  不读取配置文件，仅读取/etc/youtube-dl.conf
     --config-location PATH           使用指定路径下的配置文件
     --flat-playlist                  列出列表视频但不下载
     --mark-watched                   标记看过此视频 (YouTube only)
@@ -155,7 +201,7 @@ Options:
     --geo-verification-proxy URL     使用此代理地址测试一些有地理限制的地址
     --geo-bypass                     绕过地理限制通过伪装X-Forwarded-For HTTP头部的客户端ip (实验)
     --no-geo-bypass                  不 绕过地理限制通过伪装X-Forwarded-For HTTP头部的客户端ip (实验)
-    --geo-bypass-country CODE        强制绕过地理限制通过提供准确的ISO 3166-2标准的国别代码(实验) 注：以上三个实验参数实测未成功
+    --geo-bypass-country CODE        强制绕过地理限制通过提供准确的ISO 3166-2标准的国别代码(实验) 
 
   视频选择:
     --playlist-start NUMBER          指定列表中开始下载的视频(默认为1)
@@ -171,7 +217,9 @@ Options:
     --dateafter DATE                 仅下载上传日期在指定日期或之后的视频 (i.e. inclusive)
     --min-views COUNT                不下载观影数小于指定值的视频
     --max-views COUNT                不下载观影数大于指定值的视频
+
     --match-filter FILTER            通用视频过滤器. Specify any key (see help for -o for a list of available keys) to match if the key is present, !key to check if the key is not present, key > NUMBER (like "comment_count > 12", also works with >=, <, <=, !=, =) to compare against a number,key = 'LITERAL' (like "uploader = 'Mike Smith'", also works with !=) to match against a string literal and & to require multiple matches. Values which are not known are excluded unless you put a question mark (?) after the operator. For example, to only match videos that have been liked more than 100 times and disliked less than 50 times (or the dislike functionality is not available at the given service), but who also have a description, use --match-filter "like_count > 100 & dislike_count <? 50 & description" .
+
     --no-playlist                    当视频链接到一个视频和一个播放列表时，仅下载视频
     --yes-playlist                   当视频链接到一个视频和一个播放列表时，下载视频和播放列表
     --age-limit YEARS                下载合适上传年限的视频
@@ -307,3 +355,5 @@ Options:
     --exec CMD                       在下载后对文件执行命令,类似于find -exec语法.示例：--exec'adb push {} /sdcard/Music/ && rm {}'
     --convert-subs FORMAT            转换字幕格式(当前支持: srt|ass|vtt)
 #+END_EXAMPLE
+
+

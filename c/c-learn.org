@@ -1,0 +1,6 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: c语言学习笔记
+#+KEYWORDS: c语言
+#+DATE:<2020-04-24-115/Friday>
+#+LANGUAGE: zh-CN
+

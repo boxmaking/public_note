@@ -2,6 +2,8 @@
 
 - [[file:README.org][README]]
 - [[file:index.org][index]]
+- c
+  - [[file:c/c-learn.org][c语言学习笔记]]
 - emacs
   - [[file:emacs/eshell.org][Eshell使用笔记]]
   - [[file:emacs/auto-complete.org][auto-complete插件教程]]
@@ -25,28 +27,29 @@
 - idear
   - [[file:idear/idear-list.org][idear-list]]
 - linux
-  - [[file:linux/systeminfo.org]["systeminfo-linux"]]
   - [[file:linux/apt-get-tutorial.org][apt-get-tutorial]]
   - [[file:linux/bash-marks.org][bash目录快速跳转---为目录添加书签]]
   - [[file:linux/crontab.org][crotab-tutorial]]
-  - [[file:linux/date-calendar.org][date-cal-使用]]
+  - [[file:linux/date-calendar.org][date-calendat-使用教程]]
+  - [[file:linux/install-xfce.org][debian安装xfce相关]]
   - [[file:linux/figlet.org][figlet-tutorial]]
   - [[file:linux/find-tutorial.org][find-tutorial]]
-  - [[file:linux/install-xfce.org][install-xfce]]
   - [[file:linux/kill.org][linux-kill]]
   - [[file:linux/port.org][linux查看端口进程几种方法]]
   - [[file:linux/linux-proxy.org][linux的代理设置]]
+  - [[file:linux/systeminfo.org][linux系统信息查询教程]]
   - [[file:linux/locales-setting.org][locales-setting]]
   - [[file:linux/man.org][man-tutorial]]
   - [[file:linux/root-completion.org][root-completion]]
   - [[file:linux/scrot.org][scrot-tutorial:一个截屏软件教程]]
   - [[file:linux/shell-initfile.org][shell的初始化文件]]
-  - [[file:linux/tar.org][tar命令详细功能和格式]]
+  - [[file:linux/tar.org][tar命令详细功能和格式---ar解压缩deb文件]]
   - [[file:linux/tree.org][tree-详解]]
   - [[file:linux/wget.org][wget-用法详解释]]
-  - [[file:linux/who-last-top-w-uptime.org][who-last-top-w-uptime]]
+  - [[file:linux/who-last-top-w-uptime.org][who,last-reboot,top,w,uptime,命令教程]]
   - [[file:linux/youtube-dl.org][youtube-dl使用教程]]
   - [[file:linux/after-install-debian.org][安装debian后进行的设置]]
+  - [[file:linux/chmod-org.org][更改文件的属性相关]]
   - [[file:linux/linux-common-command.org][未整理的linux学习笔记]]
   - [[file:linux/ln.org][链接相关的教程]]
 - mylife
