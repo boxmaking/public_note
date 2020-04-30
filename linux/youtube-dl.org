@@ -4,8 +4,7 @@
 #+KEYWORDS: youtube-dl使用教程
 #+LANGUAGE: zh-CN
 
-
-* youtube-dl安装
+* youtube-dl+ffmpeg安装
 下载地址都有https://ytdl-org.github.io/youtube-dl/download.html]] 
 1. To install it right away for all UNIX users (Linux, OS X, etc.), type:
    #+BEGIN_SRC shell
@@ -17,6 +16,12 @@
    #+BEGIN_SRC shell
    sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
    sudo chmod a+rx /usr/local/bin/youtube-dl
+   #+END_SRC
+3. 安装 FFmpeg
+   #+BEGIN_SRC sh
+   add-apt-repository ppa:djcj/hybrid
+   apt-get update
+   apt-get install ffmpeg
    #+END_SRC
 
 
@@ -33,6 +38,8 @@ youtube-dl --proxy https://127.0.0.1:8118 https://www.youtube.com/watch?v=6_gLU_
 #+END_SRC
 
 也可以在youtube-dl的配置文件中设置代理.
+注意,aria2只支持http和https代理.
+#+INCLUDE: "~/.config/youtube-dl/config"
 
 
 * 调用arai2,下载
@@ -44,12 +51,14 @@ youtube-dl url --external-downloader aria2c --external-downloader-args "-x 16 "
 #+END_SRC
 
 #+CAPTION: 参数说明
- | '--external-downloader aria2c' | 调用外部下载工具                     |
- | '--external-downloader-args'  | 外部下载工具指定参数                 |
- | '-x 16'                       | 启用aria2 16个线程，最多就支持16线程 |
- | '-K 1M'                       | 指定块的大小                         |
-
+|--------------------------------+--------------------------------------|
+| '--external-downloader aria2c' | 调用外部下载工具                     |
+| '--external-downloader-args'   | 外部下载工具指定参数                 |
+| '-x 16'                        | 启用aria2 16个线程，最多就支持16线程 |
+| '-K 1M'                        | 指定块的大小                         |
+|--------------------------------+--------------------------------------|
  
+
 * youtube-dl下载
 1. 下载选项(附加代理选项)
    语法: youtube-dl 视频网址
@@ -61,10 +70,63 @@ youtube-dl url --external-downloader aria2c --external-downloader-args "-x 16 "
   #+BEGIN_SRC shell
   #查看格式编号-F/--all-formats
   youtube-dl -F https://www.youtube.com/watch?v=lW9Uudkx42g
-
-  #下载指定编号-f/--list-formats
-  youtube-dl -f 138 https://www.youtube.com/watch?v=lW9Uudkx42g
   #+END_SRC
+  
+  #+BEGIN_SRC sh
+  youtube-dl -F https://www.youtube.com/watch?v=nCfrfCzaB2A
+  [youtube] Setting language
+  [youtube] n-BXNXvTvV4: Downloading video webpage
+  [youtube] n-BXNXvTvV4: Downloading video info webpage
+  [youtube] n-BXNXvTvV4: Extracting video information
+  格式编号
+  format code extension resolution  note
+  171         webm      audio only  DASH audio , audio@ 48k (worst)
+  140         m4a       audio only  DASH audio , audio@128k
+  160         mp4       144p        DASH video , video only
+  242         webm      240p        DASH video , video only
+  133         mp4       240p        DASH video , video only
+  243         webm      360p        DASH video , video only
+  134         mp4       360p        DASH video , video only
+  244         webm      480p        DASH video , video only
+  135         mp4       480p        DASH video , video only
+  247         webm      720p        DASH video , video only
+  136         mp4       720p        DASH video , video only
+  248         webm      1080p       DASH video , video only
+  137         mp4       1080p       DASH video , video only
+  271         webm      1440p       DASH video , video only
+  264         mp4       1440p       DASH video , video only
+  272         webm      2160p       DASH video , video only
+  138         mp4       2160p       DASH video , video only
+  100         webm      360p        3D
+  82          mp4       360p        3D
+  84          mp4       720p        3D
+  17          3gp       176x144
+  36          3gp       320x240
+  5           flv       400x240
+  43          webm      640x360
+  18          mp4       640x360
+  22          mp4       1280x720    (best)
+  #+END_SRC
+  如果你想下真正的最高画质需要分别下上面的138和140，然后用视频软件合成。
+
+3. 第一列是 id，第二列是文件格式，后面是视频信息。
+   如果直接想下载哪一种格式的就直接 -f id 就好了，比如下载格式为 720p / mp4 格式的，它的 id 是 22，那么直接：
+   #+BEGIN_SRC sh
+   youtube-dl -f 22 https://www.youtube.com/watch?v=IW_kWtI9EUg
+   #+END_SRC
+   下载完成了
+   
+   1080p 视频和音频是分开的
+   可以看到有些格式带有 video only,有些带有 audio only
+   选两个你自己喜欢的组合吧。比如我要下载 1080p / mp4 的视频和 128k / m4a 的音频
+   他们的 id 分别是 137 和 140
+   #+BEGIN_SRC sh
+   youtube-dl -f 137+140 https://www.youtube.com/watch?v=IW_kWtI9EUg
+   #+END_SRC
+   
+   youtube-dl 就用下载这两个视频和音频并调用 FFmpeg 合成为一个文件，并删除原来两个视频和音频。
+   mp4 + m4a 会合成为一个 mp4 文件， mp4 + webm 会兼容合成为 .mkv 文件，一般为了方便视频以后上传什么的我都选择 mp4 + m4a 组合。
+
 
 
 * 批量下载的参数
@@ -88,41 +150,6 @@ youtube-dl -U  #程序升级
 youtube-dl --get-format URL #获取视频格式
 youtube-dl -F URL #获取所有格式（目前仅支持YouTube），例如：
 
-youtube-dl -F https://www.youtube.com/watch?v=nCfrfCzaB2A
-[youtube] Setting language
-[youtube] n-BXNXvTvV4: Downloading video webpage
-[youtube] n-BXNXvTvV4: Downloading video info webpage
-[youtube] n-BXNXvTvV4: Extracting video information
-格式编号
-format code extension resolution  note
-171         webm      audio only  DASH audio , audio@ 48k (worst)
-140         m4a       audio only  DASH audio , audio@128k
-160         mp4       144p        DASH video , video only
-242         webm      240p        DASH video , video only
-133         mp4       240p        DASH video , video only
-243         webm      360p        DASH video , video only
-134         mp4       360p        DASH video , video only
-244         webm      480p        DASH video , video only
-135         mp4       480p        DASH video , video only
-247         webm      720p        DASH video , video only
-136         mp4       720p        DASH video , video only
-248         webm      1080p       DASH video , video only
-137         mp4       1080p       DASH video , video only
-271         webm      1440p       DASH video , video only
-264         mp4       1440p       DASH video , video only
-272         webm      2160p       DASH video , video only
-138         mp4       2160p       DASH video , video only
-100         webm      360p        3D
-82          mp4       360p        3D
-84          mp4       720p        3D
-17          3gp       176x144
-36          3gp       320x240
-5           flv       400x240
-43          webm      640x360
-18          mp4       640x360
-22          mp4       1280x720    (best)
-
-如果你想下真正的最高画质需要分别下上面的138和140，然后用视频软件合成。
 
 下载普通的视频只需要youtube-dl https://www.youtube.com/watch?v=nCfrfCzaB2A 
 默认下载下来的格式为webm
@@ -355,5 +382,3 @@ Options:
     --exec CMD                       在下载后对文件执行命令,类似于find -exec语法.示例：--exec'adb push {} /sdcard/Music/ && rm {}'
     --convert-subs FORMAT            转换字幕格式(当前支持: srt|ass|vtt)
 #+END_EXAMPLE
-
-

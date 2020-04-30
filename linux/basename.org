@@ -1,0 +1,165 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 命令行实现回收站功能,安全的rm -rf
+#+DATE:<2020-04-30-121/Thursday>
+#+KEYWORDS: safe-rm basename
+#+LANGUAGE: zh-CN
+
+
+* 命令行实现回收站功能
+1. 编写remove.sh文件
+   #+INCLUDE: "../shellscript/remove.sh"
+2. 编写~/.bashrc文件
+   #+BEGIN_SRC sh
+   $alias rm="sh ~/remove.sh"
+   #+END_SRC
+3. 加载文件
+   #+BEGIN_SRC sh
+   source ~/.bashrc   
+   #+END_SRC
+4. 定期清理
+   #+BEGIN_SRC sh
+   0 0 * * * rm -rf /home/.trash/* 
+   #+END_SRC
+
+
+* basename教程
+** basename介绍
+basename命令允许您从不需要的文件名中去除组件。 以下是该工具的语法：
+#+BEGIN_EXAMPLE
+basename NAME [SUFFIX]
+basename OPTION... NAME...
+以下是手册页中所说的内容：
+
+basename - strip directory and suffix from filenames
+
+Print NAME with any leading directory components removed. If specified, also remove a trailing 
+SUFFIX.
+
+#+END_EXAMPLE
+
+以下是一些Q＆A风格的示例，可以让您对basename命令的工作原理有所了解。
+** basename命令如何工作？
+默认情况下，如果运行“basename”命令并将文件的完整路径作为输入，则该命令将在输出中返回文件名。 
+
+例如，当我执行以下命令时：
+#+BEGIN_SRC sh
+$basename /home/pengshao/test.txt
+#我得到以下输出：
+$test.txt
+#+END_SRC
+
+** basename可以处理多个输入吗？
+可以。 但要实现这一点，您需要使用-a命令行选项。 
+
+例如，当我执行以下命令时：
+#+BEGIN_SRC sh
+$basename -a /home/pengshao/test.txt /home/pengshao/test.jpg
+#这是我得到的输出：
+$test.txt
+$test.jpg
+#+END_SRC
+
+** 如何制作basename strip文件扩展名？
+有时，您可能只想获取文件名，而不是其扩展名
+这可以使用-s命令行选项（它要求您将Postfix作为输入传递）来完成。
+
+例如，以下命令：
+#+BEGIN_SRC sh
+$basename -s .jpg /home/pengshao/test.jpg
+#产生了这个输出：
+$test
+#+END_SRC
+
+
+** 如何使用NUL使每一行输出结束？
+默认情况下，换行符用作输出中的分隔符。 但是，如果需要，可以强制basename使用NUL作为分隔符
+这可以使用-z命令行选项完成。
+
+例如：
+#+BEGIN_SRC sh
+$basename -az /home/pengshao/test.txt /home/pengshao/test.jpg
+#这是输出：
+$test.txttest.jpg
+#+END_SRC
+
+所以你在这里看不到NUL角色
+重定向到文件编辑器就可以了.
+
+* rm -rf 删除目录时要判断目录
+#+BEGIN_SRC sh
+#!/bin/bash
+
+work_path=`pwd`
+
+#如果目录不为空，才执行删除操作
+if [ ${work_path} != "" ];then
+    rm -fr ${work_path}/*
+fi
+#+END_SRC
+
+在执行删除目录操作前，先判断要删除的目录是否为空，不为空才执行删除操作。
+
+
+* Shell 脚本指定 set -u
+
+执行脚本的时候，如果遇到不存在的变量，Bash 默认忽略它。
+#+BEGIN_SRC sh
+#!/bin/bash
+
+echo $a
+echo hello
+
+#+END_SRC
+
+上面代码中，$a 是一个不存在的变量，执行结果如下。
+#+BEGIN_SRC sh
+$ bash test.sh
+
+hello
+#+END_SRC
+
+可以发现，echo $a 输出了一个空行，Bash 忽略了不存在的 $a，然后继续执行 echo hello。
+
+最好是遇到变量不存在，脚本应该报错，而不是一声不响地往下执行。
+
+set -u 就用来改变这种行为，在脚本加上它，遇到不存在的变量就会报错，并停止执行。
+#+BEGIN_SRC sh
+#!/bin/bash
+set -u
+
+rm -fr $a/*
+echo hello
+
+#+END_SRC
+
+运行结果如下:
+#+BEGIN_SRC sh
+$ bash test.sh
+test.sh: line 4: a: unbound variable
+#+END_SRC
+
+可以看到，因为 a 是未定义变量，脚本报错了，并且不再执行后面的语句。
+
+
+* safe-rm 替换 rm
+
+safe-rm 是一个开源软件工具，这名字听起来就很安全嘛，所以它是用来替代不太安全的 rm。
+
+它可以在 /etc/safe-rm.conf 中配置路径黑名单，定义哪些不能被 safe-rm 删除。
+
+我们可以将 safe-rm 更名为 rm，假设定义了 /etc/ 无能被删除，那么删除 /etc 时就会报错：
+#+BEGIN_SRC sh
+$ rm -rf /etc/
+safe-rm: skipping /etc/
+#+END_SRC
+
+
+
+* 根文件挂载成只读
+
+在 /etc/fstab 文件，把 / 文件系统挂载成只读的方式。
+
+其中 remount,ro，就表示只读的方式挂载。
+
+只读的方式挂载后，进行删除操作是无法成功的：
+

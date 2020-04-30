@@ -5,16 +5,59 @@
 
 
 * find 常用命令
+一般格式： find+目录名称+参数
+参数: -name 文件名称
+|---------------+------------------------------|
+| '-cnewer file | 查找比file文件更新的文件     |
+|---------------+------------------------------|
 
-|----------------------------+---------------------------------|
-| find _目录_ -cnewer _file_ | - 查找以下比file文件更新的文件- |
-|                            |                                 |
+|--------------+------------------------------|
+| '-not        | 非，取反                     |
+| '-user       | 文件所有人                   |
+| '-group      | 文件所有组                   |
+| '-a          | 并且关系                     |
+| '-o          | 或者关系                     |
+|--------------+------------------------------|
+
+|--------------+------------------------------|
+| '-maxdepth   | #最大深度                    |
+| '-mindepth   | #最小深度                    |
+|--------------+------------------------------|
+
+|--------------+------------------------------|
+| '-size  20K  | 查找大小为20K的文件          |
+| '-size  -20K | -表示小于；查找比20K小的文件 |
+| '-size  +20k | +表示大于；查看比20K大的文件 |
+|--------------+------------------------------|
+
+|----------+----------------|
+| '-type   | #文件类型      |
+|----------+----------------|
+| 类型代号 | 主要的文件类型 |
+| f        | #普通文件      |
+| d        | #目录          |
+| b        | #块设备        |
+| s        | #套接字        |
+| c        | #字符设备      |
+| l        | #链接          |
+| p        | #管道          |
+|----------+----------------|
+
+|----------------+---------------------------------------------|
+| ctime 与 cmin  | 都表示按照时间查找被篡改的文件              |
+|----------------+---------------------------------------------|
+| ctime          | 以天为单位                                  |
+| cmin           | 以分钟为单位                                |
+|----------------+---------------------------------------------|
+| '-cmin  10     | 查找文件更新距离现在10分钟的文件            |
+| '-cmin  +10    | 查找文件更新距离现在超过10分钟的文件        |
+| '-cmin  -10    | 查找文件更新距离现在10分钟以内的文件        |
+| '-ctime  +/-10 | 查找文件更新距离现在超过10天/10天以内的文件 |
+|----------------+---------------------------------------------|
 
 
 * exec与xargs区别
 ** 两者都是对符合条件的文件执行所给的Linux 命令，而不询问用户是否需
-要执行该命令。
-
  1. -exec：{}表示命令的参数即为所找到的文件,以；表示comman命令的结束。\是转义符，
    因为分号在命令中还有它用途，所以就用一个\来限定表示这是一个分号而不是表示其它意思。
 
@@ -67,11 +110,121 @@ test/files/install_file
 #+END_SRC
 
 
-** 相比之下，也不难看出各自的缺点
-
+** 出各自的缺点
 1. exec 每处理一个文件或者目录，它都需要启动一次命令，效率不好;
 2. exec 格式麻烦，必须用 {} 做文件的代位符，必须用 \; 作为命令的结束符，书写不便
 3. xargs 不能操作文件名有空格的文件；
 
+
+* -exec使用教程
 综上，如果要使用的命令支持一次处理多个文件，并且也知道这些文件里没有带空格的文件，
-那么使用 xargs比较方便; 否则，就要用 exec了。
+那么使用 xargs比较方便; 否则，就要用 exec了
+
+** exec参数说明
+   -exec 参数后面跟的是command命令
+   终止是以;为结束标志的
+   这句命令后面的分号是不可缺少的(考虑到各个系统中分号会有不同的意义,所以前面加反斜杠)
+   {} 花括号代表前面find查找出来的文件名。
+
+1. 查找当前目录下的文件，并对查找结果执行ls -l 命令
+   #+BEGIN_SRC sh
+   #命令
+   find . -type f -exec ls -l {} \;
+   #输出：
+   [root@localhost home]# ls
+   1.log  2.log  3.c  4.log  test
+   [root@localhost home]# find  -type f
+   ./1.log
+   ./2.log
+   ./3.c
+   [root@localhost home]# find -type f -exec ls -l {} \;
+   -rw-r--r--. 1 root root 0 Nov 14 17:55 ./1.log
+   -rw-r--r--. 1 root root 0 Nov 14 17:55 ./2.log
+   -rwxrwxrwx. 1 root root 0 Nov 14 18:00 ./3.c
+   #+END_SRC
+
+2. 查找当前目录下，24小时内更改过的文件，并进行删除操作删除没有提示
+   #+BEGIN_SRC sh
+   #命令
+   find -type f -mtime -1 -exec rm {} \;
+   #输出
+   [root@localhost home]# ll
+   total 0
+   -rw-r--r--. 1 root root 0 Nov 14 17:55 1.log
+   -rw-r--r--. 1 root root 0 Nov 14 17:55 2.log
+   -rwxrwxrwx. 1 root root 0 Nov 14 18:00 3.c
+   drwxr-xr-x. 2 root root 6 Nov 14 18:16 4.log
+   -rw-r--r--. 1 root root 0 Nov 15 18:02 5.log
+   drwxr-xr-x. 2 root root 6 Nov 14 17:55 test
+   [root@localhost home]# find -type f -mtime -1
+   ./5.log
+   [root@localhost home]# find -type f -mtime -1 -exec rm {} \;
+   [root@localhost home]# ls
+   1.log  2.log  3.c  4.log  test
+   #+END_SRC
+
+   一定要小心!当使用诸如mv或rm命令时,可以使用-exec选项的安全模式.-ok选项它将在对每个匹配到的文件进行操作之前提示你.
+
+3. 查找当前目录下文件名以.log结尾且24小时内更改过的文件,并进行安全删除操作,即删除前会进行询问
+   #+BEGIN_SRC sh
+   #命令：
+   find -name "*.log" -type f  -mtime -1 -ok rm {} \;
+   #输出：
+   [root@localhost home]# touch 6.c
+   [root@localhost home]# touch 7.c
+   [root@localhost home]# ls
+   1.log  2.log  3.c  4.log  6.log  7.c  test
+   [root@localhost home]# ll
+   total 0
+   -rw-r--r--. 1 root root 0 Nov 14 17:55 1.log
+   -rw-r--r--. 1 root root 0 Nov 14 17:55 2.log
+   -rwxrwxrwx. 1 root root 0 Nov 14 18:00 3.c
+   drwxr-xr-x. 2 root root 6 Nov 14 18:16 4.log
+   -rw-r--r--. 1 root root 0 Nov 15 18:07 6.log
+   -rw-r--r--. 1 root root 0 Nov 15 18:07 7.c
+   drwxr-xr-x. 2 root root 6 Nov 14 17:55 test
+   [root@localhost home]# find -name "*.log" -mtime -1 -ok rm {} \;
+   < rm ... ./6.log > ? y
+   [root@localhost home]# ll
+   total 0
+   -rw-r--r--. 1 root root 0 Nov 14 17:55 1.log
+   -rw-r--r--. 1 root root 0 Nov 14 17:55 2.log
+   -rwxrwxrwx. 1 root root 0 Nov 14 18:00 3.c
+   drwxr-xr-x. 2 root root 6 Nov 14 18:16 4.log
+   -rw-r--r--. 1 root root 0 Nov 15 18:07 7.c
+   drwxr-xr-x. 2 root root 6 Nov 14 17:55 test
+   [root@localhost home]# ls
+   1.log  2.log  3.c  4.log  7.c  test
+   #+END_SRC
+
+   -ok： 和-exec的作用相同，只不过以一种更为安全的模式来执行该参数所给出的shell命令，在执行每一个命令之前，都会给出提示，让用户来确定是否执行
+
+4. 查找当前目录下的以.log结尾的文件或目录，并移动到test目录下
+   #+BEGIN_SRC sh
+   #命令：
+   find -name "*.log" -exec mv {} test \;
+   #输出：
+   [root@localhost home]# tree
+   .
+   ├── 1.log
+   ├── 2.log
+   ├── 3.c
+   ├── 4.log
+   ├── 7.c
+   └── test
+   
+   2 directories, 4 files
+   [root@localhost home]# find -name "*.log" -exec mv {} test \;
+   [root@localhost home]# ls
+   3.c  7.c  test
+   [root@localhost home]# tree
+   .
+   ├── 3.c
+   ├── 7.c
+   └── test
+   ├── 1.log
+   ├── 2.log
+   └── 4.log
+   
+   2 directories, 4 files
+   #+END_SRC
