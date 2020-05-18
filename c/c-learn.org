@@ -37,6 +37,7 @@
 - 负责资讯的输入和输出(i/o)
 - printf是标准输入
 
+
 * integer整数
 - 整数
  [[https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=24&ved=2ahUKEwim-NrZnJrpAhW1JaYKHTmOBP0QmhMwF3oECBIQFw&url=https%3A%2F%2Fzh.wikipedia.org%2Fzh-cn%2F%25E6%2595%25B4%25E6%2595%25B0&usg=AOvVaw0CE4DUs8WHWiBmXTa6bFC_][维基百科]]
@@ -68,6 +69,7 @@
 - 使用long int代替int.
 - 使用long long int 代替 int.
 - [ ] 使用复合型别(阵列).
+
 
 * 整数的溢出(overflow)
 

@@ -41,16 +41,16 @@ tar -czvf ~/nutstorefiles/dropbox/Dropbox/debianbackup/linux-backup-$(date +%Y%m
 
 
 #删除临时文件夹
-find ~/mybackup-temp/* -name "*"  -ok rm -rf {} \;
+find ~/mybackup-temp/* -name "*"  -ok rm -rf  {} \;
 
 
 #删除文件夹下超过3天的文件
-find ~/nutstorefiles/dropbox/Dropbox/debianbackup/ -mtime +3 -name "*.tar.gz" -exec rm -rf {} \;
+find ~/nutstorefiles/dropbox/Dropbox/debianbackup/ -mtime +3 -name "*.tar.gz" -exec  rm -rf  {} \;
 
 #再备份以下防止云盘误删文件
 
 cp ~/nutstorefiles/dropbox/Dropbox/debianbackup/*.tar.gz ~/backup.tmp/
-find ~/backup.tmp/ -mtime +5 -name "*.tar.gz" -exec rm -rf {} \;
+find ~/backup.tmp/ -mtime +5 -name "*.tar.gz" -exec rm -rf  {} \;
 
 
 

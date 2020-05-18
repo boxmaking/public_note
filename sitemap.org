@@ -24,6 +24,9 @@
 - git
   - [[file:git/git-learn.org][git-学习笔记]]
   - [[file:git/git-proxy.org][git使用代理教程]]
+- hardware
+  - [[file:hardware/character-set.org][字符集和编码]]
+  - [[file:hardware/storage.org][存储与文件系统]]
 - idear
   - [[file:idear/idear-list.org][idear-list]]
 - linux
@@ -87,3 +90,5 @@
 - share
   - [[file:share/emule-life.org][emule情怀]]
   - [[file:share/mybookmarks.org][多年以来收藏的书签]]
+- taobao
+  - [[file:taobao/xuanpin.org][淘宝产品选择]]
