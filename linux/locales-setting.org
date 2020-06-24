@@ -41,6 +41,7 @@ apt-get install ibus ibus-gtk ibus-pinyin
 + 安装之后就能够在ibu的设置里面添加任何你想要的输入法
 + 设置快捷键,测试.
 
+
 * locale指令
 运行locale指令得到当前系统编码设置的详细资料
 
@@ -60,6 +61,10 @@ apt-get install ibus ibus-gtk ibus-pinyin
 
 版权声明：本文为CSDN博主「JeanCheng」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明
 原文链接：https://blog.csdn.net/gatieme/article/details/50991584
+
+
+* dpkg-reconfigure locales
+可以通过这个来设置linux系统的默认语言环境.
 
 
 * Footnotes
