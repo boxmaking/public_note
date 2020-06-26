@@ -52,7 +52,7 @@
   - [[file:linux/who-last-top-w-uptime.org][who,last-reboot,top,w,uptime,命令教程]]
   - [[file:linux/youtube-dl.org][youtube-dl使用教程]]
   - [[file:linux/basename.org][命令行实现回收站功能,安全的rm -rf]]
-  - [[file:linux/after-install-debian.org][安装debian后进行的设置]]
+  - [[file:linux/after-install-debian.org][我的linux软件列表]]
   - [[file:linux/chmod-org.org][更改文件的属性相关]]
   - [[file:linux/linux-common-command.org][未整理的linux学习笔记]]
   - [[file:linux/ln.org][链接相关的教程]]

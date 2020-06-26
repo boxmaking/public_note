@@ -4,6 +4,10 @@
 #+KEYWORDS: collect
 #+LANGUAGE: zh-CN
 
+* 承认平庸可能才是进步的第一步
+今天这次报告，分配给我的任务是讨论磁层。这件事情上我懂的比全世界99.999%的人都要多，但是很不幸，剩下的那0.001%都在这间屋子里
+
+
 * 纸牌屋关于权利和金钱
 He chose money over power--In this town, a mistake nearly everyone makes. Money is the McMansion in Sarasota that starts falling apart after ten years. Power is the old stone building that stands for centuries.
 为了钱而放弃权力,这个城市里几乎人人都犯了这个错。金钱是萨拉索塔的巨无霸豪宅，保质期就只有十年，权力是古老的石砌建筑，能屹立数百年。

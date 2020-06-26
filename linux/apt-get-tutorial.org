@@ -17,14 +17,24 @@ apt-cache show programname
  
  解决方法
  #+BEGIN_SRC shell
- sudo killall apt-get
- sudo killall dpkg
- sudo dpkg --configure -a
+ $sudo killall apt-get
+ $sudo killall dpkg
+ $sudo dpkg --configure -a
  #就完美的搞定了
  #+END_SRC
+
+
 
 * 尾声
  其实我以前也碰到过这几个个问题,当时没能解决掉,现在终于完成了
  有了配置文件的备份之后真的很简单的就能更换系统
  这点确实是linux的优点啊.
 
+
+* dpkg安装和卸载软件教程
+#+BEGIN_SRC shell
+$sudo dpkg -i ***.deb #安装
+$sudo apt-get install -f #一般会出现依赖关系,直接这样安装即可
+$sudo dpkg -l  #查看所有的软件包名称
+$sudo dpkg --remove ***  #卸载软件包
+#+END_SRC
