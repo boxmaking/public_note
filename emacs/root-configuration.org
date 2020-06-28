@@ -7,8 +7,8 @@
 1. 创建相应的符号链接到 root用户目录下,代码如下:
 
 #+BEGIN_SRC shell
-sudo ln -s /home/pengshao/.emacs /root/
-sudo ln -s /home/pengshao/.emacs.d/ /root/
+$sudo ln -s /home/pengshao/.emacs /root/
+$sudo ln -s /home/pengshao/.emacs.d/ /root/
 #+END_SRC
 
 

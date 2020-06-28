@@ -43,6 +43,7 @@
   - [[file:linux/systeminfo.org][linux系统信息查询教程]]
   - [[file:linux/locales-setting.org][locales-setting]]
   - [[file:linux/man.org][man-tutorial]]
+  - [[file:linux/proxychains4.org][proxychains4使用教程]]
   - [[file:linux/root-completion.org][root-completion]]
   - [[file:linux/scrot.org][scrot-tutorial:一个截屏软件教程]]
   - [[file:linux/shell-initfile.org][shell的初始化文件]]
@@ -55,6 +56,7 @@
   - [[file:linux/after-install-debian.org][我的linux软件列表]]
   - [[file:linux/chmod-org.org][更改文件的属性相关]]
   - [[file:linux/linux-common-command.org][未整理的linux学习笔记]]
+  - [[file:linux/mount.org][系统挂载的教程]]
   - [[file:linux/ln.org][链接相关的教程]]
 - mylife
   - [[file:mylife/island.org][<<岛>>-没有深沉的爱,也没有深沉的恨,有的只有那不愿提及的过往]]
@@ -73,6 +75,7 @@
   - [[file:mylife/the-load.org][小时候走过的路]]
   - [[file:mylife/think-about-life.org][思考生活的意义]]
   - [[file:mylife/I-don't-forgive.org][我不原谅，曾经群魔共舞的三尺讲坛]]
+  - [[file:mylife/2020-my.org][我的2020中页反思]]
   - [[file:mylife/bookslist.org][我的书单]]
   - [[file:mylife/collect.org][我的朝花夕拾]]
   - [[file:mylife/telephone.org][手机]]

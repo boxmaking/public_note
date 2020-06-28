@@ -69,6 +69,7 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 
 * 挂载
 #+BEGIN_SRC shell
+$sudo mount.ntfs-3g /dev/sdb6 ./temp/mount-temp/sdb6
 $sudo mount.ntfs-3g /dev/sdb5 ./***
 #+END_SRC
 使用了mount.ntfs-3g来挂在的ntfs格式的分区就能够读写挂载了.
