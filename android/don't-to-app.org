@@ -1,0 +1,18 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 未整理的linux学习笔记
+#+DATE:<2020-07-03/Friday 16:26:40>
+#+KEYWORDS: android
+#+LANGUAGE: zh-CN
+
+* 国内的很多很多的服务商都为了推广app,简直不择手段,很烦,很烦几乎包括了国内各大网站.
+
+当你点击链接时，就会莫名其妙的打开应用市场, 这个体验太糟糕了。
+
+* 只需要使用 Android 版本的 Firefox 浏览器
+    #+BEGIN_EXAMPLE
+    在浏览器输入 about:config 打开配置页面
+    搜索 network.protocol-handler.external-default 
+    并将其从 true 修改为 false
+    #+END_EXAMPLE
+
+之后，在 Firefox 中打开之前的那些网址，这个问题应该是临时解决了…

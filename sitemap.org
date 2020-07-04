@@ -2,6 +2,8 @@
 
 - [[file:README.org][README]]
 - [[file:index.org][index]]
+- android
+  - [[file:android/don't-to-app.org][未整理的linux学习笔记]]
 - c
   - [[file:c/c-learn.org][c语言学习笔记]]
 - emacs
