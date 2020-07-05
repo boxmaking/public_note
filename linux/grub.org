@@ -1,0 +1,26 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: grub相关的设置
+#+DATE:<2020-07-05/Sunday 23:08:34>
+#+KEYWORDS: grub
+#+LANGUAGE: zh-CN
+
+
+
+* 更改 GRUB 默认启动项与超时时间
+
+终端执行：
+#+BEGIN_SRC shell
+$sudo gedit /etc/default/grub
+#+END_SRC
+
+GRUB_DEFAULT 这一项表示默认的启动项,后面的值从零开始编号,分别是你在 Grub 引导界面看到的启动项.
+更改为你需要的启动项序号即可.
+
+GRUB_TIMEOUT 这一项是超时时间单位为秒.
+
+更改完毕后:
+#+BEGIN_SRC shell
+$sudo update-grub
+#+END_SRC
+
+

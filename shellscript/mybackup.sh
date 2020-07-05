@@ -43,7 +43,7 @@ find ~/mybackup-temp/* -name "*"  -ok rm -rf  {} \;
 
 
 #删除文件夹下超过3天的文件
-find ~/debianbackup/ -mtime +15 -name "*.tar.gz" -exec  rm -rf  {} \;
+find ~/debianbackup/ -mtime +5 -name "*.tar.gz" -exec  rm -rf  {} \;
 
 
 #再备份以下防止云盘误删文件

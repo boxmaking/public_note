@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: 未整理的linux学习笔记
+#+TITLE: android网页不进行app跳转
 #+DATE:<2020-07-03/Friday 16:26:40>
 #+KEYWORDS: android
 #+LANGUAGE: zh-CN

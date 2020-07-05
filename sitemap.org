@@ -39,6 +39,7 @@
   - [[file:linux/install-xfce.org][debian安装xfce相关]]
   - [[file:linux/figlet.org][figlet-tutorial]]
   - [[file:linux/find-tutorial.org][find-tutorial]]
+  - [[file:linux/grub.org][grub相关的设置]]
   - [[file:linux/kill.org][linux-kill]]
   - [[file:linux/port.org][linux查看端口进程几种方法]]
   - [[file:linux/linux-proxy.org][linux的代理设置]]

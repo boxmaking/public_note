@@ -85,3 +85,35 @@ $sudo mount.ntfs-3g /dev/sdb5 ./***
    $sudo umount -v  ./***
    #+END_SRC
 -v选项为显示详细信息
+
+* 如何开机自动挂在硬盘在某个位置
+
+1. 首先
+   #+BEGIN_SRC shell
+   $sudo  blkid 
+   /dev/sda1: UUID="B4BC-C378" TYPE="vfat" PARTUUID="f8bd88ba-dc1e-4e98-b84b-8bdc7d24ec95"
+   /dev/sda2: UUID="6a677709-f8fc-415a-98ad-9754192e54c9" TYPE="ext4" PARTUUID="11ee69aa-7e90-499d-b421-a3009dd79bca"
+   /dev/sda3: UUID="5ff07536-bfde-482e-b4ea-571a9abc16be" TYPE="swap" PARTUUID="f408f7e7-b5a5-42e3-8c9b-87275121a3d9"
+   /dev/sda4: UUID="083aa363-750a-40b0-8f6f-f90adfde2e78" TYPE="ext4" PARTUUID="9137ac47-a767-4b7c-9ba2-4bce12d800ac"
+   /dev/sdb5: UUID="DA18EBFA09C1B27D" TYPE="ntfs" PARTUUID="a58fc54c-05"
+   /dev/sdb6: UUID="65F33762C14D581B" TYPE="ntfs" PARTUUID="a58fc54c-06"
+   /dev/sdc1: SEC_TYPE="msdos" UUID="6004-51AA" TYPE="vfat" PARTLABEL="EFI system partition" PARTUUID="b8d94594-0025-4de4-88e0-77d9b922a4b1"
+   /dev/sdc2: PARTLABEL="Microsoft reserved partition" PARTUUID="1dd0244c-87d2-46b8-8c57-794f95efb7cf"
+   /dev/sdc3: UUID="9A5C8C9C5C8C74B3" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="7792379f-f0c9-4d49-a394-976f6bd9a967"
+   #+END_SRC
+   显示出分区信息，记下要自动挂载的分区 UUID，与 Type。
+
+2. 在文件系统中创建文件夹作为分区的挂载点
+   #+BEGIN_SRC shell
+   $mkdir ~/HDD
+   #+END_SRC
+3. 然后
+   #+BEGIN_SRC shell
+   $sudo gedit /etc/fstab
+   #+END_SRC
+4. 在最后添加一行
+   #+BEGIN_EXAMPLE
+   UUID=<UUID>	/path/to/HDD	<Type>	defaults	0	0
+   #+END_EXAMPLE
+   替换其中的 <UUID> 与 <Type> 为之前的查询结果，重启电脑，则分区已经挂载在 ~/HDD 目录下。
+
