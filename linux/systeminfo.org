@@ -63,8 +63,8 @@ cat /proc/version
 
 使用 lscpu 命令或与它相近的 lshw 命令查看 CPU 的详细信息：
 #+BEGIN_SRC sh
-lscpu
-lshw -C cpu
+$lscpu
+$lshw -C cpu
 #+END_SRC
 
 使用这些命令的时候，你可以通过使用 grep 命令过滤复杂的信息，并缩小所需信息范围。
@@ -72,18 +72,18 @@ lshw -C cpu
 1. 只查看 CPU 品牌和型号:
    lshw -C cpu |grep-i product
    #+BEGIN_SRC shell
-   $ sudo lshw -C cpu | grep -i product
+   $sudo lshw -C cpu | grep -i product
    product: AMD Ryzen 3 2200G with Radeon Vega Graphics
    #+END_SRC
    
 
 2. 仅查看 CPU 的速度（兆赫兹）:
    #+BEGIN_SRC sh
-   lscpu|grep-i mhz
+   $lscpu|grep-i mhz
    #+END_SRC
    或其 BogoMips 额定功率:
    #+BEGIN_SRC sh
-   lscpu|grep-i bogo
+   $lscpu|grep-i bogo
    #+END_SRC
    
 3. grep 命令的 -i 参数代表搜索结果忽略大小写。
@@ -97,44 +97,46 @@ lshw -C cpu
 * 硬盘使用情况
 1. 显示每个磁盘设备的描述信息：
    #+BEGIN_SRC shell
-   lshw -short-C disk 
+   $lshw -short -C disk 
    #+END_SRC
 
 2. 通过以下命令获取任何指定的 SATA 磁盘详细信息，例如其型号、序列号以及支持的模式和扇区数量
    #+BEGIN_SRC shell
-   hdparm-i /dev/sda
+   $hdparm -i /dev/sda
    #+END_SRC
    
    当然，如果需要的话你应该将 sda 替换成 sdb 或者其他设备号。
 
 3. 要列出所有磁盘及其分区和大小，请使用以下命令：
    #+BEGIN_SRC shell
-   lsblk
+   $lsblk
    #+END_SRC
    
 4. 使用以下命令获取更多有关扇区数量、大小、文件系统 ID 和 类型以及分区开始和结束扇区：
    #+BEGIN_SRC shell
-   fdisk-l
+   $fdisk-l
    #+END_SRC
    
 5. 要启动 Linux，你需要确定 GRUB 引导程序的可挂载分区。你可以使用 blkid 命令找到此信息。它列出了每个分区的唯一标识符（UUID）及其文件系统类型（例如 ext3 或 ext4）：
    #+BEGIN_SRC shell
-   blkid
+   $blkid
    #+END_SRC
    
 6. 使用以下命令列出已挂载的文件系统和它们的挂载点，以及已用的空间和可用的空间（兆字节为单位）：
    #+BEGIN_SRC shell
-   df-m
+   $df -m
    #+END_SRC
    
 7. 最后，你可以列出所有的 USB 和 PCI 总线以及其他设备的详细信息：
    #+BEGIN_SRC sh
-   lsusb或者 lspci
+   $lsusb
+   #或者 
+   $lspci
    #+END_SRC
    
 8. 查看文件夹的使用情况和大小
    #+BEGIN_SRC sh
-   du -sh <文件夹>
+   $du -sh <文件夹>
    #+END_SRC
    
 
@@ -142,7 +144,7 @@ lshw -C cpu
 
 ** 查看内存使用情况
 #+BEGIN_SRC sh
-free -m -h
+$free -m -h
 #+END_SRC
 -h 用gb和mb现实便于阅读
 
@@ -150,22 +152,22 @@ free -m -h
 
 1. 使用 dmidecode 命令列出每根内存条和其容量：
    #+BEGIN_SRC sh
-   dmidecode -t memory |grep-i size
+   $dmidecode -t memory | grep-i size
    #+END_SRC
    
 2. 使用以下命令获取系统内存更多的信息，包括类型、容量、速度和电压：
    #+BEGIN_SRC sh
-   lshw -short-C memory
+   $lshw -short -C memory
    #+END_SRC
    
 3. 你肯定想知道的一件事是你的计算机可以安装的最大内存：
    #+BEGIN_SRC sh
-   dmidecode -t memory |grep-i max
+   $dmidecode -t memory | grep-i max
    #+END_SRC
    
 4. 现在检查一下计算机是否有空闲的插槽可以插入额外的内存条。你可以通过使用命令在不打开计算机机箱的情况下就做到：
    #+BEGIN_SRC sh
-   lshw -short-C memory |grep-i empty
+   $lshw -short -C memory | grep-i empty
    #+END_SRC
    输出为空则意味着所有的插槽都在使用中。
 
@@ -173,17 +175,17 @@ free -m -h
 * 显存查看 
 1. 使用 lspci 列出所有设备信息然后过滤出你想要的显卡设备信息:
    #+BEGIN_SRC sh
-   lspci |grep-i vga
+   $lspci | grep -i vga
    #+END_SRC
    
 2. 视频控制器的设备号输出信息通常如下：
    #+BEGIN_SRC sh
-   00:02.0 VGA compatible controller:IntelCorporation82Q35ExpressIntegratedGraphicsController(rev 02)
+   $00:02.0 VGA compatible controller:IntelCorporation82Q35ExpressIntegratedGraphicsController(rev 02)
    #+END_SRC
    
 3. 现在再加上视频设备号重新运行 lspci 命令：
    #+BEGIN_SRC sh
-   lspci -v -s 00:02.0
+   $lspci -v -s 00:02.0
    #+END_SRC
    
 4. 输出信息中 prefetchable 那一行显示了系统中的显卡内存大小:
@@ -202,13 +204,13 @@ free -m -h
 
 ** ps -aux
 #+BEGIN_SRC sh
-ps -aux 
-ps -ef
+$ps -aux 
+$ps -ef
 #+END_SRC
 这是两张方式,经常使用第一种方式
 后面经常加入管道符号来
 #+BEGIN_SRC sh
-ps -aux | grep xfce
+$ps -aux | grep xfce
 #+END_SRC
 
 ** TODO top
@@ -216,12 +218,12 @@ ps -aux | grep xfce
 ** kill
 1. 可以杀死进程
    #+BEGIN_SRC sh
-   kill -9 id 
+   $kill -9 id 
    #+END_SRC
    
 2. 全部杀死进程
    #+BEGIN_SRC sh
-   killall idname
+   $killall idname
    #+END_SRC
 
 ** TODO fg | bg | & | jobs[1/4]
@@ -229,6 +231,8 @@ ps -aux | grep xfce
 - [ ] bg 还不会用
 - [ ] & 加在命令的后面可以将命令后台化
 - [ ] jobs 还不会用
+
+
 ** Ctrl-Z | Ctrl-C
 1. Ctrl-z 是将程序挂起
    挂起后还会显示一个进程号码
@@ -240,14 +244,14 @@ ps -aux | grep xfce
 
 ** 查看网卡硬件信息
 #+BEGIN_SRC sh
-lshw -C network
+$lshw -C network
 #+END_SRC
 
 
 ** ifconfig
 #+BEGIN_SRC sh
-apt-get install net-tools
-sudo ifconfig  # 现实当前激活的网络端口信息
+$apt-get install net-tools
+$sudo ifconfig  # 现实当前激活的网络端口信息
 #+END_SRC
 
 
