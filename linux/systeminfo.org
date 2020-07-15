@@ -94,50 +94,6 @@ $lshw -C cpu
 3. i7z
 
 
-* 硬盘使用情况
-1. 显示每个磁盘设备的描述信息：
-   #+BEGIN_SRC shell
-   $lshw -short -C disk 
-   #+END_SRC
-
-2. 通过以下命令获取任何指定的 SATA 磁盘详细信息，例如其型号、序列号以及支持的模式和扇区数量
-   #+BEGIN_SRC shell
-   $hdparm -i /dev/sda
-   #+END_SRC
-   
-   当然，如果需要的话你应该将 sda 替换成 sdb 或者其他设备号。
-
-3. 要列出所有磁盘及其分区和大小，请使用以下命令：
-   #+BEGIN_SRC shell
-   $lsblk
-   #+END_SRC
-   
-4. 使用以下命令获取更多有关扇区数量、大小、文件系统 ID 和 类型以及分区开始和结束扇区：
-   #+BEGIN_SRC shell
-   $fdisk-l
-   #+END_SRC
-   
-5. 要启动 Linux，你需要确定 GRUB 引导程序的可挂载分区。你可以使用 blkid 命令找到此信息。它列出了每个分区的唯一标识符（UUID）及其文件系统类型（例如 ext3 或 ext4）：
-   #+BEGIN_SRC shell
-   $blkid
-   #+END_SRC
-   
-6. 使用以下命令列出已挂载的文件系统和它们的挂载点，以及已用的空间和可用的空间（兆字节为单位）：
-   #+BEGIN_SRC shell
-   $df -m
-   #+END_SRC
-   
-7. 最后，你可以列出所有的 USB 和 PCI 总线以及其他设备的详细信息：
-   #+BEGIN_SRC sh
-   $lsusb
-   #或者 
-   $lspci
-   #+END_SRC
-   
-8. 查看文件夹的使用情况和大小
-   #+BEGIN_SRC sh
-   $du -sh <文件夹>
-   #+END_SRC
    
 
 * 内存相关查询教程

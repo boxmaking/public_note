@@ -34,6 +34,7 @@
 - linux
   - [[file:linux/apt-get-tutorial.org][apt-get-tutorial]]
   - [[file:linux/bash-marks.org][bash目录快速跳转---为目录添加书签]]
+  - [[file:linux/btsync.org][btsync相关]]
   - [[file:linux/crontab.org][crotab-tutorial]]
   - [[file:linux/date-calendar.org][date-calendat-使用教程]]
   - [[file:linux/install-xfce.org][debian安装xfce相关]]
@@ -43,6 +44,7 @@
   - [[file:linux/kill.org][linux-kill]]
   - [[file:linux/port.org][linux查看端口进程几种方法]]
   - [[file:linux/linux-proxy.org][linux的代理设置]]
+  - [[file:linux/hard-disk-drive.org][linux硬盘相关的记录]]
   - [[file:linux/systeminfo.org][linux系统信息查询教程]]
   - [[file:linux/locales-setting.org][locales-setting]]
   - [[file:linux/man.org][man-tutorial]]
@@ -59,7 +61,6 @@
   - [[file:linux/after-install-debian.org][我的linux软件列表]]
   - [[file:linux/chmod-org.org][更改文件的属性相关]]
   - [[file:linux/linux-common-command.org][未整理的linux学习笔记]]
-  - [[file:linux/mount.org][系统挂载的教程]]
   - [[file:linux/ln.org][链接相关的教程]]
 - mylife
   - [[file:mylife/island.org][<<岛>>-没有深沉的爱,也没有深沉的恨,有的只有那不愿提及的过往]]

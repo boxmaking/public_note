@@ -1,0 +1,316 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: linux硬盘相关的记录
+#+DATE:<2020-07-10/Friday 18:54:15>
+#+KEYWORDS: hard-disk-drive
+#+LANGUAGE: zh-CN
+
+
+
+* 硬盘使用情况
+1. 显示每个磁盘设备的描述信息：
+   #+BEGIN_SRC shell
+   $lshw -short -C disk 
+   #+END_SRC
+
+2. 通过以下命令获取任何指定的 SATA 磁盘详细信息，例如其型号、序列号以及支持的模式和扇区数量
+   #+BEGIN_SRC shell
+   $hdparm -i /dev/sda
+   #+END_SRC
+   
+   当然，如果需要的话你应该将 sda 替换成 sdb 或者其他设备号。
+
+3. 要列出所有磁盘及其分区和大小，请使用以下命令：
+   #+BEGIN_SRC shell
+   $lsblk
+   #+END_SRC
+   
+4. 使用以下命令获取更多有关扇区数量、大小、文件系统 ID 和 类型以及分区开始和结束扇区：
+   #+BEGIN_SRC shell
+   $sudo fdisk-l
+   #+END_SRC
+   
+5. 要启动 Linux，你需要确定 GRUB 引导程序的可挂载分区。你可以使用 blkid 命令找到此信息。它列出了每个分区的唯一标识符（UUID）及其文件系统类型（例如 ext3 或 ext4）：
+   #+BEGIN_SRC shell
+   $blkid
+   #+END_SRC
+   
+6. 使用以下命令列出已挂载的文件系统和它们的挂载点，以及已用的空间和可用的空间（兆字节为单位）：
+   #+BEGIN_SRC shell
+   $df -m
+   #+END_SRC
+   
+7. 最后，你可以列出所有的 USB 和 PCI 总线以及其他设备的详细信息：
+   #+BEGIN_SRC sh
+   $lsusb
+   #或者 
+   $lspci
+   #+END_SRC
+   
+8. 查看文件夹的使用情况和大小
+   #+BEGIN_SRC sh
+   $du -sh <文件夹>
+   #+END_SRC
+
+
+* 挂载相关mount
+** 首先查看详细的信息
+#+BEGIN_SRC shell
+$sudo fdisk -l
+Disk /dev/sda：931.5 GiB，1000204886016 字节，1953525168 个扇区
+Disk model: WDC WD10EZEX-75W
+单元：扇区 / 1 * 512 = 512 字节
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+磁盘标签类型：gpt
+磁盘标识符：484C761A-90F3-41D0-B721-78E9E6B2E437
+
+设备           起点       末尾       扇区   大小 类型
+/dev/sda1      2048    1050623    1048576   512M EFI 系统
+/dev/sda2   1050624   59643903   58593280    28G Linux 文件系统
+/dev/sda3  59643904   67926015    8282112     4G Linux swap
+/dev/sda4  67926016 1953523711 1885597696 899.1G Linux 文件系统
+
+
+Disk /dev/sdb：931.5 GiB，1000204886016 字节，1953525168 个扇区
+Disk model: WDC WD10PURX-69K
+单元：扇区 / 1 * 512 = 512 字节
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+磁盘标签类型：dos
+磁盘标识符：0xa58fc54c
+
+设备       启动       起点       末尾       扇区   大小 Id 类型
+/dev/sdb1             2048 1953523711 1953521664 931.5G  f W95 扩展 (LBA)
+/dev/sdb5             4096 1048582143 1048578048   500G  7 HPFS/NTFS/exFAT
+/dev/sdb6       1048584192 1953523711  904939520 431.5G  7 HPFS/NTFS/exFAT
+
+
+Disk /dev/sdc：111.8 GiB，120034123776 字节，234441648 个扇区
+Disk model: ZSPEED SSD 120GB
+单元：扇区 / 1 * 512 = 512 字节
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：gpt
+磁盘标识符：56D5CC38-DA22-47F1-8551-1E1AB2966508
+
+设备         起点      末尾      扇区   大小 类型
+/dev/sdc1    2048    616447    614400   300M EFI 系统
+/dev/sdc2  616448    878591    262144   128M Microsoft 保留
+/dev/sdc3  878592 234441614 233563023 111.4G Microsoft 基本数据
+
+
+Disk /dev/sdd：7.2 GiB，7775191040 字节，15185920 个扇区
+Disk model: USB Flash Drive 
+单元：扇区 / 1 * 512 = 512 字节
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：dos
+磁盘标识符：0x00041f8a
+
+设备       启动  起点     末尾     扇区  大小 Id 类型
+/dev/sdd1  *     2048 15185919 15183872  7.2G  c W95 FAT32 (LBA)
+
+#+END_SRC
+
+查看那个硬盘的那个分区,的代号是什么.
+
+
+** 挂载
+#+BEGIN_SRC shell
+$sudo mount.ntfs-3g /dev/sdb6 ./temp/mount-temp/sdb6
+$sudo mount.ntfs-3g /dev/sdb5 ./***
+#+END_SRC
+使用了mount.ntfs-3g来挂在的ntfs格式的分区就能够读写挂载了.
+
+
+** 卸载文件
+1. 通过设备名称卸载
+   #+BEGIN_SRC shell
+   $sudo umount -v /dev/sdb5
+   #+END_SRC
+2. 通过挂在点卸载
+   #+BEGIN_SRC shell
+   $sudo umount -v  ./***
+   #+END_SRC
+-v选项为显示详细信息
+
+
+* 如何开机自动挂在硬盘在某个位置
+** fstab方式自动挂载
+1. 首先
+   #+BEGIN_SRC shell
+   $sudo  blkid 
+   /dev/sda1: UUID="B4BC-C378" TYPE="vfat" PARTUUID="f8bd88ba-dc1e-4e98-b84b-8bdc7d24ec95"
+   /dev/sda2: UUID="6a677709-f8fc-415a-98ad-9754192e54c9" TYPE="ext4" PARTUUID="11ee69aa-7e90-499d-b421-a3009dd79bca"
+   /dev/sda3: UUID="5ff07536-bfde-482e-b4ea-571a9abc16be" TYPE="swap" PARTUUID="f408f7e7-b5a5-42e3-8c9b-87275121a3d9"
+   /dev/sda4: UUID="083aa363-750a-40b0-8f6f-f90adfde2e78" TYPE="ext4" PARTUUID="9137ac47-a767-4b7c-9ba2-4bce12d800ac"
+   /dev/sdb5: UUID="DA18EBFA09C1B27D" TYPE="ntfs" PARTUUID="a58fc54c-05"
+   /dev/sdb6: UUID="65F33762C14D581B" TYPE="ntfs" PARTUUID="a58fc54c-06"
+   /dev/sdc1: SEC_TYPE="msdos" UUID="6004-51AA" TYPE="vfat" PARTLABEL="EFI system partition" PARTUUID="b8d94594-0025-4de4-88e0-77d9b922a4b1"
+   /dev/sdc2: PARTLABEL="Microsoft reserved partition" PARTUUID="1dd0244c-87d2-46b8-8c57-794f95efb7cf"
+   /dev/sdc3: UUID="9A5C8C9C5C8C74B3" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="7792379f-f0c9-4d49-a394-976f6bd9a967"
+   #+END_SRC
+   
+   然后查看fstab文件
+   #+BEGIN_EXAMPLE
+   # /etc/fstab: static file system information.
+   #
+   # Use 'blkid' to print the universally unique identifier for a
+   # device; this may be used with UUID= as a more robust way to name devices
+   # that works even if disks are added and removed. See fstab(5).
+   #
+   # <file system> <mount point>   <type>  <options>       <dump>  <pass>
+   # / was on /dev/sda2 during installation
+   UUID=6a677709-f8fc-415a-98ad-9754192e54c9 /               ext4    errors=remount-ro 0      1
+   # /boot/efi was on /dev/sda1 during installation
+   UUID=B4BC-C378  /boot/efi       vfat    umask=0077      0       1
+   # /home was on /dev/sda4 during installation
+   UUID=083aa363-750a-40b0-8f6f-f90adfde2e78 /home           ext4    defaults        0       2
+   # swap was on /dev/sda3 during installation
+   UUID=5ff07536-bfde-482e-b4ea-571a9abc16be none            swap    sw              0       0
+
+
+   #/dev/sdc1 /home/pengshao/ps-backup/ ext4 defaules 1 0
+   # /etc/fstab: static file system information.
+   #
+   # Use 'blkid' to print the universally unique identifier for a
+   # device; this may be used with UUID= as a more robust way to name devices
+   # that works even if disks are added and removed. See fstab(5).
+   #
+   # <file system> <mount point>   <type>  <options>       <dump>  <pass>
+   # / was on /dev/sda2 during installation
+   UUID=6a677709-f8fc-415a-98ad-9754192e54c9 /               ext4    errors=remount-ro 0      1
+   # /boot/efi was on /dev/sda1 during installation
+   UUID=B4BC-C378  /boot/efi       vfat    umask=0077      0       1
+   # /home was on /dev/sda4 during installation
+   UUID=083aa363-750a-40b0-8f6f-f90adfde2e78 /home           ext4    defaults        0       2
+   # swap was on /dev/sda3 during installation
+   UUID=5ff07536-bfde-482e-b4ea-571a9abc16be none            swap    sw              0       0
+
+
+   #/dev/sdc1 /home/pengshao/ps-backup/ ext4 defaules 1 0
+
+   #+END_EXAMPLE
+
+   显示出分区信息，记下要自动挂载的分区 UUID，与 Type。
+   第一列可以是实际分区名，也可以是实际分区的卷标（Lable）。
+
+   如果磁盘是SATA接口，且有多个磁盘，则每个磁盘被标记为 /dev/hda 、 /dev/hdb、 /dev/hdc 等以此类推；而每个磁盘的分区被标记为 /dev/hda1、 /dev/hda2等。
+
+   如果磁盘是SCSI类型，则多个磁盘会被分别标记为 /dev/sda、/dev/sdb等等。分区同理。
+
+   如果使用标签来表示，则格式如：
+
+   LABLE=/
+
+   第二列是挂载点。
+
+   挂载点必须为当前已经存在的目录，为了兼容起见，最好在创建需要挂载的目标目录后，将其权限设置为777，以开放所有权限。
+
+   第三列为此分区的文件系统类型。
+
+   Linux可以使用ext2、ext3等类型，此字段须与分区格式化时使用的类型相同。也可以使用 auto 这一特殊的语法，使系统自动侦测目标分区的分区类型。auto通常用于可移动设备的挂载。
+
+   第四列是挂载的选项，用于设置挂载的参数。
+
+   常见参数如下：
+   #+BEGIN_EXAMPLE
+   auto: 系统自动挂载，fstab默认就是这个选项
+   defaults: rw, suid, dev, exec, auto, nouser, and async.
+   noauto 开机不自动挂载
+   nouser 只有超级用户可以挂载
+   ro 按只读权限挂载
+   rw 按可读可写权限挂载
+   user 任何用户都可以挂载
+   #+END_EXAMPLE
+
+   请注意光驱和软驱只有在装有介质时才可以进行挂载，因此它是noauto
+
+   第五列是dump备份设置。
+
+   当其值设置为1时，将允许dump备份程序备份；设置为0时，忽略备份操作；
+
+   第六列是fsck磁盘检查设置。
+
+   其值是一个顺序。当其值为0时，永远不检查；而 / 根目录分区永远都为1。其它分区从2开始，数字越小越先检查，如果两个分区的数字相同，则同时检查。
+
+   当修改完此文件并保存后，重启服务器生效。
+
+
+2. 在文件系统中创建文件夹作为分区的挂载点
+   #+BEGIN_SRC shell
+   $mkdir ~/HDD
+   #+END_SRC
+3. 然后
+   #+BEGIN_SRC shell
+   $sudo emacs /etc/fstab
+   #+END_SRC
+4. 在最后添加一行
+   #+BEGIN_EXAMPLE
+   UUID=<UUID>	/path/to/HDD	<Type>	defaults	0	0
+   #+END_EXAMPLE
+  替换其中的 <UUID> 与 <Type> 为之前的查询结果，重启电脑，则分区已经挂载在 ~/HDD 目录下。
+
+
+
+
+** rc.local方式自动挂载
+*** 添加rc.local文件
+Debian 10和Debian 9一样，没有rc.local文件，导致我们有一些脚本无法设置开机启动，其实rc.local文件在debian 10里面默认没有启动而已。
+
+输入命令：
+#+BEGIN_SRC sh
+$systemctl status rc-local
+
+ rc-local.service - /etc/rc.local Compatibility
+   Loaded: loaded (/lib/systemd/system/rc-local.service; static; vendor preset: enabled)
+  Drop-In: /usr/lib/systemd/system/rc-local.service.d
+           └─debian.conf
+   Active: inactive (dead)
+     Docs: man:systemd-rc-local-generator(8)
+
+#+END_SRC
+
+手动增加一个rc.local文件
+#+BEGIN_SRC sh
+$emacs /etc/rc.local
+#+END_SRC
+
+
+输入
+
+#+BEGIN_SRC sh
+
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+exit 0
+#+END_SRC
+
+给上权限
+#+BEGIN_SRC sh
+$chmod +x /etc/rc.local
+#+END_SRC
+
+
+启动rc.local
+#+BEGIN_SRC sh
+$systemctl start rc.local
+#+END_SRC
+
+
+*** 便捷rc.local文件
+
+
+
+* 开机自检相关教程

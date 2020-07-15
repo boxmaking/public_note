@@ -1,0 +1,285 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: btsync相关
+#+DATE:<2020-07-08/Wednesday 19:57:37>
+#+KEYWORDS: btsync
+#+LANGUAGE: zh-CN
+
+
+
+* 上安装Resilio Sync（BTSync）的方法
+我直接下载的deb安装包,dpkg-i安装的.
+
+* 启动
+安装后，Resilio Sync将自动启动，可以通过以下方式检查其状态：
+ #+BEGIN_SRC shell
+ $systemctl status resilio-sync
+ #+END_SRC
+
+
+如果它没有运行，你可以用以下命令启动它：
+#+BEGIN_SRC shell
+$sudo systemctl start resilio-sync
+#+END_SRC
+
+
+默认情况下，Resilio Sync不会在启动时启动，可以启用自动启动：
+#+BEGIN_SRC shell
+$sudo systemctl enable resilio-sync
+#+END_SRC
+
+* 使用
+Resilio Sync作为rslsync用户运行
+Web UI按照/etc/resilio-sync/config.json配置文件中
+指定侦听127.0.0.1:8888
+
+ 
+
+* 设置Resilio Sync Web UI
+
+Linux版本的Resilio Sync不提供桌面客户端，相反，需要通过Web界面配置内容，在Web浏览器地址栏中键入以下内容以访问Resilio Sync Web UI：
+
+127.0.0.1:8888
+
+如果在远程Linux服务器上安装Resilio Sync，则需要使用Nginx或Apache设置反向代理以访问Web UI。
+
+系统将要求你设置用户名和密码以保护Web UI：
+
+在Ubuntu 18.04/18.10上安装Resilio Sync（BTSync）的方法
+
+然后选择设备名称并单击Get started：
+
+在Ubuntu 18.04/18.10上安装Resilio Sync（BTSync）的方法
+
+并输入你刚刚创建的用户名和密码：
+
+在Ubuntu 18.04/18.10上安装Resilio Sync（BTSync）的方法
+
+登录后，你可以将计算机上的文件夹共享给其他设备或从其他设备接收文件夹。
+
+ 
+
+* 与其他设备共享文件夹及从其他设备接收文件夹
+
+1、与其他设备共享文件夹
+
+要在计算机上共享文件夹，请单击左上角的+按钮，然后选择标准文件夹：
+
+在Ubuntu 18.04/18.10上安装Resilio Sync（BTSync）的方法
+
+然后选择计算机上的文件夹：
+
+在Ubuntu 18.04/18.10上安装Resilio Sync（BTSync）的方法
+
+可能会遇到以下错误消息：
+
+Can't open the destination folder.
+
+或者：Don't have permissions to write to selected folder.
+
+这是因为Resilio Sync作为rslsync用户运行，后者无权访问该文件夹。
+
+假设你选择了您的主文件夹/home/your-username/作为共享文件夹，要解决上述错误，你需要做的就是使用以下命令将主文件夹的权限授予rslsync用户：
+
+sudo setfacl -R -m "u:rslsync:rwx" /home/your-username
+
+以上命令不会更改共享文件夹的所有者，所有者拥有与往常相同的权限，它的作用是为另一个用户授予读，写和执行权限，即rslsync，请注意，-R（递归）标志必须位于-m（修改）标志之前，紧接着是访问控制列表条目（u：rslsync：rwx）。
+
+如果您看到此错误：
+
+sudo: setfacl: command not found
+
+然后安装acl包并重新运行上面的setfacl命令：
+
+sudo apt install acl
+
+现在应该可以将主文件夹添加为共享文件夹。
+
+添加文件夹后，可以通过链接，密钥或QR代码共享此文件夹：
+
+在Ubuntu 18.04/18.10上安装Resilio Sync（BTSync）的方法
+
+如果共享文件夹很大，则Resilio Sync需要一些时间来索引内容。
+
+2、从其他设备接收文件夹
+
+要从其他设备接收文件夹，请单击左上角的+按钮，然后选择“输入密钥或链接”：
+
+在Ubuntu 18.04/18.10上安装Resilio Sync（BTSync）的方法
+
+然后输入密钥或链接：
+
+在Ubuntu 18.04/18.10上安装Resilio Sync（BTSync）的方法
+
+ 
+
+在Ubuntu 18.04,18.10服务器上使用Resilio Sync
+
+你可以从上面提到的存储库在Ubuntu 18.04、18.10服务器上安装Resilio Sync，如果你的服务器位于云中，则需要设置反向代理才能访问Web UI，因为Web UI仅侦听本地主机，配置反向代理后，可以通过域名访问Web UI。
+
+1、使用Nginx设置Resilio Sync反向代理
+
+如今，Nginx作为Web服务器和反向代理变得越来越流行，使用以下命令在Ubuntu 18.04、18.10服务器上安装Nginx：
+
+sudo apt install nginx
+
+参考：在Ubuntu 18.04 Server中安装LEMP的方法[Nginx、MariaDB、PHP7.2]。
+
+启动Nginx并启用自动启动：
+
+sudo systemctl start nginx
+
+sudo systemctl enable nginx
+
+现在为Resilio Sync创建一个主机文件：
+
+sudo nano /etc/nginx/conf.d/resilio-sync.conf
+
+将以下行复制并粘贴到该文件中，将resilio.example.com替换为你的真实域名，还应该为此子域添加DNS A记录：
+
+server {
+
+listen 80;
+
+server_name resilio.example.com;
+
+access_log /var/log/nginx/resilio_access.log;
+
+error_log /var/log/nginx/resilio_error.log;
+
+location / {
+
+proxy_pass http://127.0.0.1:8888;
+
+proxy_set_header Host $host;
+
+proxy_set_header X-Real-IP $remote_addr;
+
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+}
+
+}
+
+保存并关闭此文件，然后测试Nginx配置：
+
+sudo nginx -t
+
+如果测试成功，请重新加载Nginx：
+
+sudo systemctl reload nginx
+
+现在，在你的浏览器地址栏中输入resilio.example.com，应该能够访问到Web GUI了。
+
+2、使用Apache设置Resilio Sync反向代理
+
+Apache是​​众所周知的Web服务器，也可以用作反向代理，如果你更喜欢Apache到Nginx，请在Ubuntu 18.04、18.10服务器上安装它：
+
+sudo apt install apache2
+
+参考：在Ubuntu 18.04服务器上安装LAMP Stack的方法[Apache、MySQL、PHP]。
+
+启动Apache并启用自动启动：
+
+sudo systemctl start apache2
+
+sudo systemctl enable apache2
+
+要将Apache用作反向代理，我们需要启用代理模块和头模块：
+
+sudo a2enmod proxy proxy_http headers proxy_wstunnel
+
+现在为Resilio Sync创建一个主机文件：
+
+sudo nano /etc/apache2/sites-available/resilio-sync.conf
+
+将以下行复制并粘贴到该文件中，将resilio.example.com替换为你的真实域名，还应该为此子域添加DNS A记录：
+
+<VirtualHost *:80>
+
+ServerName resilio.example.com
+
+ErrorDocument 404 /404.html
+
+ProxyPass / http://localhost:8888/
+
+ProxyPassReverse / http://localhost:8888/
+
+ErrorLog ${APACHE_LOG_DIR}/resilio_error.log
+
+CustomLog ${APACHE_LOG_DIR}/resilio_access.log combined
+
+</VirtualHost>
+
+保存并关闭文件，然后启用此主机：
+
+sudo a2ensite resilio-sync.conf
+
+重启Apache：
+
+sudo systemctl restart apache2
+
+现在，你可以通过resilio.example.com访问Web UI了。
+
+ 
+
+使用HTTPS保护Resilio Sync Web GUI
+
+要在通过域名访问Resilio Sync Web UI时加密HTTP流量，我们可以通过安装从Let's Encrypt发出的免费TLS证书来启用HTTPS，运行以下命令在Ubuntu 18.04、18.10服务器上安装Let的加密客户端（certbot）：
+
+sudo apt install certbot
+
+如果你使用Nginx，那么你还需要安装Certbot Nginx插件：
+
+sudo apt install python3-certbot-nginx
+
+接下来，运行以下命令以获取并安装TLS证书：
+
+sudo certbot --nginx --agree-tos --redirect --hsts --staple-ocsp --email you@example.com -d resilio.example.com
+
+如果使用Apache，请安装Certbot Apache插件：
+
+sudo apt install python3-certbot-apache
+
+并运行此命令以获取并安装TLS证书：
+
+sudo certbot --apache --agree-tos --redirect --hsts --staple-ocsp --email you@example.com -d resilio.example.com
+
+说明：
+
+--nginx：使用nginx插件。
+
+--apache：使用Apache插件。
+
+--agree-tos：同意服务条款。
+
+--redirect：通过301重定向强制HTTPS。
+
+--hsts：将Strict-Transport-Security标头添加到每个HTTP响应中，强制浏览器始终对域使用TLS，防御SSL/TLS剥离。
+
+--staple-ocsp：启用OCSP Stapling，将有效的OCSP响应装订到服务器在TLS期间提供的证书。
+
+现在应该获取并自动安装证书：
+
+在Ubuntu 18.04/18.10上安装Resilio Sync（BTSync）的方法
+
+你可以通过HTTPS（https://resilio.example.com）访问Resilio Sync Web UI。
+
+ 
+
+在防火墙中打开Resilio Sync端口
+
+除了Web UI端口之外，Resilio Sync还需要侦听公共接口以连接到对等端，每个设备的侦听端口都不同，可以通过转到Preference->Advanced在Resilio Sync Web UI中找到它：
+
+在Ubuntu 18.04/18.10上安装Resilio Sync（BTSync）的方法
+
+如果你在Ubuntu服务器上启用了UFW防火墙（参考：Debian、Ubuntu、Linux Mint系统中的UFW防火墙入门教程），则需要打开此端口，例如，我的端口是22251，所以我运行以下命令来打开它：
+
+sudo ufw allow 22251
+
+ 
+
+结语
+
+上面的教程能够帮助你在Ubuntu 18.04、Ubuntu 18.10系统上安装Resilio Sync，安装成功后就可以在Ubuntu桌面、Ubuntu服务器和iPhone之间同步文件了。
+
+ 
