@@ -75,10 +75,14 @@
 20. 死亡通知单--周浩晖
 
 
-* 2020[0/18]
+* 2020[1/19]
 ** DOING 基督山伯爵
 ** DOING 上门龙婿
-** DOING 小李飞刀<2020-07-11-193/Saturday>
+** DONE 小李飞刀
+- State "DOING"      from "DONE"       [2020-07-14 Thu 23:08]
+- State "DONE"       from "DOING"      [2020-07-16 Thu 23:07]
+** DOING 楚留香
+- State "DOING"      from              [2020-07-16 Thu 23:08]
 ** TODO 浮士德
 ** TODO 物质与记忆
 ** TODO 锌皮娃娃兵
