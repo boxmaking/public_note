@@ -254,7 +254,7 @@ $sudo mount.ntfs-3g /dev/sdb5 ./***
 
 
 
-** rc.local方式自动挂载
+** rc.local方式自动挂载 推荐方式.
 *** 添加rc.local文件
 Debian 10和Debian 9一样，没有rc.local文件，导致我们有一些脚本无法设置开机启动，其实rc.local文件在debian 10里面默认没有启动而已。
 

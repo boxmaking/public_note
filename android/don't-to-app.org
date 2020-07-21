@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: android网页不进行app跳转
+#+TITLE: android网页打开连接时不进行app跳转的方法
 #+DATE:<2020-07-03/Friday 16:26:40>
 #+KEYWORDS: android
 #+LANGUAGE: zh-CN
