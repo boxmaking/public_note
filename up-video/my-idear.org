@@ -1,0 +1,32 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 我作up主的内容想法
+#+DATE:<2020-07-23/Thursday 17:37:54>
+#+KEYWORDS: 
+#+LANGUAGE: zh-CN
+
+
+* 制作自己的工作室
+
+* 刀具视频
+
+* diy卡丁车
+
+* 修复摩托发动机
+
+* diy电脑主机箱/主机柜
+
+* 书架
+
+* 钳工桌子
+
+* 生态草缸
+
+* mini日本园林
+
+* mini枯山水
+
+* 环氧树脂各种东东
+
+* 修复旧的机械
+
+* 
