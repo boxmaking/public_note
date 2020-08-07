@@ -99,3 +99,5 @@
   - [[file:share/mybookmarks.org][多年以来收藏的书签]]
 - taobao
   - [[file:taobao/xuanpin.org][淘宝产品选择]]
+- up-video
+  - [[file:up-video/my-idear.org][我作up主的内容想法]]
