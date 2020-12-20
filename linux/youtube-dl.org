@@ -24,6 +24,9 @@
    #+END_SRC
 
 
+* 更新到最新版
+sudo apt-get youtube-dl -U
+
 * youtube-dl使用代理
 #+BEGIN_SRC shell
 #socks5代理

@@ -294,6 +294,11 @@ $emacs /etc/rc.local
 #
 # By default this script does nothing.
 
+mount /dev/sdc1 /home/pengshao/ps-backup/
+mount.ntfs-3g /dev/sdb6 /home/mount-temp/sdb6/
+mount.ntfs-3g /dev/sdb5 /home/mount-temp/sdb5/
+mount  /dev/sdd3 /home/mount-temp/sdd3/
+
 exit 0
 #+END_SRC
 
@@ -314,3 +319,63 @@ $systemctl start rc.local
 
 
 * 开机自检相关教程
+
+
+
+#+BEGIN_EXAMPLE
+sudo fdisk -l
+[sudo] pengshao 的密码：
+Disk /dev/sdc：931.5 GiB，1000204886016 字节，1953525168 个扇区
+Disk model: WDC WD10EZEX-75W
+单元：扇区 / 1 * 512 = 512 字节
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+磁盘标签类型：gpt
+磁盘标识符：484C761A-90F3-41D0-B721-78E9E6B2E437
+
+设备           起点       末尾       扇区   大小 类型
+/dev/sdc1      2048    1050623    1048576   512M EFI 系统
+/dev/sdc2   1050624   59643903   58593280    28G Linux 文件系统
+/dev/sdc3  59643904   67926015    8282112     4G Linux swap
+/dev/sdc4  67926016 1953523711 1885597696 899.1G Linux 文件系统
+
+
+Disk /dev/sdb：931.5 GiB，1000204886016 字节，1953525168 个扇区
+Disk model: WDC WD10PURX-69K
+单元：扇区 / 1 * 512 = 512 字节
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+磁盘标签类型：dos
+磁盘标识符：0xa58fc54c
+
+设备       启动       起点       末尾       扇区   大小 Id 类型
+/dev/sdb1             2048 1953523711 1953521664 931.5G  f W95 扩展 (LBA)
+/dev/sdb5             4096 1048582143 1048578048   500G  7 HPFS/NTFS/exFAT
+/dev/sdb6       1048584192 1953523711  904939520 431.5G  7 HPFS/NTFS/exFAT
+
+
+Disk /dev/sda：931.5 GiB，1000204886016 字节，1953525168 个扇区
+Disk model: WDC WD10EURX-63F
+单元：扇区 / 1 * 512 = 512 字节
+扇区大小(逻辑/物理)：512 字节 / 4096 字节
+I/O 大小(最小/最佳)：4096 字节 / 4096 字节
+磁盘标签类型：dos
+磁盘标识符：0xfb4efb4e
+
+设备       启动  起点       末尾       扇区   大小 Id 类型
+/dev/sda1        2048 1953525167 1953523120 931.5G 83 Linux
+
+
+Disk /dev/sdd：111.8 GiB，120034123776 字节，234441648 个扇区
+Disk model: ZSPEED SSD 120GB
+单元：扇区 / 1 * 512 = 512 字节
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：gpt
+磁盘标识符：56D5CC38-DA22-47F1-8551-1E1AB2966508
+
+设备         起点      末尾      扇区   大小 类型
+/dev/sdd1    2048    616447    614400   300M EFI 系统
+/dev/sdd2  616448    878591    262144   128M Microsoft 保留
+/dev/sdd3  878592 234441614 233563023 111.4G Microsoft 基本数据
+#+END_EXAMPLE

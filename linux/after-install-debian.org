@@ -69,7 +69,7 @@ apt-get install sudo
 
 ** 下载工具
 - wget
-- aira2
+- aria2
 - curl
 - youtube-dl
 - 
