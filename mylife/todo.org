@@ -1,0 +1,16 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 我的待办事件列表
+#+KEYWORDS: 待办事件列表
+#+LANGUAGE: zh-CN
+
+
+
+* TODO 底层原理
+- State "TODO"       from              [2021-01-04 Mon 20:02]
+<2021-01-04/Monday 20:03:26>下载目前最新
+<2021-01-08/Friday 21:43:49>最新兴奋剂
+
+* TODO 青蛙刀圣
+<2021-01-04/Monday 20:04:25>更新到达芬奇密码第三部
+
+* TODO 书本<<他们没大脑但他们有智能>>

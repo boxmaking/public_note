@@ -82,10 +82,12 @@
   - [[file:mylife/I-don't-forgive.org][我不原谅，曾经群魔共舞的三尺讲坛]]
   - [[file:mylife/2020-my.org][我的2020中页反思]]
   - [[file:mylife/bookslist.org][我的书单]]
+  - [[file:mylife/todo.org][我的待办事件列表]]
   - [[file:mylife/collect.org][我的朝花夕拾]]
   - [[file:mylife/telephone.org][手机]]
   - [[file:mylife/nolie.org][给我一个永远的谎言，说你还没有忘记我]]
   - [[file:mylife/30.org][而立之年]]
+  - [[file:mylife/芝加哥没有海.org][芝加哥没有海,但牡蛎带来了海]]
   - [[file:mylife/the-rain.org][花玻璃外的雨点--我的亲情回忆]]
   - [[file:mylife/predawn-suzhou.org][黎明前的苏州城]]
 - org

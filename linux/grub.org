@@ -15,6 +15,9 @@ $sudo gedit /etc/default/grub
 
 GRUB_DEFAULT 这一项表示默认的启动项,后面的值从零开始编号,分别是你在 Grub 引导界面看到的启动项.
 更改为你需要的启动项序号即可.
+第一行是0
+第二行是1
+以此类推
 
 GRUB_TIMEOUT 这一项是超时时间单位为秒.
 
