@@ -75,5 +75,5 @@
 
 + 关于emacs代理设置看这里:[[file:~/psnote_public/emacs/emacs-proxy.org]]
 
-+ 关于get的代理设置看这里:[[file:wget.org::54]]
++ 关于get的代理设置看这里:[[file:wget.org]]
 

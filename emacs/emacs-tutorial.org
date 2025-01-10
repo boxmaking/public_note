@@ -192,7 +192,7 @@ M-w -- 复制当前行
 
  1. 我绑定快捷键在F2了
     设置在这个配置文件中
-    [[file:~/.emacs.d/loadfile/pengshao-key-building.el::12]]
+   [[file:~/.emacs.d/loadfile/pengshao-key-building.el::12]]
 
  2. 但是有两个例外：
    1. 没有改变文字的命令不算（包括光标移动命令和滚动命令）
@@ -324,7 +324,7 @@ M-w -- 复制当前行
 
    “L” 和其后的数字给出了光标所在行的行号.
    这里我已经配置过显示列号和行号了,也在左边显示行号了
-   [[file:~/.emacs.d/loadfile/pengshao-default.el::33]]
+   [[file:~/.emacs.d/loadfile/pengshao-default.el]]
 
    最开头的星号（*）表示你已经对文字做过改动.刚刚打开的文件肯定没有被改动
    过，所以状态栏上显示的不是星号而是短线（-）.

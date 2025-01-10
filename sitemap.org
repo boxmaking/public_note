@@ -3,7 +3,7 @@
 - [[file:README.org][README]]
 - [[file:index.org][index]]
 - android
-  - [[file:android/don't-to-app.org][未整理的linux学习笔记]]
+  - [[file:android/don't-to-app.org][android网页打开连接时不进行app跳转的方法]]
 - c
   - [[file:c/c-learn.org][c语言学习笔记]]
 - emacs
@@ -18,7 +18,6 @@
   - [[file:emacs/emacs-proxy.org][emacs使用代理教程]]
   - [[file:emacs/emacs-letter-upper-lower.org][emacs大小写转换的快捷键]]
   - [[file:emacs/emacs-help.org][emacs帮助系统]]
-  - [[file:emacs/youdao-dictionary.org][emacs添加有道辞典教程]]
   - [[file:emacs/root-configuration.org][root用户使用自定义的配置]]
   - [[file:emacs/sr-speedbar.org][sr-speedbar使用教程]]
 - firefox
@@ -52,7 +51,7 @@
   - [[file:linux/proxychains4.org][proxychains4使用教程]]
   - [[file:linux/root-completion.org][root-completion]]
   - [[file:linux/scrot.org][scrot-tutorial:一个截屏软件教程]]
-  - [[file:linux/shell-initfile.org][shell的初始化文件]]
+  - [[file:linux/shell-initfile.org][shell的初始化文件 emacs-tutorial]]
   - [[file:linux/tar.org][tar命令详细功能和格式---ar解压缩deb文件]]
   - [[file:linux/tree.org][tree-详解]]
   - [[file:linux/wget.org][wget-用法详解释]]
@@ -87,7 +86,6 @@
   - [[file:mylife/telephone.org][手机]]
   - [[file:mylife/nolie.org][给我一个永远的谎言，说你还没有忘记我]]
   - [[file:mylife/30.org][而立之年]]
-  - [[file:mylife/芝加哥没有海.org][芝加哥没有海,但牡蛎带来了海]]
   - [[file:mylife/the-rain.org][花玻璃外的雨点--我的亲情回忆]]
   - [[file:mylife/predawn-suzhou.org][黎明前的苏州城]]
 - org

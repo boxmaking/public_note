@@ -16,8 +16,8 @@
 
 * 使用
 1. 更改文件
-   [[file:~/.emacs.d/lisp/auto-complete.el::199]]
-   添加上自己想自动补全的mode
+   [[file:~/.emacs.d/lisp/auto-complete.el]]
+   添加上自己想自动补全的mode111
    我这里添加的是org-mode
 2. 添加文件
    [[file:~/.emacs.d/lisp/ac-dict/org-mode]]

@@ -232,7 +232,7 @@ On Linux and macOS
 - ~/.config/youtube-dl/config---->the user wide configuration file
 
 我的配置文件
-#+INCLUDE: "~/.config/youtube-dl/config"
+##+INCLUDE: "~/.config/youtube-dl/config"
 
 如果不想用配置文件启动
 You can use "--ignore-config" if you want to disable the configuration file for a particular youtube-dl run.
