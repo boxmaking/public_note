@@ -52,3 +52,7 @@
 
 
 * TODO 三角函数
+
+* DOING capture org使用
+- State "DOING"      from "TODO"       [2025-02-04 Tue 20:41]
+  
