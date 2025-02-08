@@ -1,0 +1,87 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: calendar和cal-china-x相关的教程
+#+KEYWORDS: emacs,bookmark 
+#+LANGUAGE: zh-CN
+
+* Calendar使用
+1. M-x Calendar 启动
+2. Calendar的相关使用教程
+   1. 日历界面基本操作
+      切换月份和年份
+      下一个月：按下 ] 键，日历会显示下一个月的日期。
+      上一个月：按下 [ 键，日历会显示上一个月的日期。
+      下一年：按下 } 键，日历会显示下一年相同月份的日期。
+      上一年：按下 { 键，日历会显示上一年相同月份的日期。
+      
+   2. 快速跳转到指定日期
+      按下 g 键，然后输入 y m d 格式的日期（例如 2025 10 1），再按下回车键，日历会快速跳转到指定日期。
+      
+   3. 显示当天日期
+      按下 t 键，日历会自动定位到当天的日期。
+      
+   4. 查看详细日期信息
+      将光标移动到某一日期上，按下 RET（回车键），会弹出一个窗口显示该日期的详细信息，包括星期几、节假日等（如果配置了相关节假日信息）。
+      
+   5. 标记和查看节假日
+      如果已经按照前面的教程配置了 cal-china-x 等扩展
+      日历会自动标记重要的节假日。节假日通常会以不同的颜色或样式显示，方便识别。
+      
+   6. 日程安排（日记功能）
+      记录日程
+      按下 d 键，然后输入要记录日程的日期（格式同快速跳转日期），再按下回车键，会打开对应的日记文件。在日记文件中输入日程信息，保存后，这些日程会与对应的日期关联。
+      查看日程
+      将光标移动到某一日期上，按下 D 键，会显示该日期关联的日程信息。
+      
+   7. 日期计算
+      计算相对日期
+      按下 + 键，然后输入一个数字（表示天数），再按下回车键
+      日历会显示当前日期之后指定天数的日期
+      按下 - 键则会显示当前日期之前指定天数的日期。
+
+      计算两个日期之间的天数
+      按下 = 键，然后分别输入两个日期（格式同快速跳转日期）
+      再按下回车键，Emacs 会计算并显示这两个日期之间的天数。
+      
+   8. 退出日历
+      按下 q 键，即可关闭日历窗口，返回到之前的编辑界面。
+3. 自定义的插入时间快捷键
+   | 快捷键  | 功能                     | 势力                                 |
+   |---------+--------------------------+--------------------------------------|
+   | C-c m t | 插入当前的年月日钟表时间 | <2025-02-08/Saturday 18:53:05>       |
+   | C-c md  | 插入当前年月日星期       | <2025-02-08-039/Saturday>            |
+   | C-c mm  | 插入当年年月             | <2025-February>                      |
+   | C-c my  | 插入本年度进度表         | [///                           ] 10% |
+   
+   #+BEGIN_SRC lisp
+   (load "~/.emacs.d/loadfile/pengshao-insert-date.el")
+   #+END_SRC
+4. Calendar的相关设置文件
+   pC显示农历
+   #+BEGIN_SRC lisp
+   (load "~/.emacs.d/loadfile/pengshao-calendar.el ")
+   #+END_SRC
+
+* cal-china-x安装与使用
+1. 安装
+   [[https://github.com/xwl/cal-china-x][github的安装链接]]
+   下载文件：从 cal-china-x 的 GitHub 仓库 下载 cal-china-x.el 文件。
+   放置文件：把下载好的 cal-china-x.el 文件放到 Emacs 的加载路径中，例如 ~/.emacs.d/lisp 目录
+   配置加载路径：在 Emacs 配置文件里添加如下代码：
+   #+BEGIN_SRC lisp
+     (add-to-list 'load-path "~/.emacs.d/lisp/")
+
+     (require 'cal-china-x)
+     (setq calendar-mark-holidays-flag t)
+     ;; (setq mark-holidays-in-calendar t) ; before emacs-25
+     (setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
+     (setq cal-china-x-general-holidays '((holiday-lunar 1 15 "元宵节")))
+     (setq calendar-holidays
+           (append cal-china-x-important-holidays
+                   cal-china-x-general-holidays
+                   ;;other-holidays这个地方需要隐藏这句话,要不然错误启动
+                   ))
+
+   #+END_SRC
+
+   2. 使用教程
+      之后就能在calendar使用了

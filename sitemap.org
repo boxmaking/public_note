@@ -9,6 +9,7 @@
 - emacs
   - [[file:emacs/eshell.org][Eshell使用笔记]]
   - [[file:emacs/auto-complete.org][auto-complete插件教程]]
+  - [[file:emacs/emacs-calendar.org][calendar和cal-china-x相关的教程]]
   - [[file:emacs/color-theme.org][emacs-color-theme主题]]
   - [[file:emacs/emacs-pdf.org][emacs-pdf]]
   - [[file:emacs/emacs-tutorial.org][emacs-tutorial]]
@@ -20,6 +21,7 @@
   - [[file:emacs/emacs-help.org][emacs帮助系统]]
   - [[file:emacs/root-configuration.org][root用户使用自定义的配置]]
   - [[file:emacs/sr-speedbar.org][sr-speedbar使用教程]]
+  - [[file:emacs/emacs-weather.org][利用wttr_in添加天气]]
 - firefox
   - [[file:firefox/firefox-tabs.org][firefox-tabs]]
 - git
@@ -30,6 +32,7 @@
   - [[file:hardware/storage.org][存储与文件系统]]
 - idear
   - [[file:idear/idear-list.org][idear-list]]
+  - [[file:idear/todo-list.org][todo-list]]
 - linux
   - [[file:linux/apt-get-tutorial.org][apt-get-tutorial]]
   - [[file:linux/badbolocks.org][badblocks,硬盘坏道检测工具]]

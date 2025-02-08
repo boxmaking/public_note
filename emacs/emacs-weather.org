@@ -1,0 +1,12 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 利用wttr_in添加天气
+#+KEYWORDS: emacs,bookmark 
+#+LANGUAGE: zh-CN
+
+* wttr.in
+[[https://github.com/chubin/wttr.in]]
+
+* 配置文件
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-openweather.el" src lisp
+
+* C-c m o
