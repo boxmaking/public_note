@@ -1,8 +1,9 @@
 #+LANGUAGE: zh-CN
 
------
-[[https://boxmaking.github.io/. ][PengShao's BLOG]] 的原始文件备份
+---------------
+[[https://boxmaking.github.io/. ][PengShao's BLOG]] 
 
+---------------
 温饱有余,奢侈不足.
 
 不安于现状,不付诸改变.
@@ -19,7 +20,6 @@
 
 知途知径,浑然天成.
 
-姑且尝试着对自己的人生进行简单的总结与规划,若有裨益,幸甚至哉.
 
------
+---------------
 end here

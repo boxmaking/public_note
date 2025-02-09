@@ -62,7 +62,34 @@ http://ergoemacs.org/emacs/elisp_library_system.html
 * 备份相关的设置
 #+INCLUDE: "~/.emacs.d/loadfile/pengshao-backup.el" src lisp
 
+* 启动页面*scratch*显示特定内容
+将以下代码添加到你的 Emacs 配置文件中：
+#+BEGIN_SRC lisp
+  ;; 定义示例函数
+  (defun my-first-function ()
+    "返回一个字符串。"
+    "这是第一个函数返回的内容。")
+  (defun my-second-function ()
+    "打印一条消息。"
+    (message "这是第二个函数打印的消息。"))
 
+  ;; 在 Emacs 启动时清空 *scratch* 缓冲区并调用函数
+  (setq initial-scratch-message "")
+  (with-current-buffer "*scratch*"
+    (let ((result1 (my-first-function)))
+      (insert (format "第一个函数的结果: %s\n" result1)))
+    (call-interactively 'my-second-function))
+  #+END_SRC 
+** 代码解释
+1. 函数定义：定义了 =my-first-function= 和 =my-second-function= 两个函数。
+   清空初始消息：=setq initial-scratch-message= "" 用于清空 *scratch* 缓冲区的默认初始消息。
+   切换到 *scratch* 缓冲区：with-current-buffer "*scratch*" 确保后续操作都在 *scratch* 缓冲区进行。
+
+2. 调用第一个函数：
+   =(let ((result1 (my-first-function))) ...)= 调用 =my-first-function= 并将结果存储在 =result1= 变量中。
+   =(insert (format "第一个函数的结果: %s\n" result1))= 将第一个函数的结果格式化并插入到 *scratch* 缓冲区。
+
+3. 调用第二个函数：=(call-interactively 'my-second-function)= 交互式地调用 =my-second-function=，该函数会在消息区打印一条消息。
 
 * frame-title-format设置相关
 

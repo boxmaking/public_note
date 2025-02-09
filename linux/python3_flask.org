@@ -1,0 +1,37 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil f:nil toc:t
+#+TITLE: linux安装python3+flask
+#+KEYWORDS: linux,python3,flask
+#+LANGUAGE: zh-CN
+
+* 安装python3
+#+BEGIN_SRC sh
+  sudo apt install python3 python3-pip python3-venv
+  python3 --version
+  pip3 --version
+#+END_SRC
+
+* 创建并激活虚拟环境
+#+BEGIN_SRC sh
+  # 创建名为 myenv 的虚拟环境
+  python3 -m venv mypython
+  # 激活虚拟环境对于 Bash 或 Zsh 终端
+  source myenv/bin/activate
+  #此时的终端前面会有虚拟环境的名称
+  (mypython) pengshao@10:~/mypython$ 
+#+END_SRC
+激活后，终端提示符会显示虚拟环境名称。
+
+* 安装flask
+[[https://www.runoob.com/flask/flask-tutorial.html][flask教程]]
+
+#+BEGIN_SRC sh
+  # 在激活的虚拟环境中
+  pip3 install flask
+#+END_SRC
+
+* 停用虚拟环境
+#+BEGIN_SRC sh
+  # 完成开发后，停用虚拟环境：
+  deactivate
+#+END_SRC
