@@ -2,6 +2,7 @@
 #+TITLE: sr-speedbar使用教程
 #+KEYWORDS: emacs, sr-speedbar
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-09/Sunday 20:33:31>
 
 * 安装
 地址[[https://www.emacswiki.org/emacs/sr-speedbar.el]]
@@ -10,19 +11,25 @@
 #+BEGIN_SRC lisp
 (require 'sr-speedbar)
 ;;左侧显示
-(setq sr-speedbar-right-side nil)
+(setq sr-speedbar-right-side nil)     
 ;;宽度
-(setq sr-speedbar-width 30)
+(setq sr-speedbar-width 25)          
 ;;显示.的头文件
 (setq speedbar-directory-unshown-regexp "^\(\.\.*$\)\'")
-;;设置快捷键f5,默认在快捷键配置文件内
-;;(global-set-key [f3] 'sr-speedbar-open)
-;;(global-set-key [f5] 'sr-speedbar-select-window)
 ;;窗口跳转跳过sr-speedbar
 (setq sr-speedbar-skip-other-window-p t)
-;;打开sr-speedbar
+;;设置快捷键
+;(global-set-key [f5] 'sr-speedbar-select-window)
+(global-set-key [f5] 'sr-speedbar-open)
+(global-set-key (kbd "C-c s") 'sr-speedbar-open)
+(global-set-key (kbd "C-c x") 'sr-speedbar-close)
+;;开机默认启动speedbar,不用了,现在用sr-speedbar了
+;;(speedbar 1)
+;;自动打开sr-speedbar
+;;不知道为什么太不好用了,每次都多打开一个窗格,所以忽略了,
 ;;(sr-speedbar-open)
 #+END_SRC
+
 
 * 快捷键
 - +-打开文件内部索引

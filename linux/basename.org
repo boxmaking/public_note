@@ -7,14 +7,14 @@
 
 * 命令行实现回收站功能
 1. 编写remove.sh文件
-   #+INCLUDE: "../shellscript/remove.sh"
+   #+INCLUDE: "/home/pengshao/shellscript/remove.sh"
 2. 编写~/.bashrc文件
    #+BEGIN_SRC sh
-   $alias rm="sh ~/remove.sh"
+   $alias rm="sh ~/shellscript/remove.sh"
    #+END_SRC
 3. 加载文件
    #+BEGIN_SRC sh
-   source ~/.bashrc   
+   $source ~/.bashrc   
    #+END_SRC
 4. 定期清理
    #+BEGIN_SRC sh
@@ -38,6 +38,7 @@ SUFFIX.
 #+END_EXAMPLE
 
 以下是一些Q＆A风格的示例，可以让您对basename命令的工作原理有所了解。
+
 ** basename命令如何工作？
 默认情况下，如果运行“basename”命令并将文件的完整路径作为输入，则该命令将在输出中返回文件名。 
 
@@ -47,6 +48,7 @@ $basename /home/pengshao/test.txt
 #我得到以下输出：
 $test.txt
 #+END_SRC
+
 
 ** basename可以处理多个输入吗？
 可以。 但要实现这一点，您需要使用-a命令行选项。 
@@ -58,6 +60,7 @@ $basename -a /home/pengshao/test.txt /home/pengshao/test.jpg
 $test.txt
 $test.jpg
 #+END_SRC
+
 
 ** 如何制作basename strip文件扩展名？
 有时，您可能只想获取文件名，而不是其扩展名
@@ -84,6 +87,7 @@ $test.txttest.jpg
 
 所以你在这里看不到NUL角色
 重定向到文件编辑器就可以了.
+
 
 * rm -rf 删除目录时要判断目录
 #+BEGIN_SRC sh

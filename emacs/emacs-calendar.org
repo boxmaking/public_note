@@ -2,9 +2,11 @@
 #+TITLE: calendar和cal-china-x相关的教程
 #+KEYWORDS: emacs,bookmark 
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-09/Sunday 19:29:44>
 
 * Calendar使用
 1. M-x Calendar 启动
+   
 2. Calendar的相关使用教程
    1. 日历界面基本操作
       切换月份和年份
@@ -44,22 +46,18 @@
       
    8. 退出日历
       按下 q 键，即可关闭日历窗口，返回到之前的编辑界面。
+      
 3. 自定义的插入时间快捷键
    | 快捷键  | 功能                     | 势力                                 |
    |---------+--------------------------+--------------------------------------|
    | C-c m t | 插入当前的年月日钟表时间 | <2025-02-08/Saturday 18:53:05>       |
-   | C-c md  | 插入当前年月日星期       | <2025-02-08-039/Saturday>            |
-   | C-c mm  | 插入当年年月             | <2025-February>                      |
-   | C-c my  | 插入本年度进度表         | [///                           ] 10% |
+   | C-c m d | 插入当前年月日星期       | <2025-02-08-039/Saturday>            |
+   | C-c m m | 插入当年年月             | <2025-February>                      |
+   | C-c m y | 插入本年度进度表         | [///                           ] 10% |
    
-   #+BEGIN_SRC lisp
-   (load "~/.emacs.d/loadfile/pengshao-insert-date.el")
-   #+END_SRC
 4. Calendar的相关设置文件
    pC显示农历
-   #+BEGIN_SRC lisp
-   (load "~/.emacs.d/loadfile/pengshao-calendar.el ")
-   #+END_SRC
+
 
 * cal-china-x安装与使用
 1. 安装

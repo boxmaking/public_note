@@ -1,8 +1,18 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: Eshell使用笔记
+#+TITLE: Eshell使用记录
 #+KEYWORDS: eshell
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-09/Sunday 19:38:30>
 
-* M-x shell ::
-打开eshell
+* 打开eshell
+=M-x eshell=
 
+* eshell使用自动补全
+#+BEGIN_SRC lisp
+  ; 忽略大小写进行补全
+  (setq eshell-cmpl-ignore-case t)
+  ; 允许循环补全
+  (setq eshell-cmpl-cycle-completions t)
+  ; 让 pcomplete 支持循环补全
+  (setq pcomplete-cycle-completions t) 
+#+END_SRC 

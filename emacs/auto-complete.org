@@ -2,23 +2,27 @@
 #+TITLE: auto-complete插件教程
 #+KEYWORDS: emacs,auto-complete
 #+LANGUAGE: zh-CN
-#+TAGS: 
+#+TAGS: 自动补全
+#+DATE:<2025-02-09/Sunday 19:19:31>
 
-* 安装
+* 安装后
+将文件放到.emacs.d/lisp/
+在~/.emacs.d/init.el中添加下面代码即可
+
 #+BEGIN_SRC lisp
 (require 'auto-complete)
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/lisp/ac-dict/")
 (ac-config-default)
-(define-key ac-mode-map (kbd "C-c c") 'auto-complete)
+(define-key ac-mode-map (kbd "C-c q") 'auto-complete)
 #+END_SRC
 
 
 * 使用
 1. 更改文件
    [[file:~/.emacs.d/lisp/auto-complete.el]]
-   添加上自己想自动补全的mode111
-   我这里添加的是org-mode
+   添加上自己想自动补全的mode.
+   我这里添加的是org-mode.
 2. 添加文件
    [[file:~/.emacs.d/lisp/ac-dict/org-mode]]
-   里面以行为单位就能设置自己想要的自动不全命令了
+   里面以行为单位就能设置自己想要的自动补全的命令了.

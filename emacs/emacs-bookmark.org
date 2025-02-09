@@ -2,13 +2,14 @@
 #+TITLE: emacs书签使用教程
 #+KEYWORDS: emacs,bookmark 
 #+LANGUAGE: zh-CN
-
+#+DATE: <2025-02-09/Sunday 19:27:02>
 
 * set bookmark
 #+BEGIN_EXAMPLE
 M-x bookmark-set
 C-x r m 同样可以达到目的
 #+END_EXAMPLE
+
 
 * bookmark list
 #+BEGIN_EXAMPLE

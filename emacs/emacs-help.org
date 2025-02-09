@@ -93,7 +93,7 @@ view-lossage
 - C-h v variable	describe-variable	将在一个新的帮助缓冲区窗口中描述给定变量 的用途。
 
 - C-h w function	where-is	将描述特定的函数所绑定到的键盘输入（如果有的话）。
-
+  
 
 * fn:1 https://www.ibm.com/developerworks/cn/education/aix/au-emacs7/index.html
 

@@ -2,7 +2,7 @@
 #+TITLE: emacs大小写转换的快捷键
 #+KEYWORDS: emacs大小写转换的快捷键
 #+LANGUAGE: zh-CN
-
+#+DATE:<2025-02-09/Sunday 19:33:23>
 
 * 从光标位置开始，处理单词后半部分
 
@@ -20,6 +20,7 @@
 | upcase-word (M-- M-u)     | upcase   |
 | downcase-word (M-- M-l)   | downcase |
 |---------------------------+----------|
+
 
 * 改变选定区域的大小写
 

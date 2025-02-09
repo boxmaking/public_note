@@ -2,6 +2,7 @@
 #+TITLE: 利用wttr_in添加天气
 #+KEYWORDS: emacs,bookmark 
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-09/Sunday 19:35:37>
 
 * wttr.in
 [[https://github.com/chubin/wttr.in]]
@@ -9,4 +10,6 @@
 * 配置文件
 #+INCLUDE: "~/.emacs.d/loadfile/pengshao-openweather.el" src lisp
 
-* C-c m o
+* 设置的快捷键
+C-c m o  插入月相
+C-c m w 插入济南的天气

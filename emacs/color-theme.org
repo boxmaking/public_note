@@ -2,6 +2,7 @@
 #+TITLE: emacs-color-theme主题
 #+KEYWORDS: emacs,emacs-color-theme
 #+LANGUAGE: zh-CN
+#+DATE: <2025-02-09/Sunday 19:04:44>
 
 * 给emacs安装color-theme
 
@@ -12,11 +13,12 @@ http://download.gna.org/color-theme/
 
 * 下载解压缩后
 
-1. 把color-theme.el拷贝到某个load-path中，比如我的是~/.emacs.d
+1. 把color-theme.el拷贝到某个load-path中
+   比如我的是~/.emacs.d/lisp/
 
 2. 把themes目录也要拷贝到上面的路径中
 
-3. 在~/.emacs里添加下面几行：
+3. 在~/.emacs.d/init.el里添加下面几行：
    #+BEGIN_SRC lisp
    (require ‘color-theme)
    (color-theme-initialize)
@@ -35,14 +37,4 @@ http://download.gna.org/color-theme/
 
 
 
-* 其它主题
-把其他主题下载到themes目录里
-
-再修改~/.emacs.d/init.el
-#+BEGIN_SRC lisp
-(load-file “~/.emacs.d/themes/your-own-theme.el”)
-
-(color-theme-your-own)
-#+END_SRC
-就可以了
 

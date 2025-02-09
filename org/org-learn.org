@@ -94,7 +94,7 @@ M-x emacs-version
 2. 加载iimage.el文件
 3. M-x iimage-mode 载入这个minor mode之后
 4. 就能够C-c C-o,在新的buffer显示图片了
-5. [[file:~/psnote_public/mylife/image/002.jpg]]
+5. [[file:~/public_note/2025-02-09-160406_57x54_scrot.png]]
 
 
 * Tags标签

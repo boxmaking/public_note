@@ -2,11 +2,11 @@
 #+TITLE: apt-get-tutorial
 #+KEYWORDS: apt-get 
 #+LANGUAGE: zh-CN
-
+#+DATE:<2025-02-09/Sunday 21:05:41>
 
 * 查看软件包的详细网址和各种依赖情况
 #+BEGIN_SRC shell
-apt-cache show programname
+$apt-cache show programname
 #+END_SRC
 
 
@@ -20,10 +20,7 @@ apt-cache show programname
  $sudo killall apt-get
  $sudo killall dpkg
  $sudo dpkg --configure -a
- #就完美的搞定了
  #+END_SRC
-
-
 
 ** 尾声
  其实我以前也碰到过这几个个问题,当时没能解决掉,现在终于完成了
@@ -38,6 +35,7 @@ $sudo apt-get install -f #一般会出现依赖关系,直接这样安装即可
 $sudo dpkg -l  #查看所有的软件包名称
 $sudo dpkg --remove ***  #卸载软件包
 #+END_SRC
+
 
 * dpkg使用代理
 

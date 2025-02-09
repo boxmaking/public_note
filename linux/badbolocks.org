@@ -2,26 +2,21 @@
 #+TITLE: badblocks,硬盘坏道检测工具
 #+KEYWORDS: badblocks,硬盘坏道检测工具
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-09/Sunday 21:08:56>
 
 * badblocks安装。
 badblocks被打包在e2fsprogs安装包中。
-CentOS下：
-#+BEGIN_SRC shell
-$yum install e2fsprogs
 
-#Ubuntu下：
+#+BEGIN_src sh
 $apt-get install e2fsprogs
-
 #+END_SRC
 
 
 * badblocks使用
 
 实例
-#+BEGIN_EXAMPLE shell
-
+#+BEGIN_src sh
 #查看系统当前硬盘信息。
-
 $fdisk -l
 
 例如，显示信息如下：
@@ -63,7 +58,7 @@ Checking for bad blocks (read-only test): 306809600674112/ 306810000000
 done
 Pass completed, 37 bad blocks found.其中，“37 bad blocks found”表示硬盘存在37个坏块。
 
-#+END_EXAMPLE
+#+END_SRC
 
 
 * 附录

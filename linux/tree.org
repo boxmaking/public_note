@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: tree-详解
+#+TITLE: tree软件-详解
 #+KEYWORDS: tree-详解
 #+LANGUAGE: zh-CN
 
@@ -62,7 +62,6 @@ tree [-adfgilnopqrstuxACDFNS] [-L level [-R]] [-H baseHREF] [-T title]
 -S	打开ASCII线图形（使用linux控制台模式字体时很有用）。此选项现在等效于`charset=IBM437'，最终将被折旧。
 -Llevel	目录树的最大显示深度。
 -R	递归地遍历树的每个级别目录(请参见-L选项)，并在每个目录下执行树，再次添加`-o 00Tree.html'作为一个新选项。
--HbaseHREF	打开HTML输出，包括HTTP引用。适用于ftp站点。当使用HTML输出时，baseHREF给出基本ftp位置。也就是说，本地目录可能是“/local/ftp/pub”，但是它必须被引用为“ftp://hostname.organiz.domain/pub”(baseHREF应该是“ftp://hostname.organiz.domain”)。提示:不要使用带有此选项的ANSI行，并且在目录列表中不要给出多个目录。如果您想通过CSS样式表使用颜色，除了这个选项外，还可以使用-C选项强制输出颜色。
 -Ttitle	在HTML输出模式下设置标题和H1标题字符串。
 --charsetcharset	设置输出HTML和绘图时使用的字符集。
 --nolinks	关闭HTML输出中的超链接。
@@ -109,7 +108,6 @@ ps-debian:~/psnote_public/linux$ tree ./
 $ tree -a /home/pengshao
 #显示/home/pengshao所有文件
 
-#+BEGIN_SRC shell
 $ tree -I 'ps*|lib|note'
 #显示树没有包含ps开头和lib和note
 
@@ -125,6 +123,5 @@ $ tree -L 1  -d /home/pengshao/tmp/gitlearn/
 
 $ tree -l /home/pengshao/tmp/gitlearn/
 #如果内部有目录的符号链接,会显示该目录
-
 
 #+END_SRC

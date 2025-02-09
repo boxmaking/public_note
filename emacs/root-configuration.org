@@ -2,6 +2,7 @@
 #+TITLE: root用户使用自定义的配置
 #+KEYWORDS: emacs, 
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-09/Sunday 19:37:58>
 
 * 为了使得sudo emacs时也可以使用pengshao用户的配置
 1. 创建相应的符号链接到 root用户目录下,代码如下:

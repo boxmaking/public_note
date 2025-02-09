@@ -6,38 +6,39 @@
 
 * 校正日期和时间
 #+BEGIN_SRC shell
-cp /usr/share/zoneinfo/Asia/ShangHai  /etc/localtime     #时区为亚洲/上海
+$cp /usr/share/zoneinfo/Asia/ShangHai  /etc/localtime     #时区为亚洲/上海
 #+END_SRC
 
 1. 网络校时
 #+BEGIN_SRC shell
-apt-get install ntpdate
-ntpdate 210.72.145.44        # 中国国家时间服务器: 210.72.145.44
+$apt-get install ntpdate
+$ntpdate 210.72.145.44        # 中国国家时间服务器: 210.72.145.44
 #+END_SRC
 
 2. 手动校时
 #+BEGIN_SRC shell
-sudo date -s 11/13/2019                #2019年11月13日
-sudo date -s 10:05:30                  #10点05分30秒
+$sudo date -s 11/13/2019                #2019年11月13日
+$sudo date -s 10:05:30                  #10点05分30秒
 #+END_SRC
 
 
 * 安装的软件
 ** install-sudo
 #+BEGIN_SRC shell
-su
-apt-get install sudo
+$su
+$apt-get install sudo
 #+END_SRC
 
 
 ** 中文输入环境教程
-1. sudo apt-get install locales
-2. sudo apt-get install fonts-wqy-*
-3. sudo apt-get install ibus ibus-gtk ibus-pinyin 
-4. sudo apt-get install ttf-dejavu
-5. sudo apt-get install ttf-wqy-microhei
-6. sudo apt-get install ttf-wqy-zenhei
-
+#+BEGIN_SRC sh
+  $sudo apt-get install locales
+  $sudo apt-get install fonts-wqy-*
+  $sudo apt-get install ibus ibus-gtk ibus-pinyin 
+  $sudo apt-get install ttf-dejavu
+  $sudo apt-get install ttf-wqy-microhei
+  $sudo apt-get install ttf-wqy-zenhei
+#+END_SRC
 
 
 ** 浏览器
@@ -53,7 +54,7 @@ apt-get install sudo
 ** ebook
 - calibre-ebook
   #+BEGIN_SRC sh
-  wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir=~/calibre-bin isolated=y
+  $wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir=~/calibre-bin isolated=y
   #+END_SRC
 
 
@@ -69,10 +70,13 @@ apt-get install sudo
 
 ** 下载工具
 - wget
+  [[/home/pengshao/public_note/linux/wget.org]]
+  [[/home/pengshao/public_note/linux/wget-mirror.sh]]
 - aria2
 - curl
 - youtube-dl
-- 
+  [[/home/pengshao/public_note/linux/youtube-dl.org]]
+- bitcomet
 
 
 ** 文件管理
@@ -108,56 +112,30 @@ apt-get install sudo
 - xpdf
 - chm2pdf
 - emacs
+  [[/home/pengshao/public_note/emacs/]]
 
-
+  
 ** game
 - steam
 
-
+  
 ** free
 - pandevpn
 
-
+  
 ** 虚拟机
 - virtualbox
-   
 
-** fun
-- scrot
-  截图软件
-- neofetch
-  显示带图标的硬件信息
-- figlet
-- tree
-   |-----------+---------------------|
-   | tree -a   | display all thefile |
-   |-----------+---------------------|
-   | tree -l N | 多少层              |
-   |-----------+---------------------|
-- asciiview
-  命令
-  #+BEGIN_SRC sh
-  $sudo apt-get install aview imagemagick
-  $asciiview shiyanlou.png -driver curses
-  #+END_SRC
-  需要imagemagick支持
-- factor命令
-  分解因数
-  #+BEGIN_SRC shell
-  $factor60
-  #+END_SRC
-- Bastet
-  命令行的俄罗斯方块
-
-
+  
 ** 解压
 - unzip,unrar-free
 - 7zip
   #+BEGIN_SRC sh
   $sudo apt-get install p7zip-full
   #+END_SRC
-
-
+- tar相关
+  [[/home/pengshao/public_note/linux/tar.org]]
+  
 ** 系统相关
 - dpkg-dev
 - net-tools 
@@ -178,3 +156,89 @@ apt-get install sudo
 ** 修复依赖
 sudo apt-get --fix-broken install 
   
+
+
+** fun
+- scrot一个截图软件
+  默认最好用命令就是
+  #+BEGIN_SRC sh
+    scrot -s -d 5
+  #+END_SRC
+  https://boxmaking.github.io/linux/scrot.html
+  [[file:/home/pengshao/public_note/linux/scrot.org]]
+
+- neofetch 显示带图标的硬件信息
+  #+BEGIN_SRC sh
+                  _,met$$$$$gg.          pengshao@10 
+            ,g$$$$$$$$$$$$$$$P.       ----------- 
+          ,g$$P"     """Y$$.".        OS: Debian GNU/Linux 12 (bookworm) x86_64 
+         ,$$P'              `$$$.     Host: VirtualBox 1.2 
+        ',$$P       ,ggs.     `$$b:   Kernel: 6.1.0-28-amd64 
+        `d$$'     ,$P"'   .    $$$    Uptime: 5 hours, 38 mins 
+         $$P      d$'     ,    $$P    Packages: 1947 (dpkg) 
+         $$:      $$.   -    ,d$$'    Shell: bash 5.2.15 
+         $$;      Y$b._   _,d$P'      Resolution: 1440x900 
+         Y$$.    `.`"Y$$$$P"'         DE: Xfce 4.18 
+         `$$b      "-.__              WM: Xfwm4 
+          `Y$$                        WM Theme: Default 
+           `Y$$.                      Theme: Xfce [GTK2], Adwaita [GTK3] 
+             `$$b.                    Icons: Tango [GTK2], Adwaita [GTK3] 
+               `Y$$b.                 Terminal: gnome-terminal 
+                  `"Y$b._             CPU: Intel i5-9400F (6) @ 2.904GHz 
+                      `"""            GPU: 00:02.0 VMware SVGA II Adapter 
+                                      Memory: 2452MiB / 9944MiB 
+
+       #+END_SRC                                               
+                                              
+- figlet一个ASCII 字符艺术字
+  #+BEGIN_SRC sh
+    pengshao@10:~$ figlet h e l l o 1 1
+     _              _   _           _   _ 
+    | |__     ___  | | | |   ___   / | / |
+    | '_ \   / _ \ | | | |  / _ \  | | | |
+    | | | | |  __/ | | | | | (_) | | | | |
+    |_| |_|  \___| |_| |_|  \___/  |_| |_|
+
+  #+END_SRC
+
+- ASCII艺术框：box命令
+  #+BEGIN_SRC sh
+    sudo apt-get install boxes
+    echo "hello" | boxes -d dog
+  #+END_SRC
+
+- toilet也是艺术字
+  想学习的时候再找吧
+    
+- tree输出目录树
+  https://boxmaking.github.io/linux/tree.html
+  [[file:/home/pengshao/public_note/linux/tree.org]]
+
+- asciiview命令
+  #+BEGIN_SRC sh
+    $sudo apt-get install aview imagemagick
+    $asciiview shiyanlou.png -driver curses
+    $asciiview 20250209.png
+  #+END_SRC
+  需要imagemagick支持
+  
+
+- factor命令
+  分解因数
+  #+BEGIN_SRC shell
+  $factor60
+  #+END_SRC
+
+- Bastet
+  命令行的俄罗斯方块
+
+- pi打印圆周率后小数点若干位
+  #+BEGIN_SRC sh
+$sudo apt-get install pi
+$pi 50
+#+END_SRC
+
+- rev他可以反转字符很厉害
+  
+
+

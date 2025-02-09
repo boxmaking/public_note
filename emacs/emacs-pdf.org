@@ -1,8 +1,8 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+TITLE: emacs-pdf
-
 #+KEYWORDS: emacs,emacs-pdf 
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-09/Sunday 19:33:53>
 
 
 * docviewmode 安装
