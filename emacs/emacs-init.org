@@ -4,6 +4,7 @@
 #+LANGUAGE: zh-CN
 #+DATE:<2025-02-09/Sunday 18:49:55>
 
+ [[~/public_note/emacs/emacs-init.png]]
 
 * load,load-file
 1. 加载文件,在默认的配置文件中加载的文件
