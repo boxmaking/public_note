@@ -4,7 +4,9 @@
 #+LANGUAGE: zh-CN
 #+DATE:<2025-02-09/Sunday 18:49:55>
 
- [[./emacs-init.png]]
+#+attr_html: :scale 0.5
+[[./emacs-init.png]]   
+
 
 * load,load-file
 1. 加载文件,在默认的配置文件中加载的文件
@@ -94,7 +96,7 @@ http://ergoemacs.org/emacs/elisp_library_system.html
 
 3. 调用第二个函数：=(call-interactively 'my-second-function)= 交互式地调用 =my-second-function=，该函数会在消息区打印一条消息。
 
-   
+
 * frame-title-format设置相关
 
 ** 我的设置

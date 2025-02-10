@@ -10,6 +10,7 @@
 1. 做好准备工作后，就可以导出了
    C-c C-e
    然后选择相应的格式，就可以导出对应的文件了。
+   
 2. 导出到HTML教程
    1. 借鉴了[[https://github.com/lijigang][lijigang]]的头文件
       css模板https://github.com/lijigang/org-notes-style
@@ -103,6 +104,7 @@
 #+OPTIONS: ^:nil _:nil f:nil toc:t
 #+END_EXAMPLE
 
+
 * 导出的html不显示目录
 一般文字文章我不喜欢
 导出html文章不显示目录，toc 选项设置为 nil 
@@ -127,3 +129,90 @@
    这样我们就再也不用手动添加页面的索引链接了。
 
 4. 我们可以在每个页面的页脚里把这个 sitemap.org 的链接给加上，方便随手访问这个索引。 
+
+
+
+* 在 Org 模式中将图片导出为 HTML 时设置尺寸大小
+
+
+Org 模式提供了多种方法来设置图片在导出为 HTML 时的尺寸大小，以下是详细介绍：
+
+1. 使用 #+attr_html 属性设置具体尺寸
+可以通过 #+attr_html 属性为图片指定固定的宽度和高度。
+#+begin_example
+
+org
+
+#+attr_html: :width 400px :height 300px
+[[file:your_image.jpg]]
+
+
+#+end_example
+解释：
+
+    #+attr_html 专门用于控制导出为 HTML 时图片的属性。
+    :width 400px 将图片宽度设置为 400 像素，你可以修改此值，也能使用百分比（如 60%）设置相对宽度。
+    :height 300px 将图片高度设置为 300 像素，同样可按需调整。
+
+
+2. 使用 CSS 样式设置图片尺寸
+可以在 Org 文件头部添加 CSS 样式来控制图片尺寸。
+#+begin_example
+
+org
+
+#+HTML_HEAD: <style>
+#+HTML_HEAD:   img.custom - image {
+#+HTML_HEAD:     width: 70%;
+#+HTML_HEAD:     height: auto;
+#+HTML_HEAD:   }
+#+HTML_HEAD: </style>
+
+#+attr_html: :class custom - image
+[[file:your_image.jpg]]
+
+
+#+end_example
+解释：
+
+    #+HTML_HEAD 用于在导出的 HTML 文件 <head> 部分添加内容。
+    img.custom - image 是 CSS 选择器，选择带有 custom - image 类的图片。
+    width: 70%; 将图片宽度设置为其父元素宽度的 70%。
+    height: auto; 保持图片原始宽高比，根据宽度自动调整高度。
+    #+attr_html: :class custom - image 为图片添加 custom - image 类。
+
+
+3. 按比例缩放图片
+使用 :scale 属性按比例缩放图片。
+#+begin_example
+
+org
+
+#+attr_html: :scale 0.8
+[[file:your_image.jpg]]
+
+
+#+end_example
+解释：
+
+    :scale 0.8 将图片按 0.8 的比例缩放，即缩小为原来的 80%。
+
+
+4. 动态调整图片大小
+利用 CSS 的 max - width 属性让图片根据浏览器窗口大小动态调整。
+#+begin_example
+
+org
+
+#+attr_html: :style "max-width: 100%; height: auto;"
+[[file:your_image.jpg]]
+
+
+#+end_example
+解释：
+
+    max - width: 100%; 确保图片最大宽度不超过其父元素宽度。
+    height: auto; 保持图片原始宽高比，根据宽度自动调整高度。
+
+
+通过上述方法，你能够灵活控制 Org 模式中图片导出为 HTML 时的尺寸大小。
