@@ -3,6 +3,7 @@
 #+TITLE: linux安装python3+flask
 #+KEYWORDS: linux,python3,flask
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-10/Monday 12:13:47>
 
 * 安装python3
 #+BEGIN_SRC sh

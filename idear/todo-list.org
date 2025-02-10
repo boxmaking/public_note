@@ -1,3 +1,8 @@
 * Tasks
-** TODO 砂带机
-  [2025-02-04 Tue]
+** DOING samba使用教程<2025-02-10/Monday 21:14:55>
+- State "DOING"      from "TODO"       [2025-02-10 Mon 21:15]
+  [2025-02-10 Mon]
+** TODO 砂带机的设计制作<2025-02-10/Monday 21:13:32>
+  [2025-02-10 Mon]
+** TODO 砂带机的设计制作
+  [2025-02-10 Mon]

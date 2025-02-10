@@ -2,7 +2,9 @@
 #+TITLE: emacs-配置文件
 #+KEYWORDS: emacs,emacs-init.el
 #+LANGUAGE: zh-CN
+#+OPTIONS: ^:nil _:nil f:nil toc:nil
 #+DATE:<2025-02-09/Sunday 18:49:55>
+
 
 #+attr_html: :scale 0.5
 [[./emacs-init.png]]   

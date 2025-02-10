@@ -135,6 +135,7 @@ $apt-get install sudo
   #+END_SRC
 - tar相关
   [[/home/pengshao/public_note/linux/tar.org]]
+
   
 ** 系统相关
 - dpkg-dev
@@ -151,6 +152,9 @@ $apt-get install sudo
   分区工具是parted的前端
 - Proxychains4
   代理,目前没有设置,我都是需要代理的单独设置的
+  
+- lsblk列出块设备
+  lsblk -l
 
   
 ** 修复依赖

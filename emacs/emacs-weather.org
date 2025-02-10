@@ -7,9 +7,26 @@
 * wttr.in
 [[https://github.com/chubin/wttr.in]]
 
+
+* pyphoon
+[[https://github.com/chubin/pyphoon]]
+
+
+* 农历API
+[[https://api.aa1.cn/doc/almanac.html]]
+
+#+INCLUDE: " ~/.emacs.d/loadfile/nongli.sh" src sh
+
+
 * 配置文件
 #+INCLUDE: "~/.emacs.d/loadfile/pengshao-openweather.el" src lisp
 
+
 * 设置的快捷键
-C-c m o  插入月相
-C-c m w 插入济南的天气
+- C-c m o 插入月相
+
+- C-c m w 插入济南的天气
+
+- C-c m n 插入农历
+
+
