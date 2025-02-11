@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: date-calendat-使用教程
+#+TITLE: date-命令使用教程
 #+KEYWORDS: linux-command, linux
 #+LANGUAGE: zh-CN
 
@@ -28,6 +28,7 @@
 |----------+-----------------------|
 | %U       | 一年中的第几个星期    |
 |----------+-----------------------|
+
 
 ** date --date :: 计算时间
 date命令的 --date 参数
@@ -73,3 +74,5 @@ DATE STRING
 
 
 
+
+    

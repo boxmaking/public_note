@@ -15,7 +15,7 @@
 * 农历API
 [[https://api.aa1.cn/doc/almanac.html]]
 
-#+INCLUDE: " ~/.emacs.d/loadfile/nongli.sh" src sh
+#+INCLUDE: "/home/pengshao/.emacs.d/loadfile/nongli.sh" src
 
 
 * 配置文件

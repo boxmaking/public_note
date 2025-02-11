@@ -5,7 +5,7 @@
 #+LANGUAGE: zh-CN
 
 * DOING[///                           ] 11%
-#+INCLUDE:"../idear/todo-list.org" src lisp
+
 
 
 * before2025
