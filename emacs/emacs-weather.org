@@ -1,32 +1,126 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: 利用wttr_in添加天气
+#+TITLE: emacs一键插入-日期,农历,月相,万年历
+#+OPTIONS: ^:nil _:nil toc:2 H:4
 #+KEYWORDS: emacs,bookmark 
 #+LANGUAGE: zh-CN
 #+DATE:<2025-02-09/Sunday 19:35:37>
 
-* wttr.in
-[[https://github.com/chubin/wttr.in]]
+* wttr.in天气信息的API调取
+wttr.in的地址 [[https://github.com/chubin/wttr.in]]
+
+#+BEGIN_SRC lisp -n
+;;添加济南天气的操作
+(defun insert-weather ()
+  (interactive)
+  (insert (shell-command-to-string "curl wttr.in/jinan?format=4 2> /dev/null")))
+
+(global-set-key (kbd "C-c m w") #'insert-weather)
+#+END_SRC 
 
 
-* pyphoon
-[[https://github.com/chubin/pyphoon]]
+* pyphoon月相的调取
+pyphoon的地址 [[https://github.com/chubin/pyphoon]]
+#+BEGIN_SRC lisp -n
+;;添加月相的操作
+(defun insert-pyphoon ()
+  (interactive)
+  (insert (shell-command-to-string "source ~/mypython/bin/activate && pyphoon")))
 
+(global-set-key (kbd "C-c m o") #'insert-pyphoon)
+#+END_SRC 
 
-* 农历API
+* 农历API调取地址
 [[https://api.aa1.cn/doc/almanac.html]]
 
+** 先写一个shellscript来调取农历API地址中的字符串
+例如这个效果: "2025-02-11 孟春 正月 十四 蛇 乙巳 戊寅 辛亥 喜神：西南 福神：西北 财神：正东阳贵：东北 阴贵：正南 "
+配置文件如下:
 #+INCLUDE: "/home/pengshao/.emacs.d/loadfile/nongli.sh" src sh -n
 
+** 这个效果" <孟春-正月-十四 蛇 乙巳-戊寅-辛亥> "
+配置文件如下:
+#+INCLUDE: "/home/pengshao/.emacs.d/loadfile/nonglijian.sh" src sh -n
+
+** 然后就能用elisp调用这两个文件
+#+BEGIN_SRC lisp -n
+  (defun insert-nongli ()
+  (interactive)
+  (insert (shell-command-to-string "~/.emacs.d/loadfile/nongli.sh")))
+
+(global-set-key (kbd "C-c m n") #'insert-nongli)
+
+(defun insert-nonglijian ()
+  (interactive)
+  (insert (shell-command-to-string "~/.emacs.d/loadfile/nonglijian.sh")))
+
+(global-set-key (kbd "C-c m j") #'insert-nonglijian)
+
+#+END_SRC
+
+
+* 还可以在已启动的那个*scratch*页面显示出来,虽然没什么用,但是总比那个啥信息都没有的强.
+将以下代码添加到你的 Emacs 配置文件中：
+#+BEGIN_SRC lisp -n
+;; 在 Emacs 启动时清空 *scratch* 缓冲区并插入特定函数代码
+  (setq initial-scratch-message "") ; 清空初始的 *scratch* 消息
+  (with-current-buffer "*scratch*"
+  ;(let ((result1 (insert-weather)))
+  ;(insert (format " %s\n" result1)))
+    (call-interactively 'insert-nongli)
+    (call-interactively 'insert-weather)
+    (call-interactively 'insert-pyphoon)
+     )
+#+END_SRC
+** 效果
+[[file:emacs-init.png]]
+
+
+** 设置的快捷键,可以随意调取
+- C-c m o 插入月相(刚好是满月)
+  #+BEGIN_ASCII
+                   .------------.	 
+             .--'  o     . .   `--.	 
+          .-'   .    O   .       . `-.	 
+        -'@   @@@@@@@   .  @@@@@      `-.	 
+      /@@@  @@@@@@@@@@@   @@@@@@@   .    \	 
+     /    o @@@@@@@@@@@   @@@@@@@       . \.	 
+    @@  o   @@@@@@@@@@@.   @@@@@@@   O      \	 
+   @@@@   .   @@@@@@@o    @@@@@@@@@@     @@@ \	 
+  |@@@@@               . @@@@@@@@@@@@@ o @@@@|	 
+  @@@@@  O  `.-./  .      @@@@@@@@@@@@    @@  \	 First Quarter +
+   @@@@    --`-'       o     @@@@@@@@ @@@@    |	 6  5:40:26
+ |@ @@@        `    o      .  @@   . @@@@@@@  |	 Full Moon -
+         @@  @         .-.     @@@   @@@@@@@  |	 1  0:10:09
+    . @        @@@     `-'   . @@@@   @@@@  o /	 
+  |      @@   @@@@@ .           @@   .       |	 
+        @@@@  @\@@    /  .  O    .     o   . /	 
+      o  @@     \ \  /         .    .       /	 
+     \     .    .\.-.___   .      .   .-. /'	 
+      \           `-'                `-' /	 
+        -.   o   / |     o    O   .   .-'	 
+          `-.   /     .       .    .-'	 
+             `--.       .      .--'	 
+                 `------------'	 
+#+END_ASCII
+
+- C-c m w 插入济南的天气
+  #+BEGIN_EXAMPLE
+  jinan: 🌦   🌡️+7°C 🌬️↗8km/h
+  #+END_EXAMPLE
+- C-c m n 插入农历
+  #+BEGIN_EXAMPLE
+  2025-02-11 孟春 正月 十四 蛇 乙巳 戊寅 辛亥 喜神：西南 福神：西北 财神：正东阳贵：东北 阴贵：正南 
+  #+END_EXAMPLE
+- C-c m j 简介版本的农历
+  #+BEGIN_EXAMPLE
+  <孟春-正月-十四 蛇 乙巳-戊寅-辛亥> 
+  #+END_EXAMPLE
+- C-c m y 显示出当年时间已经流逝的百分比
+  #+BEGIN_EXAMPLE
+  [///                           ] 11%
+  #+END_EXAMPLE
 
 * 配置文件
 #+INCLUDE: "~/.emacs.d/loadfile/pengshao-openweather.el" src lisp -n
-
-
-* 设置的快捷键
-- C-c m o 插入月相
-
-- C-c m w 插入济南的天气
-
-- C-c m n 插入农历
 
 
