@@ -1,22 +1,34 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+OPTIONS: ^:nil _:nil
+#+OPTIONS: ^:nil _:nil toc:2 H:4
 #+TITLE: 我的orgmode学习笔记
 #+KEYWORDS: emacs  org-mode
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-11/Tuesday 18:52:11>
 
 * 标题和章节
 *** 折叠大纲
-| 快捷键 | 命令          | 说明                                                               |
-| S-TAB  | org-shift tab | 循环切换整个文档的大纲状态（三种状态：折叠，打开下一级，打开全部） |
-| TAB    | org-cycle     | 循环切换光标所在大纲的状态                                         |
+|--------+---------------+----------------------------|
+| 快捷键 | 命令          | 说明                       |
+|--------+---------------+----------------------------|
+| S-TAB  | org-shift tab | 循环切换整个文档的大纲状态 |
+| TAB    | org-cycle     | 循环切换光标所在大纲的状态 |
+|--------+---------------+----------------------------|
+
 *** 在大纲之间移动
+|-----------+-----------------------------|
 | 快捷键    | 说明                        |
+|-----------+-----------------------------|
 | C-c C-n/p | 下/上一标题                 |
 | C-c C-f/b | 下/上一标题（仅限同级标题） |
 | C-c C-u   | 跳到上一级标题              |
 | C-c C-j   | 切换到大纲浏览状态          |
+|-----------+-----------------------------|
+
+
 *** 基于大纲的编辑
+|----------------+----------------------------------------------------|
 | 快捷键         | 说明                                               |
+|----------------+----------------------------------------------------|
 | M-RET          | 插入一个同级标题                                   |
 | M-S-RET        | 插入一个同级TODO 标题                              |
 | M-LEFT/RIGHT   | 将当前标题升/降级                                  |
@@ -28,6 +40,8 @@
 | C-c C-x b      | 在新缓冲区显示当前分支（类似C-x n s)               |
 | C-c /          | 只列出包含搜索结果的大纲，并高亮，支持多种搜索方式 |
 | C-c C-c        | 取消高亮                                           |
+|----------------+----------------------------------------------------|
+
 
 
 ** 章节表
@@ -194,6 +208,8 @@ M-x emacs-version
 
 #+CAPTION: 表格
 |---------+-------------------------------------|
+| 快捷键  | 功能                                |
+|---------+-------------------------------------|
 | C-c \   | 按照tags搜索                        |
 | C-c / m | 搜索并且按照树状目录现实            |
 | C-c a m | 搜索全局文件,需要将标签加入全局文件 |
@@ -202,14 +218,14 @@ M-x emacs-version
 
 ** tag显示效果配置
 变量'org-tag-faces'设置方法和'org-todo-keyword-faces'的设置方法应该一样
-#+BEGIN_SRC lisp
-;;'org-tag-faces'
-(setf org-tag-faces '(
-		      ("上班" . (:foreground "black" :background "#95A5A6"   :weight bold))
-                      ("休班" . (:foreground "red" :background "#2E8B57"  :weight bold))
-                      ;("DONE" . (:foreground "white" :background "#3498DB" :weight bold))
-		      )
-      )
+#+BEGIN_SRC lisp -n
+  ;;'org-tag-faces'
+  (setf org-tag-faces '(
+                        ("上班" . (:foreground "black" :background "#95A5A6"   :weight bold))
+                        ("休班" . (:foreground "red" :background "#2E8B57"  :weight bold))
+                        ;("DONE" . (:foreground "white" :background "#3498DB" :weight bold))
+                        )
+        )
 
 #+END_SRC
 
@@ -219,9 +235,14 @@ M-x emacs-version
 ** 自动计算和添加时间段的教程
 1. 第一种是添加开始和结束的时间
    1. 添加方法
-      C-c C-s -- 添加开始的时间
-      C-c C-d -- 添加结束的时间
-      用 C-c C-s 插入的时间是在标题的下面；而 C-c . 插入的时间是在光标处。
+      |---------+----------------|
+      | 命令    | 功能           |
+      |---------+----------------|
+      | C-c C-s | 添加开始的时间 |
+      | C-c C-d | 添加结束的时间 |
+      |---------+----------------|
+      用 C-c C-s 插入的时间是在标题的下面；而 C-c . 插入的时间是在光标处
+      
    2. 效果
       DEADLINE: <2020-03-11 三> SCHEDULED: <2020-03-09 一>
 
@@ -243,12 +264,14 @@ M-x emacs-version
       2. 时间明细表格效果
          #+BEGIN: clocktable :scope file :maxlevel 2
          #+CAPTION: Clock summary at [2020-03-20 Fri 22:35]
+         |--------------------+-----------+---------|
          | Headline           | Time      |         |
          |--------------------+-----------+---------|
          | *Total time*       | *8d 0:00* |         |
          |--------------------+-----------+---------|
          | org-moad 入门教程  | 8d 0:00   |         |
          | \_  Time选项的设置 |           | 8d 0:00 |
+         |--------------------+-----------+---------|
          #+END:
 
 
@@ -268,7 +291,7 @@ M-x emacs-version
       <2020-03-22/Sunday>
 
    3. 设置格式和配置文件在
-      #+INCLUDE: ~/.emacs.d/loadfile/pengshao-insert-date.el src lisp
+      #+INCLUDE: "~/.emacs.d/loadfile/pengshao-insert-date.el" src lisp -n
 
 
 * TODO的使用教程
@@ -279,6 +302,7 @@ M-x emacs-version
  - C-c :: 
    来设置优先级别
    S-上,S-下,来设置优先级
+   
 
 **  文件状态关键词todo选项和类型关键词todo选项的自定义操作
 
@@ -370,6 +394,7 @@ M-x emacs-version
 1. Ｃ-u C-c C-l来添加外部文件标签
    或者使用C-c C-l输入file+:来文件链接
    输入完file+:后可以RET来进行补全
+   
 
 2. 使用的是双括考套住的显示方式,前面是url后面是distable
    #+begin_example
@@ -381,6 +406,7 @@ M-x emacs-version
 3. 如果不输入distable的话就能直接以文件的链接地址显示
 
 4. 在输入文件url的时候后面加上双冒号::就能够实现文件内部操作
+   这个经常出错,抛弃了.
    #+begin_example
    [[file:org-tutorial.org::2]] 就能现实这个文件的第2行
    [[file:org-tutorial.org::emacs]] 这样就是搜索其中的emacs
@@ -471,7 +497,7 @@ C-c C-c,可以对齐表格
 #+end_example
 
 
-**  也可以通过改变setq org-startup-folded 函数来解决问题
+** 也可以通过改变setq org-startup-folded 函数来解决问题
 
 #+BEGIN_SRC lisp
   ;;设置org-mode的启动显示选项,有#+STARTUP: overview : content : showall : showeverything :等值

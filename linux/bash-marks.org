@@ -1,7 +1,8 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: bash目录快速跳转---为目录添加书签
+#+TITLE: 为bsah添加书签-实现目录快速跳转
 #+KEYWORDS: linux-command, linux
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-11/Tuesday 19:46:57>
 
 
 * 原文地址
@@ -10,12 +11,13 @@
 
 * 在shell中快速跳转到常用目录
 
-在 Quickly navigate your filesystem from the command-line 中发现了一种将目录加为书签实现快速跳转的好方法.
+在 Quickly navigate your filesystem from the command-line
+中发现了一种将目录加为书签实现快速跳转的好方法.
 
 其实原理很简单,就是将指向目标目录的软链接作为书签,统一存放在一个指定的位置
 然后借助 cd -P 命令来跳转到软链接指向的实际目录.
 
-#+BEGIN_SRC shell
+#+BEGIN_SRC shell -n
 
 export MARKPATH=$HOME/.marks
 

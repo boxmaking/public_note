@@ -1,0 +1,161 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil f:nil toc:t
+#+TITLE: Debian 安装与配置 Samba 详细教程
+#+KEYWORDS: linux-proxy-setting
+#+LANGUAGE: zh-CN
+
+* 简介
+Samba 是实现 Linux/Windows 跨平台文件共享的核心工具。本教程涵盖以下内容：
+1. 安装 Samba 服务
+2. 配置共享目录
+3. 用户权限管理
+4. 防火墙设置
+5. 客户端连接测试
+
+   
+* 步骤 1：安装 Samba
+** 更新软件源
+#+BEGIN_SRC bash
+sudo apt update
+#+END_SRC
+
+** 安装软件包
+#+BEGIN_SRC bash
+$sudo apt install samba samba-common smbclient
+#+END_SRC
+
+
+* 步骤 2：配置共享目录
+** 备份原始配置文件
+#+BEGIN_SRC bash
+sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
+#+END_SRC
+
+
+** 编辑配置文件
+#+BEGIN_SRC bash
+sudo nano /etc/samba/smb.conf
+#+END_SRC
+
+
+** 示例配置（添加到文件末尾）
+#+BEGIN_SRC conf
+[myshare]
+   comment = My Shared Folder
+   path = /srv/samba/share
+   browseable = yes
+   # 关闭只读（等同于 writable = yes）
+   read only = no
+   # 允许写入
+   writable = yes          
+   # 新建文件权限
+   create mask = 0664
+   # 允许访问的用户/@组（需存在）
+   valid users = pengshaoshare pengshao   
+   write list = pengshaoshare pengshao
+   # 新建目录权限
+   create mask = 0775    
+   directory mask = 0775
+
+#+END_SRC
+
+
+* 步骤 3：创建共享目录与用户
+** 创建共享目录
+#+BEGIN_SRC bash -n
+sudo mkdir -p /srv/samba/share
+sudo chmod 2775 /srv/samba/share
+sudo chown nobody:nogroup /srv/samba/share
+#+END_SRC
+
+
+** 添加系统用户（若不存在）
+#+BEGIN_SRC bash
+sudo useradd -M -s /usr/sbin/nologin sambauser
+#+END_SRC
+
+
+** 设置 Samba 密码
+#+BEGIN_SRC bash
+sudo smbpasswd -a sambauser
+#+END_SRC
+
+
+* 步骤 4：重启服务与防火墙
+** 重启 Samba 服务
+#+BEGIN_SRC bash
+sudo systemctl restart smbd.service nmbd.service
+#+END_SRC
+
+** 设置开机自启
+#+BEGIN_SRC bash
+sudo systemctl enable smbd.service nmbd.service
+#+END_SRC
+
+** 开放防火墙（若使用 UFW）
+#+BEGIN_SRC bash
+sudo ufw allow samba
+#+END_SRC
+
+
+* 步骤 5：客户端连接测试
+** Linux 客户端
+#+BEGIN_SRC bash
+smbclient //server_ip/myshare -U sambauser
+#+END_SRC
+
+** Windows 客户端
+1. 文件资源管理器地址栏输入：
+   =\\server_ip\myshare=
+2. 使用用户名 =sambauser= 和设置的密码登录
+
+   
+* 高级配置
+** 匿名共享配置
+#+BEGIN_SRC conf
+[public]
+   path = /srv/samba/public
+   guest ok = yes
+   read only = no
+   create mask = 0777
+#+END_SRC
+
+** 多用户权限管理
+#+BEGIN_SRC conf
+[project]
+   valid users = @smbgroup
+   write list = manager
+   read list = staff
+#+END_SRC
+需创建用户组：
+#+BEGIN_SRC bash
+sudo groupadd smbgroup
+sudo usermod -aG smbgroup manager
+sudo usermod -aG smbgroup staff
+#+END_SRC
+
+
+* 故障排查
+** 检查服务状态
+#+BEGIN_SRC bash
+sudo systemctl status smbd.service
+#+END_SRC
+
+** 查看日志文件
+#+BEGIN_SRC bash
+tail -f /var/log/samba/log.smbd
+#+END_SRC
+
+** 测试配置文件
+#+BEGIN_SRC bash
+testparm
+#+END_SRC
+
+
+* 注意事项
+1. 共享路径权限需与 Samba 配置匹配
+2. 每次修改配置后需重启服务
+3. 建议禁用 root 用户访问
+4. 复杂网络环境需检查 NetBIOS 设置
+
+   

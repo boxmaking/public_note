@@ -1,45 +1,33 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+OPTIONS: ^:nil _:nil f:nil toc:t
-#+TITLE: org-publish-tutorial
+#+TITLE: org-publish用org批量导出来建一个静态博客系统
 #+KEYWORDS: emacs, org-mode, org-publish-tutorial
 #+LANGUAGE: zh-CN
+#+DATE: <2025-02-11/Tuesday 16:29:10>
 
 
-* 文件导出教程,以及相关的css文件和头部文件
+* 导出的html使用头文件调取本地css文件(安全稳定可定制不依赖网络)
 
-1. 做好准备工作后，就可以导出了
-   C-c C-e
+1. C-c C-e
    然后选择相应的格式，就可以导出对应的文件了。
    
 2. 导出到HTML教程
-   1. 借鉴了[[https://github.com/lijigang][lijigang]]的头文件
-      css模板https://github.com/lijigang/org-notes-style
-  
-   2. 头文件
-      
-      #+INCLUDE: "~/.emacs.d/org-other-file/org-level-1.org"
+   1. 头文件,就是一个编辑好的文本,里面编写好了具体的拼配置
+      我放到了=.emacs.d/org-other-file/=文件夹内
+      #+INCLUDE: "~/.emacs.d/org-other-file/org-level-1.org" src lisp -n
 
-   3. 然后在org文件的头部添加上加载头文件的语句就可以了
+   2. 然后在所要编写的org文件的头部添加上加载头文件的语句就可以了
       #+begin_example
       #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
       #+end_example
 
-   4. css文件地址
-      css文件最好是放到跟文件夹内部
 
-   5. 直接css嵌入文件内部(我没有使用,作为备用选项)
-
-      刚开始调试本地 Emacs Org Mode 发布成网页工程时，往往容易发现 CSS 没有起到应有的效果。
-
-      因为 Emacs Org Mode 默认是采用 Web 服务器的方式来导入 CSS 文件的，其中最重要的参数，就是你设置的 Web 服务器根目录。
-
-      所以，当你需要在本地调试 Emacs Org Mode 生成的 html 页面，最好的办法是安装一个 Web 服务器，并且把 Emacs 生成的 html 页面放到这个服务器的根目录下进行调试，这样就可以避免 CSS 导入位置出错的问题了。
-
-      当然，如果只是想生成供本地阅读的 html（比如说，作为笔记使用的 org 文件，发布成 html 更方便阅读），也可以采用把 CSS 内容直接内嵌到 html 页面里的方式：
-
+   3. 直接css嵌入文件内部(我没有使用,作为备用选项)
+      当然，如果只是想生成供本地阅读的 html
+      也可以采用把 CSS 内容直接内嵌到 html 页面里的方式
       首先设置好一个变量，把 CSS 属性导入：
      
-      #+BEGIN_src lisp
+      #+BEGIN_src lisp -n
        ;; set the stylesheet string
        (setq waterstyle "<style>
         body {
@@ -57,12 +45,13 @@
         /* more CSS style */
                      </style>")
        #+END_src
-      然后在 org 工程设置里有关添加 CSS 的地方使用该变量，可以使用如下方式来直接把 CSS 内容加进去：
+       
+      然后在 org 工程设置里有关添加 CSS 的地方使用该变量，可以使用如下方式来直接把 CSS 内容加进去
   
-      #+BEGIN_SRC
+      #+BEGIN_SRC 
       :style , waterstyle
       #+END_SRC
-      这样，本地使用 html 页面就会变得非常舒服，不会依赖于外部的 CSS 文件。 
+      这样，本地使用 html 页面就会变得非常舒服了
 
 
 
@@ -72,24 +61,32 @@
 #+INCLUDE: "~/.emacs.d/loadfile/pengshao-org-publish.el" src emacs-lisp
 
 
-* 批量到处文件跳过未修改设置方法(在基本完善了之后,不太需要了,现在用不太到了)
+* 批量导出跳过旧文件导出的情况
 1. 本来认为org只发布修改过的文件是它对比了org文件和导出文件的时间戳。
    后来我把导出文件删除，又重新发布。发现都跳过了，
    并没有重新导出文件，可见它并没有对比org文件和导出文件的时间戳
    后来在家目录下发现了一个目录.org-timestamps
-   原来所有的东西都在这里放着
-   想不改变org文件而重新导出html等文件可以把这个目录删除，然后现重新发布。 
+   原来所有的记录的东西都在这里放着
+   想不改变org文件而重新导出html等文件可以把这个目录删除，然后现重新发布。
+   
 2. 或者直接暴力的
    C-u M-x org-purblish
    这样也是可以的
-3. Orgmode 发布项目缓存说明
-   在使用 Orgmode 进行 M-x org-publish-project 来进行将 org 文件导出为项目时，发现它会有缓存，即如果 org 文件没有再修改过，它就不会再生成该文件相应的 HTML 文件了。
+   
+3. Orgmode 发布项目缓存说明(一直也没弄明白,用不到,懒得了解放在这吧)
+   在使用 Orgmode 进行 M-x org-publish-project 来进行将 org 文件导出为项目时,
+   发现它会有缓存，即如果 org 文件没有再修改过，它就不会再生成该文件相应的 HTML 文件了。
 
    参数
    1. org-publish-use-timestamps-flag 1
-      (可通过 C-h v 变量名 来查看变量的说明及设置) 这个在第一次时可以看到，设置过之后就看不到了。( 我的环境是 Mac+Emacs25.1 )，它显示是否使用时间戳来埋发布。 这个就是导致缓存的原因。即对应的文件的的修改时间戳要比它新才会进行发布。
-   1. org-publish-timestamp-directory
-      这个就是保存时间戳文件的缓存目录。（删除该目录下的所有文件，即可进行全量重新发布）
+      (可通过 C-h v 变量名 来查看变量的说明及设置)
+      这个在第一次时可以看到，设置过之后就看不到了.
+      它显示是否使用时间戳来埋发布。
+      即对应的文件的的修改时间戳要比旧文件新才会进行发布。
+      
+   2. org-publish-timestamp-directory
+      这个就是保存时间戳文件的缓存目录的函数
+      （删除.org-timestamps下的所有文件，即可进行全部重新发布）
 
 
 
@@ -106,22 +103,30 @@
 
 
 * 导出的html不显示目录
-一般文字文章我不喜欢
-导出html文章不显示目录，toc 选项设置为 nil 
+导出html文章不显示目录，
+#+BEGIN_EXAMPLE
+#+OPTIONS: toc:nil
+#+END_EXAMPLE
 
 
-* 主页的设置(据说和低版本有区别,我最初用的教程是低版本的,各种错误.)
+* 主页的设置
 
 1. 配置文件选项设置
    #+BEGIN_EXAMPLE
-   :auto-sitemap t
-   :sitemap-filename "sitemap.org"  ; ... call it sitemap.org ...
-   :sitemap-title "Sitemap"         ; ... with title 'Sitemap'.
+   ;自动导航主页模式
+    auto-sitemap t
+   ;主页文件的名称
+   sitemap-filename "sitemap.org"
+   ;标题
+   sitemap-title "我的网站"
    #+END_EXAMPLE
 
-2. 然后每次发布这个工程的时候，就会生成一个 sitemap.org 的文件，这个文件会递归地遍历你工程里的所有文件并生成链接，并会生成一个名叫 sitemap.html 的文件。
+2. 然后每次发布这个工程的时候，就会生成一个 sitemap.org 的文件.
+   这个文件会递归地遍历你工程里的所有文件并生成链接,
+   并会生成一个名叫 sitemap.html 的文件。
 
-3. 然后，我们只要在我们的 index.org 里 include 这个文件即可：
+3. 然后，我们只要在我们的 index.org 里 include 这个文件
+   系统会自动导出index.html了就.
    #+BEGIN_EXAMPLE
    #+INCLUDE: sitemap.org
    #+END_EXAMPLE
@@ -134,85 +139,112 @@
 
 * 在 Org 模式中将图片导出为 HTML 时设置尺寸大小
 
-
-Org 模式提供了多种方法来设置图片在导出为 HTML 时的尺寸大小，以下是详细介绍：
-
 1. 使用 #+attr_html 属性设置具体尺寸
-可以通过 #+attr_html 属性为图片指定固定的宽度和高度。
-#+begin_example
-
-org
-
-#+attr_html: :width 400px :height 300px
-[[file:your_image.jpg]]
-
-
-#+end_example
-解释：
-
-    #+attr_html 专门用于控制导出为 HTML 时图片的属性。
+   可以通过 #+attr_html 属性为图片指定固定的宽度和高度。
+   #+begin_example
+   #+attr_html: :width 400px :height 300px
+   [[file:your_image.jpg]]
+   #+end_example
+   解释：
+    "#+attr_html" 专门用于控制导出为 HTML 时图片的属性。
     :width 400px 将图片宽度设置为 400 像素，你可以修改此值，也能使用百分比（如 60%）设置相对宽度。
     :height 300px 将图片高度设置为 300 像素，同样可按需调整。
 
-
 2. 使用 CSS 样式设置图片尺寸
-可以在 Org 文件头部添加 CSS 样式来控制图片尺寸。
-#+begin_example
+   可以在 Org 文件头部添加 CSS 样式来控制图片尺寸。
+   #+begin_example
+   #+HTML_HEAD: <style>
+   #+HTML_HEAD:   img.custom - image {
+   #+HTML_HEAD:     width: 70%;
+   #+HTML_HEAD:     height: auto;
+   #+HTML_HEAD:   }
+   #+HTML_HEAD: </style>
 
-org
-
-#+HTML_HEAD: <style>
-#+HTML_HEAD:   img.custom - image {
-#+HTML_HEAD:     width: 70%;
-#+HTML_HEAD:     height: auto;
-#+HTML_HEAD:   }
-#+HTML_HEAD: </style>
-
-#+attr_html: :class custom - image
-[[file:your_image.jpg]]
+   #+attr_html: :class custom - image
+   [[file:your_image.jpg]]
 
 
-#+end_example
-解释：
-
-    #+HTML_HEAD 用于在导出的 HTML 文件 <head> 部分添加内容。
+   #+end_example
+    解释：
+    "#+HTML_HEAD:"用于在导出的 HTML 文件 <head> 部分添加内容。
     img.custom - image 是 CSS 选择器，选择带有 custom - image 类的图片。
     width: 70%; 将图片宽度设置为其父元素宽度的 70%。
     height: auto; 保持图片原始宽高比，根据宽度自动调整高度。
-    #+attr_html: :class custom - image 为图片添加 custom - image 类。
-
+    "#+attr_html:" :class custom - image 为图片添加 custom - image 类。
 
 3. 按比例缩放图片
-使用 :scale 属性按比例缩放图片。
-#+begin_example
-
-org
-
-#+attr_html: :scale 0.8
-[[file:your_image.jpg]]
-
-
-#+end_example
-解释：
-
+   使用 :scale 属性按比例缩放图片。
+   #+begin_example
+   #+attr_html: :scale 0.8
+   [[file:your_image.jpg]]
+   #+end_example
+   解释：
     :scale 0.8 将图片按 0.8 的比例缩放，即缩小为原来的 80%。
 
-
 4. 动态调整图片大小
-利用 CSS 的 max - width 属性让图片根据浏览器窗口大小动态调整。
-#+begin_example
-
-org
-
-#+attr_html: :style "max-width: 100%; height: auto;"
-[[file:your_image.jpg]]
-
-
-#+end_example
-解释：
-
+   利用 CSS 的 max - width 属性让图片根据浏览器窗口大小动态调整。
+   #+begin_example
+   #+attr_html: :style "max-width: 100%; height: auto;"
+   [[file:your_image.jpg]]
+   #+end_example
+   解释：
     max - width: 100%; 确保图片最大宽度不超过其父元素宽度。
     height: auto; 保持图片原始宽高比，根据宽度自动调整高度。
 
+ 通过上述方法，你能够灵活控制 Org 模式中图片导出为 HTML 时的尺寸大小。
 
-通过上述方法，你能够灵活控制 Org 模式中图片导出为 HTML 时的尺寸大小。
+
+* 自动删除已经删除掉org原始文件的html文件(不如手动稳定,也懒得去弄了)
+虽然有这个功能,我也想用
+但是还是临时先用手动添加和删除吧.
+虽然有git但是,弄坏了好麻烦的.
+#+BEGIN_SRC lisp -n
+;;; 自动清理无对应 Org 文件的 HTML 文件配置
+
+;; 定义配置变量（可按需修改路径）
+(defvar my/org-source-dir "~/public_note/" 
+  "Org 源文件目录路径，必须以斜杠结尾")
+(defvar my/html-output-dir "~/boxmaking.github.io/"
+  "HTML 输出目录路径，必须以斜杠结尾")
+
+;; 主清理函数
+(defun delete-missing-org-html-files (&rest _)
+  "自动删除没有对应 Org 文件的 HTML 文件
+支持递归子目录检查，处理特殊字符文件名"
+  (interactive)
+  (let* ((org-dir (expand-file-name my/org-source-dir))
+         (html-dir (expand-file-name my/html-output-dir))
+         ;; 递归获取所有 org/html 文件
+         (org-files (directory-files-recursively org-dir "\\.org$"))
+         (html-files (directory-files-recursively html-dir "\\.html$")))
+    
+    (dolist (html-file html-files)
+      (let* ((rel-path (file-relative-name html-file html-dir))
+             (base-name (file-name-sans-extension rel-path))
+             (org-file (expand-file-name (concat base-name ".org") org-dir)))
+        
+        ;; 跳过索引文件（about.html 等）
+        (unless (string-match-p "index\\|about\\|contact" base-name)
+          ;; 检查 Org 文件是否存在
+          (unless (file-exists-p org-file)
+            ;; 安全删除（先移到废纸篓）
+            (if (fboundp 'move-file-to-trash)
+                (progn
+                  (move-file-to-trash html-file)
+                  (message "▷ 已安全删除: %s" html-file))
+              (delete-file html-file)
+              (message "▷ 已永久删除: %s" html-file))))))))
+
+;; 配置钩子（根据使用场景选择）
+;; 场景 1: 手动导出后清理
+(add-hook 'org-export-after-export-hook #'delete-missing-org-html-files)
+
+;; 场景 2: 发布项目后清理
+(add-hook 'org-publish-after-export-hook #'delete-missing-org-html-files)
+
+;; 场景 3: 保存 Org 文件时自动清理（谨慎使用）
+;; (add-hook 'after-save-hook 
+;;           (lambda ()
+;;             (when (eq major-mode 'org-mode)
+;;               (delete-missing-org-html-files))))
+#+END_src

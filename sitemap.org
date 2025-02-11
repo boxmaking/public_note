@@ -34,11 +34,10 @@
   - [[file:idear/idear-list.org][idear-list]]
   - [[file:idear/todo-list.org][todo-list]]
 - linux
+  - [[file:linux/samba.org][Debian 安装与配置 Samba 详细教程]]
   - [[file:linux/linux-network.org][Linux-net相关命令]]
   - [[file:linux/apt-get-tutorial.org][apt-get-tutorial]]
-  - [[file:linux/badbolocks.org][badblocks,硬盘坏道检测工具]]
   - [[file:linux/bash-marks.org][bash目录快速跳转---为目录添加书签]]
-  - [[file:linux/btsync.org][btsync相关]]
   - [[file:linux/crontab.org][crotab-tutorial]]
   - [[file:linux/date-calendar.org][date-calendat-使用教程]]
   - [[file:linux/install-xfce.org][debian安装xfce相关]]
@@ -63,8 +62,8 @@
   - [[file:linux/who-last-top-w-uptime.org][who,last-reboot,top,w,uptime,命令教程]]
   - [[file:linux/youtube-dl.org][youtube-dl使用教程]]
   - [[file:linux/basename.org][命令行实现回收站功能,安全的rm -rf]]
+  - [[file:linux/saferm.org][安全的rm -rf-命令行实现回收站功能]]
   - [[file:linux/after-install-debian.org][我的linux软件列表]]
-  - [[file:linux/chmod-org.org][更改文件的属性相关]]
   - [[file:linux/linux-common-command.org][未整理的linux学习笔记]]
   - [[file:linux/ln.org][链接相关的教程]]
 - mylife
@@ -94,10 +93,8 @@
   - [[file:mylife/the-rain.org][花玻璃外的雨点--我的亲情回忆]]
   - [[file:mylife/predawn-suzhou.org][黎明前的苏州城]]
 - org
-  - [[file:org/org-complete.org][org-complete]]
   - [[file:org/org-publish.org][org-publish-tutorial]]
   - [[file:org/org-learn.org][我的orgmode学习笔记]]
-  - [[file:org/org-time-format.org][设置 Org Mode 时间戳为全英文]]
 - other
   - [[file:other/hex-color.org][十六进制颜色查看]]
 - share

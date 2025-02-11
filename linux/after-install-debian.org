@@ -238,9 +238,9 @@ sudo apt-get --fix-broken install
 
 - pi打印圆周率后小数点若干位
   #+BEGIN_SRC sh
-$sudo apt-get install pi
-$pi 50
-#+END_SRC
+  $sudo apt-get install pi
+  $pi 50
+  #+END_SRC
 
 - rev他可以反转字符很厉害
   

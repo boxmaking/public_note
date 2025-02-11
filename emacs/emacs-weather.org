@@ -15,11 +15,11 @@
 * 农历API
 [[https://api.aa1.cn/doc/almanac.html]]
 
-#+INCLUDE: "/home/pengshao/.emacs.d/loadfile/nongli.sh" src
+#+INCLUDE: "/home/pengshao/.emacs.d/loadfile/nongli.sh" src sh -n
 
 
 * 配置文件
-#+INCLUDE: "~/.emacs.d/loadfile/pengshao-openweather.el" src lisp
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-openweather.el" src lisp -n
 
 
 * 设置的快捷键

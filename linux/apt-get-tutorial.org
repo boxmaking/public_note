@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: apt-get-tutorial
+#+TITLE: apt-get教程使用
 #+KEYWORDS: apt-get 
 #+LANGUAGE: zh-CN
 #+DATE:<2025-02-09/Sunday 21:05:41>

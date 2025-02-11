@@ -1,0 +1,23 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: 安全的rm -rf-命令行实现回收站功能
+#+DATE: <2020-04-29-120/Wednesday>
+#+KEYWORDS: debian, linux-software
+#+LANGUAGE: zh-CN
+
+* 命令行实现回收站功能
+1. 编写remove.sh文件
+   #+INCLUDE: "/home/pengshao/shellscript/remove.sh"
+2. 编写~/.bashrc文件
+   #+BEGIN_SRC sh
+   $alias rm="sh ~/shellscript/remove.sh"
+   #+END_SRC
+3. 加载文件
+   #+BEGIN_SRC sh
+   $source ~/.bashrc   
+   #+END_SRC
+4. 定期清理
+   #+BEGIN_SRC sh
+   0 0 * * * rm -rf /home/.trash/* 
+   #+END_SRC
+
+
