@@ -1,9 +1,11 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil toc:2 H:4
+#+TITLE: 我的生活状态-2025年初总结
+#+KEYWORDS: emacs  org-mode
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-12/Wednesday 19:57:10>
 
----------------
-[[https://boxmaking.github.io/. ][PengShao's BLOG]] 
 
----------------
 温饱有余,奢侈不足.
 
 不安于现状,不付诸改变.
@@ -16,12 +18,9 @@
 
 大局难定,大器难成.
 
-上古大椿,八千春秋.
+上古大椿,八千春秋,
 
 知途知径,浑然天成.
 
----------------
+
 [[file:life1.png]]
-
-
-end here

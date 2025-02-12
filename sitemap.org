@@ -7,7 +7,7 @@
 - c
   - [[file:c/c-learn.org][c语言学习笔记]]
 - emacs
-  - [[file:emacs/eshell.org][Eshell使用笔记]]
+  - [[file:emacs/eshell.org][Eshell使用记录]]
   - [[file:emacs/auto-complete.org][auto-complete插件教程]]
   - [[file:emacs/emacs-calendar.org][calendar和cal-china-x相关的教程]]
   - [[file:emacs/color-theme.org][emacs-color-theme主题]]
@@ -15,13 +15,13 @@
   - [[file:emacs/emacs-tutorial.org][emacs-tutorial]]
   - [[file:emacs/cua-mode.org][emacs-可视化编辑教程]]
   - [[file:emacs/emacs-init.org][emacs-配置文件]]
+  - [[file:emacs/emacs-weather.org][emacs一键插入-日期,农历,月相,万年历]]
   - [[file:emacs/emacs-bookmark.org][emacs书签使用教程]]
   - [[file:emacs/emacs-proxy.org][emacs使用代理教程]]
   - [[file:emacs/emacs-letter-upper-lower.org][emacs大小写转换的快捷键]]
   - [[file:emacs/emacs-help.org][emacs帮助系统]]
   - [[file:emacs/root-configuration.org][root用户使用自定义的配置]]
   - [[file:emacs/sr-speedbar.org][sr-speedbar使用教程]]
-  - [[file:emacs/emacs-weather.org][利用wttr_in添加天气]]
 - firefox
   - [[file:firefox/firefox-tabs.org][firefox-tabs]]
 - git
@@ -33,13 +33,13 @@
 - idear
   - [[file:idear/idear-list.org][idear-list]]
   - [[file:idear/todo-list.org][todo-list]]
+  - [[file:idear/life.org][我的生活状态-2025年初总结]]
 - linux
-  - [[file:linux/samba.org][Debian 安装与配置 Samba 详细教程]]
   - [[file:linux/linux-network.org][Linux-net相关命令]]
-  - [[file:linux/apt-get-tutorial.org][apt-get-tutorial]]
-  - [[file:linux/bash-marks.org][bash目录快速跳转---为目录添加书签]]
-  - [[file:linux/crontab.org][crotab-tutorial]]
-  - [[file:linux/date-calendar.org][date-calendat-使用教程]]
+  - [[file:linux/apt-get-tutorial.org][apt-get教程使用]]
+  - [[file:linux/basename.org][basename-只提取文件名的好工具]]
+  - [[file:linux/crontab.org][crotab-周期性执行任务]]
+  - [[file:linux/date-calendar.org][date-命令使用教程]]
   - [[file:linux/install-xfce.org][debian安装xfce相关]]
   - [[file:linux/figlet.org][figlet-tutorial]]
   - [[file:linux/find-tutorial.org][find-tutorial]]
@@ -54,27 +54,26 @@
   - [[file:linux/man.org][man-tutorial]]
   - [[file:linux/proxychains4.org][proxychains4使用教程]]
   - [[file:linux/root-completion.org][root-completion]]
+  - [[file:linux/samba.org][samba-安装与配置详细教程]]
   - [[file:linux/scrot.org][scrot-tutorial:一个截屏软件教程]]
   - [[file:linux/shell-initfile.org][shell的初始化文件 emacs-tutorial]]
   - [[file:linux/tar.org][tar命令详细功能和格式---ar解压缩deb文件]]
-  - [[file:linux/tree.org][tree-详解]]
+  - [[file:linux/tree.org][tree软件-详解]]
   - [[file:linux/wget.org][wget-用法详解释]]
   - [[file:linux/who-last-top-w-uptime.org][who,last-reboot,top,w,uptime,命令教程]]
   - [[file:linux/youtube-dl.org][youtube-dl使用教程]]
-  - [[file:linux/basename.org][命令行实现回收站功能,安全的rm -rf]]
+  - [[file:linux/bash-marks.org][为bsah添加书签-实现目录快速跳转]]
   - [[file:linux/saferm.org][安全的rm -rf-命令行实现回收站功能]]
   - [[file:linux/after-install-debian.org][我的linux软件列表]]
   - [[file:linux/linux-common-command.org][未整理的linux学习笔记]]
   - [[file:linux/ln.org][链接相关的教程]]
 - org
-  - [[file:org/org-publish.org][org-publish-tutorial]]
+  - [[file:org/org-publish.org][org-publish用org批量导出来建一个静态博客系统]]
   - [[file:org/org-learn.org][我的orgmode学习笔记]]
 - other
   - [[file:other/hex-color.org][十六进制颜色查看]]
 - share
   - [[file:share/emule-life.org][emule情怀]]
   - [[file:share/mybookmarks.org][多年以来收藏的书签]]
-- taobao
-  - [[file:taobao/xuanpin.org][淘宝产品选择]]
 - up-video
   - [[file:up-video/my-idear.org][我作up主的内容想法]]

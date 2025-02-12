@@ -1,6 +1,6 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+OPTIONS: ^:nil _:nil f:nil toc:t
-#+TITLE: Debian 安装与配置 Samba 详细教程
+#+TITLE: samba-安装与配置详细教程
 #+KEYWORDS: linux-proxy-setting
 #+LANGUAGE: zh-CN
 
@@ -13,7 +13,7 @@ Samba 是实现 Linux/Windows 跨平台文件共享的核心工具。本教程�
 5. 客户端连接测试
 
    
-* 步骤 1：安装 Samba
+*  1：安装 Samba
 ** 更新软件源
 #+BEGIN_SRC bash
 sudo apt update
@@ -25,7 +25,7 @@ $sudo apt install samba samba-common smbclient
 #+END_SRC
 
 
-* 步骤 2：配置共享目录
+*  2：配置软件
 ** 备份原始配置文件
 #+BEGIN_SRC bash
 sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
@@ -60,7 +60,7 @@ sudo nano /etc/samba/smb.conf
 #+END_SRC
 
 
-* 步骤 3：创建共享目录与用户
+*  3：创建共享目录与用户
 ** 创建共享目录
 #+BEGIN_SRC bash -n
 sudo mkdir -p /srv/samba/share
@@ -81,16 +81,48 @@ sudo smbpasswd -a sambauser
 #+END_SRC
 
 
-* 步骤 4：重启服务与防火墙
+*  4：重启服务与防火墙
 ** 重启 Samba 服务
 #+BEGIN_SRC bash
 sudo systemctl restart smbd.service nmbd.service
 #+END_SRC
 
+
 ** 设置开机自启
-#+BEGIN_SRC bash
-sudo systemctl enable smbd.service nmbd.service
+
+
+#+BEGIN_SRC shell -n
+  #设置开机自启
+  $sudo systemctl enable smbd.service 
+  $sudo systemctl enable  nmbd.service
+  #停止开机自启动
+  $sudo systemctl disable smbd.service
+  $sudo systemctl disable nmbd.service
+  #当前启动
+  $sudo systemctl start smbd.service
+  $sudo systemctl start nmbd.service
+  #当前停止
+  $sudo systemctl stop smbd.service
+  $sudo systemctl stop nmbd.service
+  #当前重启
+  $sudo systemctl restart smbd.service
+  $sudo systemctl restart nmbd.service
+  #列出所有系统服务单元文件及其当前的启用状态要查看开机启动的服务
+  #可结合grep过滤出已启用（enabled）的服务
+  $systemctl list-unit-files | grep enabled
+  #若要专门查看与 Samba 相关的开机启动服务，可进一步筛选：
+  $systemctl list-unit-files | grep enabled | grep samba
+  #如果你只想确认某个特定服务（如 Samba 的 smbd 和 nmbd 服务）是否开机启动,可以使用以下命令
+  $systemctl is-enabled smbd.service
+  $systemctl is-enabled nmbd.service
+  #查看当前信息服务状态
+  $systemctl status smbd.service
+  $systemctl status nmbd.service
+  $systemctl status smbd.service nmbd.service
+
+
 #+END_SRC
+
 
 ** 开放防火墙（若使用 UFW）
 #+BEGIN_SRC bash
@@ -98,16 +130,30 @@ sudo ufw allow samba
 #+END_SRC
 
 
-* 步骤 5：客户端连接测试
+*  5：客户端连接测试
 ** Linux 客户端
 #+BEGIN_SRC bash
 smbclient //server_ip/myshare -U sambauser
 #+END_SRC
 
+
 ** Windows 客户端
 1. 文件资源管理器地址栏输入：
    =\\server_ip\myshare=
 2. 使用用户名 =sambauser= 和设置的密码登录
+
+   
+** iphone&ipad
+1. 在 iPad 上添加文件共享
+   打开 “文件” 应用：在主屏幕上找到并点击 “文件” 图标。
+   点击 “浏览” 标签：位于屏幕底部。
+   点击右上角 “...”：然后选择 “连接服务器”,
+   输入服务器地址 Linux 服务器的 IP 地址
+   格式为 smb://xxx.xxx.xxx.xxx
+   点击 “连接”。
+2. 选择登录方式
+   注册用户：输入在 Linux 系统中为 Samba 配置的用户名和密码，然后点击 “连接”。
+   客人：若 Samba 共享允许匿名访问，可选择 “客人”，然后点击 “连接”。
 
    
 * 高级配置
@@ -119,6 +165,7 @@ smbclient //server_ip/myshare -U sambauser
    read only = no
    create mask = 0777
 #+END_SRC
+
 
 ** 多用户权限管理
 #+BEGIN_SRC conf
@@ -141,10 +188,12 @@ sudo usermod -aG smbgroup staff
 sudo systemctl status smbd.service
 #+END_SRC
 
+
 ** 查看日志文件
 #+BEGIN_SRC bash
 tail -f /var/log/samba/log.smbd
 #+END_SRC
+
 
 ** 测试配置文件
 #+BEGIN_SRC bash
@@ -157,5 +206,3 @@ testparm
 2. 每次修改配置后需重启服务
 3. 建议禁用 root 用户访问
 4. 复杂网络环境需检查 NetBIOS 设置
-
-   
