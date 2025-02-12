@@ -10,86 +10,93 @@
 [[./emacs-init1.png]]  
 
 
+* 我的全部配置自文件
+[https://github.com/boxmaking/.emacs.d]
 
-* load,load-file
-1. 加载文件,在默认的配置文件中加载的文件
-   #+BEGIN_SRC lisp 
+
+* 配置文件目录,及调用相关.
+
+
+** 1.配置文件加载调用.
+
+
+*** 加载文件,在默认的配置文件中加载的文件
+   #+BEGIN_SRC lisp  -n
      (add-to-list 'load-path "~/.emacs.d/loadfile/")
      (require '***-***)
    #+END_SRC
 
-2. 想要被加载,插件的.el文件最后一定要proide
-   #+BEGIN_SRC lisp
+   
+*** 想要被加载,插件的.el文件最后一定要proide
+   #+BEGIN_SRC lisp -n
   (provide '***-***)
    #+END_SRC
+
    
-** 关于这些加载项目的差别可以在这个网站查看
+*** 关于这些加载项目的差别可以在这个网站查看
 http://ergoemacs.org/emacs/elisp_library_system.html
 
 
-* 配置文件不用重启就起效
-1. 打开配置文件
-   C-x C-e (eval-last-sexp)光标前面的运行一条语句,立即生效
-   M-x eval-buffer 执行当前buffer内的Elisp代码
-   M-x eval-region 执行region内的代码
- 
-2. 都是立即生效，可以马上试验一条语句的效果
-   #+BEGIN_SRC lisp
+** 2.配置文件立即测试,不用重启emacs.
+  |--------------------------+----------------------------------|
+  | C-x C-e (eval-last-sexp) | 光标前面的运行一条语句,立即生效. |
+  |--------------------------+----------------------------------|
+  | M-x eval-buffer          | 执行当前buffer内的Elisp代码.     |
+  |--------------------------+----------------------------------|
+  | M-x eval-region          | 执行region内的代码               |
+  |--------------------------+----------------------------------|
+
+   
+*** 都是立即生效，可以马上试验一条语句的效果
+   #+BEGIN_SRC lisp -n
    (setq frame-title-format "emacs@%b") 
    #+END_SRC
 
    
-* 我的配置文件
-#+INCLUDE: "~/.emacs.d/init.el" src lisp
+* 我的配置文件init.el,主要是引导其他配置文件.
 
-* 配置目录的文件树
-[https://github.com/boxmaking/.emacs.d]
-
-自己加载的一些小配置
-#+BEGIN_EXAMPLE
-./loadfile/
-├── pengshao-backup.el
-├── pengshao-calendar.el
-├── pengshao-copy-cut-paste-killring.el
-├── pengshao-default.el
-├── pengshao-insert-date.el
-├── pengshao-key-building.el
-├── pengshao-openweather.el
-├── pengshao-org-mode.el
-└── pengshao-org-publish.el
-
-#+END_EXAMPLE
-
-* 默认的一些配置
-#+INCLUDE: "~/.emacs.d/loadfile/pengshao-default.el" src lisp
+#+INCLUDE: "~/.emacs.d/init.el" src lisp -n
 
 
-* org-mode相关的两个配置
-#+INCLUDE: "~/.emacs.d/loadfile/pengshao-org-mode.el" src lisp
-#+INCLUDE: "~/.emacs.d/loadfile/pengshao-org-publish.el" src lisp
+* 自己自定义的一些配置,啥都有.
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-default.el" src lisp -n
 
 
-* 我比较喜欢些东西加入日期,第二个是加入月相和济南天气,calendar的配置我不太用.
-#+INCLUDE: "~/.emacs.d/loadfile/pengshao-insert-date.el" src lisp
+* org-mode相关的两个配置,第二个是导出静态网站项目配置.
+
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-org-mode.el" src lisp -n
+
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-org-publish.el" src lisp -n
+
+
+* 我比较喜欢在写日记时候加入月相和当地天气
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-insert-date.el" src lisp -n
+
 #+INCLUDE: "~/.emacs.d/loadfile/pengshao-openweather.el" src lisp -n
-#+INCLUDE: "~/.emacs.d/loadfile/pengshao-calendar.el" src lisp
+
+
+** calendar的配置我不太用.
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-calendar.el" src lisp -n
 
 
 * 关于复制粘帖的一些设置
-#+INCLUDE: "~/.emacs.d/loadfile/pengshao-copy-cut-paste-killring.el" src lisp
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-copy-cut-paste-killring.el" src lisp -n
 
 
 * 我的键配置(主要是f1-f10)
-#+INCLUDE: "~/.emacs.d/loadfile/pengshao-key-building.el" src lisp
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-key-building.el" src lisp -n
 
 
-* 备份相关的设置
-#+INCLUDE: "~/.emacs.d/loadfile/pengshao-backup.el" src lisp
+* 自动备份相关的设置
+#+INCLUDE: "~/.emacs.d/loadfile/pengshao-backup.el" src lisp -n
 
 
-* 启动页面*scratch*显示特定内容
+* 一些关于启动的个性化设定,*scratch*和frame-title-format的设置.
+
+
+** 启动页面*scratch*显示特定内容
 将以下代码添加到你的 Emacs 配置文件中：
-#+BEGIN_SRC lisp
+#+BEGIN_SRC lisp -n
 ;; 在 Emacs 启动时清空 *scratch* 缓冲区并插入特定函数代码
   (setq initial-scratch-message "") ; 清空初始的 *scratch* 消息
   (with-current-buffer "*scratch*"
@@ -101,14 +108,13 @@ http://ergoemacs.org/emacs/elisp_library_system.html
      )
 #+END_SRC
   
-** 代码解释
 
 
+** frame-title-format设置相关.
 
-* frame-title-format设置相关
 
-** 我的设置
-#+BEGIN_SRC lisp
+*** 我的设置
+#+BEGIN_SRC lisp -n
 ;; buffer name (if the buffer isn't visiting a file)
 (setq frame-title-format
       '("" "上古大椿,八千春秋,知途知径,浑然天成."
@@ -117,9 +123,9 @@ http://ergoemacs.org/emacs/elisp_library_system.html
 #+END_SRC
 
 
-** frame-title-format选项相关
+*** frame-title-format选项相关
 
-#+BEGIN_EXAMPLE
+#+BEGIN_EXAMPLE 
 A string is printed verbatim in the mode line except for %-constructs:
 (%-constructs are allowed when the string is the entire mode-line-format
 or when it is found in a cons-cell or a list)
