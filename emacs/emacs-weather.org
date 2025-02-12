@@ -72,12 +72,12 @@ pyphoon的地址 [[https://github.com/chubin/pyphoon]]
      )
 #+END_SRC
 ** 效果
-[[file:emacs-init.png]]
+[[file:emacs-init1.png]]
 
 
 ** 设置的快捷键,可以随意调取
 - C-c m o 插入月相(刚好是满月)
-  #+BEGIN_ASCII
+  #+BEGIN_EXAMPLE
                    .------------.	 
              .--'  o     . .   `--.	 
           .-'   .    O   .       . `-.	 
@@ -101,7 +101,7 @@ pyphoon的地址 [[https://github.com/chubin/pyphoon]]
           `-.   /     .       .    .-'	 
              `--.       .      .--'	 
                  `------------'	 
-#+END_ASCII
+#+END_EXAMPLE
 
 - C-c m w 插入济南的天气
   #+BEGIN_EXAMPLE

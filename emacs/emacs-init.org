@@ -10,6 +10,7 @@
 [[./emacs-init1.png]]  
 
 
+
 * load,load-file
 1. 加载文件,在默认的配置文件中加载的文件
    #+BEGIN_SRC lisp 
@@ -41,6 +42,23 @@ http://ergoemacs.org/emacs/elisp_library_system.html
 * 我的配置文件
 #+INCLUDE: "~/.emacs.d/init.el" src lisp
 
+* 配置目录的文件树
+[https://github.com/boxmaking/.emacs.d]
+
+自己加载的一些小配置
+#+BEGIN_EXAMPLE
+./loadfile/
+├── pengshao-backup.el
+├── pengshao-calendar.el
+├── pengshao-copy-cut-paste-killring.el
+├── pengshao-default.el
+├── pengshao-insert-date.el
+├── pengshao-key-building.el
+├── pengshao-openweather.el
+├── pengshao-org-mode.el
+└── pengshao-org-publish.el
+
+#+END_EXAMPLE
 
 * 默认的一些配置
 #+INCLUDE: "~/.emacs.d/loadfile/pengshao-default.el" src lisp
@@ -93,7 +111,7 @@ http://ergoemacs.org/emacs/elisp_library_system.html
 #+BEGIN_SRC lisp
 ;; buffer name (if the buffer isn't visiting a file)
 (setq frame-title-format
-      '("" " 上马提枪, 去干他娘 - "
+      '("" "上古大椿,八千春秋,知途知径,浑然天成."
         (:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 #+END_SRC
@@ -123,20 +141,4 @@ Decimal digits after the % specify field width to which to pad.
 #+END_EXAMPLE
 
 
-* 配置目录的文件树
-[https://github.com/boxmaking/.emacs.d]
 
-自己加载的一些小配置
-#+BEGIN_EXAMPLE
-./loadfile/
-├── pengshao-backup.el
-├── pengshao-calendar.el
-├── pengshao-copy-cut-paste-killring.el
-├── pengshao-default.el
-├── pengshao-insert-date.el
-├── pengshao-key-building.el
-├── pengshao-openweather.el
-├── pengshao-org-mode.el
-└── pengshao-org-publish.el
-
-#+END_EXAMPLE
