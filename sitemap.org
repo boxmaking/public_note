@@ -31,6 +31,7 @@
   - [[file:hardware/character-set.org][字符集和编码]]
   - [[file:hardware/storage.org][存储与文件系统]]
 - idear
+  - [[file:idear/2025-f1-calendar.org][2025赛季F1赛事GTD追踪（北京时间）]]
   - [[file:idear/idear-list.org][idear-list]]
   - [[file:idear/todo-list.org][todo-list]]
   - [[file:idear/life.org][我的生活状态-2025年初总结]]

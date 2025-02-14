@@ -1,17 +1,30 @@
 * Tasks
-** DOING samba使用教程<2025-02-10/Monday 21:14:55>
-- State "DOING"      from "TODO"       [2025-02-10 Mon 21:15]
-  [2025-02-10 Mon]
-** TODO 砂带机的设计制作<2025-02-10/Monday 21:13:32>
-  [2025-02-10 Mon]
-** TODO 砂带机的设计制作
-  [2025-02-10 Mon]
-** TODO 迷你烤肉
-  [2025-02-12 Wed]
-** TODO 通过orgmode建立一个赛事日程系统
-  [2025-02-12 Wed]
-** TODO 通过orgmode建立一个赛事日程系统
+** DOING [#A] samba使用教程
+SCHEDULED: <2025-02-10 Mon>
+*** 教程文件
+[[file:~/public_note/linux/samba.org]]
 
-  [2025-02-12 Wed]
-** TODO 印象笔记的备份
-  [2025-02-12 Wed]
+
+** TODO 砂带机的设计制作
+SCHEDULED: <2025-01-10 Fri>
+
+
+** TODO [#B] 迷你烤肉
+- State "TODO"       from "TODO"       [2025-02-12 Wed 22:28]
+
+  
+** TODO 通过orgmode建立一个赛事日程系统
+- State "TODO"       from "DONE"       [2025-02-12 Wed 22:28]
+
+  
+** TODO [#A] 印象笔记的备份
+- State "TODO"       from "TODO"       [2025-02-12 Wed 22:28]
+
+  
+** TODO 利用树莓派构建nas
+- State "TODO"       from "TODO"       [2025-02-12 Wed 22:31]
+
+  
+** TODO [#B] 时间标记添加方法,还得学阿
+- State "TODO"       from "TODO"       [2025-02-12 Wed 22:37]
+  [[file:~/public_note/org/org-learn.org::*时间标记添加方法][时间标记添加方法]]
