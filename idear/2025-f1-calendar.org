@@ -1,6 +1,6 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+TITLE: 2025赛季F1赛事GTD追踪（北京时间）
-#+OPTIONS: ^:nil _:nil toc:2 H:4
+#+OPTIONS: ^:nil _:nil toc:nil H:4
 #+KEYWORDS: f1,f12025
 #+LANGUAGE: zh-CN
 #+DATE:<2025-02-12/Wednesday 19:57:10>

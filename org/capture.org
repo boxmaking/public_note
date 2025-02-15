@@ -1,0 +1,162 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil toc:2 H:4
+#+TITLE: Org-mode Capture 完全指南
+#+AUTHOR: pengshao
+#+KEYWORDS: emacs  org-mode
+#+LANGUAGE: zh-CN
+#+DATE:<2025-02-15/Saturday 23:36:42>
+
+* 基础概念
+** Capture 是什么？
+- 快速捕获临时想法/任务的「临时缓冲区」
+- 支持预定义模板快速结构化输入
+- 自动归档到指定位置（文件/标题）
+
+** 核心三要素
+1. 触发快捷键：快速调用 Capture 界面
+2. 模板系统：定义不同场景的输入格式
+3. 归档流程：将内容保存到正确位置
+
+* 基础配置
+** 1. 启用 Capture 功能
+#+BEGIN_SRC emacs-lisp
+(require 'org-capture)  ; 确保加载模块
+(setq org-capture-templates nil)  ; 清空默认模板
+#+END_SRC
+
+** 2. 全局快捷键配置
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c c") 'org-capture)  ; 推荐快捷键
+#+END_SRC
+
+* 模板配置详解
+** 基础模板语法
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+      '(("key" "Description" entry (file+headline "file.org" "Node")
+         "* %?\n %i\n %a")))
+#+END_SRC
+
+** 参数说明
+| 字段          | 说明                              |
+|---------------|-----------------------------------|
+| key           | 模板快捷键（单字符）              |
+| Description   | 模板菜单显示描述                  |
+| entry         | 内容类型（还可选 item, checkitem）|
+| file+headline | 归档位置（文件+标题）             |
+| 模板内容      | 定义内容结构和占位符              |
+
+** 实战模板示例
+*** 通用任务模板
+#+BEGIN_SRC emacs-lisp
+("t" "Todo" entry (file+headline "~/org/gtd.org" "Inbox")
+"* TODO %?\n %i\n %a\n SCHEDULED: %t")
+#+END_SRC
+
+*** 会议记录模板
+#+BEGIN_SRC emacs-lisp
+("m" "Meeting" entry (file+headline "~/org/notes.org" "Meetings")
+"* %^{Meeting Title} %T\n%?\n** Attendees\n- \n** Action Items\n- ")
+#+END_SRC
+
+*** 快速笔记模板
+#+BEGIN_SRC emacs-lisp
+("n" "Note" entry (file "~/org/notes.org")
+"* %^{Title}\n%T\n%?\n%i")
+#+END_SRC
+
+* 高级技巧
+** 1. 动态路径选择
+#+BEGIN_SRC emacs-lisp
+("p" "Project" entry (file+headline (org-capture-select-target) "Tasks")
+"* TODO %?\n %i")  ; 按 C-c C-c 选择目标文件
+#+END_SRC
+
+** 2. 自动添加标签
+#+BEGIN_SRC emacs-lisp
+("c" "Code" entry (file+headline "~/org/tech.org" "Snippets")
+"* %? :code:\n#+BEGIN_SRC %^{Language}\n\n#+END_SRC")
+#+END_SRC
+
+** 3. 时间戳控制
+| 占位符 | 说明                   |
+|--------|------------------------|
+| %t     | 当前时间               |
+| %T     | 时间+日期              |
+| %^t    | 交互式选择时间         |
+| %^T    | 交互式选择日期和时间   |
+
+** 4. 附件支持
+#+BEGIN_SRC emacs-lisp
+("a" "Attachment" entry (file "~/org/attachments.org")
+"* %^{Description}\n%T\n%i\n%(org-attach-attach)")
+#+END_SRC
+
+* 工作流优化
+** 1. 快速结束 Capture
+| 快捷键   | 动作               |
+|----------|--------------------|
+| C-c C-c  | 保存并退出         |
+| C-c C-w  | 保存并选择归档位置 |
+| C-c C-k  | 取消捕获           |
+
+** 2. 自动归档配置
+#+BEGIN_SRC emacs-lisp
+;; 自动归档到每日笔记
+(setq org-capture-templates
+      '(("d" "Daily" entry (file+datetree "~/org/diary.org")
+        "* %?\n%T\n%i")))
+#+END_SRC
+
+** 3. 与 Agenda 集成
+#+BEGIN_SRC emacs-lisp
+;; 自动刷新 Agenda 缓存
+(add-hook 'org-capture-after-finalize-hook 'org-agenda-redo-all)
+#+END_SRC
+
+* 常见问题排查
+** 问题1：模板不生效
+- 检查 =org-capture-templates= 语法是否正确
+- 确认文件路径存在且有写入权限
+
+** 问题2：时间戳格式异常
+#+BEGIN_SRC emacs-lisp
+(setq org-time-stamp-custom-formats  ; 自定义时间格式
+      '("<%Y-%m-%d %a>" . "<%Y-%m-%d %a %H:%M>"))
+#+END_SRC
+
+** 问题3：中文乱码
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+      '(("c" "中文模板" entry [...])))  ; 确保使用 utf-8 编码
+#+END_SRC
+
+* 配置示例
+** 完整 GTD 工作流配置
+#+BEGIN_SRC emacs-lisp
+(setq org-capture-templates
+      '(("t" "待办事项" entry (file+headline "~/org/gtd.org" "Inbox")
+        "* TODO %?\n %i\n %a\n SCHEDULED: %t")
+        ("m" "会议记录" entry (file+headline "~/org/meetings.org" "Records")
+         "* %^{主题} %T\n%?\n** 参会人\n- \n** 决议事项\n- ")
+        ("j" "日记" entry (file+datetree "~/org/diary.org")
+         "* %?\n%T\n%i\n%U")))
+#+END_SRC
+
+** 效果演示
+1. 按 =C-c c t= 快速创建待办事项：
+   : * TODO 完成项目文档 
+   :   SCHEDULED: <2023-10-16 Mon>
+   
+2. 按 =C-c c m= 记录会议：
+   : * 产品需求讨论 <2023-10-16 Mon 14:00> 
+   : ** 参会人
+   : - 张三
+   : - 李四
+   : ** 决议事项
+   : - 确定V1.0功能范围
+
+* 扩展阅读
+1. 官方文档：=C-h i m org <RET> m Capture=
+2. 高级模板语法：使用 =%^{PROMPT}= 交互式输入
+3. 与 =org-roam= 集成实现知识管理

@@ -69,8 +69,10 @@
   - [[file:linux/linux-common-command.org][未整理的linux学习笔记]]
   - [[file:linux/ln.org][链接相关的教程]]
 - org
+  - [[file:org/capture.org][Org-mode Capture 完全指南]]
   - [[file:org/org-publish.org][org-publish用org批量导出来建一个静态博客系统]]
   - [[file:org/org-learn.org][我的orgmode学习笔记]]
+  - [[file:org/org-mobile.org][设置MobileOrg,让org如影随形]]
 - other
   - [[file:other/hex-color.org][十六进制颜色查看]]
 - share

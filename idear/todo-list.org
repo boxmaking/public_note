@@ -1,30 +1,67 @@
 * Tasks
 ** DOING [#A] samba使用教程
 SCHEDULED: <2025-02-10 Mon>
+:PROPERTIES:
+:ID:       90f93cac-623a-4ddc-9bdd-e71fcf7beeed
+:END:
 *** 教程文件
 [[file:~/public_note/linux/samba.org]]
 
 
 ** TODO 砂带机的设计制作
 SCHEDULED: <2025-01-10 Fri>
+:PROPERTIES:
+:ID:       4a5a8abd-f34e-4c4c-9bca-33a2a57361e0
+:END:
 
 
 ** TODO [#B] 迷你烤肉
+:PROPERTIES:
+:ID:       306f2360-5dd9-437e-8ba3-5646fd39aa66
+:END:
 - State "TODO"       from "TODO"       [2025-02-12 Wed 22:28]
 
   
 ** TODO 通过orgmode建立一个赛事日程系统
+:PROPERTIES:
+:ID:       9f8d41cc-65c6-420a-aca4-ad0fa40cd836
+:END:
 - State "TODO"       from "DONE"       [2025-02-12 Wed 22:28]
 
   
 ** TODO [#A] 印象笔记的备份
+:PROPERTIES:
+:ID:       2121cc8b-bef8-4aa8-8de1-99ea264c1990
+:END:
 - State "TODO"       from "TODO"       [2025-02-12 Wed 22:28]
 
   
 ** TODO 利用树莓派构建nas
+:PROPERTIES:
+:ID:       e794deb5-afe1-44a1-a6bf-5ca146abf3b8
+:END:
 - State "TODO"       from "TODO"       [2025-02-12 Wed 22:31]
 
   
 ** TODO [#B] 时间标记添加方法,还得学阿
+:PROPERTIES:
+:ID:       6852b19e-91c1-4d59-9ba4-d8e9d168884e
+:END:
 - State "TODO"       from "TODO"       [2025-02-12 Wed 22:37]
   [[file:~/public_note/org/org-learn.org::*时间标记添加方法][时间标记添加方法]]
+** TODO [[[[file:2025-f1-calendar.org]]]]冲刺赛那行多了个迈阿密.
+:PROPERTIES:
+:ID:       773828aa-271b-44ad-94b3-55444381737f
+:END:
+  [2025-02-14 Fri]
+  
+** CANCELED orgmobile 设置一直没弄好,放弃了.
+:PROPERTIES:
+:ID:       71fdd8bd-00b4-42b0-a2e4-9fb870f8a3b4
+:END:
+
+- State "CANCELED"   from "CANCELED"   [2025-02-15 Sat 23:00] \\
+  直接用github算了,感觉也用不太到.
+** TODO [#A] 赶紧的进行capture的学习,
+  [2025-02-15 Sat]
+  [[file:~/public_note/org/capture.org::*Capture 是什么？][Capture 是什么？]]

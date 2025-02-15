@@ -1,0 +1,96 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil toc:2 H:4
+#+TITLE: 设置MobileOrg,让org如影随形
+#+AUTHOR: nakkayadotcom
+#+KEYWORDS: mobileorg  org-mode
+#+LANGUAGE: zh-CN
+#+DATE:<2025-02-15/Saturday 21:57:15>
+
+
+
+* 教程的英文地址
+[[https://nakkaya.com/2010/03/19/org-mode-in-your-pocket-setting-up-mobileorg/]]
+
+
+* 配置MobileOrg同步
+** 概述
+MobileOrg是iOS端管理Org文件的工具，支持WebDAV同步。本文档提供完整的Emacs配置模板。
+
+** 基础配置
+*** 文件目录设置
+#+BEGIN_SRC emacs-lisp
+;; 设置主Org目录(需先创建目录)
+(setq org-directory "~/Documents/org/")
+
+;; 移动端同步收件箱路径
+(setq org-mobile-inbox-for-pull "~/Documents/org/from-mobile.org")
+#+END_SRC
+
+*** WebDAV同步配置
+#+BEGIN_SRC emacs-lisp
+;; WebDAV挂载点设置(MacOS示例)
+(setq org-mobile-directory "/Volumes/nakkaya.com/org/")
+
+;; 或使用SCP同步(需自行实现钩子函数)
+;; (add-hook 'org-mobile-pre-push-hook 'my-scp-push)
+;; (add-hook 'org-mobile-post-pull-hook 'my-scp-pull)
+#+END_SRC
+
+** 同步文件配置
+#+BEGIN_SRC emacs-lisp
+;; 指定需要同步的文件列表
+(setq org-mobile-files '("gtd.org" "notes.org"))
+#+END_SRC
+
+** 属性抽屉处理
+#+BEGIN_SRC emacs-lisp
+;; 禁用自动生成ID(注意可能影响子任务识别)
+(setq org-mobile-force-id-on-agenda-items nil)
+#+END_SRC
+
+#+BEGIN_WARNING
+警告：禁用属性抽屉后，具有相同标题的嵌套子任务可能无法正确识别！
+建议保留ID生成功能，除非文件结构简单无重复标题
+#+END_WARNING
+
+** 日程视图配置
+*** 自定义议程视图
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-custom-commands
+      '(("w" todo "TODO")
+        ("h" agenda "" ((org-agenda-show-all-dates nil)))
+        ("W" agenda "" ((org-agenda-ndays 21)
+                        (org-agenda-show-all-dates nil)))
+        ("A" agenda ""
+         ((org-agenda-ndays 1)
+          (org-agenda-overriding-header "Today")))))
+#+END_SRC
+
+*** 优化显示设置
+#+BEGIN_SRC emacs-lisp
+;; 过滤空日期提升可读性
+(setq org-agenda-show-all-dates nil)
+#+END_SRC
+
+* 使用说明
+** 同步流程
+1. 执行 =M-x org-mobile-push= 推送数据到WebDAV
+2. 在MobileOrg应用内手动刷新同步
+3. 移动端修改后执行 =M-x org-mobile-pull= 拉取变更
+
+** 注意事项
+- 确保WebDAV目录可写: =chmod -R 755 /Volumes/nakkaya.com/org=
+- 首次使用前创建必要目录:
+  #+BEGIN_SRC shell
+  mkdir -p ~/Documents/org/
+  mkdir -p /Volumes/nakkaya.com/org/
+  #+END_SRC
+- 建议配合版本控制使用:
+  #+BEGIN_SRC shell
+  cd ~/Documents/org && git init
+  #+END_SRC
+
+* 故障排查
+- 检查文件权限: =ls -l /Volumes/nakkaya.com/org=
+- 查看同步日志: =C-h e= 查看*Messages*缓冲区
+- 测试WebDAV连接: =curl -u user:pass https://dav.example.com=
