@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: date-命令使用教程
+#+TITLE: date-强大的日历相关命令
 #+KEYWORDS: linux-command, linux
 #+LANGUAGE: zh-CN
 

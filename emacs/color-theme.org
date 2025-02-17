@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: emacs-color-theme主题
+#+TITLE: emacs-color-theme主题设置
 #+KEYWORDS: emacs,emacs-color-theme
 #+LANGUAGE: zh-CN
 #+DATE: <2025-02-09/Sunday 19:04:44>

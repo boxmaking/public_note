@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: 我作up主的内容想法
+#+TITLE: 未来想要完成的项目
 #+DATE:<2020-07-23/Thursday 17:37:54>
 #+KEYWORDS: 
 #+LANGUAGE: zh-CN

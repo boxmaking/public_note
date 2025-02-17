@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: wget-用法详解释
+#+TITLE: wget-使用教程
 #+KEYWORDS: wget-tutorial wget-用法详解释
 #+LANGUAGE: zh-CN
 

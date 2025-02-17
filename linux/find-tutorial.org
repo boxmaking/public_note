@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: find-tutorial
+#+TITLE: find-命令使用教程
 #+KEYWORDS: linux-find, find
 #+LANGUAGE: zh-CN
 

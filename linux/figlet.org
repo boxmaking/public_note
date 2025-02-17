@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: figlet-tutorial
+#+TITLE: figlet-个性化显示文字,艺术字
 #+KEYWORDS: figlet
 #+LANGUAGE: zh-CN
 

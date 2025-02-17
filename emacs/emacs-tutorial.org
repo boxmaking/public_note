@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: emacs-tutorial
+#+TITLE: emacs-原装教程文件训练
 #+KEYWORDS: emacs, 
 #+LANGUAGE: zh-CN
 #+TAGS: 重要快捷键 一般快捷键

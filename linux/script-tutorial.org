@@ -1,0 +1,179 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil toc:2 H:4
+#+TITLE: 我的bash-script笔记
+#+KEYWORDS: bash笔记
+#+LANGUAGE: zh-CN
+#+DATE:<2025-02-17-048/Monday>
+
+* shell中的那些初始化文件
+
+** ~/.profile
+是sh的配置文件. 
+ksh兼容sh所以也会使用.profile
+
+
+* 转义符核心概念
+
+** 转义符（\）
+- 功能 :: 改变字符的原始含义
+- 适用场景 :: 
+  1. 处理特殊字符（如 $ ` " ! 等）
+  2. 续行符（行尾的 \ 表示命令延续到下一行）
+  3. 转义空格（当路径包含空格时）
+
+     
+** 引号类型
+| 类型   | 特性                    | 变量扩展 | 命令替换 |
+|--------+-------------------------+----------+----------|
+| 单引号 | 完全保留字面值          | 不支持   | 不支持   |
+| 双引号 | 允许变量扩展和命令替换  | 支持     | 支持     |
+| 无引号 | 自动分割单词/展开通配符 | 支持     | 支持     |
+
+
+** 需转义的特殊字符列表
+| 字符 | 需转义场景                  | 示例                 |
+|------|-----------------------------|----------------------|
+| $    | 当需要显示美元符号时        | echo "Cost: \$100"   |
+| `    | 所有场景（反引号有特殊含义）| echo "Use \`ls\`"    |
+| "    | 双引号内部                  | echo "He said \"Hi\""|
+| '    | 单引号内部（无法直接转义）  | 见下方特殊技巧       |
+| \    | 当需要显示反斜杠时          | echo "Path: C:\\Users"|
+| !    | 在交互式脚本中使用历史扩展时 | echo "Important\! "  |
+| 空格 | 在无引号字符串中保留空格时  | mv file\ name.txt    |
+
+
+** 详细使用场景
+
+*** 场景 1：处理单引号
+#+BEGIN_SRC sh
+# 错误示范（单引号不能嵌套）
+# echo 'It's a problem'
+
+# 正确方案 1：混合引号
+echo "It's a solution"
+
+# 正确方案 2：转义符（仅限双引号内）
+echo 'She said "Don'"'"'t do that"'
+# 解释：通过分段拼接 'She said "Don' + "'" + 't do that"'
+
+# 正确方案 3：使用 $'' 语法（支持转义）
+echo $'This works for \'single quotes\' too'
+#+END_SRC
+
+
+*** 场景 2：正则表达式处理
+#+BEGIN_SRC sh
+# 需要转义两次（Shell + 正则引擎）
+grep "\\bimportant\\b" file.txt
+# 等效写法
+grep '\bimportant\b' file.txt
+#+END_SRC
+
+
+*** 场景 3：JSON 字符串生成
+#+BEGIN_SRC sh
+# 正确转义嵌套引号
+json_data="{\"name\": \"John\", \"age\": 30}"
+
+# 使用单引号简化
+json_data='{"name": "John", "age": 30}'
+#+END_SRC
+
+
+** 最佳实践
+1. /优先使用双引号/ :: 保护空格和特殊字符，同时允许变量扩展
+   #+BEGIN_SRC sh
+   # 安全处理带空格文件名
+   for file in "My Document"*.txt; do
+       echo "Processing: $file"
+   done
+   #+END_SRC
+
+2. /单引号用于纯文本/ :: 当内容不需要任何扩展时
+   #+BEGIN_SRC sh
+   echo '$$$ 价格未定 $$$'
+   # 输出：$$$ 价格未定 $$$
+   #+END_SRC
+
+3. /转义符使用原则/ ::
+   - 在双引号内转义 $ ` " \ 和 !
+   - 在单引号内无法使用转义符（除了结尾续行符）
+   - 无引号时必须转义空格和特殊字符
+
+     
+** 特殊技巧
+
+*** Here Document 转义控制
+#+BEGIN_SRC sh
+# 关闭变量扩展
+cat <<'EOF'
+This $will NOT expand
+EOF
+
+# 允许变量扩展
+cat <<EOF
+This $will expand
+EOF
+#+END_SRC
+
+
+*** ANSI-C Quoting ($'')
+#+BEGIN_SRC sh
+# 支持转义序列
+echo $'Line 1\nLine 2\tTabbed'
+# 输出：
+# Line 1
+# Line 2   Tabbed
+
+# 处理不可打印字符
+echo $'\x48\x65\x6c\x6c\x6f'  # 输出 "Hello"
+#+END_SRC
+
+
+** 常见错误案例
+1. /路径处理错误/ ::
+   #+BEGIN_SRC sh
+   # 错误：空格导致参数分割
+   rm My Document.txt      # 尝试删除两个文件
+   # 正确：
+   rm "My Document.txt"    # 或 My\ Document.txt
+   #+END_SRC
+
+2. /嵌套引号错误/ ::
+   #+BEGIN_SRC sh
+   # 错误：引号不匹配
+   echo "He said "Hello""
+   # 正确：
+   echo "He said \"Hello\""
+   # 或
+   echo 'He said "Hello"'
+   #+END_SRC
+
+3. /正则表达式错误/ ::
+   #+BEGIN_SRC sh
+   # 错误：未正确转义
+   grep ".*\d{3}" file     # 实际传递的正则式是 .*d{3}
+   # 正确：
+   grep ".*\\d{3}" file    # 或 grep '.*\d{3}' file
+   #+END_SRC
+
+   
+** 验证练习
+1. 写出能正确输出以下文本的命令：
+   /She said "Don't do that!"/
+   
+   答案：
+   #+BEGIN_SRC sh
+   echo "She said \"Don't do that!\""
+   # 或
+   echo 'She said "Don'"'"'t do that!"'
+   #+END_SRC
+
+2. 处理包含特殊字符的文件名：
+   /My File$2023.txt/
+   
+   答案：
+   #+BEGIN_SRC sh
+   touch "My File\$2023.txt"  # 创建
+   ls -l "My File\$2023.txt"  # 查看
+   #+END_SRC

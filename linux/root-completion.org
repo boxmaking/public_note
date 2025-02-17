@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: root-completion
+#+TITLE: root用户添加自动补全
 #+KEYWORDS: linux,root-completion
 #+LANGUAGE: zh-CN
 

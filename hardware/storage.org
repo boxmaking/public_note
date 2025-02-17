@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: 存储与文件系统
+#+TITLE: linux存储与文件系统
 #+DATE:<2020-05-07-128/Thursday>
 #+KEYWORDS: linux-command, linux
 #+LANGUAGE: zh-CN

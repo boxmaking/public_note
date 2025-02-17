@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: emacs帮助系统
+#+TITLE: emacs-C-h详解
 #+DATE:<2020-04-21-112/Tuesday>
 #+KEYWORDS: emacs,emacs-help
 #+LANGUAGE: zh-CN

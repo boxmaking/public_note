@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: tar命令详细功能和格式---ar解压缩deb文件
+#+TITLE: tar命令详细功能和压缩相关命令
 #+KEYWORDS: linux-tar tar
 #+LANGUAGE: zh-CN
 

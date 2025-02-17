@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: linux硬盘相关的记录
+#+TITLE: linux硬盘存储相关笔记
 #+DATE:<2020-07-10/Friday 18:54:15>
 #+KEYWORDS: hard-disk-drive
 #+LANGUAGE: zh-CN

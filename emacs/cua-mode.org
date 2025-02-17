@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: emacs-可视化编辑教程
+#+TITLE: au-mode,矩形mark,剪切,黏贴操作
 #+DATE:<2020-04-21-112/Tuesday>
 #+KEYWORDS: cua-mode列模式编辑 emacs可视化编辑模式
 #+LANGUAGE: zh-CN
@@ -108,4 +108,7 @@ cua-mode和cua-rect是有区别的
 
 - [C-z]: undo
 
-还有一些其他的命令可以直接看cua-base.el(emacs22之后已经自带cua-mode)。 
+还有一些其他的命令可以直接看cua-base.el(emacs22之后已经自带cua-mode)
+
+* 配置文件
+#+INCLUDE:"~/.emacs.d/loadfile/pengshao-copy-cut-paste-killring.el" src lisp -n

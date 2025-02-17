@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: 链接相关的教程
+#+TITLE: ln-链接命令相关的教程
 #+DATE:<2020-05-12-133/Tuesday>
 #+KEYWORDS: linux-ln
 #+LANGUAGE: zh-CN

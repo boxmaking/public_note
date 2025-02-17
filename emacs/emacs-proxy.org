@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: emacs使用代理教程
+#+TITLE: emacs-使用代理教程
 #+KEYWORDS: english,
 #+LANGUAGE: zh-CN
 #+DATE:<2025-02-09/Sunday 19:34:29>

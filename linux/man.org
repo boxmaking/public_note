@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: man-tutorial
+#+TITLE: man-命令相关教程
 #+KEYWORDS: linux-man, man
 #+LANGUAGE: zh-CN
 

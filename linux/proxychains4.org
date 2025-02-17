@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: proxychains4使用教程
+#+TITLE: linux下proxychains4使用教程
 #+DATE:<2020-06-28-180/Sunday>
 #+KEYWORDS: proxychains4
 #+LANGUAGE: zh-CN

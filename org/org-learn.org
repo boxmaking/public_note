@@ -1,6 +1,6 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+OPTIONS: ^:nil _:nil toc:2 H:4
-#+TITLE: 我的orgmode学习笔记
+#+TITLE: 我的orgmode入门笔记
 #+KEYWORDS: emacs  org-mode
 #+LANGUAGE: zh-CN
 #+DATE:<2025-02-11/Tuesday 18:52:11>
@@ -507,7 +507,8 @@ C-c C-c,可以对齐表格
 #+END_SRC 
 
 
-* 字体设置
+* TODO 字体设置
+- State "TODO"       from              [2025-02-16 Sun 21:13]
   *粗体*
 
   /斜体/

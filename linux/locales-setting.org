@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: locales-setting
+#+TITLE: locales-环境的各种设置
 #+KEYWORDS: locales-setting, linux
 #+LANGUAGE: zh-CN
 

@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: linux-kill
+#+TITLE: linux-kill命令
 #+KEYWORDS: linux-kill
 #+LANGUAGE: zh-CN
 

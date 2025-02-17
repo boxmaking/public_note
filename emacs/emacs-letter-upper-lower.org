@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: emacs大小写转换的快捷键
+#+TITLE: emacs大小写转换相关快捷键
 #+KEYWORDS: emacs大小写转换的快捷键
 #+LANGUAGE: zh-CN
 #+DATE:<2025-02-09/Sunday 19:33:23>
