@@ -33,6 +33,7 @@
 - idear
   - [[file:idear/2025-f1-calendar.org][2025赛季F1赛事GTD追踪（北京时间）]]
   - [[file:idear/idear-list.org][idear-list]]
+  - [[file:idear/mobile.org][mobile]]
   - [[file:idear/todo-list.org][todo-list]]
   - [[file:idear/life.org][我的生活状态-2025年初总结]]
 - linux
@@ -75,7 +76,7 @@
   - [[file:org/org-learn.org][我的orgmode入门笔记]]
   - [[file:org/org-mobile.org][设置MobileOrg,让org如影随形]]
 - other
-  - [[file:other/hex-color.org][十六进制颜色查看]]
+  - [[file:other/hex-color.org][十六进制HEX色卡查询以及与RGB格式对照表]]
 - share
   - [[file:share/emule-life.org][emule情怀]]
   - [[file:share/mybookmarks.org][多年以来收藏的书签]]

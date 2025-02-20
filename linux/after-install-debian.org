@@ -246,3 +246,7 @@ sudo apt-get --fix-broken install
   
 
 
+
+
+* gunsofeware
+https://directory.fsf.org/wiki/Collection:GNU/Linux

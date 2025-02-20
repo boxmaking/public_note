@@ -1,12 +1,12 @@
-* Tasks
-** DOING [#A] samba使用教程
+* Tasks[3/13]
+** DONE [#A] samba使用教程,基本弄好了.
 SCHEDULED: <2025-02-10 Mon>
 :PROPERTIES:
 :ID:       90f93cac-623a-4ddc-9bdd-e71fcf7beeed
 :END:
+- State "DONE"       from "DOING"      [2025-02-18 Tue 18:08]
 *** 教程文件
 [[file:~/public_note/linux/samba.org]]
-
 
 ** TODO 砂带机的设计制作
 SCHEDULED: <2025-01-10 Fri>
@@ -14,47 +14,36 @@ SCHEDULED: <2025-01-10 Fri>
 :ID:       4a5a8abd-f34e-4c4c-9bca-33a2a57361e0
 :END:
 
-
 ** TODO [#B] 迷你烤肉
 :PROPERTIES:
 :ID:       306f2360-5dd9-437e-8ba3-5646fd39aa66
 :END:
 - State "TODO"       from "TODO"       [2025-02-12 Wed 22:28]
 
-  
 ** TODO 通过orgmode建立一个赛事日程系统
 :PROPERTIES:
 :ID:       9f8d41cc-65c6-420a-aca4-ad0fa40cd836
 :END:
 - State "TODO"       from "DONE"       [2025-02-12 Wed 22:28]
 
-  
 ** TODO [#A] 印象笔记的备份
 :PROPERTIES:
 :ID:       2121cc8b-bef8-4aa8-8de1-99ea264c1990
 :END:
 - State "TODO"       from "TODO"       [2025-02-12 Wed 22:28]
 
-  
 ** TODO 利用树莓派构建nas
 :PROPERTIES:
 :ID:       e794deb5-afe1-44a1-a6bf-5ca146abf3b8
 :END:
 - State "TODO"       from "TODO"       [2025-02-12 Wed 22:31]
 
-  
 ** TODO [#B] 时间标记添加方法,还得学阿
 :PROPERTIES:
 :ID:       6852b19e-91c1-4d59-9ba4-d8e9d168884e
 :END:
 - State "TODO"       from "TODO"       [2025-02-12 Wed 22:37]
   [[file:~/public_note/org/org-learn.org::*时间标记添加方法][时间标记添加方法]]
-** TODO [[[[file:2025-f1-calendar.org]]]]冲刺赛那行多了个迈阿密.
-:PROPERTIES:
-:ID:       773828aa-271b-44ad-94b3-55444381737f
-:END:
-  [2025-02-14 Fri]
-  
 ** CANCELED orgmobile 设置一直没弄好,放弃了.
 :PROPERTIES:
 :ID:       71fdd8bd-00b4-42b0-a2e4-9fb870f8a3b4
@@ -65,93 +54,12 @@ SCHEDULED: <2025-01-10 Fri>
 ** TODO [#A] 赶紧的进行capture的学习,还没有写记录教程
   [2025-02-15 Sat]
   [[file:~/public_note/org/capture.org::*Capture 是什么？][Capture 是什么？]]
-** TODO 进行不蒜子访问统计的添加
-
-
-若要显示本站总访客数，可使用：
-
-html
-
-<span id="busuanzi_container_site_uv">本站总访客数<span id="busuanzi_value_site_uv"></span>人</span>
-
-
-如果是想在文章页面显示本文阅读量，则可以用：
-
-html
-
-<span id="busuanzi_container_page_pv">本文阅读量<span id="busuanzi_value_page_pv"></span>次</span>
-
-
-如果你的网站是单页应用或有特殊的页面加载机制，可能需要在页面加载或路由切换等事件中手动触发不蒜子的统计更新。如果有多个 HTML 页面，需要在每个页面都进行上述操作，以确保统计的准确性。
-我用orgmode导出html文件部署的静态网站，如何在导出的网页<head>中内嵌<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>这段代码
-要在 Org Mode 导出的 HTML 文件的<head>中内嵌不蒜子的脚本代码，有以下几种方法：
-直接修改导出的 HTML 文件
-
-    用文本编辑器打开 Org Mode 导出的 HTML 文件，找到<head>标签，在其内部合适位置直接粘贴<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>代码。保存文件后，部署更新后的文件到服务器即可。
-
-在 Org 文件中使用 HTML 标记
-
-    在 Org 源文件中，可在文件开头或需要的位置插入 HTML 标记，直接写<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>。确保该标记在要导出为 HTML 的相关内容之前，且在<head>标签对应的区域内。之后再使用 Org Mode 的导出功能生成 HTML 文件，代码会被包含在<head>中。
-
-利用 Org Mode 的模板功能
-
-    可创建或修改 Org Mode 的 HTML 导出模板。在模板文件中，找到<head>部分，插入不蒜子的脚本代码。保存模板后，在 Org Mode 中使用该模板进行导出，生成的 HTML 文件会在<head>中包含此代码。具体的模板设置可能因使用的 Org Mode 环境和工具略有不同。
-
-html叶尾处的代码是类似于<head>
-在 HTML 页面尾部，与<head>相对应的是<body>结束标签之后的部分。通常在这部分添加代码用于操作页面元素、执行页面加载完成后的逻辑等。如果要在页面叶尾添加不蒜子统计显示代码，可参考以下步骤：
-
-    打开 HTML 文件：用文本编辑器（如 Notepad++、Sublime Text 等）打开 Org Mode 导出的 HTML 文件。
-    定位到页面尾部：滚动到文件末尾，在</body>标签之前添加不蒜子的统计显示代码。例如，添加显示本站总访问量的代码：
-
-
-html
-
-<span id="busuanzi_container_site_pv">
-    本站总访问量
-    <span id="busuanzi_value_site_pv"></span>次
-</span>
-
-
-若要添加显示本文阅读量的代码（假设适用于单篇文章页面），可以这样：
-
-html
-
-<span id="busuanzi_container_page_pv">
-    本文阅读量
-    <span id="busuanzi_value_page_pv"></span>次
-</span>
-
-
-    保存并更新部署：保存修改后的 HTML 文件，然后将其重新部署到网站服务器上，使更改生效。
-
-
-这样，当页面加载时，不蒜子脚本会根据这些代码显示相应的统计信息。
-我用orgmode导出html文件部署的静态网站，如何在导出的网页的尾部内嵌<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>这段代码，要在org文件使用html标记来添加到导出页面的页尾
-在 Org 文件中，你可以使用#+HTML_EXPORT_POSTamble属性来指定在 HTML 文件</body>标签之前插入内容，从而将不蒜子的脚本添加到导出网页的尾部。以下是具体步骤：
-
-    打开 Org 文件：使用支持 Org 文件编辑的文本编辑器（如 Emacs 自带的 Org Mode 编辑器）打开你的 Org 文件。
-    添加属性：在 Org 文件的开头部分添加以下内容：
-
-
-org
-
-#+HTML_EXPORT_POSTamble: <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-
-    导出 HTML：使用 Org Mode 的导出功能（通常在 Emacs 中可以通过C-c C-e h h组合键导出为 HTML）重新导出 HTML 文件。此时，不蒜子的脚本就会被添加到导出的 HTML 文件的</body>标签之前。
-
-
-如果你还想在网页尾部添加显示统计数据的代码，例如显示本站总访问量，可以这样做：
-
-org
-
-#+HTML_EXPORT_POSTamble: |
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-  <span id="busuanzi_container_site_pv">
-    本站总访问量
-    <span id="busuanzi_value_site_pv"></span>次
-  </span>
-
-
-上述代码中，|符号表示后续内容为多行文本，会按原样插入到 HTML 文件的相应位置。重新导出 HTML 后，不仅会在网页尾部引入不蒜子脚本，还会显示总访问量的统计信息。
-** TODO github的本地pull
+** DONE 进行不蒜子访问统计的添加
+- State "DONE"       from "TODO"       [2025-02-17 Mon 20:50]
+  算是简单的添加并弄完了
+** TODO [#A] github的本地pull
+没好好学,不过所用到的功能也就那么多.先不学了.
+** TODO emacs的字体和颜色需要弄一下
+  [2025-02-17 Mon]
+** TODO [#A] magit学习迫在眉睫
+  [2025-02-18 Tue]

@@ -1,9 +1,521 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: 十六进制颜色查看
+#+TITLE: 十六进制HEX色卡查询以及与RGB格式对照表
 #+KEYWORDS:十六进制颜色查看
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-17-048/Monday>
+
+* 基础颜色对照表
+#+COLUMNS: %40ITEM %10HEX %15RGB %20SAMPLE
+| 颜色名称 | HEX     | RGB         | HTML样本                                                                                         |
+|----------+---------+-------------+--------------------------------------------------------------------------------------------------|
+| 红色     | #FF0000 | 255,0,0     | @@html:<div style="background-color:#FF0000; width:50px; height:20px;">@@                        |
+| 绿色     | #00FF00 | 0,255,0     | @@html:<div style="background-color:#00FF00; width:50px; height:20px;">@@                        |
+| 蓝色     | #0000FF | 0,0,255     | @@html:<div style="background-color:#0000FF; width:50px; height:20px;">@@                        |
+| 黄色     | #FFFF00 | 255,255,0   | @@html:<div style="background-color:#FFFF00; width:50px; height:20px;">@@                        |
+| 青色     | #00FFFF | 0,255,255   | @@html:<div style="background-color:#00FFFF; width:50px; height:20px;">@@                        |
+| 品红     | #FF00FF | 255,0,255   | @@html:<div style="background-color:#FF00FF; width:50px; height:20px;">@@                        |
+| 黑色     | #000000 | 0,0,0       | @@html:<div style="background-color:#000000; width:50px; height:20px;">@@                        |
+| 白色     | #FFFFFF | 255,255,255 | @@html:<div style="background-color:#FFFFFF; width:50px; height:20px; border:1px solid #000;">@@ |
+| 灰色     | #808080 | 128,128,128 | @@html:<div style="background-color:#808080; width:50px; height:20px;">@@                        |
+| 银色     | #C0C0C0 | 192,192,192 | @@html:<div style="background-color:#C0C0C0; width:50px; height:20px;">@@                        |
+| 橙色     | #FFA500 | 255,165,0   | @@html:<div style="background-color:#FFA500; width:50px; height:20px;">@@                        |
+| 紫色     | #800080 | 128,0,128   | @@html:<div style="background-color:#800080; width:50px; height:20px;">@@                        |
+| 粉红     | #FFC0CB | 255,192,203 | @@html:<div style="background-color:#FFC0CB; width:50px; height:20px;">@@                        |
+| 橄榄色   | #808000 | 128,128,0   | @@html:<div style="background-color:#808000; width:50px; height:20px;">@@                        |
+| 茶色     | #A0522D | 160,82,45   | @@html:<div style="background-color:#A0522D; width:50px; height:20px;">@@                        |
+
+
+* HEX 与 RGB 颜色代码指南
+** 基础定义
+| 类型 | 格式               | 示例          |
+|------|--------------------|---------------|
+| HEX  | #开头 + 6位十六进制 | #FF5733       |
+| RGB  | 三个0-255的整数     | rgb(255,87,51)|
+
+
+** 转换规则
+1. HEX转RGB：
+   - 拆分 HEX 为三组（如 FF 57 33）
+   - 将每组十六进制转为十进制（FF=255，57=87，33=51）
+
+2. RGB转HEX：
+   - 将每个十进制数转为两位十六进制（255→FF，87→57，51→33）
+   - 组合成 #FF5733
+
+     
+** 使用场景
+- ✓ 网页开发首选 HEX（CSS简写）
+- ✓ 动态调色使用 RGB（如 rgba(255,0,0,0.5) 透明效果）
+
+  
+* RGBA 使用指南
+** 核心定义
+| 参数       | 说明                          | 取值范围      |
+|------------|-------------------------------|---------------|
+| R(红)      | 红色通道强度                  | 0-255         |
+| G(绿)      | 绿色通道强度                  | 0-255         |
+| B(蓝)      | 蓝色通道强度                  | 0-255         |
+| A(Alpha)   | 透明度（0=全透明，1=不透明） | 0.0-1.0       |
+
+
+** 使用场景
+1. 半透明遮罩层：rgba(0,0,0,0.5) → 50%黑色遮罩
+2. 渐变背景：linear-gradient(rgba(255,0,0,0.3), rgba(0,0,255,0.7))
+3. 按钮悬浮效果：hover 时增加透明度（如从 1 → 0.8）
+
+   
+** 代码示例
+#+BEGIN_SRC css
+/* 半透明红色背景 */
+.element {
+  background: rgba(255, 0, 0, 0.5);
+}
+
+/* 带透明边框 */
+.card {
+  border: 2px solid rgba(0, 128, 0, 0.3);
+}
+
+/* 文字阴影效果 */
+.text {
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+}
+#+END_SRC
+
+
+* 红色系
+#+COLUMNS: %25s %10s %15s %40s
+|------------+---------+-------------+---------------------------------------------------------------------------|
+| 颜色名称   | HEX代码 | RGB代码     | 色卡示例                                                                  |
+|------------+---------+-------------+---------------------------------------------------------------------------|
+| 殷红色     | #880808 | 136,8,8     | @@html:<div style="background-color:#880808; width:50px; height:20px;">@@ |
+| 砖红色     | #AA4A44 | 170,74,68   | @@html:<div style="background-color:#AA4A44; width:50px; height:20px;">@@ |
+| 朱红色     | #EE4B2B | 238,75,43   | @@html:<div style="background-color:#EE4B2B; width:50px; height:20px;">@@ |
+| 棕色       | #A52A2A | 165,42,42   | @@html:<div style="background-color:#A52A2A; width:50px; height:20px;">@@ |
+| 勃艮第色   | #800020 | 128,0,32    | @@html:<div style="background-color:#800020; width:50px; height:20px;">@@ |
+| 焦红色     | #6E260E | 110,38,14   | @@html:<div style="background-color:#6E260E; width:50px; height:20px;">@@ |
+| 焦橙色     | #CC5500 | 204,85,0    | @@html:<div style="background-color:#CC5500; width:50px; height:20px;">@@ |
+| 锡耶纳色   | #E97451 | 233,116,81  | @@html:<div style="background-color:#E97451; width:50px; height:20px;">@@ |
+| 拜占庭色   | #702963 | 112,41,99   | @@html:<div style="background-color:#702963; width:50px; height:20px;">@@ |
+| 镉红色     | #D22B2B | 210,43,43   | @@html:<div style="background-color:#D22B2B; width:50px; height:20px;">@@ |
+| 主教红色   | #C41E3A | 196,30,58   | @@html:<div style="background-color:#C41E3A; width:50px; height:20px;">@@ |
+| 洋红色     | #D70040 | 215,0,64    | @@html:<div style="background-color:#D70040; width:50px; height:20px;">@@ |
+| 可爱红     | #DE3163 | 222,49,99   | @@html:<div style="background-color:#DE3163; width:50px; height:20px;">@@ |
+| 樱桃红     | #D2042D | 210,4,45    | @@html:<div style="background-color:#D2042D; width:50px; height:20px;">@@ |
+| 板栗色     | #954535 | 149,69,53   | @@html:<div style="background-color:#954535; width:50px; height:20px;">@@ |
+| 酒红色     | #811331 | 129,19,49   | @@html:<div style="background-color:#811331; width:50px; height:20px;">@@ |
+| 珊瑚粉红   | #F88379 | 248,131,121 | @@html:<div style="background-color:#F88379; width:50px; height:20px;">@@ |
+| 科尔多瓦   | #814141 | 129,65,65   | @@html:<div style="background-color:#814141; width:50px; height:20px;">@@ |
+| 深红色     | #DC143C | 220,20,60   | @@html:<div style="background-color:#DC143C; width:50px; height:20px;">@@ |
+| 暗红色     | #8B0000 | 139,0,0     | @@html:<div style="background-color:#8B0000; width:50px; height:20px;">@@ |
+| 法鲁红     | #7B1818 | 123,24,24   | @@html:<div style="background-color:#7B1818; width:50px; height:20px;">@@ |
+| 石榴红     | #9A2A2A | 154,42,42   | @@html:<div style="background-color:#9A2A2A; width:50px; height:20px;">@@ |
+| 桃木红     | #C04000 | 192,64,0    | @@html:<div style="background-color:#C04000; width:50px; height:20px;">@@ |
+| 栗色       | #800000 | 128,0,0     | @@html:<div style="background-color:#800000; width:50px; height:20px;">@@ |
+| 玛萨拉色   | #986868 | 152,104,104 | @@html:<div style="background-color:#986868; width:50px; height:20px;">@@ |
+| 桑树色     | #770737 | 119,7,55    | @@html:<div style="background-color:#770737; width:50px; height:20px;">@@ |
+| 霓虹色     | #FF3131 | 255,49,49   | @@html:<div style="background-color:#FF3131; width:50px; height:20px;">@@ |
+| 牛血红     | #4A0404 | 74,4,4      | @@html:<div style="background-color:#4A0404; width:50px; height:20px;">@@ |
+| 柔和红色   | #FAA0A0 | 250,160,160 | @@html:<div style="background-color:#FAA0A0; width:50px; height:20px;">@@ |
+| 柿子色     | #EC5800 | 236,88,0    | @@html:<div style="background-color:#EC5800; width:50px; height:20px;">@@ |
+| 罂红       | #E35335 | 227,83,53   | @@html:<div style="background-color:#E35335; width:50px; height:20px;">@@ |
+| 普斯色     | #A95C68 | 169,92,104  | @@html:<div style="background-color:#A95C68; width:50px; height:20px;">@@ |
+| 树莓红     | #E30B5C | 227,11,92   | @@html:<div style="background-color:#E30B5C; width:50px; height:20px;">@@ |
+| 红色       | #FF0000 | 255,0,0     | @@html:<div style="background-color:#FF0000; width:50px; height:20px;">@@ |
+| 红棕色     | #A52A2A | 165,42,42   | @@html:<div style="background-color:#A52A2A; width:50px; height:20px;">@@ |
+| 红赭石     | #913831 | 145,56,49   | @@html:<div style="background-color:#913831; width:50px; height:20px;">@@ |
+| 红橙色     | #FF4433 | 255,68,51   | @@html:<div style="background-color:#FF4433; width:50px; height:20px;">@@ |
+| 红紫色     | #953553 | 149,53,83   | @@html:<div style="background-color:#953553; width:50px; height:20px;">@@ |
+| 玫瑰红     | #C21E56 | 194,30,86   | @@html:<div style="background-color:#C21E56; width:50px; height:20px;">@@ |
+| 宝石红     | #E0115F | 224,17,95   | @@html:<div style="background-color:#E0115F; width:50px; height:20px;">@@ |
+| 赤褐色     | #80461B | 128,70,27   | @@html:<div style="background-color:#80461B; width:50px; height:20px;">@@ |
+| 鲑鱼红     | #FA8072 | 250,128,114 | @@html:<div style="background-color:#FA8072; width:50px; height:20px;">@@ |
+| 猩红色     | #FF2400 | 255,36,0    | @@html:<div style="background-color:#FF2400; width:50px; height:20px;">@@ |
+| 日落橙     | #FA5F55 | 250,95,85   | @@html:<div style="background-color:#FA5F55; width:50px; height:20px;">@@ |
+| 兵马俑     | #E3735E | 227,115,94  | @@html:<div style="background-color:#E3735E; width:50px; height:20px;">@@ |
+| 托斯卡纳红 | #7C3030 | 124,48,48   | @@html:<div style="background-color:#7C3030; width:50px; height:20px;">@@ |
+| 提利昂紫   | #630330 | 99,3,48     | @@html:<div style="background-color:#630330; width:50px; height:20px;">@@ |
+| 威尼斯红   | #A42A04 | 164,42,4    | @@html:<div style="background-color:#A42A04; width:50px; height:20px;">@@ |
+| 朱红色     | #E34234 | 227,66,52   | @@html:<div style="background-color:#E34234; width:50px; height:20px;">@@ |
+| 酒红色     | #722F37 | 114,47,55   | @@html:<div style="background-color:#722F37; width:50px; height:20px;">@@ |
+
+
+* 绿色系
+#+COLUMNS: %25s %10s %15s %40s
+|--------------+---------+-------------+--------------------------------------------------------------------------------------------------|
+| 颜色名称     | HEX代码 | RGB代码     | 色卡示例                                                                                         |
+|--------------+---------+-------------+--------------------------------------------------------------------------------------------------|
+| 水绿色       | #00FFFF | 0,255,255   | @@html:<div style="background-color:#00FFFF; width:50px; height:20px;">@@                        |
+| 海蓝色       | #7FFFD4 | 127,255,212 | @@html:<div style="background-color:#7FFFD4; width:50px; height:20px;">@@                        |
+| 军绿色       | #454B1B | 69,75,27    | @@html:<div style="background-color:#454B1B; width:50px; height:20px;">@@                        |
+| 蓝绿色       | #088F8F | 8,143,143   | @@html:<div style="background-color:#088F8F; width:50px; height:20px;">@@                        |
+| 亮绿色       | #AAFF00 | 170,255,0   | @@html:<div style="background-color:#AAFF00; width:50px; height:20px;">@@                        |
+| 学员蓝       | #5F9EA0 | 95,158,160  | @@html:<div style="background-color:#5F9EA0; width:50px; height:20px;">@@                        |
+| 镉绿色       | #097969 | 9,121,105   | @@html:<div style="background-color:#097969; width:50px; height:20px;">@@                        |
+| 青瓷色       | #AFE1AF | 175,225,175 | @@html:<div style="background-color:#AFE1AF; width:50px; height:20px;">@@                        |
+| 沙特勒斯     | #DFFF00 | 223,255,0   | @@html:<div style="background-color:#DFFF00; width:50px; height:20px;">@@                        |
+| 黄水晶       | #E4D00A | 228,208,10  | @@html:<div style="background-color:#E4D00A; width:50px; height:20px;">@@                        |
+| 青色         | #00FFFF | 0,255,255   | @@html:<div style="background-color:#00FFFF; width:50px; height:20px;">@@                        |
+| 深绿色       | #023020 | 2,48,32     | @@html:<div style="background-color:#023020; width:50px; height:20px;">@@                        |
+| 电蓝色       | #7DF9FF | 125,249,255 | @@html:<div style="background-color:#7DF9FF; width:50px; height:20px;">@@                        |
+| 翠绿色       | #50C878 | 80,200,120  | @@html:<div style="background-color:#50C878; width:50px; height:20px;">@@                        |
+| 桉树绿       | #5F8575 | 95,133,117  | @@html:<div style="background-color:#5F8575; width:50px; height:20px;">@@                        |
+| 植物绿       | #4F7942 | 79,121,66   | @@html:<div style="background-color:#4F7942; width:50px; height:20px;">@@                        |
+| 森林绿       | #228B22 | 34,139,34   | @@html:<div style="background-color:#228B22; width:50px; height:20px;">@@                        |
+| 草绿色       | #7CFC00 | 124,252,0   | @@html:<div style="background-color:#7CFC00; width:50px; height:20px;">@@                        |
+| 绿色         | #008000 | 0,128,0     | @@html:<div style="background-color:#008000; width:50px; height:20px;">@@                        |
+| 猎人绿       | #355E3B | 53,94,59    | @@html:<div style="background-color:#355E3B; width:50px; height:20px;">@@                        |
+| 翠绿色       | #00A36C | 0,163,108   | @@html:<div style="background-color:#00A36C; width:50px; height:20px;">@@                        |
+| 丛林绿       | #2AAA8A | 42,170,138  | @@html:<div style="background-color:#2AAA8A; width:50px; height:20px;">@@                        |
+| 凯利绿       | #4CBB17 | 76,187,23   | @@html:<div style="background-color:#4CBB17; width:50px; height:20px;">@@                        |
+| 浅绿色       | #90EE90 | 144,238,144 | @@html:<div style="background-color:#90EE90; width:50px; height:20px;">@@                        |
+| 石灰绿       | #32CD32 | 50,205,50   | @@html:<div style="background-color:#32CD32; width:50px; height:20px;">@@                        |
+| 林肯绿       | #478778 | 71,135,120  | @@html:<div style="background-color:#478778; width:50px; height:20px;">@@                        |
+| 孔雀石绿     | #0BDA51 | 11,218,81   | @@html:<div style="background-color:#0BDA51; width:50px; height:20px;">@@                        |
+| 薄荷绿       | #98FB98 | 152,251,152 | @@html:<div style="background-color:#98FB98; width:50px; height:20px;">@@                        |
+| 苔藓绿       | #8A9A5B | 138,154,91  | @@html:<div style="background-color:#8A9A5B; width:50px; height:20px;">@@                        |
+| 霓虹绿       | #0FFF50 | 15,255,80   | @@html:<div style="background-color:#0FFF50; width:50px; height:20px;">@@                        |
+| 尼安扎色     | #ECFFDC | 236,255,220 | @@html:<div style="background-color:#ECFFDC; width:50px; height:20px; border:1px solid #000;">@@ |
+| 橄榄绿       | #808000 | 128,128,0   | @@html:<div style="background-color:#808000; width:50px; height:20px;">@@                        |
+| 柔和绿色     | #C1E1C1 | 193,225,193 | @@html:<div style="background-color:#C1E1C1; width:50px; height:20px;">@@                        |
+| 梨黄色       | #C9CC3F | 201,204,63  | @@html:<div style="background-color:#C9CC3F; width:50px; height:20px;">@@                        |
+| 橄榄石       | #B4C424 | 180,196,36  | @@html:<div style="background-color:#B4C424; width:50px; height:20px;">@@                        |
+| 开心果绿     | #93C572 | 147,197,114 | @@html:<div style="background-color:#93C572; width:50px; height:20px;">@@                        |
+| 知更鸟蛋蓝色 | #96DED1 | 150,222,209 | @@html:<div style="background-color:#96DED1; width:50px; height:20px;">@@                        |
+| 鼠尾草绿     | #8A9A5B | 138,154,91  | @@html:<div style="background-color:#8A9A5B; width:50px; height:20px;">@@                        |
+| 海绿色       | #2E8B57 | 46,139,87   | @@html:<div style="background-color:#2E8B57; width:50px; height:20px;">@@                        |
+| 海泡绿       | #9FE2BF | 159,226,191 | @@html:<div style="background-color:#9FE2BF; width:50px; height:20px;">@@                        |
+| 三叶草绿     | #009E60 | 0,158,96    | @@html:<div style="background-color:#009E60; width:50px; height:20px;">@@                        |
+| 春绿色       | #00FF7F | 0,255,127   | @@html:<div style="background-color:#00FF7F; width:50px; height:20px;">@@                        |
+| 水鸭色       | #008080 | 0,128,128   | @@html:<div style="background-color:#008080; width:50px; height:20px;">@@                        |
+| 松石绿       | #40E0D0 | 64,224,208  | @@html:<div style="background-color:#40E0D0; width:50px; height:20px;">@@                        |
+| 维加斯黄     | #C4B454 | 196,180,84  | @@html:<div style="background-color:#C4B454; width:50px; height:20px;">@@                        |
+| 维迪格里斯   | #40B5AD | 64,181,173  | @@html:<div style="background-color:#40B5AD; width:50px; height:20px;">@@                        |
+| 维里迪安     | #40826D | 64,130,109  | @@html:<div style="background-color:#40826D; width:50px; height:20px;">@@                        |
 
 
 
-[[file:hex-color.pdf]]
 
+* 蓝色系
+#+COLUMNS: %25s %10s %15s %40s
+| 名称       | HEX     | RGB         | 颜色样本                                                                  |
+|------------+---------+-------------+---------------------------------------------------------------------------|
+| 水绿色     | #00FFFF | 0,255,255   | @@html:<div style="background-color:#00FFFF; width:50px; height:20px;">@@ |
+| 天蓝色     | #F0FFFF | 240,255,255 | @@html:<div style="background-color:#F0FFFF; width:50px; height:20px;">@@ |
+| 浅蓝色     | #89CFF0 | 137,207,240 | @@html:<div style="background-color:#89CFF0; width:50px; height:20px;">@@ |
+| 蓝色       | #0000FF | 0,0,255     | @@html:<div style="background-color:#0000FF; width:50px; height:20px;">@@ |
+| 蓝灰色     | #7393B3 | 115,147,179 | @@html:<div style="background-color:#7393B3; width:50px; height:20px;">@@ |
+| 蓝绿色     | #088F8F | 8,143,143   | @@html:<div style="background-color:#088F8F; width:50px; height:20px;">@@ |
+| 亮蓝色     | #0096FF | 0,150,255   | @@html:<div style="background-color:#0096FF; width:50px; height:20px;">@@ |
+| 学员蓝     | #5F9EA0 | 95,158,160  | @@html:<div style="background-color:#5F9EA0; width:50px; height:20px;">@@ |
+| 钴蓝色     | #0047AB | 0,71,171    | @@html:<div style="background-color:#0047AB; width:50px; height:20px;">@@ |
+| 矢车菊蓝   | #6495ED | 100,149,237 | @@html:<div style="background-color:#6495ED; width:50px; height:20px;">@@ |
+| 青色       | #00FFFF | 0,255,255   | @@html:<div style="background-color:#00FFFF; width:50px; height:20px;">@@ |
+| 深蓝色     | #00008B | 0,0,139     | @@html:<div style="background-color:#00008B; width:50px; height:20px;">@@ |
+| 牛仔蓝     | #6F8FAF | 111,143,175 | @@html:<div style="background-color:#6F8FAF; width:50px; height:20px;">@@ |
+| 埃及蓝     | #1434A4 | 20,52,164   | @@html:<div style="background-color:#1434A4; width:50px; height:20px;">@@ |
+| 电蓝色     | #7DF9FF | 125,249,255 | @@html:<div style="background-color:#7DF9FF; width:50px; height:20px;">@@ |
+| 青光色     | #6082B6 | 96,130,182  | @@html:<div style="background-color:#6082B6; width:50px; height:20px;">@@ |
+| 翠绿色     | #00A36C | 0,163,108   | @@html:<div style="background-color:#00A36C; width:50px; height:20px;">@@ |
+| 靛蓝色     | #3F00FF | 63,0,255    | @@html:<div style="background-color:#3F00FF; width:50px; height:20px;">@@ |
+| 虹膜色     | #5D3FD3 | 93,63,211   | @@html:<div style="background-color:#5D3FD3; width:50px; height:20px;">@@ |
+| 浅蓝色     | #ADD8E6 | 173,216,230 | @@html:<div style="background-color:#ADD8E6; width:50px; height:20px;">@@ |
+| 午夜蓝     | #191970 | 25,25,112   | @@html:<div style="background-color:#191970; width:50px; height:20px;">@@ |
+| 海军蓝     | #000080 | 0,0,128     | @@html:<div style="background-color:#000080; width:50px; height:20px;">@@ |
+| 霓虹蓝     | #1F51FF | 31,81,255   | @@html:<div style="background-color:#1F51FF; width:50px; height:20px;">@@ |
+| 淡蓝色     | #A7C7E7 | 167,199,231 | @@html:<div style="background-color:#A7C7E7; width:50px; height:20px;">@@ |
+| 长春花色   | #CCCCFF | 204,204,255 | @@html:<div style="background-color:#CCCCFF; width:50px; height:20px;">@@ |
+| 粉蓝色     | #B6D0E2 | 182,208,226 | @@html:<div style="background-color:#B6D0E2; width:50px; height:20px;">@@ |
+| 知更鸟蛋蓝 | #96DED1 | 150,222,209 | @@html:<div style="background-color:#96DED1; width:50px; height:20px;">@@ |
+| 宝蓝色     | #4169E1 | 65,105,225  | @@html:<div style="background-color:#4169E1; width:50px; height:20px;">@@ |
+| 宝石蓝     | #0F52BA | 15,82,186   | @@html:<div style="background-color:#0F52BA; width:50px; height:20px;">@@ |
+| 海泡绿     | #9FE2BF | 159,226,191 | @@html:<div style="background-color:#9FE2BF; width:50px; height:20px;">@@ |
+| 天蓝色     | #87CEEB | 135,206,235 | @@html:<div style="background-color:#87CEEB; width:50px; height:20px;">@@ |
+| 钢蓝色     | #4682B4 | 70,130,180  | @@html:<div style="background-color:#4682B4; width:50px; height:20px;">@@ |
+| 水鸭色     | #008080 | 0,128,128   | @@html:<div style="background-color:#008080; width:50px; height:20px;">@@ |
+| 松石绿     | #40E0D0 | 64,224,208  | @@html:<div style="background-color:#40E0D0; width:50px; height:20px;">@@ |
+| 群青色     | #0437F2 | 4,55,242    | @@html:<div style="background-color:#0437F2; width:50px; height:20px;">@@ |
+| 维迪格里斯 | #40B5AD | 64,181,173  | @@html:<div style="background-color:#40B5AD; width:50px; height:20px;">@@ |
+| 扎弗尔     | #0818A8 | 8,24,168    | @@html:<div style="background-color:#0818A8; width:50px; height:20px;">@@ |
+
+
+* 黄色系
+#+COLUMNS: %25s %10s %15s %40s
+| 名称       | HEX     | RGB         | 颜色样本                                                                  |
+|------------+---------+-------------+---------------------------------------------------------------------------|
+| 杏仁色     | #EADDCA | 234,221,202 | @@html:<div style="background-color:#EADDCA; width:50px; height:20px;">@@ |
+| 琥珀黄     | #FFBF00 | 255,191,0   | @@html:<div style="background-color:#FFBF00; width:50px; height:20px;">@@ |
+| 杏黄色     | #FBCEB1 | 251,206,177 | @@html:<div style="background-color:#FBCEB1; width:50px; height:20px;">@@ |
+| 米色       | #F5F5DC | 245,245,220 | @@html:<div style="background-color:#F5F5DC; width:50px; height:20px;">@@ |
+| 黄铜色     | #E1C16E | 225,193,110 | @@html:<div style="background-color:#E1C16E; width:50px; height:20px;">@@ |
+| 亮黄色     | #FFEA00 | 255,234,0   | @@html:<div style="background-color:#FFEA00; width:50px; height:20px;">@@ |
+| 镉黄色     | #FDDA0D | 253,218,13  | @@html:<div style="background-color:#FDDA0D; width:50px; height:20px;">@@ |
+| 金丝雀黄   | #FFFF8F | 255,255,143 | @@html:<div style="background-color:#FFFF8F; width:50px; height:20px;">@@ |
+| 沙特勒斯   | #DFFF00 | 223,255,0   | @@html:<div style="background-color:#DFFF00; width:50px; height:20px;">@@ |
+| 水晶黄     | #E4D00A | 228,208,10  | @@html:<div style="background-color:#E4D00A; width:50px; height:20px;">@@ |
+| 玉米丝     | #FFF8DC | 255,248,220 | @@html:<div style="background-color:#FFF8DC; width:50px; height:20px;">@@ |
+| 奶油色     | #FFFDD0 | 255,253,208 | @@html:<div style="background-color:#FFFDD0; width:50px; height:20px;">@@ |
+| 暗黄色     | #8B8000 | 139,128,0   | @@html:<div style="background-color:#8B8000; width:50px; height:20px;">@@ |
+| 沙漠黄     | #FAD5A5 | 250,213,165 | @@html:<div style="background-color:#FAD5A5; width:50px; height:20px;">@@ |
+| 本色       | #C2B280 | 194,178,128 | @@html:<div style="background-color:#C2B280; width:50px; height:20px;">@@ |
+| 亚麻黄     | #EEDC82 | 238,220,130 | @@html:<div style="background-color:#EEDC82; width:50px; height:20px;">@@ |
+| 藤黄色     | #E49B0F | 228,155,15  | @@html:<div style="background-color:#E49B0F; width:50px; height:20px;">@@ |
+| 金色       | #FFD700 | 255,215,0   | @@html:<div style="background-color:#FFD700; width:50px; height:20px;">@@ |
+| 金黄色     | #FFC000 | 255,192,0   | @@html:<div style="background-color:#FFC000; width:50px; height:20px;">@@ |
+| 植物黄     | #DAA520 | 218,165,32  | @@html:<div style="background-color:#DAA520; width:50px; height:20px;">@@ |
+| 蝶黄色     | #FCF55F | 252,245,95  | @@html:<div style="background-color:#FCF55F; width:50px; height:20px;">@@ |
+| 象牙白     | #FFFFF0 | 255,255,240 | @@html:<div style="background-color:#FFFFF0; width:50px; height:20px;">@@ |
+| 茉莉花     | #F8DE7E | 248,222,126 | @@html:<div style="background-color:#F8DE7E; width:50px; height:20px;">@@ |
+| 卡其黄     | #F0E68C | 240,230,140 | @@html:<div style="background-color:#F0E68C; width:50px; height:20px;">@@ |
+| 柠檬黄     | #FAFA33 | 250,250,51  | @@html:<div style="background-color:#FAFA33; width:50px; height:20px;">@@ |
+| 玉米黄     | #FBEC5D | 251,236,93  | @@html:<div style="background-color:#FBEC5D; width:50px; height:20px;">@@ |
+| 芒果黄     | #F4BB44 | 244,187,68  | @@html:<div style="background-color:#F4BB44; width:50px; height:20px;">@@ |
+| 芥末黄     | #FFDB58 | 255,219,88  | @@html:<div style="background-color:#FFDB58; width:50px; height:20px;">@@ |
+| 那不勒斯黄 | #FADA5E | 250,218,94  | @@html:<div style="background-color:#FADA5E; width:50px; height:20px;">@@ |
+| 纳瓦霍白   | #FFDEAD | 255,222,173 | @@html:<div style="background-color:#FFDEAD; width:50px; height:20px;">@@ |
+| 尼安扎     | #ECFFDC | 236,255,220 | @@html:<div style="background-color:#ECFFDC; width:50px; height:20px;">@@ |
+| 柔和黄     | #FFFAA0 | 255,250,160 | @@html:<div style="background-color:#FFFAA0; width:50px; height:20px;">@@ |
+| 桃色       | #FFE5B4 | 255,229,180 | @@html:<div style="background-color:#FFE5B4; width:50px; height:20px;">@@ |
+| 梨黄色     | #C9CC3F | 201,204,63  | @@html:<div style="background-color:#C9CC3F; width:50px; height:20px;">@@ |
+| 橄榄石     | #B4C424 | 180,196,36  | @@html:<div style="background-color:#B4C424; width:50px; height:20px;">@@ |
+| 开心果绿   | #93C572 | 147,197,114 | @@html:<div style="background-color:#93C572; width:50px; height:20px;">@@ |
+| 番红花     | #F4C430 | 244,196,48  | @@html:<div style="background-color:#F4C430; width:50px; height:20px;">@@ |
+| 香草       | #F3E5AB | 243,229,171 | @@html:<div style="background-color:#F3E5AB; width:50px; height:20px;">@@ |
+| 维加斯黄   | #C4B454 | 196,180,84  | @@html:<div style="background-color:#C4B454; width:50px; height:20px;">@@ |
+| 小麦色     | #F5DEB3 | 245,222,179 | @@html:<div style="background-color:#F5DEB3; width:50px; height:20px;">@@ |
+| 黄色       | #FFFF00 | 255,255,0   | @@html:<div style="background-color:#FFFF00; width:50px; height:20px;">@@ |
+| 黄橙       | #FFAA33 | 255,170,51  | @@html:<div style="background-color:#FFAA33; width:50px; height:20px;">@@ |
+
+
+
+
+* 棕色系
+#+COLUMNS: %25s %10s %15s %40s
+| 名称       | HEX     | RGB         | 颜色样本                                                                  |
+|------------+---------+-------------+---------------------------------------------------------------------------|
+| 杏仁色     | #EADDCA | 234,221,202 | @@html:<div style="background-color:#EADDCA; width:50px; height:20px;">@@ |
+| 黄铜色     | #E1C16E | 225,193,110 | @@html:<div style="background-color:#E1C16E; width:50px; height:20px;">@@ |
+| 青铜色     | #CD7F32 | 205,127,50  | @@html:<div style="background-color:#CD7F32; width:50px; height:20px;">@@ |
+| 棕色       | #A52A2A | 165,42,42   | @@html:<div style="background-color:#A52A2A; width:50px; height:20px;">@@ |
+| 巴福色     | #DAA06D | 218,160,109 | @@html:<div style="background-color:#DAA06D; width:50px; height:20px;">@@ |
+| 勃艮第色   | #800020 | 128,0,32    | @@html:<div style="background-color:#800020; width:50px; height:20px;">@@ |
+| 锡耶纳     | #E97451 | 233,116,81  | @@html:<div style="background-color:#E97451; width:50px; height:20px;">@@ |
+| 翁伯       | #6E260E | 110,38,14   | @@html:<div style="background-color:#6E260E; width:50px; height:20px;">@@ |
+| 骆驼色     | #C19A6B | 193,154,107 | @@html:<div style="background-color:#C19A6B; width:50px; height:20px;">@@ |
+| 板栗色     | #954535 | 149,69,53   | @@html:<div style="background-color:#954535; width:50px; height:20px;">@@ |
+| 巧克力色   | #7B3F00 | 123,63,0    | @@html:<div style="background-color:#7B3F00; width:50px; height:20px;">@@ |
+| 肉桂色     | #D27D2D | 210,125,45  | @@html:<div style="background-color:#D27D2D; width:50px; height:20px;">@@ |
+| 咖啡色     | #6F4E37 | 111,78,55   | @@html:<div style="background-color:#6F4E37; width:50px; height:20px;">@@ |
+| 干邑       | #834333 | 131,67,51   | @@html:<div style="background-color:#834333; width:50px; height:20px;">@@ |
+| 铜色       | #B87333 | 184,115,51  | @@html:<div style="background-color:#B87333; width:50px; height:20px;">@@ |
+| 科尔多瓦   | #814141 | 129,65,65   | @@html:<div style="background-color:#814141; width:50px; height:20px;">@@ |
+| 深棕色     | #5C4033 | 92,64,51    | @@html:<div style="background-color:#5C4033; width:50px; height:20px;">@@ |
+| 深红色     | #8B0000 | 139,0,0     | @@html:<div style="background-color:#8B0000; width:50px; height:20px;">@@ |
+| 深棕褐色   | #988558 | 152,133,88  | @@html:<div style="background-color:#988558; width:50px; height:20px;">@@ |
+| 本色       | #C2B280 | 194,178,128 | @@html:<div style="background-color:#C2B280; width:50px; height:20px;">@@ |
+| 休耕地     | #C19A6B | 193,154,107 | @@html:<div style="background-color:#C19A6B; width:50px; height:20px;">@@ |
+| 鹿色       | #E5AA70 | 229,170,112 | @@html:<div style="background-color:#E5AA70; width:50px; height:20px;">@@ |
+| 石榴色     | #9A2A2A | 154,42,42   | @@html:<div style="background-color:#9A2A2A; width:50px; height:20px;">@@ |
+| 金棕色     | #966919 | 150,105,25  | @@html:<div style="background-color:#966919; width:50px; height:20px;">@@ |
+| 卡其色     | #F0E68C | 240,230,140 | @@html:<div style="background-color:#F0E68C; width:50px; height:20px;">@@ |
+| 浅棕色     | #C4A484 | 196,164,132 | @@html:<div style="background-color:#C4A484; width:50px; height:20px;">@@ |
+| 桃木色     | #C04000 | 192,64,0    | @@html:<div style="background-color:#C04000; width:50px; height:20px;">@@ |
+| 栗色       | #800000 | 128,0,0     | @@html:<div style="background-color:#800000; width:50px; height:20px;">@@ |
+| 抹茶色     | #967969 | 150,121,105 | @@html:<div style="background-color:#967969; width:50px; height:20px;">@@ |
+| 裸色       | #F2D2BD | 242,210,189 | @@html:<div style="background-color:#F2D2BD; width:50px; height:20px;">@@ |
+| 赭石       | #CC7722 | 204,119,34  | @@html:<div style="background-color:#CC7722; width:50px; height:20px;">@@ |
+| 橄榄绿     | #808000 | 128,128,0   | @@html:<div style="background-color:#808000; width:50px; height:20px;">@@ |
+| 牛血红     | #4A0404 | 74,4,4      | @@html:<div style="background-color:#4A0404; width:50px; height:20px;">@@ |
+| 普斯色     | #A95C68 | 169,92,104  | @@html:<div style="background-color:#A95C68; width:50px; height:20px;">@@ |
+| 红棕色     | #A52A2A | 165,42,42   | @@html:<div style="background-color:#A52A2A; width:50px; height:20px;">@@ |
+| 红赭石     | #913831 | 145,56,49   | @@html:<div style="background-color:#913831; width:50px; height:20px;">@@ |
+| 赤褐色     | #80461B | 128,70,27   | @@html:<div style="background-color:#80461B; width:50px; height:20px;">@@ |
+| 马鞍棕色   | #8B4513 | 139,69,19   | @@html:<div style="background-color:#8B4513; width:50px; height:20px;">@@ |
+| 沙色       | #C2B280 | 194,178,128 | @@html:<div style="background-color:#C2B280; width:50px; height:20px;">@@ |
+| 西耶娜     | #A0522D | 160,82,45   | @@html:<div style="background-color:#A0522D; width:50px; height:20px;">@@ |
+| 鞣色       | #D2B48C | 210,180,140 | @@html:<div style="background-color:#D2B48C; width:50px; height:20px;">@@ |
+| 灰褐色     | #483C32 | 72,60,50    | @@html:<div style="background-color:#483C32; width:50px; height:20px;">@@ |
+| 托斯卡纳红 | #7C3030 | 124,48,48   | @@html:<div style="background-color:#7C3030; width:50px; height:20px;">@@ |
+| 小麦色     | #F5DEB3 | 245,222,179 | @@html:<div style="background-color:#F5DEB3; width:50px; height:20px;">@@ |
+| 酒红色     | #722F37 | 114,47,55   | @@html:<div style="background-color:#722F37; width:50px; height:20px;">@@ |
+
+
+* 橙色系
+#+COLUMNS: %25s %10s %15s %40s
+| 名称     | HEX     | RGB         | 颜色样本                                                                  |
+|----------+---------+-------------+---------------------------------------------------------------------------|
+| 琥珀色   | #FFBF00 | 255,191,0   | @@html:<div style="background-color:#FFBF00; width:50px; height:20px;">@@ |
+| 杏色     | #FBCEB1 | 251,206,177 | @@html:<div style="background-color:#FBCEB1; width:50px; height:20px;">@@ |
+| 汤色     | #F2D2BD | 242,210,189 | @@html:<div style="background-color:#F2D2BD; width:50px; height:20px;">@@ |
+| 亮橙色   | #FFAC1C | 255,172,28  | @@html:<div style="background-color:#FFAC1C; width:50px; height:20px;">@@ |
+| 青铜色   | #CD7F32 | 205,127,50  | @@html:<div style="background-color:#CD7F32; width:50px; height:20px;">@@ |
+| 巴福色   | #DAA06D | 218,160,109 | @@html:<div style="background-color:#DAA06D; width:50px; height:20px;">@@ |
+| 焦橙色   | #CC5500 | 204,85,0    | @@html:<div style="background-color:#CC5500; width:50px; height:20px;">@@ |
+| 锡耶纳   | #E97451 | 233,116,81  | @@html:<div style="background-color:#E97451; width:50px; height:20px;">@@ |
+| 奶油糖果 | #E3963E | 227,150,62  | @@html:<div style="background-color:#E3963E; width:50px; height:20px;">@@ |
+| 镉橙     | #F28C28 | 242,140,40  | @@html:<div style="background-color:#F28C28; width:50px; height:20px;">@@ |
+| 肉桂色   | #D27D2D | 210,125,45  | @@html:<div style="background-color:#D27D2D; width:50px; height:20px;">@@ |
+| 铜色     | #B87333 | 184,115,51  | @@html:<div style="background-color:#B87333; width:50px; height:20px;">@@ |
+| 珊瑚色   | #FF7F50 | 255,127,80  | @@html:<div style="background-color:#FF7F50; width:50px; height:20px;">@@ |
+| 珊瑚粉   | #F88379 | 248,131,121 | @@html:<div style="background-color:#F88379; width:50px; height:20px;">@@ |
+| 深橙色   | #8B4000 | 139,64,0    | @@html:<div style="background-color:#8B4000; width:50px; height:20px;">@@ |
+| 沙漠色   | #FAD5A5 | 250,213,165 | @@html:<div style="background-color:#FAD5A5; width:50px; height:20px;">@@ |
+| 藤黄     | #E49B0F | 228,155,15  | @@html:<div style="background-color:#E49B0F; width:50px; height:20px;">@@ |
+| 金黄色   | #FFC000 | 255,192,0   | @@html:<div style="background-color:#FFC000; width:50px; height:20px;">@@ |
+| 菊科植物 | #DAA520 | 218,165,32  | @@html:<div style="background-color:#DAA520; width:50px; height:20px;">@@ |
+| 浅橙色   | #FFD580 | 255,213,128 | @@html:<div style="background-color:#FFD580; width:50px; height:20px;">@@ |
+| 桃木色   | #C04000 | 192,64,0    | @@html:<div style="background-color:#C04000; width:50px; height:20px;">@@ |
+| 芒果黄   | #F4BB44 | 244,187,68  | @@html:<div style="background-color:#F4BB44; width:50px; height:20px;">@@ |
+| 纳瓦霍白 | #FFDEAD | 255,222,173 | @@html:<div style="background-color:#FFDEAD; width:50px; height:20px;">@@ |
+| 霓虹橙   | #FF5F1F | 255,95,31   | @@html:<div style="background-color:#FF5F1F; width:50px; height:20px;">@@ |
+| 赭石     | #CC7722 | 204,119,34  | @@html:<div style="background-color:#CC7722; width:50px; height:20px;">@@ |
+| 橙色     | #FFA500 | 255,165,0   | @@html:<div style="background-color:#FFA500; width:50px; height:20px;">@@ |
+| 柔和橙色 | #FAC898 | 250,200,152 | @@html:<div style="background-color:#FAC898; width:50px; height:20px;">@@ |
+| 桃色     | #FFE5B4 | 255,229,180 | @@html:<div style="background-color:#FFE5B4; width:50px; height:20px;">@@ |
+| 柿子色   | #EC5800 | 236,88,0    | @@html:<div style="background-color:#EC5800; width:50px; height:20px;">@@ |
+| 粉红橙   | #F89880 | 248,152,128 | @@html:<div style="background-color:#F89880; width:50px; height:20px;">@@ |
+| 罂红     | #E35335 | 227,83,53   | @@html:<div style="background-color:#E35335; width:50px; height:20px;">@@ |
+| 南瓜橙   | #FF7518 | 255,117,24  | @@html:<div style="background-color:#FF7518; width:50px; height:20px;">@@ |
+| 红橙色   | #FF4433 | 255,68,51   | @@html:<div style="background-color:#FF4433; width:50px; height:20px;">@@ |
+| 安全橙   | #FF5F15 | 255,95,21   | @@html:<div style="background-color:#FF5F15; width:50px; height:20px;">@@ |
+| 鲑鱼色   | #FA8072 | 250,128,114 | @@html:<div style="background-color:#FA8072; width:50px; height:20px;">@@ |
+| 贝壳色   | #FFF5EE | 255,245,238 | @@html:<div style="background-color:#FFF5EE; width:50px; height:20px;">@@ |
+| 西耶娜   | #A0522D | 160,82,45   | @@html:<div style="background-color:#A0522D; width:50px; height:20px;">@@ |
+| 日落橙   | #FA5F55 | 250,95,85   | @@html:<div style="background-color:#FA5F55; width:50px; height:20px;">@@ |
+| 橘黄色   | #F08000 | 240,128,0   | @@html:<div style="background-color:#F08000; width:50px; height:20px;">@@ |
+| 兵马俑   | #E3735E | 227,115,94  | @@html:<div style="background-color:#E3735E; width:50px; height:20px;">@@ |
+| 黄橙     | #FFAA33 | 255,170,51  | @@html:<div style="background-color:#FFAA33; width:50px; height:20px;">@@ |
+
+
+
+* 粉色系
+#+COLUMNS: %25s %10s %15s %40s
+| 名称       | HEX     | RGB         | 颜色样本                                                                  |
+|------------+---------+-------------+---------------------------------------------------------------------------|
+| 苋菜       | #9F2B68 | 159,43,104  | @@html:<div style="background-color:#9F2B68; width:50px; height:20px;">@@ |
+| 汤色       | #F2D2BD | 242,210,189 | @@html:<div style="background-color:#F2D2BD; width:50px; height:20px;">@@ |
+| 萌萌哒     | #DE3163 | 222,49,99   | @@html:<div style="background-color:#DE3163; width:50px; height:20px;">@@ |
+| 葡萄酒红   | #811331 | 129,19,49   | @@html:<div style="background-color:#811331; width:50px; height:20px;">@@ |
+| 珊瑚色     | #FF7F50 | 255,127,80  | @@html:<div style="background-color:#FF7F50; width:50px; height:20px;">@@ |
+| 珊瑚粉红   | #F88379 | 248,131,121 | @@html:<div style="background-color:#F88379; width:50px; height:20px;">@@ |
+| 深红色     | #DC143C | 220,20,60   | @@html:<div style="background-color:#DC143C; width:50px; height:20px;">@@ |
+| 深粉色     | #AA336A | 170,51,106  | @@html:<div style="background-color:#AA336A; width:50px; height:20px;">@@ |
+| 玫瑰色     | #C9A9A6 | 201,169,166 | @@html:<div style="background-color:#C9A9A6; width:50px; height:20px;">@@ |
+| 紫红色     | #FF00FF | 255,0,255   | @@html:<div style="background-color:#FF00FF; width:50px; height:20px;">@@ |
+| 热粉色     | #FF69B4 | 255,105,180 | @@html:<div style="background-color:#FF69B4; width:50px; height:20px;">@@ |
+| 浅粉色     | #FFB6C1 | 255,182,193 | @@html:<div style="background-color:#FFB6C1; width:50px; height:20px;">@@ |
+| 品红       | #FF00FF | 255,0,255   | @@html:<div style="background-color:#FF00FF; width:50px; height:20px;">@@ |
+| 千禧粉色   | #F3CFC6 | 243,207,198 | @@html:<div style="background-color:#F3CFC6; width:50px; height:20px;">@@ |
+| 桑树       | #770737 | 119,7,55    | @@html:<div style="background-color:#770737; width:50px; height:20px;">@@ |
+| 霓虹粉色   | #FF10F0 | 255,16,240  | @@html:<div style="background-color:#FF10F0; width:50px; height:20px;">@@ |
+| 兰花       | #DA70D6 | 218,112,214 | @@html:<div style="background-color:#DA70D6; width:50px; height:20px;">@@ |
+| 柔和粉红色 | #F8C8DC | 248,200,220 | @@html:<div style="background-color:#F8C8DC; width:50px; height:20px;">@@ |
+| 柔和红色   | #FA9A9A | 250,160,160 | @@html:<div style="background-color:#FA9A9A; width:50px; height:20px;">@@ |
+| 粉红色     | #FFC0CB | 255,192,203 | @@html:<div style="background-color:#FFC0CB; width:50px; height:20px;">@@ |
+| 粉红橙     | #F89880 | 248,152,128 | @@html:<div style="background-color:#F89880; width:50px; height:20px;">@@ |
+| 李子       | #673147 | 103,49,71   | @@html:<div style="background-color:#673147; width:50px; height:20px;">@@ |
+| 普斯色     | #A95C68 | 169,92,104  | @@html:<div style="background-color:#A95C68; width:50px; height:20px;">@@ |
+| 紫色       | #800080 | 128,0,128   | @@html:<div style="background-color:#800080; width:50px; height:20px;">@@ |
+| 树莓色     | #E30B5C | 227,11,92   | @@html:<div style="background-color:#E30B5C; width:50px; height:20px;">@@ |
+| 红紫色     | #953553 | 149,53,83   | @@html:<div style="background-color:#953553; width:50px; height:20px;">@@ |
+| 玫瑰色     | #F33A6A | 243,58,106  | @@html:<div style="background-color:#F33A6A; width:50px; height:20px;">@@ |
+| 玫瑰金     | #E0BFB8 | 224,191,184 | @@html:<div style="background-color:#E0BFB8; width:50px; height:20px;">@@ |
+| 玫瑰红     | #C21E56 | 194,30,86   | @@html:<div style="background-color:#C21E56; width:50px; height:20px;">@@ |
+| 宝石红     | #E0115F | 224,17,95   | @@html:<div style="background-color:#E0115F; width:50px; height:20px;">@@ |
+| 鲑鱼色     | #FA8072 | 250,128,114 | @@html:<div style="background-color:#FA8072; width:50px; height:20px;">@@ |
+| 贝壳色     | #FFF5EE | 255,245,238 | @@html:<div style="background-color:#FFF5EE; width:50px; height:20px;">@@ |
+| 蓟色       | #D8BFD8 | 216,191,216 | @@html:<div style="background-color:#D8BFD8; width:50px; height:20px;">@@ |
+| 西瓜粉色   | #E37383 | 227,115,131 | @@html:<div style="background-color:#E37383; width:50px; height:20px;">@@ |
+
+
+* 紫色系
+#+COLUMNS: %25s %10s %15s %40s
+| 名称     | HEX     | RGB         | 颜色样本                                                                  |
+|----------+---------+-------------+---------------------------------------------------------------------------|
+| 苋菜色   | #9F2B68 | 159,43,104  | @@html:<div style="background-color:#9F2B68; width:50px; height:20px;">@@ |
+| 亮紫色   | #BF40BF | 191,64,191  | @@html:<div style="background-color:#BF40BF; width:50px; height:20px;">@@ |
+| 勃艮第色 | #800020 | 128,0,32    | @@html:<div style="background-color:#800020; width:50px; height:20px;">@@ |
+| 拜占庭色 | #702963 | 112,41,99   | @@html:<div style="background-color:#702963; width:50px; height:20px;">@@ |
+| 暗粉色   | #AA336A | 170,51,106  | @@html:<div style="background-color:#AA336A; width:50px; height:20px;">@@ |
+| 深紫色   | #301934 | 48,25,52    | @@html:<div style="background-color:#301934; width:50px; height:20px;">@@ |
+| 茄紫色   | #483248 | 72,50,72    | @@html:<div style="background-color:#483248; width:50px; height:20px;">@@ |
+| 虹膜色   | #5D3FD3 | 93,63,211   | @@html:<div style="background-color:#5D3FD3; width:50px; height:20px;">@@ |
+| 薰衣草色 | #E6E6FA | 230,230,250 | @@html:<div style="background-color:#E6E6FA; width:50px; height:20px;">@@ |
+| 浅紫色   | #CBC3E3 | 203,195,227 | @@html:<div style="background-color:#CBC3E3; width:50px; height:20px;">@@ |
+| 浅紫色   | #CF9FFF | 207,159,255 | @@html:<div style="background-color:#CF9FFF; width:50px; height:20px;">@@ |
+| 紫丁香   | #AA98A9 | 170,152,169 | @@html:<div style="background-color:#AA98A9; width:50px; height:20px;">@@ |
+| 紫红色   | #E0B0FF | 224,176,255 | @@html:<div style="background-color:#E0B0FF; width:50px; height:20px;">@@ |
+| 淡紫色   | #915F6D | 145,95,109  | @@html:<div style="background-color:#915F6D; width:50px; height:20px;">@@ |
+| 桑树     | #770737 | 119,7,55    | @@html:<div style="background-color:#770737; width:50px; height:20px;">@@ |
+| 兰花色   | #DA70D6 | 218,112,214 | @@html:<div style="background-color:#DA70D6; width:50px; height:20px;">@@ |
+| 柔和紫色 | #C3B1E1 | 195,177,225 | @@html:<div style="background-color:#C3B1E1; width:50px; height:20px;">@@ |
+| 长春花色 | #CCCCFF | 204,204,255 | @@html:<div style="background-color:#CCCCFF; width:50px; height:20px;">@@ |
+| 李子     | #673147 | 103,49,71   | @@html:<div style="background-color:#673147; width:50px; height:20px;">@@ |
+| 普斯色   | #A95C68 | 169,92,104  | @@html:<div style="background-color:#A95C68; width:50px; height:20px;">@@ |
+| 紫色     | #800080 | 128,0,128   | @@html:<div style="background-color:#800080; width:50px; height:20px;">@@ |
+| 石英紫色 | #51414F | 81,65,79    | @@html:<div style="background-color:#51414F; width:50px; height:20px;">@@ |
+| 红紫色   | #953553 | 149,53,83   | @@html:<div style="background-color:#953553; width:50px; height:20px;">@@ |
+| 蓟色     | #D8BFD8 | 216,191,216 | @@html:<div style="background-color:#D8BFD8; width:50px; height:20px;">@@ |
+| 提利昂紫 | #630330 | 99,3,48     | @@html:<div style="background-color:#630330; width:50px; height:20px;">@@ |
+| 紫色     | #7F00FF | 127,0,255   | @@html:<div style="background-color:#7F00FF; width:50px; height:20px;">@@ |
+| 酒红色   | #722F37 | 114,47,55   | @@html:<div style="background-color:#722F37; width:50px; height:20px;">@@ |
+| 紫藤色   | #BDB5D5 | 189,181,213 | @@html:<div style="background-color:#BDB5D5; width:50px; height:20px;">@@ |
+
+
+
+* 黑色系
+#+COLUMNS: %25s %10s %15s %40s
+| 名称              | HEX      | RGB          | 颜色样本                                  |
+|-------------------+----------+--------------+------------------------------------------|
+| 黑色              | #000000  | 0,0,0        | @@html:<div style="background-color:#000000; width:50px; height:20px;">@@ |
+| 木炭黑            | #36454F  | 54,69,79     | @@html:<div style="background-color:#36454F; width:50px; height:20px;">@@ |
+| 深绿色            | #023020  | 2,48,32      | @@html:<div style="background-color:#023020; width:50px; height:20px;">@@ |
+| 深紫色            | #301934  | 48,25,52     | @@html:<div style="background-color:#301934; width:50px; height:20px;">@@ |
+| 墨黑色            | #343434  | 52,52,52     | @@html:<div style="background-color:#343434; width:50px; height:20px;">@@ |
+| 甘草色            | #1B1212  | 27,18,18     | @@html:<div style="background-color:#1B1212; width:50px; height:20px;">@@ |
+| 哑光黑            | #28282B  | 40,40,43     | @@html:<div style="background-color:#28282B; width:50px; height:20px;">@@ |
+| 午夜蓝            | #191970  | 25,25,112    | @@html:<div style="background-color:#191970; width:50px; height:20px;">@@ |
+| 玛瑙色            | #353935  | 53,57,53     | @@html:<div style="background-color:#353935; width:50px; height:20px;">@@ |
+
+
+* 灰色系
+#+COLUMNS: %25s %10s %15s %40s
+| 名称     | HEX     | RGB         | 颜色样本                                                                  |
+|----------+---------+-------------+---------------------------------------------------------------------------|
+| 青灰色   | #B2BEB5 | 178,190,181 | @@html:<div style="background-color:#B2BEB5; width:50px; height:20px;">@@ |
+| 蓝灰色   | #7393B3 | 115,147,179 | @@html:<div style="background-color:#7393B3; width:50px; height:20px;">@@ |
+| 木炭色   | #36454F | 54,69,79    | @@html:<div style="background-color:#36454F; width:50px; height:20px;">@@ |
+| 深灰色   | #A9A9A9 | 169,169,169 | @@html:<div style="background-color:#A9A9A9; width:50px; height:20px;">@@ |
+| 青光色   | #6082B6 | 96,130,182  | @@html:<div style="background-color:#6082B6; width:50px; height:20px;">@@ |
+| 灰色     | #808080 | 128,128,128 | @@html:<div style="background-color:#808080; width:50px; height:20px;">@@ |
+| 青铜灰色 | #818589 | 129,133,137 | @@html:<div style="background-color:#818589; width:50px; height:20px;">@@ |
+| 浅灰色   | #D3D3D3 | 211,211,211 | @@html:<div style="background-color:#D3D3D3; width:50px; height:20px;">@@ |
+| 锡色     | #899499 | 137,148,153 | @@html:<div style="background-color:#899499; width:50px; height:20px;">@@ |
+| 铂色     | #E5E4E2 | 229,228,226 | @@html:<div style="background-color:#E5E4E2; width:50px; height:20px;">@@ |
+| 鼠尾草绿 | #8A9A5B | 138,154,91  | @@html:<div style="background-color:#8A9A5B; width:50px; height:20px;">@@ |
+| 银灰色   | #C0C0C0 | 192,192,192 | @@html:<div style="background-color:#C0C0C0; width:50px; height:20px;">@@ |
+| 板岩灰   | #708090 | 112,128,144 | @@html:<div style="background-color:#708090; width:50px; height:20px;">@@ |
+| 烟灰色   | #848884 | 132,136,132 | @@html:<div style="background-color:#848884; width:50px; height:20px;">@@ |
+| 钢灰色   | #71797E | 113,121,126 | @@html:<div style="background-color:#71797E; width:50px; height:20px;">@@ |
+
+
+* 白色系
+#+COLUMNS: %25s %10s %15s %40s
+| 名称     | HEX     | RGB         | 颜色样本                                                                  |
+|----------+---------+-------------+---------------------------------------------------------------------------|
+| 砇色     | #EDEADE | 237,234,222 | @@html:<div style="background-color:#EDEADE; width:50px; height:20px;">@@ |
+| 米白色   | #F5F5DC | 245,245,220 | @@html:<div style="background-color:#F5F5DC; width:50px; height:20px;">@@ |
+| 骨白色   | #F9F6EE | 249,246,238 | @@html:<div style="background-color:#F9F6EE; width:50px; height:20px;">@@ |
+| 玉米黄   | #FFF8DC | 255,248,220 | @@html:<div style="background-color:#FFF8DC; width:50px; height:20px;">@@ |
+| 奶油色   | #FFFDD0 | 255,253,208 | @@html:<div style="background-color:#FFFDD0; width:50px; height:20px;">@@ |
+| 蛋壳灰   | #F0EAD6 | 240,234,214 | @@html:<div style="background-color:#F0EAD6; width:50px; height:20px;">@@ |
+| 象牙白   | #FFFFF0 | 255,255,240 | @@html:<div style="background-color:#FFFFF0; width:50px; height:20px;">@@ |
+| 亚麻灰   | #E9DCC9 | 233,220,201 | @@html:<div style="background-color:#E9DCC9; width:50px; height:20px;">@@ |
+| 纳瓦霍白 | #FFDEAD | 255,222,173 | @@html:<div style="background-color:#FFDEAD; width:50px; height:20px;">@@ |
+| 灰白     | #FAF9F6 | 250,249,246 | @@html:<div style="background-color:#FAF9F6; width:50px; height:20px;">@@ |
+| 羊皮纸   | #FCF5E5 | 252,245,229 | @@html:<div style="background-color:#FCF5E5; width:50px; height:20px;">@@ |
+| 桃色     | #FFE5B4 | 255,229,180 | @@html:<div style="background-color:#FFE5B4; width:50px; height:20px;">@@ |
+| 珍珠白   | #E2DFD2 | 226,223,210 | @@html:<div style="background-color:#E2DFD2; width:50px; height:20px;">@@ |
+| 贝壳色   | #FFF5EE | 255,245,238 | @@html:<div style="background-color:#FFF5EE; width:50px; height:20px;">@@ |
+| 香草色   | #F3E5AB | 243,229,171 | @@html:<div style="background-color:#F3E5AB; width:50px; height:20px;">@@ |
+| 白色     | #FFFFFF | 255,255,255 | @@html:<div style="background-color:#FFFFFF; width:50px; height:20px;">@@ |
