@@ -1,4 +1,4 @@
-* Tasks[3/13]
+* Tasks[3/16]
 ** DONE [#A] samba使用教程,基本弄好了.
 SCHEDULED: <2025-02-10 Mon>
 :PROPERTIES:
@@ -63,3 +63,15 @@ SCHEDULED: <2025-01-10 Fri>
   [2025-02-17 Mon]
 ** TODO [#A] magit学习迫在眉睫
   [2025-02-18 Tue]
+** TODO 测试3
+ Created: [2025-02-22 Sat 22:08]
+** TODO [#A] kill-ring重新调整emacs的
+  SCHEDULED: <2025-02-22 Sat 23:14>
+  
+ 
+ Created: [2025-02-22 Sat 23:14]
+** TODO org-mode的capture详细教程写一下吧.
+  SCHEDULED: <2025-02-22 Sat 23:20>
+  
+ 
+ Created: [2025-02-22 Sat 23:20]

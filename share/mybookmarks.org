@@ -1,9 +1,15 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+TITLE: 多年以来收藏的书签
 #+LANGUAGE: zh-CN
-
+#+DATE:<2025-02-22-053/Saturday>
 
 [[file:bookmarks2021.html]]
 
 [[file:bookmarks_2025_2_6.html]]
 
+* bookmarks-temp
+** xai                                                                 :WEB:
+ [[https://www.grok.com][xai]]
+:PROPERTIES:
+:Description: xai
+:END:
