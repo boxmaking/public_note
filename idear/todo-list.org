@@ -1,3 +1,10 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil toc:2 H:4
+#+TITLE: 我得GTD
+#+KEYWORDS: GTD
+#+LANGUAGE: zh-CN
+#+DATE:<2025-02-22-053/Saturday>
+
 * Tasks[3/16]
 ** DONE [#A] samba使用教程,基本弄好了.
 SCHEDULED: <2025-02-10 Mon>

@@ -1,3 +1,10 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+OPTIONS: ^:nil _:nil toc:2 H:4
+#+TITLE: 移动端的GTD更新
+#+KEYWORDS: mobile-GTD
+#+LANGUAGE: zh-CN
+#+DATE:<2025-02-22-053/Saturday>
+
 * ideas
 ** TODO 家人生日系统
 ** TODO mkdir加上-v

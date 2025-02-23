@@ -13,8 +13,4 @@
 :Excerpt:  为天地立心,为生民立命,为往圣继绝,为万世开太平.
 :Source:   待考察
 :END:
-** 李白                                                            :ARTICLE:
-:PROPERTIES:
-:Excerpt: 李白
-:Source: 李白
-:END:
+
