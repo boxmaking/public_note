@@ -31,11 +31,11 @@
   - [[file:hardware/storage.org][linux存储与文件系统]]
   - [[file:hardware/character-set.org][字符集和编码]]
 - idear
-  - [[file:idear/2025-f1-calendar.org][2025赛季F1赛事GTD追踪（北京时间）]]
   - [[file:idear/idear-list.org][idear-list]]
-  - [[file:idear/mobile.org][mobile]]
-  - [[file:idear/todo-list.org][todo-list]]
+  - [[file:idear/todo-list.org][我得GTD]]
+  - [[file:idear/article-excerpt.org][我的朝花夕拾]]
   - [[file:idear/life.org][我的生活状态-2025年初总结]]
+  - [[file:idear/mobile.org][移动端的GTD更新]]
 - linux
   - [[file:linux/linux-network.org][Linux-net相关命令]]
   - [[file:linux/apt-get-tutorial.org][apt-get教程使用]]
@@ -76,6 +76,7 @@
   - [[file:org/org-learn.org][我的orgmode入门笔记]]
   - [[file:org/org-mobile.org][设置MobileOrg,让org如影随形]]
 - other
+  - [[file:other/2025-f1-calendar.org][2025赛季F1赛事GTD追踪（北京时间）]]
   - [[file:other/hex-color.org][十六进制HEX色卡查询以及与RGB格式对照表]]
 - share
   - [[file:share/emule-life.org][emule情怀]]
