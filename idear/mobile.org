@@ -13,8 +13,8 @@
 ** TODO 磁心存储器自制
 ** TODO todo列表的书签转换导航网站
 ** TODO 农历系统
-** TODO 
-** TODO 
+** TODO https://www.digikam.org/download/
+** TODO 分型台钳
 ** TODO 
 ** TODO 
 ** TODO 
