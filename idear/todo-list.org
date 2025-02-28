@@ -5,7 +5,7 @@
 #+LANGUAGE: zh-CN
 #+DATE:<2025-02-22-053/Saturday>
 
-* Tasks[3/16]
+* Tasks[3/17]
 ** DONE [#A] samba使用教程,基本弄好了.
 SCHEDULED: <2025-02-10 Mon>
 :PROPERTIES:
@@ -70,8 +70,6 @@ SCHEDULED: <2025-01-10 Fri>
   [2025-02-17 Mon]
 ** TODO [#A] magit学习迫在眉睫
   [2025-02-18 Tue]
-** TODO 测试3
- Created: [2025-02-22 Sat 22:08]
 ** TODO [#A] kill-ring重新调整emacs的
   SCHEDULED: <2025-02-22 Sat 23:14>
   
@@ -82,8 +80,12 @@ SCHEDULED: <2025-01-10 Fri>
   
  
  Created: [2025-02-22 Sat 23:20]
-
-
+** TODO 今年要开始看motogp,有时间做一个motogp的赛程文件才行啊,还有车队和历届冠军,好久不看了,自从46退役
+  SCHEDULED: <2025-02-25 Tue 21:18>
+  
+ 
+ Created: [2025-02-25 Tue 21:18]
+** TODO 进行stardict字典和emacs的绑定,同时自动制作英文 台词本.
 * Must DONE
 ** TODO [#A] 更改老二医疗卡绑定医院
 SCHEDULED: <2025-12-01 Mon>

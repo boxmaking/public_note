@@ -3,6 +3,7 @@
 #+DATE: <2020-04-29-120/Wednesday>
 #+KEYWORDS: debian, linux-software
 #+LANGUAGE: zh-CN
+#+DATE:<2025-02-25-056/Tuesday>
 
 * 命令行实现回收站功能
 1. 编写remove.sh文件
