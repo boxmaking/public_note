@@ -17,7 +17,7 @@
 ** TODO 分型台钳
 ** TODO https://www.digikam.org
 ** TODO 元信息网页
-** TODO 
+** TODO https://linuxiac.com/gtrash-linux-command/ Linux垃圾桶
 ** TODO 
 ** TODO 
 ** TODO 
