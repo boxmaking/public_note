@@ -1,6 +1,6 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+TITLE: 未整理的linux学习笔记
-#+DATE:<2020-04-24-115/Friday>
+#+DATE: <2020-04-24> 
 #+KEYWORDS: linux-command, linux
 #+LANGUAGE: zh-CN
 
