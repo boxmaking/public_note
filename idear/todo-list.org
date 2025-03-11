@@ -68,17 +68,19 @@ SCHEDULED: <2025-01-10 Fri>
 没好好学,不过所用到的功能也就那么多.先不学了.
 ** TODO emacs的字体和颜色需要弄一下
   [2025-02-17 Mon]
-** TODO [#A] magit学习迫在眉睫
+** DOING [#A] magit学习迫在眉睫
+- State "DOING"      from "TODO"       [2025-03-11 Tue 10:03]
   [2025-02-18 Tue]
 ** TODO [#A] kill-ring重新调整emacs的
   SCHEDULED: <2025-02-22 Sat 23:14>
   
  
  Created: [2025-02-22 Sat 23:14]
-** TODO org-mode的capture详细教程写一下吧.
+** DOING org-mode的capture详细教程写一下吧.
   SCHEDULED: <2025-02-22 Sat 23:20>
   
  
+  - State "DOING"      from "TODO"       [2025-03-11 Tue 10:03]
  Created: [2025-02-22 Sat 23:20]
 ** TODO 今年要开始看motogp,有时间做一个motogp的赛程文件才行啊,还有车队和历届冠军,好久不看了,自从46退役
   SCHEDULED: <2025-02-25 Tue 21:18>
