@@ -21,6 +21,6 @@
 ** TODO https://chromewebstore.google.com/detail/deepsrt-experience-the-fa/mdaaadlpcanoofcoeanghbmpbdbhladd
 ** TODO Drawers 抽屉的学习
 ** TODO magit远程pull教程
-** TODO 
+** TODO 每日一言添加启动如何
 ** TODO 
 ** TODO 
