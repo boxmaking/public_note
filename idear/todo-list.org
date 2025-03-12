@@ -5,7 +5,7 @@
 #+LANGUAGE: zh-CN
 #+DATE:<2025-02-22-053/Saturday>
 
-* Tasks[3/17]
+* Tasks[3/18]
 ** DONE [#A] samba使用教程,基本弄好了.
 SCHEDULED: <2025-02-10 Mon>
 :PROPERTIES:
@@ -88,10 +88,11 @@ SCHEDULED: <2025-01-10 Fri>
  
  Created: [2025-02-25 Tue 21:18]
 ** TODO 进行stardict字典和emacs的绑定,同时自动制作英文 台词本.
-
-
-
-
+** TODO zlib上面关于家具的书本下载.
+  SCHEDULED: <2025-03-11 Tue 15:18>
+  
+ 
+ Created: [2025-03-11 Tue 15:18]
 * Must DONE
 ** TODO [#A] 更改老二医疗卡绑定医院
 SCHEDULED: <2025-12-01 Mon>
