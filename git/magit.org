@@ -1,6 +1,8 @@
-#+TITLE: Magit 使用指南
-#+AUTHOR: 
-#+DATE: 
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: Magit-学习笔记
+#+KEYWORDS: git-learn
+#+LANGUAGE: zh-CN
+#+DATE:<2025-03-14-073/Friday>
 
 * Magit：Emacs 强大的 Git 客户端
 Magit 通过交互式界面极大简化 Git 操作，适合全阶段用户使用。核心功能教程如下：

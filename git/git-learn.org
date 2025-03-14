@@ -2,7 +2,7 @@
 #+TITLE: git-学习笔记
 #+KEYWORDS: git-learn
 #+LANGUAGE: zh-CN
-
+#+DATE:<2025-03-14-073/Friday>
 
 * git set proxy
 git设置代理教程
