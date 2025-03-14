@@ -288,6 +288,7 @@ git commit -m '******' 来提交到版本库中
 ** 远程仓库的clone
 要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆
 
+
 * 快速添加许可证文件
 
 创建一个仓库时，Github会为你提供一个预置的软件许可列表：
@@ -297,6 +298,7 @@ git commit -m '******' 来提交到版本库中
 输入LICENSE作为文件名后，同样可以从预置的列表中选择一个作为模板。
 
 这个技巧也适用于 .gitignore 文件。
+
 
 * 工作区去除大量已删除文件
 
@@ -326,6 +328,7 @@ Changes to be committed:
 
 #+END_SRC
 
+
 * 没有任何改动的提交
 
 可以使用--allow-empty选项强制创建一个没有任何改动的提交：
@@ -354,3 +357,166 @@ $ git commit -m "Big-ass commit" --allow-empty
   #+BEGIN_SRC shell
   $ git log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   #+END_SRC
+
+
+* Git Stash 使用教程  
+** 核心功能  
+临时保存工作目录和暂存区的修改，允许切换分支或处理其他任务后恢复[1](@ref)[10](@ref)[47](@ref)。  
+
+** 基础命令  
+*** 存储修改  
+- `git stash` 或 `git stash push`：保存当前修改到栈顶（默认不包含未跟踪文件）[1](@ref)[23](@ref)  
+- `git stash save "备注"`：添加描述性注释（推荐）[1](@ref)[10](@ref)  
+- `git stash -u`：包含未跟踪文件（Untracked files）[10](@ref)[23](@ref)  
+- `git stash -a`：包含所有文件（包括 `.gitignore` 忽略的文件）[23](@ref)  
+
+*** 查看存储列表  
+- `git stash list`：显示所有存储记录（格式：`stash@{n}`）[1](@ref)[10](@ref)[30](@ref)  
+
+*** 恢复修改  
+- `git stash pop`：恢复栈顶记录并删除（默认恢复工作区）[1](@ref)[47](@ref)  
+  - `git stash pop --index`：同时恢复暂存区状态[1](@ref)  
+- `git stash apply stash@{n}`：恢复指定记录但不删除[1](@ref)[10](@ref)  
+
+*** 删除记录  
+- `git stash drop stash@{n}`：删除指定记录（默认删除栈顶）[1](@ref)[23](@ref)  
+- `git stash clear`：清空所有存储[1](@ref)[10](@ref)  
+
+*** 高级操作  
+- `git stash show -p stash@{n}`：查看存储的详细差异[30](@ref)[47](@ref)  
+- `git stash branch <新分支名> stash@{n}`：基于存储创建新分支[10](@ref)[58](@ref)  
+- `git stash -p`：交互式选择部分修改存储[1](@ref)[10](@ref)  
+
+** 应用场景  
+*** 场景1：紧急切换分支  
+1. 开发中需处理其他任务时：  
+   ```shell  
+   git stash save "开发中登录功能"  
+   git checkout hotfix  
+   # 修复后返回原分支  
+   git checkout dev  
+   git stash pop  
+   ```  
+   （引用：[1](@ref)[47](@ref)）  
+
+*** 场景2：同步错误分支代码  
+1. 将代码误写入分支B时：  
+   ```shell  
+   git stash  
+   git checkout A  
+   git stash pop  
+   ```  
+   （引用：[1](@ref)[10](@ref)）  
+
+*** 场景3：选择性存储  
+1. 仅存储指定文件：  
+   ```shell  
+   git stash push file1.txt file2.txt  
+   ```  
+   （引用：[23](@ref)[58](@ref)）  
+
+** 注意事项  
+- 未跟踪文件需显式包含（`-u`或`-a`）[10](@ref)[23](@ref)  
+- 恢复时可能冲突，需手动解决（类似`git merge`）[10](@ref)[76](@ref)  
+- 避免长期存储，及时清理无用记录[10](@ref)[47](@ref)  
+- 使用`git fsck --lost-found`可恢复误删的存储[1](@ref)  
+
+** 示例代码块  
+#+BEGIN_SRC shell  
+# 存储当前修改（包含未跟踪文件）  
+git stash save -u "紧急修复前的中间状态"  
+
+# 查看存储列表  
+git stash list  
+
+# 恢复第二个存储并保留记录  
+git stash apply stash@{1}  
+
+# 删除所有存储  
+git stash clear  
+#+END_SRC  
+
+---
+
+注：以上内容基于搜索结果整理，可通过 `C-c C-c` 在 Org-mode 中折叠/展开代码块。如需更详细参数说明，可参考 Git 官方文档或执行 `git stash --help`。
+
+
+* 一些特殊的情况我遇到的.
+当遇到这种情况，可以按照以下步骤来处理：查看本地状态
+首先，在本地使用git status命令查看当前的状态，确认a文件处于修改未提交的状态，以及远程仓库中a文件已被删除的情况。
+
+• 保留本地修改并将其提交到远程：
+如果你希望保留对a文件的本地修改，可以先将本地修改暂存起来，使用git stash命令。
+然后从远程仓库拉取最新的更改，这会删除本地的a文件，再使用git stash apply命令
+将暂存的修改应用回来，此时可以将a文件添加到暂存区并提交，最后推送到远程仓库。
+
+• 放弃本地修改并与远程保持一致：如果本地对a文件的修改不再需要，
+那么可以直接使用git checkout -- a命令放弃本地对a文件的修改，
+然后使用git pull命令从远程仓库拉取最新的更改，这样本地的a文件就会被删除，与远程仓库保持一致。
+
+
+* 从版本控制中移除不想跟踪的文件
+1. 从 Git 版本控制中移除文件
+#+BEGIN_SRC bash -n
+git rm --cached a
+#+END_SRC
+作用：从 Git 索引（暂存区）中移除文件 a，但保留本地文件。
+此操作会生成一条删除记录，提交后远程仓库会删除该文件。
+原理：--cached 参数仅删除暂存区的文件关联，不会影响本地文件系统。
+
+2. 提交删除操作到仓库
+#+BEGIN_SRC bash -n
+git commit -m "移除对文件a的跟踪"
+git push origin main
+#+END_SRC
+ 结果：远程仓库中的 a 文件会被删除，但本地文件仍保留。
+
+3. 将文件加入 .gitignore
+在项目根目录的 .gitignore 文件中添加文件名即可
+作用：防止 Git 未来再次跟踪 a 文件。即使本地修改 a，也不会出现在未跟踪列表中。
+
+4. 提交 .gitignore 的更改
+#+BEGIN_SRC bash
+git add .gitignore
+git commit -m "更新.gitignore忽略文件a"
+git push origin main
+#+END_SRC
+必要性：确保其他协作者拉取代码后，也不会跟踪 a 文件。
+
+- 注意事项
+  协作者同步问题
+  其他开发者在拉取你的提交后，远程仓库中的 a 文件会被删除。如果他们需要保留本地的 a 文件，需手动执行以下操作：
+  #+BEGIN_SRC bash -n
+  Bash
+  git rm --cached a
+  git reset HEAD a  # 取消暂存区的删除操作
+  #+END_SRC
+  否则，他们的本地文件可能在 git pull 后被删除。
+
+  已修改文件的处理
+  如果 a 文件在本地已被修改但未提交，直接运行 git rm --cached 会报错。此时需要强制操作：
+  #+BEGIN_SRC bash -n
+  git rm -f --cached a  # 强制移除
+  #+END_SRC
+
+  恢复误删文件
+  若误删了远程仓库的 a 文件，可通过历史提交恢复：
+  #+BEGIN_SRC bash -n
+  git checkout <commit-hash> -- a  # 从指定提交恢复
+  #+END_SRC
+
+  操作原理解析
+
+    git rm --cached 的作用
+    仅解除 Git 对文件的跟踪，保留本地文件。
+    生成一个删除提交，同步到远程仓库后触发文件删除。
+
+  .gitignore 的生效条件
+  仅对未跟踪（Untracked）文件有效，已跟踪文件需通过 git rm --cached 解除关联后再添加到 .gitignore。
+
+  Git 三区模型
+  工作区：本地实际文件。
+  暂存区：待提交的变更。
+  版本库：已提交的历史记录。 git rm --cached 操作针对暂存区和版本库，不影响工作区。
+
+通过以上步骤，你可以在保留本地文件的同时，从远程仓库彻底删除文件并停止跟踪，且未来修改也不会被 Git 检测到。

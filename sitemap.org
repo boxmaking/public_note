@@ -25,17 +25,14 @@
 - firefox
   - [[file:firefox/firefox-tabs.org][firefox-设置后台新标签页打开]]
 - git
+  - [[file:git/magit.org][Magit-学习笔记]]
   - [[file:git/git-learn.org][git-学习笔记]]
   - [[file:git/git-proxy.org][git使用代理教程]]
 - hardware
   - [[file:hardware/storage.org][linux存储与文件系统]]
   - [[file:hardware/character-set.org][字符集和编码]]
 - idear
-  - [[file:idear/idear-list.org][idear-list]]
-  - [[file:idear/todo-list.org][我得GTD]]
-  - [[file:idear/article-excerpt.org][我的朝花夕拾]]
   - [[file:idear/life.org][我的生活状态-2025年初总结]]
-  - [[file:idear/mobile.org][移动端的GTD更新]]
 - linux
   - [[file:linux/linux-network.org][Linux-net相关命令]]
   - [[file:linux/apt-get-tutorial.org][apt-get教程使用]]
@@ -78,6 +75,7 @@
 - other
   - [[file:other/2025-f1-calendar.org][2025赛季F1赛事GTD追踪（北京时间）]]
   - [[file:other/hex-color.org][十六进制HEX色卡查询以及与RGB格式对照表]]
+  - [[file:other/moon-phase.org][月相相关的名词解释,以及月相形成原因]]
 - share
   - [[file:share/emule-life.org][emule情怀]]
   - [[file:share/mybookmarks.org][多年以来收藏的书签]]
