@@ -1,0 +1,60 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: emacs+stardict做一个单词本
+#+KEYWORDS: emacs,emacs-init.el
+#+LANGUAGE: zh-CN
+#+OPTIONS: ^:nil _:nil f:nil toc:t
+#+DATE:<2025-03-16-075/Sunday>
+
+
+* 1. sdcv 是什么？
+** 核心功能
+- sdcv（StarDict Console Version）是一个轻量级的命令行词典工具，支持查询 StarDict 格式的离线词典文件
+- 它是图形界面词典软件 StarDict 的终端版本，适用于 Linux、Windows 等系统
+
+** 特点
+- 离线使用 :: 无需联网即可查词，适合无网络环境
+- 多词典支持 :: 可同时加载多个词典文件（如英汉、汉英、专业词典等）
+- 跨平台 :: 兼容 Linux、Windows 等操作系统
+
+* 2. 安装后的基本操作
+** 安装命令
+- 使用 =sudo apt-get install sdcv= 会从软件源中直接安装 sdcv 主程序
+
+** 词典数据
+- 需单独下载词典文件（例如牛津高阶、朗道词典等）
+- [[http://www.github.com/boxmaking/sdcv-dict]]
+  我仅仅使用了stardict-cdict-gb-2.4.2
+  其他的没用.
+- 解压到 =~/.stardict/dic= 目录下才能正常查词
+
+* 3. 使用场景
+** 终端查词
+- 通过命令 =sdcv <单词>= 直接查询单词释义，例如 =sdcv example=
+
+** 集成开发工具
+  - 可配置在 *Vim/Emacs* 中实现划词翻译（例如通过快捷键调用 sdcv）
+   
+
+   #+INCLUDE: "~/.emacs.d/loadfile/pengshao-translate.el" src lisp -n
+
+
+  - 支持通过参数调整输出格式（如 =--color= 启用彩色显示）
+
+** 脚本扩展
+- 结合 =xclip= 和 =notify-send= 工具，可实现“复制单词后自动弹出翻译结果”的功能
+
+* 4. 注意事项
+** 词典路径
+- 默认存放目录为 =~/.stardict/dic=
+- 需手动创建并放置词典文件
+
+** 词典来源
+- 访问 [[http://download.huzheng.org/zh_CN/][StarDict 官方词典库]] 或第三方站点下载词典包
+- [[http://www.github.com/boxmaking/sdcv-dict]]
+
+
+* 总结
+通过 =sudo apt-get install sdcv= 安装的 sdcv 工具：
+- 为 Linux 用户提供高效的命令行词典解决方案
+- 尤其适合开发者、运维人员或偏好终端操作的用户
+- 轻量化设计和灵活扩展性使其成为离线学习/工作的实用工具

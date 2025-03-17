@@ -1,5 +1,5 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
-#+TITLE: emacs-我的配件
+#+TITLE: 我的init.el和各种启动配置
 #+KEYWORDS: emacs,emacs-init.el
 #+LANGUAGE: zh-CN
 #+OPTIONS: ^:nil _:nil f:nil toc:t
