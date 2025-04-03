@@ -1,0 +1,13 @@
+钢材热膨胀计算公式
+
+钢材热膨胀的计算公式为：\Delta L = L\times\alpha\times\Delta T，其中\Delta L是钢材长度的变化量，L是钢材的原始长度，\alpha是钢材的线膨胀系数，\Delta T是温度的变化量。
+
+计算实例
+
+已知一根钢材原始长度L = 5m，钢材的线膨胀系数\alpha = 12\times10^{-6}/^{\circ}C，温度从20^{\circ}C升高到80^{\circ}C，则温度变化量\Delta T = 80 - 20 = 60^{\circ}C。
+
+将数值代入公式可得：
+\Delta L = 5\times12\times10^{- 6}\times60 = 0.0036m = 3.6mm
+所以，这根钢材在温度从20^{\circ}C升高到80^{\circ}C后，长度增加了3.6mm。
+
+0.000001
