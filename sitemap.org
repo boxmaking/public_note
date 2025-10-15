@@ -76,6 +76,7 @@
 - other
   - [[file:other/2025-f1-calendar.org][2025赛季F1赛事GTD追踪（北京时间）]]
   - [[file:other/hex-color.org][十六进制HEX色卡查询以及与RGB格式对照表]]
+  - [[file:other/work.org][工作相关的一些常用计算公式]]
   - [[file:other/moon-phase.org][月相相关的名词解释,以及月相形成原因]]
 - share
   - [[file:share/emule-life.org][emule情怀]]
