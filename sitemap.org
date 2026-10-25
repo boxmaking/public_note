@@ -36,6 +36,7 @@
   - [[file:idear/life.org][我的生活状态-2025年初总结]]
 - linux
   - [[file:linux/linux-network.org][Linux-net相关命令]]
+  - [[file:linux/WireGuard-VirtualBox.org][VirtualBox Debian12 虚拟机流量走 Windows 主机 WireGuard 完整教程]]
   - [[file:linux/apt-get-tutorial.org][apt-get教程使用]]
   - [[file:linux/basename.org][basename-只提取文件名的好工具]]
   - [[file:linux/crontab.org][crotab-周期性执行任务自动化系统]]
