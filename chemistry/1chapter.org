@@ -1,6 +1,6 @@
 #+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
 #+TITLE: chemistry基础第一章节
-#+KEYWORDS: 1984
+#+KEYWORDS: chemistry基础
 #+LANGUAGE: zh-CN
 
 * 分子,原子,离子,定义区别

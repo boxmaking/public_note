@@ -6,6 +6,8 @@
   - [[file:android/don't-to-app.org][android网页打开连接时不进行app跳转的方法]]
 - c
   - [[file:c/c-learn.org][c语言学习笔记]]
+- chemistry
+  - [[file:chemistry/1chapter.org][chemistry基础第一章节]]
 - emacs
   - [[file:emacs/eshell.org][Eshell使用记录]]
   - [[file:emacs/cua-mode.org][au-mode,矩形mark,剪切,黏贴操作]]
