@@ -7,6 +7,7 @@
 - c
   - [[file:c/c-learn.org][c语言学习笔记]]
 - chemistry
+  - [[file:chemistry/2chapter.org][2元素周期表的规律,离子键,共价键,极性键,非极性键识别区别]]
   - [[file:chemistry/1chapter.org][chemistry基础第一章节]]
 - emacs
   - [[file:emacs/eshell.org][Eshell使用记录]]

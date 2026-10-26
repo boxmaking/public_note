@@ -1,0 +1,624 @@
+/* ========================================
+   element.css - 元素详情页样式
+   ======================================== */
+
+.detail-layout {
+  display: flex;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 84px 24px 48px;
+}
+
+/* ── 侧边栏 ── */
+.detail-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.el-hero-card {
+  border-radius: 12px;
+  padding: 24px 20px;
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.el-hero-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.25);
+  border-radius: 12px;
+}
+.el-hero-z {
+  position: relative;
+  font-size: 13px; color: rgba(255,255,255,.6);
+  display: block; margin-bottom: 4px;
+}
+.el-hero-symbol {
+  position: relative;
+  font-size: 64px; font-weight: 900; color: #fff;
+  display: block; line-height: 1; margin-bottom: 6px;
+  text-shadow: 0 2px 12px rgba(0,0,0,.5);
+}
+.el-hero-name {
+  position: relative;
+  font-size: 20px; font-weight: 700; color: #fff;
+  display: block; margin-bottom: 4px;
+}
+.el-hero-name-en {
+  position: relative;
+  font-size: 12px; color: rgba(255,255,255,.55);
+}
+.el-hero-radio {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 18px; color: #f85149;
+}
+
+/* 基础属性表 */
+.props-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.props-card-title {
+  padding: 10px 14px;
+  font-size: 12px; font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.prop-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 14px;
+  border-bottom: 1px solid rgba(48,54,61,.5);
+  font-size: 12px;
+}
+.prop-row:last-child { border-bottom: none; }
+.prop-label { color: var(--text-muted); }
+.prop-value { color: var(--text-primary); font-weight: 500; text-align: right; max-width: 55%; }
+
+/* 导航按钮 */
+.nav-btns {
+  display: flex; gap: 8px; margin-bottom: 16px;
+}
+.nav-btn {
+  flex: 1; padding: 8px 0; border-radius: var(--radius-sm);
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-secondary); font-size: 12px; cursor: pointer;
+  transition: var(--transition); text-align: center; text-decoration: none;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.nav-btn:hover { background: var(--bg-hover); color: var(--text-primary); border-color: var(--accent-blue); }
+
+/* 电子排布可视化 */
+.electron-vis {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; text-align: center;
+  margin-bottom: 16px;
+}
+.electron-vis-title {
+  font-size: 11px; color: var(--text-muted); margin-bottom: 12px;
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.electron-shells {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.electron-shell-row {
+  display: flex; align-items: center; gap: 8px; font-size: 11px;
+}
+.shell-label { color: var(--text-muted); width: 20px; text-align: right; }
+.shell-electrons {
+  display: flex; gap: 4px; flex-wrap: wrap;
+}
+.electron-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent-blue);
+  box-shadow: 0 0 4px rgba(88,166,255,.5);
+}
+
+/* ── 主内容区 ── */
+.detail-main { flex: 1; min-width: 0; }
+
+/* 搜索框 */
+.search-bar {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 20px;
+}
+.search-bar-title {
+  font-size: 12px; color: var(--text-muted); margin-bottom: 10px;
+  text-transform: uppercase; letter-spacing: .05em;
+}
+.search-row {
+  display: flex; gap: 8px;
+}
+.search-input {
+  flex: 1; background: var(--bg-dark); border: 1px solid var(--border);
+  color: var(--text-primary); border-radius: var(--radius-sm);
+  padding: 8px 12px; font-size: 13px; outline: none; transition: var(--transition);
+}
+.search-input:focus { border-color: var(--accent-blue); }
+.search-btn {
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  font-size: 12px; cursor: pointer; transition: var(--transition);
+  border: 1px solid; white-space: nowrap;
+}
+.search-btn-site {
+  background: var(--accent-blue); border-color: var(--accent-blue); color: #fff;
+}
+.search-btn-site:hover { background: #3d8ef0; }
+.search-btn-web {
+  background: transparent; border-color: var(--border); color: var(--text-secondary);
+}
+.search-btn-web:hover { border-color: var(--accent-orange); color: var(--accent-orange); }
+
+.search-shortcuts { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.search-shortcut {
+  font-size: 11px; padding: 3px 10px; border-radius: 10px;
+  background: var(--bg-hover); border: 1px solid var(--border);
+  color: var(--text-muted); cursor: pointer; transition: var(--transition);
+  text-decoration: none;
+}
+.search-shortcut:hover { color: var(--accent-blue); border-color: var(--accent-blue); }
+
+/* 内容卡片 */
+.content-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; margin-bottom: 16px;
+}
+
+/* ── 侧边栏可折叠分组 ── */
+.sidebar-group {
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  overflow: hidden;
+}
+.sidebar-group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  user-select: none;
+  transition: background 0.15s;
+}
+.sidebar-group-header:hover {
+  background: rgba(88,166,255,0.08);
+}
+.sg-arrow {
+  font-size: 11px;
+  transition: transform 0.2s ease;
+  color: var(--text-muted);
+}
+.sidebar-group-body {
+  padding: 8px;
+  transition: all 0.25s ease;
+}
+/* 内联卡片（分组内紧凑模式） */
+.props-inline {
+  margin-bottom: 8px !important;
+  border-radius: 8px !important;
+}
+.props-inline .props-card-title {
+  font-size: 11px !important;
+  padding: 6px 10px !important;
+  text-transform: none !important;
+}
+.props-inline #propsBody,
+.props-inline #physPropsBody,
+.props-inline #crystalPropsBody,
+.props-inline #materialPropsBody,
+.props-inline #thermoPropsBody,
+.props-inline #electroPropsBody,
+.props-inline #ghsBody,
+.props-inline #toxicBody,
+.props-inline #industrialBody,
+.props-inline #emergencyBody,
+.props-inline #spectralBody,
+.props-inline #advCrystalBody,
+.props-inline #researchBody,
+.props-inline #isotopeSummary,
+.props-inline #idPropsBody,
+.props-inline #sourcesBody {
+  font-size: 12px !important;
+  padding: 4px 10px !important;
+  line-height: 1.5 !important;
+}
+.prop-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 3px 0; border-bottom: 1px solid rgba(128,128,128,0.08); font-size: 12px;
+}
+
+/* 目录 */
+.toc-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin-bottom: 16px;
+}
+.toc-title {
+  font-size: 12px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px;
+}
+.toc-list { list-style: none; padding: 0; }
+.toc-item { padding: 4px 0; border-bottom: 1px solid rgba(48,54,61,.4); }
+.toc-item:last-child { border-bottom: none; }
+.toc-link { color: var(--text-secondary); text-decoration: none; font-size: 12px;
+  display: flex; align-items: center; gap: 6px; transition: var(--transition); }
+.toc-link:hover { color: var(--accent-blue); }
+.toc-link::before { content: '§'; color: var(--text-muted); font-size: 10px; }
+
+/* 返回按钮 */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-secondary); text-decoration: none; font-size: 13px;
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: var(--bg-card);
+  transition: var(--transition); margin-bottom: 16px;
+}
+.back-btn:hover { color: var(--text-primary); border-color: var(--accent-blue); }
+
+/* ── 链接样式 ── */
+.prop-link {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  font-family: 'SF Mono','Consolas',monospace;
+  font-size: 11px;
+}
+.prop-link:hover { text-decoration: underline; color: var(--accent-blue); }
+
+/* ── GHS 安全信息卡片 ── */
+.ghs-card { margin-bottom: 20px; }
+.ghs-card h3 { font-size: 15px; color: var(--accent-orange); margin: 0 0 12px 0; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
+.ghs-pictograms {
+  display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.ghs-icon {
+  font-size: 28px; width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: 4px;
+  background: var(--bg-hover);
+}
+
+.ghs-signal {
+  font-size: 13px; font-weight: 700; padding: 6px 12px;
+  border-radius: var(--radius-sm); margin-bottom: 10px;
+  display: inline-block;
+}
+.ghs-danger  { color: #f85149; background: rgba(248,81,73,.12); border: 1px solid rgba(248,81,73,.3); }
+.ghs-warning { color: #d29922; background: rgba(210,153,34,.12); border: 1px solid rgba(210,153,34,.3); }
+
+.ghs-codes {
+  font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; line-height: 1.8;
+}
+.ghs-code-tag {
+  display: inline-block; padding: 1px 6px; margin: 1px;
+  border-radius: 3px; font-size: 10px; font-family: 'SF Mono','Consolas',monospace;
+  background: var(--bg-hover); border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.ghs-un, .ghs-exposure {
+  font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;
+}
+
+.ghs-spill {
+  font-size: 12px; color: var(--text-secondary); margin-top: 8px;
+  padding: 8px; background: rgba(248,81,73,.06); border-radius: 4px;
+  border-left: 3px solid var(--accent-red);
+}
+
+@media (max-width: 900px) {
+  .detail-layout { flex-direction: column; }
+  .detail-sidebar { width: 100%; }
+}
+
+/* ── 同位素表格 ── */
+.isotope-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.isotope-table th {
+  text-align: left; padding: 8px 12px;
+  font-size: 11px; color: var(--text-muted);
+  border-bottom: 2px solid var(--border);
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.isotope-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid rgba(48,54,61,.4);
+  color: var(--text-primary);
+}
+.isotope-table tr:hover { background: var(--bg-hover); }
+.iso-stable {}
+.iso-radio td:first-child { border-left: 2px solid var(--accent-orange); }
+
+/* ========================================
+   移动端响应式 (≤768px)
+   ======================================== */
+@media (max-width: 768px) {
+  .detail-layout {
+    padding: 72px 12px 32px;
+    gap: 16px;
+  }
+
+  .detail-sidebar { width: 100%; }
+
+  .el-hero-card { padding: 20px 16px; }
+  .el-hero-symbol { font-size: 48px; }
+  .el-hero-name { font-size: 18px; }
+
+  .props-card-title { font-size: 11px; padding: 8px 12px; }
+  .prop-row { padding: 6px 12px; font-size: 11px; }
+
+  .search-bar { padding: 12px; }
+  .search-row { flex-direction: column; }
+  .search-btn { width: 100%; text-align: center; }
+
+  .content-card { padding: 16px; }
+  .content-card h2 { font-size: 18px; }
+  .content-card h3 { font-size: 15px; }
+
+  .nav-btns { gap: 6px; }
+  .nav-btn { padding: 7px 0; font-size: 11px; }
+
+  .toc-card { padding: 12px; }
+
+  .ghs-pictograms { gap: 8px; }
+  .ghs-icon { width: 36px; height: 36px; font-size: 24px; }
+
+  .isotope-table { font-size: 12px; }
+  .isotope-table th, .isotope-table td { padding: 6px 8px; }
+}
+
+/* ========================================
+   小屏手机 (≤480px)
+   ======================================== */
+@media (max-width: 480px) {
+  .detail-layout {
+    padding: 64px 8px 24px;
+    gap: 12px;
+  }
+
+  .el-hero-card { padding: 16px 12px; }
+  .el-hero-z { font-size: 11px; }
+  .el-hero-symbol { font-size: 40px; }
+  .el-hero-name { font-size: 16px; }
+  .el-hero-name-en { font-size: 11px; }
+
+  .props-card-title { font-size: 10px; }
+  .prop-row { font-size: 11px; padding: 5px 10px; }
+  .prop-value { max-width: 50%; }
+
+  .search-bar-title { font-size: 11px; }
+  .search-input { font-size: 12px; padding: 7px 10px; }
+  .search-shortcuts { gap: 4px; }
+  .search-shortcut { font-size: 10px; padding: 2px 8px; }
+
+  .content-card { padding: 12px; }
+  .content-card h2 { font-size: 16px; }
+  .content-card h3 { font-size: 14px; }
+
+  .sidebar-group-header { padding: 8px 12px; font-size: 12px; }
+
+  .back-btn { font-size: 12px; padding: 5px 10px; }
+
+  .isotope-table { font-size: 11px; }
+  .isotope-table th, .isotope-table td { padding: 5px 6px; }
+}
+
+/* ── 化合物知识卡（增强版 v2）样式 ── */
+.cpd-section { margin: 8px 0; }
+.cpd-section-title { font-size: 12px; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.3px; }
+.cpd-row { display: flex; gap: 8px; margin: 4px 0; align-items: baseline; }
+.cpd-label { font-weight: 600; font-size: 11.5px; white-space: nowrap; flex-shrink: 0; }
+.cpd-val { color: var(--text-secondary); font-size: 11.8px; line-height: 1.8; word-break: break-word; }
+
+/* 化合物卡片响应式 */
+@media (max-width: 768px) {
+  .cpd-header { padding: 10px 12px !important; gap: 6px !important; }
+  .cpd-body { padding: 0 10px 10px !important; }
+  .cpd-app-item { padding: 6px 9px !important; }
+  .cpd-mech-item { font-size: 11.2px !important; padding: 5px 8px !important; }
+}
+
+/* ========================================
+   左侧导航 + 右侧维度内容 布局（P3+）
+   ======================================== */
+
+/* 侧边栏 sticky 固定 */
+.detail-sidebar {
+  position: sticky;
+  top: 76px;
+  align-self: flex-start;
+  max-height: calc(100vh - 92px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.detail-sidebar::-webkit-scrollbar { width: 5px; }
+.detail-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border); border-radius: 3px;
+}
+
+/* 维度导航 */
+.dimension-nav {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 16px;
+}
+.dimension-nav-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 10px;
+}
+.dimension-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.dimension-nav-item {
+  margin-bottom: 3px;
+}
+.dimension-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 12.5px;
+  transition: all .15s ease;
+  cursor: pointer;
+}
+.dimension-nav-link:hover {
+  background: rgba(88,166,255,.08);
+  color: var(--accent-blue);
+}
+.dimension-nav-link.active {
+  background: rgba(88,166,255,.14);
+  color: var(--accent-blue);
+  font-weight: 600;
+}
+.dimension-nav-link.hidden-dim {
+  display: none;
+}
+.dimension-nav-count {
+  margin-left: auto;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: var(--bg-hover);
+  color: var(--text-muted);
+}
+.dimension-nav-link.active .dimension-nav-count {
+  background: rgba(88,166,255,.2);
+  color: var(--accent-blue);
+}
+
+/* 主内容区 section */
+.dimension-section {
+  scroll-margin-top: 76px;
+  margin-bottom: 24px;
+}
+.dimension-section.hidden {
+  display: none !important;
+}
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 14px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+.section-grid .props-card {
+  margin-bottom: 0;
+}
+.section-grid .props-inline {
+  border-radius: var(--radius) !important;
+}
+.section-grid .props-inline .props-card-title {
+  font-size: 12px !important;
+  padding: 10px 14px !important;
+  text-transform: none !important;
+}
+.section-grid .props-inline #propsBody,
+.section-grid .props-inline #physPropsBody,
+.section-grid .props-inline #crystalPropsBody,
+.section-grid .props-inline #materialPropsBody,
+.section-grid .props-inline #thermoPropsBody,
+.section-grid .props-inline #electroPropsBody,
+.section-grid .props-inline #ghsBody,
+.section-grid .props-inline #toxicBody,
+.section-grid .props-inline #industrialBody,
+.section-grid .props-inline #emergencyBody,
+.section-grid .props-inline #spectralBody,
+.section-grid .props-inline #advCrystalBody,
+.section-grid .props-inline #researchBody,
+.section-grid .props-inline #isotopeSummary,
+.section-grid .props-inline #idPropsBody,
+.section-grid .props-inline #sourcesBody,
+.section-grid .props-inline #compoundsBody,
+.section-grid .props-inline #trendBody,
+.section-grid .props-inline #abundanceBody,
+.section-grid .props-inline #relationsBody {
+  font-size: 13px !important;
+  padding: 10px 14px !important;
+  line-height: 1.6 !important;
+}
+
+/* 同位素 section 单独样式 */
+#isotopeGrid .props-card {
+  margin-bottom: 16px;
+}
+#isotopeGrid .isotope-table {
+  margin-top: 8px;
+}
+
+/* P6/P7 角色卡片在主内容区 */
+#p6p7Grid .role-extra-card {
+  margin-bottom: 0;
+}
+
+/* 角色视图在侧边栏的样式微调 */
+#roleSwitcher {
+  margin-bottom: 14px;
+}
+
+/* 隐藏 section 时不要让内部空 card 占位 */
+.dimension-section.hidden .content-card,
+.dimension-section.hidden .section-grid,
+.dimension-section.hidden .section-title {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .detail-sidebar {
+    position: relative;
+    top: auto;
+    max-height: none;
+  }
+  .dimension-nav {
+    padding: 12px;
+  }
+  .dimension-nav-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+  }
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .dimension-nav-list {
+    grid-template-columns: 1fr;
+  }
+  .section-title {
+    font-size: 16px;
+  }
+}

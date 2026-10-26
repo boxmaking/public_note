@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>元素对比 · 化学元素周期表</title>
+<link rel="stylesheet" href="css/main.css" />
+<link rel="stylesheet" href="css/table.css" />
+<link rel="manifest" href="./manifest.json" />
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW registration failed:', err));
+  });
+}
+</script>
+<style>
+  body { background: var(--bg-main, #0d1117); color: var(--text-primary, #e6edf3); font-family: 'Microsoft YaHei', sans-serif; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+  .page-title { font-size: 28px; font-weight: 800; color: var(--accent-blue, #58a6ff); margin-bottom: 8px; }
+  .page-subtitle { color: var(--text-muted, #8b949e); margin-bottom: 24px; }
+  .compare-picker { background: var(--bg-card, #161b22); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+  .picker-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); }
+  .picker-hint { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+  .picker-select-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .picker-select { padding: 8px 12px; border-radius: 8px; border: 1.5px solid var(--border-primary, #30363d); background: var(--bg-input, #0d1117); color: var(--text-primary); font-size: 14px; min-width: 200px; }
+  .picker-btn { padding: 8px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 14px; }
+  .btn-add { background: var(--accent-blue, #58a6ff); color: #fff; }
+  .btn-compare { background: var(--green, #3fb950); color: #fff; }
+  .btn-clear { background: var(--border-primary); color: var(--text-primary); }
+  .selected-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .selected-tag { padding: 4px 12px; border-radius: 6px; background: rgba(88,166,255,0.15); color: var(--accent-blue); border: 1px solid var(--accent-blue); font-size: 13px; font-weight: 600; cursor: pointer; }
+  .selected-tag:hover { background: rgba(248,81,73,0.15); color: var(--red, #f85149); border-color: var(--red); }
+  /* 对比表格 */
+  .compare-table-wrap { background: var(--bg-card); border-radius: 12px; padding: 20px; overflow-x: auto; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .compare-table th { padding: 10px 12px; background: var(--border-primary); color: var(--text-primary); font-weight: 700; position: sticky; top: 0; z-index: 1; }
+  .compare-table td { padding: 8px 12px; border-bottom: 1px solid var(--border-primary); }
+  .compare-table tr:hover td { background: rgba(48,54,61,0.3); }
+  .prop-name { font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+  .val-high { background: rgba(63,185,80,0.15); color: var(--green); font-weight: 600; }
+  .val-low  { background: rgba(248,81,73,0.15); color: var(--red); font-weight: 600; }
+  .val-normal { color: var(--text-primary); }
+  /* 雷达图 */
+  #radarChart { display: block; margin: 20px auto; max-width: 500px; }
+  .chart-section { background: var(--bg-card); border-radius: 12px; padding: 20px; margin-top: 24px; }
+  .chart-title { font-size: 16px; font-weight: 700; color: var(--accent-purple, #a371f7); margin-bottom: 16px; }
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .container { padding: 12px; }
+    .page-title { font-size: 22px; }
+    .page-subtitle { margin-bottom: 16px; }
+    .picker-select-row { flex-direction: column; align-items: stretch; }
+    .picker-select { min-width: 100%; }
+    .compare-table { font-size: 11px; }
+    .compare-table th, .compare-table td { padding: 6px 8px; }
+    .chart-section { padding: 14px; }
+    #radarChart { max-width: 100%; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 8px; }
+    .page-title { font-size: 18px; }
+    .page-subtitle { font-size: 12px; }
+    .compare-picker { padding: 12px; }
+    .picker-title { font-size: 14px; }
+    .picker-select { font-size: 12px; padding: 6px 10px; }
+    .picker-btn { padding: 6px 14px; font-size: 12px; }
+    .selected-tag { font-size: 11px; padding: 3px 8px; }
+    .compare-table-wrap { padding: 10px; }
+    .compare-table { font-size: 10px; }
+    .compare-table th, .compare-table td { padding: 5px 6px; }
+    .chart-title { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="nav-logo">⚛️</span>
+    <span class="nav-title" data-i18n="nav.title">化学元素周期表</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link" data-i18n="nav.home">周期表</a>
+    <a href="history.html" class="nav-link" data-i18n="nav.history">化学发展史</a>
+    <a href="element.html?z=1" class="nav-link" data-i18n="nav.element">元素详情</a>
+  </div>
+  <button id="langSwitchBtn" class="nav-lang-btn"></button>
+  <script src="js/i18n.js"></script>
+  <script src="js/data-completer.js"></script>
+</nav>
+
+<div class="container">
+  <h1 class="page-title" data-i18n="compare.title">📊 元素对比工具</h1>
+  <p class="page-subtitle" data-i18n="compare.subtitle">选择 2–4 个元素，并排对比全部属性，差异自动高亮</p>
+
+  <!-- 元素选择器 -->
+  <div class="compare-picker">
+    <div class="picker-title">选择要对比的元素</div>
+    <div class="picker-hint">从下拉菜单中选择元素，点击"添加"按钮。最多对比 4 个元素。</div>
+    <div class="picker-select-row">
+      <select class="picker-select" id="selectEl1">
+        <option value="">— 选择元素 —</option>
+      </select>
+      <select class="picker-select" id="selectEl2">
+        <option value="">— 选择元素 —</option>
+      </select>
+      <select class="picker-select" id="selectEl3">
+        <option value="">— 选择元素 —</option>
+      </select>
+      <select class="picker-select" id="selectEl4">
+        <option value="">— 选择元素 —</option>
+      </select>
+      <button class="picker-btn btn-compare" onclick="doCompare()">🔬 开始对比</button>
+      <button class="picker-btn btn-clear" onclick="clearCompare()">清空</button>
+    </div>
+    <div class="selected-list" id="selectedTags"></div>
+  </div>
+
+  <!-- 对比结果表格 -->
+  <div class="compare-table-wrap" id="compareResult" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+      <div style="font-size:18px;font-weight:700;color:var(--accent-blue)">📊 对比结果</div>
+      <div style="display:flex;gap:8px">
+        <button class="picker-btn btn-add" onclick="exportCompareCSV()" style="font-size:13px;padding:6px 14px">📥 导出 CSV</button>
+        <button class="picker-btn btn-clear" onclick="exportComparePDF()" style="font-size:13px;padding:6px 14px">📄 导出 PDF</button>
+      </div>
+    </div>
+    <table class="compare-table" id="compareTable"></table>
+  </div>
+
+  <!-- 雷达图 -->
+  <div class="chart-section" id="radarSection" style="display:none">
+    <div class="chart-title">📈 多属性雷达图对比</div>
+    <canvas id="radarChart" width="500" height="500"></canvas>
+  </div>
+</div>
+
+<!-- 脚本 -->
+<script src="data/elements.js"></script>
+<script src="js/p5-compare.js"></script>
+<script>
+  // 初始化下拉菜单
+  function initSelects() {
+    const selects = ['selectEl1','selectEl2','selectEl3','selectEl4'];
+    selects.forEach(id => {
+      const sel = document.getElementById(id);
+      sel.innerHTML = '<option value="">— 选择元素 —</option>';
+      ELEMENTS.forEach(el => {
+        const opt = document.createElement('option');
+        opt.value = el.z;
+        opt.textContent = `${el.z}. ${el.symbol} (${el.nameZh || el.name})`;
+        sel.appendChild(opt);
+      });
+    });
+  }
+
+  // 获取选中的元素
+  function getSelectedElements() {
+    const zList = [];
+    ['selectEl1','selectEl2','selectEl3','selectEl4'].forEach(id => {
+      const v = document.getElementById(id).value;
+      if (v) zList.push(parseInt(v));
+    });
+    return zList;
+  }
+
+  // 执行对比
+  function doCompare() {
+    const zList = getSelectedElements();
+    if (zList.length < 2) {
+      alert('请至少选择 2 个元素进行对比');
+      return;
+    }
+
+    const els = zList.map(z => ELEMENTS.find(e => e.z === z));
+    renderCompareTable(els);
+    renderRadarChart(els);
+
+    document.getElementById('compareResult').style.display = 'block';
+    document.getElementById('radarSection').style.display = 'block';
+  }
+
+  // 渲染对比表格
+  function renderCompareTable(els) {
+    const props = [
+      { key: 'z',                label: '原子序数',  numeric: false },
+      { key: 'symbol',           label: '符号',      numeric: false },
+      { key: 'nameZh',           label: '中文名',    numeric: false },
+      { key: 'name',             label: '英文名',    numeric: false },
+      { key: 'category',         label: '类别',      numeric: false },
+      { key: 'state',            label: '物态(室温)', numeric: false },
+      { key: 'mass',             label: '原子量',    numeric: true,  fmt: v => Array.isArray(v) ? v.map(m => m.toFixed(4)).join('–') : v.toFixed(4) },
+      { key: 'electronegativity',label: '电负性',   numeric: true,  fmt: v => v?.toFixed(2) || '-' },
+      { key: 'atomicRadius',     label: '原子半径',  numeric: true,  fmt: v => v ? v + ' pm' : '-' },
+      { key: 'density',          label: '密度',      numeric: true,  fmt: v => v ? v.toFixed(2) + ' g/cm³' : '-' },
+      { key: 'meltingPoint',     label: '熔点',      numeric: true,  fmt: v => v !== null ? v + ' °C' : '-' },
+      { key: 'boilingPoint',     label: '沸点',      numeric: true,  fmt: v => v !== null ? v + ' °C' : '-' },
+      { key: 'ionizationEnergy', label: '第一电离能', numeric: true,  fmt: v => v ? v + ' kJ/mol' : '-' },
+      { key: 'electronAffinity', label: '电子亲和能', numeric: true,  fmt: v => v !== null ? v + ' kJ/mol' : '-' },
+      { key: 'discoveryYear',    label: '发现年份',  numeric: false },
+    ];
+
+    let html = '<thead><tr><th>属性</th>';
+    els.forEach(el => {
+      html += `<th>${el.symbol}<br><span style="font-size:11px;font-weight:400;color:var(--text-muted)">${el.nameZh || el.name}</span></th>`;
+    });
+    html += '</tr></thead><tbody>';
+
+    props.forEach(prop => {
+      const values = els.map(el => {
+        if (prop.fmt) return { raw: el[prop.key], display: prop.fmt(el[prop.key]) };
+        return { raw: el[prop.key], display: el[prop.key] ?? '-' };
+      });
+
+      // 高亮最大/最小值
+      let highlight = [];
+      if (prop.numeric) {
+        const nums = values.map((v, i) => ({ val: typeof v.raw === 'number' ? v.raw : null, idx: i })).filter(v => v.val !== null);
+        if (nums.length >= 2) {
+          const maxVal = Math.max(...nums.map(n => n.val));
+          const minVal = Math.min(...nums.map(n => n.val));
+          nums.forEach(n => {
+            if (n.val === maxVal) highlight[n.idx] = 'high';
+            if (n.val === minVal) highlight[n.idx] = 'low';
+          });
+        }
+      }
+
+      html += `<tr><td class="prop-name">${prop.label}</td>`;
+      values.forEach((v, i) => {
+        let cls = 'val-normal';
+        if (highlight[i] === 'high') cls = 'val-high';
+        if (highlight[i] === 'low')  cls = 'val-low';
+        html += `<td class="${cls}">${v.display}</td>`;
+      });
+      html += '</tr>';
+    });
+
+    html += '</tbody>';
+    document.getElementById('compareTable').innerHTML = html;
+  }
+
+  // 渲染雷达图
+  function renderRadarChart(els) {
+    const canvas = document.getElementById('radarChart');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    const cx = w / 2, cy = h / 2, r = 200;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // 雷达图维度
+    const dims = [
+      { key: 'electronegativity', label: '电负性',  max: 4 },
+      { key: 'atomicRadius',     label: '原子半径',  max: 300 },
+      { key: 'density',          label: '密度',      max: 23 },
+      { key: 'ionizationEnergy', label: '电离能',    max: 2400 },
+      { key: 'electronAffinity', label: '电子亲和能', max: 350 },
+      { key: 'meltingPoint',    label: '熔点',      max: 4000, norm: v => v !== null ? Math.max(0, v) : 0 },
+    ];
+
+    const n = dims.length;
+    const angleStep = (2 * Math.PI) / n;
+
+    // 绘制网格
+    ctx.strokeStyle = '#30363d';
+    ctx.lineWidth = 1;
+    for (let lv = 1; lv <= 5; lv++) {
+      const rr = r * lv / 5;
+      ctx.beginPath();
+      for (let i = 0; i <= n; i++) {
+        const a = i * angleStep - Math.PI / 2;
+        const x = cx + rr * Math.cos(a);
+        const y = cy + rr * Math.sin(a);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    }
+
+    // 绘制轴线+标签
+    ctx.fillStyle = '#8b949e';
+    ctx.font = '12px Microsoft YaHei';
+    ctx.textAlign = 'center';
+    for (let i = 0; i < n; i++) {
+      const a = i * angleStep - Math.PI / 2;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
+      ctx.stroke();
+      const lx = cx + (r + 24) * Math.cos(a);
+      const ly = cy + (r + 24) * Math.sin(a);
+      ctx.fillText(dims[i].label, lx, ly);
+    }
+
+    // 绘制每个元素的雷达区域
+    const colors = ['#58a6ff','#3fb950','#f85149','#a371f7'];
+    els.forEach((el, ei) => {
+      ctx.fillStyle = colors[ei] + '33';
+      ctx.strokeStyle = colors[ei];
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      dims.forEach((dim, i) => {
+        const raw = el[dim.key];
+        let val = typeof raw === 'number' ? raw : 0;
+        if (dim.norm) val = dim.norm(val);
+        const t = Math.min(1, val / dim.max);
+        const a = i * angleStep - Math.PI / 2;
+        const x = cx + r * t * Math.cos(a);
+        const y = cy + r * t * Math.sin(a);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // 图例
+      ctx.fillStyle = colors[ei];
+      ctx.font = 'bold 13px Microsoft YaHei';
+      ctx.textAlign = 'left';
+      ctx.fillText(`${el.symbol} ${el.nameZh || el.name}`, 10, 20 + ei * 20);
+    });
+  }
+
+  // 导出 CSV
+  function exportCompareCSV() {
+    const zList = getSelectedElements();
+    const els = zList.map(z => ELEMENTS.find(e => e.z === z));
+    if (els.length < 2) return;
+
+    const props = [
+      { key: 'z',      label: '原子序数' },
+      { key: 'symbol',  label: '符号' },
+      { key: 'nameZh',  label: '中文名' },
+      { key: 'mass',    label: '原子量' },
+      { key: 'category',label: '类别' },
+      { key: 'state',   label: '物态' },
+      { key: 'electronegativity', label: '电负性' },
+      { key: 'density', label: '密度(g/cm³)' },
+    ];
+
+    let csv = '\uFEFF';
+    csv += '属性,' + els.map(el => el.symbol + '(' + (el.nameZh || el.name) + ')').join(',') + '\n';
+    props.forEach(prop => {
+      const row = [prop.label];
+      els.forEach(el => {
+        const v = el[prop.key];
+        row.push(typeof v === 'number' ? v.toString() : (v || '-'));
+      });
+      csv += row.join(',') + '\n';
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `元素对比_${els.map(e => e.symbol).join('-')}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // 导出 PDF（占位）
+  function exportComparePDF() {
+    alert('PDF 导出功能即将上线，当前请使用浏览器"打印"功能（Ctrl+P）保存为 PDF。');
+  }
+
+  // 清空对比
+  function clearCompare() {
+    ['selectEl1','selectEl2','selectEl3','selectEl4'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('compareResult').style.display = 'none';
+    document.getElementById('radarSection').style.display = 'none';
+  }
+
+  // 页面加载
+  initSelects();
+</script>
+</body>
+</html>

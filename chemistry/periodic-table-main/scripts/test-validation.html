@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>数据验证报告</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    body { max-width: 1100px; margin: 0 auto; padding: 20px; font-family: 'Segoe UI', sans-serif; }
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { color: #2c3e50; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+    .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+    .stat-value { font-size: 32px; font-weight: bold; color: #2c3e50; }
+    .stat-label { font-size: 13px; color: #7f8c8d; margin-top: 5px; }
+    .result-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .result-card h3 { margin-top: 0; }
+    .match { color: #27ae60; }
+    .diff { color: #f39c12; }
+    .error { color: #e74c3c; }
+    .table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+    .table th, .table td { padding: 10px; text-align: left; border-bottom: 1px solid #ecf0f1; }
+    .table th { background: #f8f9fa; font-weight: 600; }
+    .btn { padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; }
+    .btn:hover { background: #2980b9; }
+    #reportContainer { margin-top: 30px; }
+  </style>
+  <!-- marked.js -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 数据验证报告</h1>
+  <p>对比本地元素数据与权威数据库（NIST Chemistry WebBook）</p>
+</div>
+
+<!-- 统计信息 -->
+<div class="stats" id="statsContainer">
+  <div class="stat-card">
+    <div class="stat-value" id="totalElements">-</div>
+    <div class="stat-label">总验证元素</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="matched">-</div>
+    <div class="stat-label">数据匹配</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="withDiff">-</div>
+    <div class="stat-label">存在差异</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value" id="accuracy">-%</div>
+    <div class="stat-label">数据准确率</div>
+  </div>
+</div>
+
+<!-- 详细结果 -->
+<div id="resultsContainer"></div>
+
+<!-- 完整报告 -->
+<div id="reportContainer"></div>
+
+<!-- 加载数据 -->
+<script src="data/elements.js"></script>
+<script src="js/data-validation.js"></script>
+
+<script>
+// ===== 运行验证 =====
+function runValidation() {
+  if (typeof generateValidationReport !== 'function') {
+    document.getElementById('resultsContainer').innerHTML = 
+      '<p style="color: #e74c3c;">❌ 数据验证脚本未加载</p>';
+    return;
+  }
+  
+  // 生成报告
+  const report = generateValidationReport();
+  
+  // 解析报告统计
+  const totalMatch = report.match(/\*\*数据匹配\*\*：(\d+) 个/);
+  const totalDiff = report.match(/\*\*存在差异\*\*：(\d+) 个/);
+  const totalErrors = report.match(/\*\*加载错误\*\*：(\d+) 个/);
+  
+  const total = (totalMatch ? parseInt(totalMatch[1]) : 0) + 
+              (totalDiff ? parseInt(totalDiff[1]) : 0) + 
+              (totalErrors ? parseInt(totalErrors[1]) : 0);
+  const matched = totalMatch ? parseInt(totalMatch[1]) : 0;
+  const withDiff = totalDiff ? parseInt(totalDiff[1]) : 0;
+  
+  // 更新统计
+  document.getElementById('totalElements').textContent = total;
+  document.getElementById('matched').textContent = matched;
+  document.getElementById('withDiff').textContent = withDiff;
+  document.getElementById('accuracy').textContent = total > 0 ? (matched / total * 100).toFixed(1) + '%' : '-%';
+  
+  // 生成详细结果卡片
+  let resultsHtml = '<h2>📋 详细验证结果</h2>';
+  
+  if (typeof AUTHORITATIVE_DATA !== 'undefined') {
+    const symbols = Object.keys(AUTHORITATIVE_DATA);
+    symbols.forEach(function(symbol) {
+      const authData = AUTHORITATIVE_DATA[symbol];
+      const result = validateElementData(symbol, authData);
+      
+      if (result.error) {
+        resultsHtml += '<div class="result-card">\n';
+        resultsHtml += '<h3 class="error">' + symbol + ' - ❌ 错误</h3>\n';
+        resultsHtml += '<p>' + result.error + '</p>\n';
+        resultsHtml += '</div>\n';
+        return;
+      }
+      
+      resultsHtml += '<div class="result-card">\n';
+      if (result.isMatch) {
+        resultsHtml += '<h3 class="match">' + symbol + '（' + result.name + '） - ✅ 数据匹配</h3>\n';
+        resultsHtml += '<p>本地数据与 ' + result.authoritativeSource + ' 数据一致。</p>\n';
+      } else {
+        resultsHtml += '<h3 class="diff">' + symbol + '（' + result.name + '） - ⚠️ 存在差异</h3>\n';
+        resultsHtml += '<table class="table">\n';
+        resultsHtml += '<tr><th>属性</th><th>本地数据</th><th>权威数据</th><th>差异</th><th>单位</th></tr>\n';
+        
+        result.differences.forEach(function(diff) {
+          resultsHtml += '<tr>\n';
+          resultsHtml += '<td>' + diff.property + '</td>\n';
+          resultsHtml += '<td>' + diff.local + '</td>\n';
+          resultsHtml += '<td>' + diff.authoritative + '</td>\n';
+          resultsHtml += '<td>' + (diff.diff !== undefined ? diff.diff.toFixed(2) : 'N/A') + '</td>\n';
+          resultsHtml += '<td>' + (diff.unit || '') + '</td>\n';
+          resultsHtml += '</tr>\n';
+        });
+        
+        resultsHtml += '</table>\n';
+        resultsHtml += '<p><strong>💡 建议：</strong>根据 ' + result.authoritativeSource + ' 修正本地数据。</p>\n';
+      }
+      
+      resultsHtml += '</div>\n';
+    });
+  }
+  
+  document.getElementById('resultsContainer').innerHTML = resultsHtml;
+  
+  // 渲染完整报告（Markdown）
+  if (typeof marked !== 'undefined') {
+    document.getElementById('reportContainer').innerHTML = 
+      '<h2>📝 完整验证报告</h2>' + 
+      '<div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">' + 
+      marked.parse(report) + 
+      '</div>';
+  }
+}
+
+// ===== 初始化 =====
+window.addEventListener('DOMContentLoaded', function() {
+  setTimeout(runValidation, 500);
+});
+</script>
+
+</body>
+</html>

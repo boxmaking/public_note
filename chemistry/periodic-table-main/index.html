@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-i18n-title="nav.title" data-i18n-page="index">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>化学元素周期表 · 探索化学的宇宙</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/table.css" />
+  <link rel="manifest" href="./manifest.json" />
+  <script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW registration failed:', err));
+  });
+}
+</script>
+  <style>
+    /* 高级筛选面板 */
+    .filter-panel { background:var(--bg-card); border-radius:12px; margin:16px auto; max-width:1100px; padding:20px; box-shadow:var(--shadow-card); }
+    .filter-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+    .filter-title { font-size:16px; font-weight:700; color:var(--text-primary); }
+    .filter-clear { font-size:13px; color:var(--accent-blue); cursor:pointer; }
+    .filter-clear:hover { text-decoration:underline; }
+    .filter-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; }
+    .filter-group { }
+    .filter-label { display:block; font-size:12px; font-weight:600; color:var(--text-secondary); margin-bottom:6px; }
+    .filter-options { display:flex; flex-wrap:wrap; gap:4px; }
+    .filter-opt { padding:3px 10px; border-radius:12px; font-size:12px; cursor:pointer; border:1.5px solid var(--border-primary); color:var(--text-secondary); background:var(--bg-input); user-select:none; }
+    .filter-opt.active { background:var(--accent-blue); color:#fff; border-color:var(--accent-blue); }
+    .filter-select { padding:6px 10px; border-radius:8px; border:1.5px solid var(--border-primary); background:var(--bg-input); color:var(--text-primary); font-size:13px; width:100%; }
+    .filter-result { margin-top:12px; font-size:13px; color:var(--text-muted); }
+    /* 热力图面板 */
+    .heatmap-panel { background:var(--bg-card); border-radius:12px; margin:16px auto; max-width:1100px; padding:16px 20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; box-shadow:var(--shadow-card); }
+    .heatmap-title { font-size:15px; font-weight:700; color:var(--text-primary); white-space:nowrap; }
+    .heatmap-options { display:flex; flex-wrap:wrap; gap:6px; }
+    .heatmap-opt { padding:4px 12px; border-radius:12px; font-size:12px; cursor:pointer; border:1.5px solid var(--border-primary); color:var(--text-secondary); background:var(--bg-input); user-select:none; }
+    .heatmap-opt.active { background:var(--accent-purple,#7c3aed); color:#fff; border-color:var(--accent-purple,#7c3aed); }
+    .heatmap-legend { margin-top:8px; display:flex; align-items:center; gap:8px; }
+    .legend-labels { display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); min-width:220px; }
+    /* 热力图单元格动画 */
+    .el-card.heatmap { transition:background 0.4s ease, transform 0.2s ease; }
+    .el-card.heatmap:hover { transform:scale(1.08); z-index:2; }
+    .hidden { display:none !important; }
+
+    /* 移动端响应式 */
+    @media (max-width: 768px) {
+      .filter-panel { padding: 14px; margin: 12px 8px; }
+      .filter-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+      .filter-title { font-size: 14px; }
+      .heatmap-panel { padding: 12px 14px; gap: 10px; margin: 12px 8px; }
+      .heatmap-title { font-size: 13px; }
+    }
+    @media (max-width: 480px) {
+      .filter-panel { padding: 10px; margin: 8px 4px; }
+      .filter-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 6px; }
+      .filter-label { font-size: 11px; }
+      .filter-opt { font-size: 11px; padding: 2px 8px; }
+      .heatmap-panel { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .heatmap-options { gap: 4px; }
+      .heatmap-opt { font-size: 11px; padding: 3px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== 导航栏 ===== -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="nav-logo">⚛️</span>
+    <span class="nav-title" data-i18n="nav.title">化学元素周期表</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link active" data-i18n="nav.home">周期表</a>
+    <a href="history.html" class="nav-link" data-i18n="nav.history">化学发展史</a>
+    <a href="element.html?z=1" class="nav-link" data-i18n="nav.element">元素详情</a>
+  </div>
+  <div class="nav-search">
+    <input id="navSearch" type="text" placeholder="搜索元素（名称/符号/序号）..." data-i18n-placeholder="nav.search" autocomplete="off" />
+    <div id="searchDropdown" class="search-dropdown hidden"></div>
+  </div>
+  <button id="langSwitchBtn" class="nav-lang-btn"></button>
+  <script src="js/i18n.js"></script>
+  <script src="js/data-completer.js"></script>
+</nav>
+
+<!-- ===== 英雄区 ===== -->
+<header class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title" data-i18n="hero.title">探索化学的宇宙</h1>
+    <p class="hero-subtitle" data-i18n="hero.subtitle">118 种元素 · 20+ 属性字段 · 权威数据源 · 化学方程式 · 工业安全 · PDF打印</p>
+    <div class="view-toggle">
+      <button class="toggle-btn active" id="btnSimple" onclick="switchView('simple')" data-i18n="btn.simpleView">
+        📋 经典简化视图
+      </button>
+      <button class="toggle-btn" id="btnFull" onclick="switchView('full')" data-i18n="btn.fullView">
+        🔬 经典完整视图
+      </button>
+    </div>
+    <div class="hero-actions" style="margin-top:12px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="toggle-btn" id="btnFilter" onclick="toggleFilterPanel()" style="font-size:13px;padding:6px 16px" data-i18n="btn.filter">
+        🔍 高级筛选
+      </button>
+      <button class="toggle-btn" id="btnHeatmap" onclick="toggleHeatmap()" style="font-size:13px;padding:6px 16px" data-i18n="btn.heatmap">
+        🌈 属性热力图
+      </button>
+      <button class="toggle-btn" onclick="typeof showQuizPanel==='function'&&showQuizPanel()" style="font-size:13px;padding:6px 16px" data-i18n="btn.quiz">
+        📝 知识测验
+      </button>
+      <button class="toggle-btn" onclick="window.location.href='compare.html'" style="font-size:13px;padding:6px 16px" data-i18n="btn.compare">
+        ⚖️ 元素对比
+      </button>
+      <button class="toggle-btn" onclick="typeof showExportDialog==='function' && showExportDialog(ELEMENTS)" style="font-size:13px;padding:6px 16px" data-i18n="btn.export">
+        📦 数据导出
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== 高级筛选面板（默认隐藏）===== -->
+<section class="filter-panel hidden" id="filterPanel">
+  <div class="filter-inner">
+    <div class="filter-header">
+      <span class="filter-title" data-i18n="filter.title">🔍 高级筛选</span>
+      <span class="filter-clear" onclick="clearFilters()" data-i18n="filter.clear">清除全部</span>
+    </div>
+    <div class="filter-grid">
+      <div class="filter-group">
+        <label class="filter-label" data-i18n="filter.category">元素类别</label>
+        <div class="filter-options" id="filterCategory"></div>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" data-i18n="filter.state">常温状态</label>
+        <div class="filter-options" id="filterState"></div>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" data-i18n="filter.period">周期</label>
+        <div class="filter-options" id="filterPeriod"></div>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" data-i18n="filter.group">族</label>
+        <div class="filter-options" id="filterGroup"></div>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" data-i18n="filter.radioactive">放射性</label>
+        <div class="filter-options" id="filterRadio"></div>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label" data-i18n="filter.sort">排序方式</label>
+        <select id="sortSelect" onchange="applyFilters()" class="filter-select">
+          <option value="" data-i18n="filter.sort.none">— 不排序 —</option>
+          <option value="z-asc" data-i18n="filter.sort.z.asc">原子序数 升序</option>
+          <option value="z-desc" data-i18n="filter.sort.z.desc">原子序数 降序</option>
+          <option value="mass-asc" data-i18n="filter.sort.mass.asc">原子量 升序</option>
+          <option value="mass-desc" data-i18n="filter.sort.mass.desc">原子量 降序</option>
+          <option value="mp-asc" data-i18n="filter.sort.mp.asc">熔点 升序</option>
+          <option value="mp-desc" data-i18n="filter.sort.mp.desc">熔点 降序</option>
+          <option value="bp-asc" data-i18n="filter.sort.bp.asc">沸点 升序</option>
+          <option value="bp-desc" data-i18n="filter.sort.bp.desc">沸点 降序</option>
+          <option value="density-asc" data-i18n="filter.sort.density.asc">密度 升序</option>
+          <option value="density-desc" data-i18n="filter.sort.density.desc">密度 降序</option>
+          <option value="en-asc">电负性 升序</option>
+          <option value="en-desc">电负性 降序</option>
+          <option value="ep-asc">标准电位 升序</option>
+          <option value="ep-desc">标准电位 降序</option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-result" id="filterResult"></div>
+  </div>
+</section>
+
+<!-- ===== 热力图属性选择器（默认隐藏）===== -->
+<section class="heatmap-panel hidden" id="heatmapPanel">
+  <div class="heatmap-inner">
+    <span class="heatmap-title" data-i18n="heatmap.title">🌈 选择着色属性：</span>
+    <div class="heatmap-options" id="heatmapOptions"></div>
+  </div>
+  <div class="heatmap-legend hidden" id="heatmapLegend">
+    <canvas id="legendCanvas" width="220" height="12"></canvas>
+    <div class="legend-labels">
+      <span id="legendMin">—</span>
+      <span id="legendMid">—</span>
+      <span id="legendMax">—</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 图例 ===== -->
+<section class="legend-section">
+  <div class="legend-container">
+    <div class="legend-group">
+      <span class="legend-title" data-i18n="legend.category">元素类别：</span>
+      <span class="legend-item alkali-metal" data-i18n="cat.alkali-metal">碱金属</span>
+      <span class="legend-item alkaline-earth" data-i18n="cat.alkaline-earth">碱土金属</span>
+      <span class="legend-item transition" data-i18n="cat.transition">过渡金属</span>
+      <span class="legend-item post-transition" data-i18n="cat.post-transition">后过渡金属</span>
+      <span class="legend-item metalloid" data-i18n="cat.metalloid">准金属</span>
+      <span class="legend-item nonmetal" data-i18n="cat.nonmetal">非金属</span>
+      <span class="legend-item halogen" data-i18n="cat.halogen">卤素</span>
+      <span class="legend-item noble-gas" data-i18n="cat.noble-gas">稀有气体</span>
+      <span class="legend-item lanthanide" data-i18n="cat.lanthanide">镧系</span>
+      <span class="legend-item actinide" data-i18n="cat.actinide">锕系</span>
+    </div>
+    <div class="legend-group">
+      <span class="legend-title" data-i18n="legend.state">常温状态：</span>
+      <span class="state-badge state-solid">固</span>
+      <span class="legend-label" data-i18n="legend.solid">固态</span>
+      <span class="state-badge state-liquid">液</span>
+      <span class="legend-label" data-i18n="legend.liquid">液态</span>
+      <span class="state-badge state-gas">气</span>
+      <span class="legend-label" data-i18n="legend.gas">气态</span>
+      <span class="state-badge state-synthetic">合</span>
+      <span class="legend-label" data-i18n="legend.synthetic">人造</span>
+      <span class="radio-badge">☢</span>
+      <span class="legend-label" data-i18n="legend.radioactive">放射性</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 周期表区域 ===== -->
+<main class="table-section">
+  <!-- 简化视图 -->
+  <div id="viewSimple" class="periodic-table-wrapper">
+    <div id="tableSimple" class="periodic-table"></div>
+  </div>
+
+  <!-- 完整视图 -->
+  <div id="viewFull" class="periodic-table-wrapper hidden">
+    <div id="tableFull" class="periodic-table pt-full"></div>
+  </div>
+</main>
+
+<!-- ===== 页脚 ===== -->
+<footer class="site-footer">
+  <p data-i18n="footer.version">⚛️ 化学元素周期表 · 专业版 v3.0</p>
+  <p style="font-size:11px;color:var(--text-muted);margin-top:4px" data-i18n="footer.datasource">数据来源：IUPAC CIAAW 2024 · CRC Handbook 105th ed. · NIST Chemistry WebBook · PubChem NIH · ILO/WHO ICSC</p>
+</footer>
+
+<!-- ===== PWA 安装横幅 ===== -->
+<div id="pwaInstallBanner" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9999;background:#1a2234;border:1px solid #30363d;border-radius:12px;padding:14px 20px;box-shadow:0 8px 32px rgba(0,0,0,.5);display:none;align-items:center;gap:16px;max-width:480px;width:calc(100% - 40px)">
+  <span style="font-size:28px">📱</span>
+  <div style="flex:1">
+    <p style="font-size:13px;font-weight:700;color:#e6edf3;margin:0 0 2px" data-i18n="pwa.install">添加到主屏幕</p>
+    <p style="font-size:12px;color:#8b949e;margin:0" data-i18n="pwa.install.desc">安装应用，离线可用</p>
+  </div>
+  <button id="pwaInstallBtn" style="padding:7px 14px;border-radius:8px;border:none;background:#58a6ff;color:#fff;font-size:13px;font-weight:600;cursor:pointer" data-i18n="pwa.install.btn">立即安装</button>
+  <button id="pwaDismissBtn" style="padding:7px 10px;border-radius:8px;border:1px solid #30363d;background:transparent;color:#8b949e;font-size:12px;cursor:pointer" data-i18n="pwa.dismiss">暂不</button>
+</div>
+
+<!-- ===== PWA 安装脚本 ===== -->
+<script>
+(function(){
+  let deferredPrompt = null;
+  const banner = document.getElementById('pwaInstallBanner');
+  const installBtn = document.getElementById('pwaInstallBtn');
+  const dismissBtn = document.getElementById('pwaDismissBtn');
+
+  // 检查是否已经安装或用户之前已拒绝
+  if (localStorage.getItem('pwa-dismissed') === '1') return;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (banner) banner.style.display = 'flex';
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if (banner) banner.style.display = 'none';
+      if (outcome === 'dismissed') localStorage.setItem('pwa-dismissed', '1');
+    });
+  }
+  if (dismissBtn) {
+    dismissBtn.addEventListener('click', () => {
+      if (banner) banner.style.display = 'none';
+      localStorage.setItem('pwa-dismissed', '1');
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    if (banner) banner.style.display = 'none';
+    deferredPrompt = null;
+  });
+})();
+</script>
+
+<!-- ===== 脚本 ===== -->
+<script src="data/elements.js"></script>
+<script src="data/p3-safety.js"></script>
+<script src="js/table.js"></script>
+<script src="js/search.js"></script>
+<script src="data/crystal-structures.js"></script>
+<script src="js/export.js"></script>
+<script src="js/p5-heatmap.js"></script>
+<script src="js/p5-compare.js"></script>
+<script src="js/p5-quiz.js"></script>
+<!-- 内联逻辑（高级筛选 + 热力图） -->
+<script>
+/* ═══════════════════════════════════════
+   高级筛选 + 属性热力图 逻辑
+   ═══════════════════════════════════════ */
+(function(){
+  // ── 状态 ──
+  let activeFilters = { category:[], state:[], period:[], group:[], radio:[] };
+  let currentSort = '';
+  let heatmapKey = '';
+
+  // ── 初始化筛选选项 ──
+  function initFilterOptions() {
+    // 类别
+    const cats = [
+      {k:'alkali-metal',l:'碱金属'},{k:'alkaline-earth',l:'碱土金属'},
+      {k:'transition',l:'过渡金属'},{k:'post-transition',l:'后过渡金属'},
+      {k:'metalloid',l:'准金属'},{k:'nonmetal',l:'非金属'},
+      {k:'halogen',l:'卤素'},{k:'noble-gas',l:'稀有气体'},
+      {k:'lanthanide',l:'镧系'},{k:'actinide',l:'锕系'},
+    ];
+    renderOptions('filterCategory', cats, 'category');
+    // 状态
+    renderOptions('filterState', [{k:'solid',l:'固态'},{k:'liquid',l:'液态'},{k:'gas',l:'气态'},{k:'synthetic',l:'人造'}], 'state');
+    // 周期 1-7
+    const pers = []; for(let i=1;i<=7;i++) pers.push({k:String(i),l:String(i)+'周期'});
+    renderOptions('filterPeriod', pers, 'period');
+    // 族 1-18
+    const grps = []; for(let i=1;i<=18;i++) grps.push({k:String(i),l:String(i)+'族'});
+    renderOptions('filterGroup', grps, 'group');
+    // 放射性
+    renderOptions('filterRadio', [{k:'yes',l:'放射性'},{k:'no',l:'非放射性'}], 'radio');
+  }
+  function renderOptions(containerId, items, filterKey) {
+    const c = document.getElementById(containerId);
+    if (!c) return;
+    c.innerHTML = items.map(it => `<span class="filter-opt" data-key="${it.k}" onclick="toggleFilter('${filterKey}','${it.k}',this)">${it.l}</span>`).join('');
+  }
+  window.toggleFilter = function(key, val, el) {
+    const arr = activeFilters[key];
+    const idx = arr.indexOf(val);
+    if (idx >= 0) { arr.splice(idx,1); el.classList.remove('active'); }
+    else { arr.push(val); el.classList.add('active'); }
+    applyFilters();
+  };
+  window.clearFilters = function() {
+    activeFilters = { category:[], state:[], period:[], group:[], radio:[] };
+    currentSort = '';
+    document.getElementById('sortSelect').value = '';
+    document.querySelectorAll('.filter-opt.active').forEach(e => e.classList.remove('active'));
+    applyFilters();
+  };
+  window.applyFilters = function() {
+    let filtered = ELEMENTS.filter(el => {
+      if (activeFilters.category.length && !activeFilters.category.includes(el.category)) return false;
+      if (activeFilters.state.length) {
+        const map = {solid:'solid',liquid:'liquid',gas:'gas',synthetic:'synthetic'};
+        if (!activeFilters.state.includes(el.state)) return false;
+      }
+      if (activeFilters.period.length && !activeFilters.period.includes(String(el.period))) return false;
+      if (activeFilters.group.length && !activeFilters.group.includes(String(el.group))) return false;
+      if (activeFilters.radio.length) {
+        if (activeFilters.radio.includes('yes') && !el.radioactive) return false;
+        if (activeFilters.radio.includes('no') && el.radioactive) return false;
+      }
+      return true;
+    });
+    // 排序
+    if (currentSort) {
+      const [key, dir] = currentSort.split('-');
+      const asc = dir === 'asc';
+      filtered.sort((a,b) => {
+        let va = a[key==='z'?'z':key==='mass'?'mass':key==='mp'?'meltingPoint':key==='bp'?'boilingPoint':key==='density'?'density':key==='en'?'electronegativity':key==='ep'?'stdElectrodePotential':'z'];
+        let vb = b[key==='z'?'z':key==='mass'?'mass':key==='mp'?'meltingPoint':key==='bp'?'boilingPoint':key==='density'?'density':key==='en'?'electronegativity':key==='ep'?'stdElectrodePotential':'z'];
+        // 修复：正确获取属性
+        const getV = (e,k) => {
+          if (k==='z') return e.z;
+          if (k==='mass') return e.mass;
+          if (k==='mp') return e.meltingPoint;
+          if (k==='bp') return e.boilingPoint;
+          if (k==='density') return e.density;
+          if (k==='en') return e.electronegativity;
+          if (k==='ep') return e.stdElectrodePotential;
+          return e.z;
+        };
+        va = getV(a, key); vb = getV(b, key);
+        if (va === null || va === undefined) va = asc ? Infinity : -Infinity;
+        if (vb === null || vb === undefined) vb = asc ? Infinity : -Infinity;
+        return asc ? (va>vb?1:va<vb?-1:0) : (va<vb?1:va>vb?-1:0);
+      });
+    }
+    // 更新表格
+    renderFilteredTable(filtered);
+    const txt = filtered.length === 118 ? '全部 118 个元素' : `已筛选 ${filtered.length} 个元素`;
+    document.getElementById('filterResult').textContent = txt;
+  };
+  function renderFilteredTable(elements) {
+    // 重建主表
+    const containerS = document.getElementById('tableSimple');
+    const containerF = document.getElementById('tableFull');
+    if (containerS) containerS.innerHTML = '';
+    if (containerF) containerF.innerHTML = '';
+    // 简化处理：只渲染简化视图
+    if (containerS) {
+      // 重建网格
+      rebuildTable(containerS, 'simple', elements);
+    }
+  }
+  function rebuildTable(container, mode, elements) {
+    container.innerHTML = '';
+    // 直接计算位置
+    const cellMap = {};
+    elements.forEach(el => {
+      if (el.z >= 57 && el.z <= 71) return; // 镧系单独处理
+      if (el.z >= 89 && el.z <= 103) return; // 锕系单独处理
+      cellMap[el.period + '-' + el.group] = el;
+    });
+    // 族标题行
+    container.appendChild(makeEmpty(''));
+    for (let g=1;g<=18;g++) container.appendChild(makeGroupLabel(g));
+    // 第1-7行
+    for (let p=1;p<=7;p++) {
+      container.appendChild(makePeriodLabel(p));
+      for (let g=1;g<=18;g++) {
+        const el = cellMap[p+'-'+g];
+        if (el) {
+          container.appendChild(makeCard(el, mode));
+        } else if (p===6 && g===3) {
+          container.appendChild(makePlaceholder('57-71','lanthanide','镧系'));
+        } else if (p===7 && g===3) {
+          container.appendChild(makePlaceholder('89-103','actinide','锕系'));
+        } else {
+          container.appendChild(makeEmpty());
+        }
+      }
+    }
+    // 镧系/锕系
+    appendSeries(container, mode, elements, zStart=57, zEnd=71, 'lanthanide');
+    appendSeries(container, mode, elements, zStart=89, zEnd=103, 'actinide');
+  }
+  function makeEmpty(txt) {
+    const d = document.createElement('div');
+    d.className = 'el-empty'; if (txt) d.textContent = txt;
+    d.style.cssText = 'min-height:28px';
+    return d;
+  }
+  function makeGroupLabel(g) {
+    const d = document.createElement('div');
+    d.className = 'group-label'; d.textContent = g;
+    return d;
+  }
+  function makePeriodLabel(p) {
+    const d = document.createElement('div');
+    d.className = 'period-label'; d.textContent = p;
+    return d;
+  }
+  function makePlaceholder(range, cat, label) {
+    const d = document.createElement('div');
+    d.className = `el-card el-empty cat-${cat}`;
+    d.style.cssText = 'padding:4px 2px;text-align:center;border-radius:5px;opacity:.7;cursor:default;min-height:40px;display:flex;align-items:center;justify-content:center;flex-direction:column;';
+    d.innerHTML = `<span style="font-size:8px;color:rgba(255,255,255,.5)">${range}</span><span style="font-size:9px;color:rgba(255,255,255,.8);font-weight:600">${label}</span>`;
+    return d;
+  }
+  function appendSeries(container, mode, elements, zStart, zEnd, cat) {
+    const seriesEls = elements.filter(e => e.z >= zStart && e.z <= zEnd);
+    if (seriesEls.length === 0) return;
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `display:grid;grid-template-columns:28px 28px repeat(${seriesEls.length},1fr);gap:3px;margin-top:8px;max-width:100%;`;
+    wrap.appendChild(makeEmpty(''));
+    const lbl = document.createElement('div');
+    lbl.className = 'series-label';
+    lbl.innerHTML = `<span style="font-size:9px;color:var(--text-muted)">${cat==='lanthanide'?'La':'Ac'}<br>系</span>`;
+    wrap.appendChild(lbl);
+    seriesEls.forEach(el => wrap.appendChild(makeCard(el, mode)));
+    container.parentElement.appendChild(wrap);
+  }
+
+  // ── 热力图 ──
+  const HEATMAP_PROPS = [
+    {k:'atomicRadius',     l:'原子半径',     unit:'pm'},
+    {k:'covalentRadius',  l:'共价半径',     unit:'pm'},
+    {k:'electronegativity',l:'电负性',       unit:'Pauling'},
+    {k:'density',         l:'密度',         unit:'g/cm³'},
+    {k:'meltingPoint',    l:'熔点',         unit:'°C'},
+    {k:'boilingPoint',    l:'沸点',         unit:'°C'},
+    {k:'stdElectrodePotential',l:'标准电极电位',unit:'V'},
+    {k:'ionicRadius',     l:'离子半径',     unit:'pm'},
+    {k:'thermalConductivity',l:'热导率',    unit:'W/(m·K)'},
+    {k:'specificHeat',    l:'比热容',       unit:'J/(g·K)'},
+  ];
+
+  window.toggleHeatmap = function() {
+    const panel = document.getElementById('heatmapPanel');
+    panel.classList.toggle('hidden');
+    if (!panel.classList.contains('hidden') && !document.getElementById('heatmapOptions').hasChildNodes()) {
+      initHeatmapOptions();
+    }
+    if (panel.classList.contains('hidden')) {
+      clearHeatmap();
+    }
+  };
+  function initHeatmapOptions() {
+    const c = document.getElementById('heatmapOptions');
+    c.innerHTML = HEATMAP_PROPS.map(p =>
+      `<span class="heatmap-opt" data-key="${p.k}" onclick="applyHeatmap('${p.k}',this)">${p.l}</span>`
+    ).join('');
+  }
+  window.applyHeatmap = function(key, el) {
+    heatmapKey = key;
+    document.querySelectorAll('.heatmap-opt.active').forEach(e => e.classList.remove('active'));
+    if (el) el.classList.add('active');
+    // 计算颜色映射
+    const vals = ELEMENTS.map(e => e[key]).filter(v => v !== null && v !== undefined);
+    if (vals.length === 0) return;
+    const vMin = Math.min(...vals), vMax = Math.max(...vals);
+    const prop = HEATMAP_PROPS.find(p => p.k === key);
+    // 为所有元素卡片着色
+    document.querySelectorAll('.el-card:not(.el-empty)').forEach(card => {
+      const z = parseInt(card.dataset.z);
+      const el = ELEMENTS.find(e => e.z === z);
+      if (!el) return;
+      const v = el[key];
+      if (v === null || v === undefined) {
+        card.style.background = '#555';
+        card.classList.add('heatmap');
+        return;
+      }
+      const ratio = (v - vMin) / (vMax - vMin || 1);
+      const color = heatColor(ratio);
+      card.style.background = color;
+      card.style.color = ratio > 0.5 ? '#fff' : '#000';
+      card.classList.add('heatmap');
+    });
+    // 显示图例
+    document.getElementById('heatmapLegend').classList.remove('hidden');
+    drawLegend(vMin, vMax, key);
+    document.getElementById('legendMin').textContent = prop.unit ? vMin.toFixed(1)+' '+prop.unit : vMin.toFixed(1);
+    document.getElementById('legendMax').textContent = prop.unit ? vMax.toFixed(1)+' '+prop.unit : vMax.toFixed(1);
+  };
+  function clearHeatmap() {
+    document.querySelectorAll('.el-card.heatmap').forEach(card => {
+      card.style.background = '';
+      card.style.color = '';
+      card.classList.remove('heatmap');
+    });
+    document.getElementById('heatmapLegend').classList.add('hidden');
+    heatmapKey = '';
+  }
+  function heatColor(ratio) {
+    // 蓝→青→绿→黄→红
+    const r = Math.round(lerp(40, 255, clamp(ratio*2,0,1)));
+    const g = Math.round(lerp(60, 200, clamp(ratio<0.5?ratio*2:1,0,1)));
+    const b = Math.round(lerp(220, 40, clamp(ratio<0.5?0:ratio*2-1,0,1)));
+    return `rgb(${r},${g},${b})`;
+  }
+  function lerp(a,b,t) { return a + (b-a)*t; }
+  function clamp(v,mn,mx) { return Math.max(mn,Math.min(mx,v)); }
+  function drawLegend(vMin, vMax, key) {
+    const canvas = document.getElementById('legendCanvas');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0,0,w,h);
+    for (let x=0;x<w;x++) {
+      const ratio = x/w;
+      ctx.fillStyle = heatColor(ratio);
+      ctx.fillRect(x,0,1,h);
+    }
+  }
+
+  // ── 初始化 ──
+  document.addEventListener('DOMContentLoaded', () => {
+    initFilterOptions();
+    // 排序下拉绑定
+    const sortSel = document.getElementById('sortSelect');
+    if (sortSel) sortSel.addEventListener('change', function(){ currentSort=this.value; applyFilters(); });
+    // 语言切换后刷新排序下拉 option 文本
+    document.addEventListener('langchange', () => {
+      if (!sortSel) return;
+      sortSel.querySelectorAll('option[data-i18n]').forEach(opt => {
+        const key = opt.getAttribute('data-i18n');
+        const t = I18N.t(key);
+        if (t) opt.textContent = t;
+      });
+    });
+  });
+})();
+</script>
+</html>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>化学发展史 · 化学元素周期表</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="manifest" href="./manifest.json" />
+  <script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW registration failed:', err));
+  });
+}
+</script>
+  <style>
+    .history-layout { max-width:1100px; margin:0 auto; padding:80px 24px 60px; }
+    .page-title { font-size:28px; font-weight:800; margin-bottom:6px;
+      background:linear-gradient(135deg,#58a6ff,#39d353); -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent; background-clip:text; }
+    .page-subtitle { color:var(--text-secondary); font-size:14px; margin-bottom:32px; }
+
+    /* 时间线 */
+    .timeline { position:relative; padding-left:32px; }
+    .timeline::before { content:''; position:absolute; left:8px; top:0; bottom:0;
+      width:2px; background:linear-gradient(180deg,var(--accent-blue),var(--accent-cyan),var(--accent-pink)); }
+
+    .timeline-era { margin-bottom:40px; }
+    .era-title { font-size:18px; font-weight:700; color:var(--accent-yellow);
+      margin-bottom:16px; padding:6px 14px; background:rgba(210,153,34,.1);
+      border-left:3px solid var(--accent-yellow); border-radius:0 var(--radius) var(--radius) 0; }
+
+    .timeline-item { position:relative; margin-bottom:24px; }
+    .timeline-dot { position:absolute; left:-28px; top:6px; width:14px; height:14px;
+      border-radius:50%; background:var(--accent-blue); border:2px solid var(--bg-dark);
+      box-shadow:0 0 8px rgba(88,166,255,.5); }
+    .timeline-item.important .timeline-dot { background:var(--accent-pink); width:18px; height:18px;
+      left:-30px; box-shadow:0 0 12px rgba(247,120,186,.6); }
+    .timeline-year { font-size:12px; color:var(--accent-blue); font-weight:700;
+      margin-bottom:4px; }
+    .timeline-card { background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius); padding:14px 16px; transition:var(--transition); }
+    .timeline-card:hover { border-color:var(--accent-blue); box-shadow:0 4px 16px rgba(0,0,0,.4); }
+    .timeline-title { font-size:14px; font-weight:700; color:var(--text-primary); margin-bottom:6px; }
+    .timeline-body { font-size:13px; color:var(--text-secondary); line-height:1.75; }
+    .timeline-body strong { color:var(--accent-orange); }
+    .timeline-tag { display:inline-block; padding:1px 8px; border-radius:10px; font-size:10px;
+      font-weight:600; margin-right:4px; margin-bottom:4px; }
+    .tag-discovery   { background:rgba(88,166,255,.15); color:var(--accent-blue); }
+    .tag-theory      { background:rgba(57,211,83,.15);  color:var(--accent-cyan); }
+    .tag-application { background:rgba(240,136,62,.15); color:var(--accent-orange); }
+    .tag-award       { background:rgba(210,153,34,.15); color:var(--accent-yellow); }
+
+    /* 化学家卡片 */
+    .chemists-section { margin-top:40px; }
+    .section-title { font-size:20px; font-weight:700; color:var(--text-primary);
+      margin-bottom:20px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+    .chemists-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+    .chemist-card { background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius); padding:18px; transition:var(--transition); }
+    .chemist-card:hover { border-color:var(--accent-blue); transform:translateY(-2px);
+      box-shadow:0 8px 24px rgba(0,0,0,.4); }
+    .chemist-name { font-size:15px; font-weight:700; color:var(--text-primary); margin-bottom:2px; }
+    .chemist-name-en { font-size:11px; color:var(--text-muted); margin-bottom:8px; }
+    .chemist-dates { font-size:11px; color:var(--accent-yellow); margin-bottom:8px;
+      display:flex; gap:12px; }
+    .chemist-bio { font-size:12px; color:var(--text-secondary); line-height:1.75; }
+    .chemist-contrib { margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
+    .chemist-contrib-title { font-size:10px; font-weight:700; color:var(--text-muted);
+      text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
+    .contrib-item { font-size:11px; color:var(--text-secondary); padding:3px 0;
+      padding-left:12px; position:relative; }
+    .contrib-item::before { content:'▸'; position:absolute; left:0; color:var(--accent-blue); font-size:9px; }
+    .chemist-award { margin-top:8px; }
+    .award-badge { display:inline-block; background:rgba(210,153,34,.15);
+      color:var(--accent-yellow); font-size:10px; padding:2px 8px; border-radius:10px;
+      border:1px solid rgba(210,153,34,.3); }
+
+    /* 移动端响应式 */
+    @media (max-width: 768px) {
+      .history-layout { padding: 72px 12px 40px; }
+      .page-title { font-size: 22px; }
+      .page-subtitle { font-size: 13px; margin-bottom: 24px; }
+      .timeline { padding-left: 24px; }
+      .timeline::before { left: 5px; }
+      .timeline-dot { left: -21px; width: 12px; height: 12px; }
+      .timeline-item.important .timeline-dot { width: 14px; height: 14px; left: -22px; }
+      .era-title { font-size: 15px; }
+      .timeline-title { font-size: 13px; }
+      .timeline-body { font-size: 12px; }
+      .chemists-grid { grid-template-columns: 1fr; }
+      .section-title { font-size: 17px; }
+    }
+    @media (max-width: 480px) {
+      .history-layout { padding: 64px 8px 32px; }
+      .page-title { font-size: 18px; }
+      .page-subtitle { font-size: 12px; }
+      .timeline { padding-left: 20px; }
+      .timeline::before { left: 3px; }
+      .timeline-dot { left: -18px; width: 10px; height: 10px; }
+      .timeline-item.important .timeline-dot { width: 12px; height: 12px; left: -19px; }
+      .era-title { font-size: 13px; padding: 4px 10px; }
+      .timeline-card { padding: 10px 12px; }
+      .chemist-name { font-size: 13px; }
+      .chemist-bio { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand"><span class="nav-logo">⚛️</span><span class="nav-title" data-i18n="nav.title">化学元素周期表</span></div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link" data-i18n="nav.home">周期表</a>
+    <a href="history.html" class="nav-link active" data-i18n="nav.history">化学发展史</a>
+    <a href="element.html?z=1" class="nav-link" data-i18n="nav.element">元素详情</a>
+  </div>
+  <div class="nav-search">
+    <input id="navSearch" type="text" placeholder="搜索元素…" data-i18n-placeholder="nav.search.short" autocomplete="off"/>
+    <div id="searchDropdown" class="search-dropdown hidden"></div>
+  </div>
+  <button id="langSwitchBtn" class="nav-lang-btn"></button>
+  <script src="js/i18n.js"></script>
+  <script src="js/data-completer.js"></script>
+</nav>
+
+<div class="history-layout">
+  <h1 class="page-title">⏳ 化学发展史</h1>
+  <p class="page-subtitle">从炼金术到量子化学——人类探索物质本质的壮阔历程</p>
+
+  <!-- ===== 时间线 ===== -->
+  <div class="timeline">
+
+    <!-- 远古–中世纪 -->
+    <div class="timeline-era">
+      <div class="era-title">🔥 远古至中世纪（公元前 3000 年 – 17 世纪）</div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">约公元前 3000 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">冶铜、冶铁——金属时代的开始</div>
+          <div class="timeline-body">
+            古埃及、美索不达米亚文明掌握铜的冶炼（Cu₂S + O₂ → 2Cu + SO₂），进入铜器时代；
+            约公元前 1200 年，赫梯人掌握铁矿石冶炼技术，铁器时代开启。
+            <span class="timeline-tag tag-application">冶金</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">约 300–1500 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">炼金术时代——化学的混沌摇篮</div>
+          <div class="timeline-body">
+            阿拉伯炼金术士 <strong>贾比尔（Jabir ibn Hayyan，721–815）</strong>发明了蒸馏、结晶、升华等操作，
+            最早制备了盐酸（HCl）、硝酸（HNO₃）和王水。欧洲炼金术士探索"点石成金"，
+            虽然目标失败，却积累了大量化学操作经验，奠定了实验化学基础。
+            <span class="timeline-tag tag-discovery">实验技术</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1661 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">波义耳《怀疑的化学家》——化学脱离炼金术</div>
+          <div class="timeline-body">
+            英国化学家 <strong>罗伯特·波义耳（Robert Boyle，1627–1691）</strong>出版《怀疑的化学家》，
+            首次提出化学元素的科学定义（不可再分的基本物质），发现波义耳定律（PV = const，等温条件），
+            将化学建立为独立的实验科学。
+            <span class="timeline-tag tag-theory">理论奠基</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 18世纪 -->
+    <div class="timeline-era">
+      <div class="era-title">🌡️ 18 世纪——化学革命</div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1766 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">卡文迪许发现氢气</div>
+          <div class="timeline-body">
+            <strong>亨利·卡文迪许（Henry Cavendish，1731–1810）</strong> 系统研究金属与稀酸反应产生的"可燃空气"（H₂），
+            测定其密度，并于 1783 年证明水是氢和氧的化合物，彻底终结了"水是元素"的古老观念。
+            <span class="timeline-tag tag-discovery">元素发现</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1772–1774 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">舍勒、普利斯特里发现氧气</div>
+          <div class="timeline-body">
+            瑞典化学家 <strong>卡尔·威廉·舍勒（Carl Wilhelm Scheele，1742–1786）</strong> 于 1772 年（未公开发表）、
+            英国化学家 <strong>约瑟夫·普利斯特里（Joseph Priestley，1733–1804）</strong> 于 1774 年先后发现氧气。
+            舍勒还发现了氯（Cl₂）、锰（Mn）、钡（Ba）、钼（Mo）等多种元素，是发现元素最多的化学家之一。
+            <span class="timeline-tag tag-discovery">元素发现</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item important">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1777–1789 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">拉瓦锡——化学革命</div>
+          <div class="timeline-body">
+            <strong>安托万-洛朗·拉瓦锡（Antoine Lavoisier，1743–1794）</strong> 推翻"燃素说"，
+            建立氧化理论（燃烧 = 与氧结合），于 1789 年出版《化学基础》，确立质量守恒定律，
+            系统命名了 33 种元素（首个化学元素表），规范了化学命名，是"现代化学之父"。
+            1794 年大革命中被处决，享年仅 50 岁。
+            <span class="timeline-tag tag-theory">理论革命</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1800 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">伏打发明电池——电化学时代开端</div>
+          <div class="timeline-body">
+            意大利物理学家 <strong>亚历山德罗·伏打（Alessandro Volta，1745–1827）</strong> 发明了伏打堆（锌–铜电池），
+            为电解提供了稳定电源，直接推动了戴维用电解法发现钠、钾、钙等活泼金属。
+            <span class="timeline-tag tag-application">实验工具</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 19世纪 -->
+    <div class="timeline-era">
+      <div class="era-title">⚗️ 19 世纪——元素大发现与周期律</div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1803–1808 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">道尔顿原子论</div>
+          <div class="timeline-body">
+            英国化学家 <strong>约翰·道尔顿（John Dalton，1766–1844）</strong> 提出近代原子论：
+            元素由不可分割的原子组成，同种元素的原子质量相同，化合物由不同原子按整数比结合。
+            这是第一个定量的原子理论，奠定了化学计量学基础。
+            发现了道尔顿色盲症（以自己命名）。
+            <span class="timeline-tag tag-theory">原子理论</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1807–1808 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">戴维发现碱金属和碱土金属</div>
+          <div class="timeline-body">
+            英国化学家 <strong>汉弗里·戴维（Humphry Davy，1778–1829）</strong> 用电解熔融盐的方法，
+            仅在两年内先后发现了钾（K）、钠（Na）、钙（Ca）、镁（Mg）、锶（Sr）、钡（Ba）——6 种新元素，
+            是发现元素数量最多的科学家之一，也是电解法的奠基人。
+            <span class="timeline-tag tag-discovery">6 种元素</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1811–1826 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">阿伏加德罗假说与分子概念</div>
+          <div class="timeline-body">
+            意大利物理学家 <strong>阿伏加德罗（Amedeo Avogadro，1776–1856）</strong> 于 1811 年提出：
+            在相同温度和压力下，等体积的气体含有相同数目的微粒（分子）。
+            提出了"分子"（molecule）的概念，区分原子与分子，后人确定阿伏加德罗常数 Nₐ = 6.022×10²³ mol⁻¹。
+            <span class="timeline-tag tag-theory">分子理论</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item important">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1869 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">门捷列夫发布元素周期表——化学史上最重大成就之一</div>
+          <div class="timeline-body">
+            俄国化学家 <strong>德米特里·门捷列夫（Dmitri Mendeleev，1834–1907）</strong>
+            于 1869 年发布元素周期表，将当时已知的 63 种元素按原子量排列，发现性质周期性变化规律。
+            他大胆在表中留空，预测了镓（Ga）、锗（Ge）、钪（Sc）等未知元素的性质，
+            后来全部被实验证实，成为科学史上最著名的预言之一。
+            同年，德国化学家 <strong>迈尔（Julius Lothar Meyer）</strong> 也独立提出类似体系。
+            <span class="timeline-tag tag-theory">周期律</span>
+            <span class="timeline-tag tag-discovery">预言 3 种元素</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1894–1898 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">拉姆齐发现稀有气体</div>
+          <div class="timeline-body">
+            苏格兰化学家 <strong>威廉·拉姆齐（William Ramsay，1852–1916）</strong>
+            与瑞利勋爵合作，于 1894–1898 年相继发现氩（Ar）、氦（He）、氖（Ne）、氪（Kr）、氙（Xe），
+            并在周期表中为它们增加了第 18 族（原称零族），获 1904 年诺贝尔化学奖。
+            <span class="timeline-tag tag-discovery">5 种稀有气体</span>
+            <span class="timeline-tag tag-award">1904 诺贝尔化学奖</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item important">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1898 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">居里夫妇发现钋和镭</div>
+          <div class="timeline-body">
+            波兰裔法国物理学家 <strong>玛丽·居里（Marie Curie，1867–1934）</strong> 和丈夫
+            <strong>皮埃尔·居里（Pierre Curie，1859–1906）</strong> 发现了钋（Po，以波兰命名）和镭（Ra），
+            开创了放射性研究领域。玛丽·居里两度获诺贝尔奖（1903 年物理学奖、1911 年化学奖），
+            是迄今唯一获两项诺贝尔科学奖的人，也是首位获诺贝尔奖的女性科学家。
+            <span class="timeline-tag tag-discovery">Po、Ra 发现</span>
+            <span class="timeline-tag tag-award">1903 诺贝尔物理学奖 + 1911 诺贝尔化学奖</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 20世纪上半叶 -->
+    <div class="timeline-era">
+      <div class="era-title">⚡ 20 世纪上半叶——原子结构与核化学</div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1911 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">卢瑟福散射实验——原子核的发现</div>
+          <div class="timeline-body">
+            英国物理学家 <strong>欧内斯特·卢瑟福（Ernest Rutherford，1871–1937）</strong>
+            用 α 粒子轰击金箔，发现大角度散射（葡萄干模型无法解释），证明原子中心存在致密的带正电核——原子核，
+            建立了核式原子模型，1919 年又实现了第一个人工核反应（用 α 粒子轰击 N 得到 O 和 H），
+            获 1908 年诺贝尔化学奖（因放射性研究）。
+            <span class="timeline-tag tag-theory">原子核发现</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1913 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">玻尔模型——量子化轨道</div>
+          <div class="timeline-body">
+            丹麦物理学家 <strong>尼尔斯·玻尔（Niels Bohr，1885–1962）</strong>
+            提出氢原子量子化轨道模型，解释了氢原子光谱（巴尔末系等），提出能级概念，
+            获 1922 年诺贝尔物理学奖。玻尔研究所成为量子力学的摇篮，培养了海森堡、泡利等一代量子物理学家。
+            <span class="timeline-tag tag-theory">量子原子模型</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1916 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">路易斯——共价键理论</div>
+          <div class="timeline-body">
+            美国化学家 <strong>吉尔伯特·刘易斯（Gilbert N. Lewis，1875–1946）</strong>
+            提出共价键理论（共用电子对），发明了路易斯结构式，后又提出酸碱的路易斯定义（电子对的给体/受体），
+            奠定了现代化学键理论基础。他被认为是"美国最伟大的化学家"，但从未获得诺贝尔奖（学界争议至今）。
+            <span class="timeline-tag tag-theory">共价键理论</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1909 年 / 1913 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">哈伯—博施法：工业合成氨</div>
+          <div class="timeline-body">
+            德国化学家 <strong>弗里茨·哈伯（Fritz Haber，1868–1934）</strong> 于 1909 年实验室实现合成氨，
+            化学工程师 <strong>卡尔·博施（Carl Bosch，1874–1940）</strong> 于 1913 年实现工业化。
+            哈伯-博施法每年固氮 1.8 亿吨，支撑全球约半数人口的粮食生产，被称为"用空气制面包"。
+            哈伯获 1918 年诺贝尔化学奖，博施获 1931 年诺贝尔化学奖。
+            但哈伯也是一战化学武器（氯气）的主要推动者，是"天使与魔鬼"并存的争议人物。
+            <span class="timeline-tag tag-application">工业合成氨</span>
+            <span class="timeline-tag tag-award">1918 诺贝尔化学奖（哈伯）</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item important">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1938 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">核裂变的发现</div>
+          <div class="timeline-body">
+            德国化学家 <strong>奥托·哈恩（Otto Hahn，1879–1968）</strong> 和施特拉斯曼用中子轰击铀，
+            产物中发现钡——这正是铀核分裂的证据。
+            <strong>莉泽·迈特纳（Lise Meitner，1878–1968）</strong> 和侄子弗里施给出了理论解释，
+            计算出裂变释放能量（约 200 MeV/次）。哈恩获 1944 年诺贝尔化学奖，
+            迈特纳因性别和种族歧视未获奖，成为科学史上最大的遗憾之一。
+            <span class="timeline-tag tag-discovery">核裂变</span>
+            <span class="timeline-tag tag-award">1944 诺贝尔化学奖（哈恩）</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 20世纪下半叶 -->
+    <div class="timeline-era">
+      <div class="era-title">🧬 20 世纪下半叶——量子化学与新材料</div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1954 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">鲍林——化学键与蛋白质结构</div>
+          <div class="timeline-body">
+            美国化学家 <strong>莱纳斯·鲍林（Linus Pauling，1901–1994）</strong> 提出电负性标度、
+            共振理论、杂化轨道理论，解释了有机分子结构；1951 年发现蛋白质的 α-螺旋和 β-折叠二级结构。
+            获 1954 年诺贝尔化学奖（化学键研究），又于 1962 年因反对核武器测试获诺贝尔和平奖，
+            是继居里夫人后第二位两次获诺贝尔奖的人。
+            <span class="timeline-tag tag-theory">化学键理论</span>
+            <span class="timeline-tag tag-award">1954 诺贝尔化学奖 + 1962 和平奖</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">1985 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">富勒烯 C₆₀ 的发现</div>
+          <div class="timeline-body">
+            英国化学家 <strong>哈里·克罗托（Harry Kroto，1939–2016）</strong>，美国化学家
+            <strong>理查德·斯莫利（Richard Smalley，1943–2005）</strong> 和 <strong>罗伯特·柯尔（Robert Curl，1933–2022）</strong>
+            在模拟星际碳尘的实验中发现了 C₆₀ 分子（足球状，60 个碳原子），命名为巴基球，
+            开创了碳纳米材料科学，获 1996 年诺贝尔化学奖。
+            <span class="timeline-tag tag-discovery">富勒烯</span>
+            <span class="timeline-tag tag-award">1996 诺贝尔化学奖</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 21世纪 -->
+    <div class="timeline-era">
+      <div class="era-title">🌐 21 世纪——纳米材料与绿色化学</div>
+
+      <div class="timeline-item important">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2004 年</div>
+        <div class="timeline-card">
+          <div class="timeline-title">石墨烯的发现</div>
+          <div class="timeline-body">
+            英国曼彻斯特大学 <strong>安德烈·盖姆（Andre Geim，1958–）</strong> 和
+            <strong>康斯坦丁·诺沃肖洛夫（Konstantin Novoselov，1974–）</strong>
+            用胶带剥离石墨的方式首次制备出单层石墨烯，验证了其超高导电性（迁移率是硅的 100 倍）、
+            超高强度（最强已知材料）和透明性。获 2010 年诺贝尔物理学奖。
+            <span class="timeline-tag tag-discovery">石墨烯</span>
+            <span class="timeline-tag tag-award">2010 诺贝尔物理学奖</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2010 年代–至今</div>
+        <div class="timeline-card">
+          <div class="timeline-title">绿色化学与可持续发展</div>
+          <div class="timeline-body">
+            "绿色化学"（Green Chemistry）概念由美国 EPA 于 1990 年代提出，2023 年诺贝尔化学奖授予
+            量子点（Quantum Dots）的发现，标志着纳米化学进入主流应用。
+            电动汽车、氢能、CO₂ 捕集利用成为化学最热门研究方向，化学正从"污染制造者"转变为"问题解决者"。
+            <span class="timeline-tag tag-application">绿色化学</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /timeline -->
+
+  <!-- ===== 化学家详情 ===== -->
+  <div class="chemists-section">
+    <h2 class="section-title">🧑‍🔬 重要化学家生平与贡献</h2>
+    <div class="chemists-grid" id="chemistsGrid"></div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  ⚛️ 化学元素周期表个人博客 · 数据来源：IUPAC 2021 · 仅供学习参考
+</footer>
+
+<script src="data/elements.js"></script>
+<script src="js/search.js"></script>
+<script>
+const CHEMISTS = [
+  {
+    name:"安托万-洛朗·拉瓦锡", nameEn:"Antoine-Laurent Lavoisier",
+    born:"1743-08-26", died:"1794-05-08", nationality:"🇫🇷 法国",
+    bio:"现代化学之父。出生于巴黎贵族家庭，学法律但转向科学。其精密实验推翻了统治近一个世纪的燃素理论，建立了氧化学说，阐明了燃烧的本质。1789 年出版《化学基础论》，为化学奠定了定量科学的基础，确立了质量守恒定律。1794 年法国大革命中以"包税人"身份被送上断头台，时年 50 岁。拿破仑曾感叹：'砍下这颗头颅只需一瞬间，但百年也未必能生出这样的头颅。'",
+    contribs:["推翻燃素说，建立氧化学说","确立质量守恒定律（化学反应前后质量不变）","出版《化学基础论》，建立化学命名体系","首个系统化学元素列表（33 种元素）","定量分析水的组成（H₂O = 氢 + 氧）"],
+    awards:[]
+  },
+  {
+    name:"德米特里·门捷列夫", nameEn:"Dmitri Mendeleev",
+    born:"1834-02-08", died:"1907-02-02", nationality:"🇷🇺 俄国",
+    bio:"生于西伯利亚托博尔斯克，父早逝，母亲带他穿越西伯利亚去圣彼得堡求学。1869 年 3 月 6 日向俄国化学学会展示了元素周期表，按原子量排列 63 种元素，周期性变化规律清晰可见。他大胆预测了镓（eka-铝）、锗（eka-硅）、钪（eka-硼）的性质，后来全部被实验证实，令科学界震惊。门捷列夫的嗅觉极灵，为俄国制定了早期石油工业标准，还撰写了重要的农业化学著作，是百科全书式学者。",
+    contribs:["1869 年发布元素周期律和元素周期表","成功预测镓、锗、钪等未发现元素的性质","出版 6 卷本《化学原理》教科书","推动俄国近代工业化学发展","提出溶液的水合理论"],
+    awards:["科普利奖章（1905）"]
+  },
+  {
+    name:"玛丽·居里", nameEn:"Marie Skłodowska-Curie",
+    born:"1867-11-07", died:"1934-07-04", nationality:"🇵🇱🇫🇷 波兰/法国",
+    bio:"出生于波兰华沙，在女性几乎无法接受高等教育的时代，她漂洋过海到巴黎索邦大学求学，靠家教和奖学金维持生计。与丈夫皮埃尔·居里共同研究铀矿放射性，提出放射性是原子性质（而非化学反应），1898 年从数吨沥青铀矿中分离出钋和镭。1906 年皮埃尔意外车祸去世，玛丽继续独立研究并接任丈夫的教授职位，是巴黎大学第一位女教授。一战期间她驾驶移动 X 光车到前线，亲自为 100 万伤兵进行检查。晚年因长期接触放射性物质患再生障碍性贫血去世。",
+    contribs:["发现钋（Po）和镭（Ra）","提出放射性是原子本身的属性（而非化学键）","发展放射性测量技术（验电器法）","建立居里研究所（巴黎、华沙）","一战 X 光医疗车队（共 20 辆'小居里'）"],
+    awards:["诺贝尔物理学奖（1903）","诺贝尔化学奖（1911）——迄今唯一两项诺贝尔科学奖获得者"]
+  },
+  {
+    name:"弗里茨·哈伯", nameEn:"Fritz Haber",
+    born:"1868-12-09", died:"1934-01-29", nationality:"🇩🇪 德国",
+    bio:"德国布雷斯劳（今波兰弗罗茨瓦夫）人。1909 年在实验室实现了氮与氢合成氨，突破了千年来人类无法人工固氮的难题。与工程师博施合作，1913 年将合成氨工业化，从此人工氮肥供应不再受限，解决了全球粮食短缺问题。然而，他也是一战化学武器的设计者，亲自主导了 1915 年伊普尔氯气攻击，被批评者称为'化学武器之父'。获诺贝尔化学奖后因化学武器争议而饱受质疑。纳粹上台后，因犹太血统被迫离开德国，流亡途中病逝。",
+    contribs:["发明哈伯-博施氨合成法（N₂ + 3H₂ → 2NH₃）","奠定现代化肥工业基础（养活了世界半数人口）","研究燃料电池和腐蚀电化学","一战化学武器研制（争议）","提出亥姆霍兹方程在热力学中的应用"],
+    awards:["诺贝尔化学奖（1918）"]
+  },
+  {
+    name:"莱纳斯·鲍林", nameEn:"Linus Pauling",
+    born:"1901-02-28", died:"1994-08-19", nationality:"🇺🇸 美国",
+    bio:"美国俄勒冈波特兰人，被认为是 20 世纪最重要的化学家之一。将量子力学应用于化学键理论，提出共振理论、杂化轨道理论和电负性标度，解释了有机分子的结构与性质。1951 年他利用 X 射线衍射数据提出蛋白质的 α-螺旋和 β-折叠二级结构，为后来 DNA 双螺旋的发现奠定了方法论基础（虽然他本人在 DNA 结构竞争中输给了沃森和克里克）。晚年投身核裁军运动，其倡议书获 1.1 万名科学家联署，直接推动《禁止核武器试验条约》（1963）的签署。是继居里夫人后第二位获两项诺贝尔奖的人。",
+    contribs:["提出化学键本质：共价键、离子键的量子理论","创立电负性（Pauling Scale）概念","提出杂化轨道理论（sp, sp², sp³）","发现蛋白质 α-螺旋和 β-折叠结构","出版《化学键的本质》（1939），影响数代化学家"],
+    awards:["诺贝尔化学奖（1954）——化学键研究","诺贝尔和平奖（1962）——反核武器运动"]
+  },
+  {
+    name:"门捷列夫（独立发现者）", nameEn:"Julius Lothar Meyer",
+    born:"1830-08-19", died:"1895-04-11", nationality:"🇩🇪 德国",
+    bio:"德国奥尔登堡人，化学家和医生。1864 年出版《现代化学理论》，其中已包含早期的周期律雏形；1870 年独立发表了与门捷列夫几乎相同的元素周期表，以原子体积与原子量的周期性曲线最为著名（Meyer 原子体积曲线）。由于晚于门捷列夫公开发表，通常被列为周期律的第二发现者。与门捷列夫共同获得 1882 年英国皇家化学学会最高荣誉科普利奖章。",
+    contribs:["独立发现元素周期律（与门捷列夫同期）","绘制原子体积-原子量周期曲线","系统研究有机物的分子量","《现代化学理论》教科书影响广泛"],
+    awards:["科普利奖章（1882，与门捷列夫共同）"]
+  },
+  {
+    name:"欧内斯特·卢瑟福", nameEn:"Ernest Rutherford",
+    born:"1871-08-30", died:"1937-10-19", nationality:"🇳🇿🇬🇧 新西兰/英国",
+    bio:"出生于新西兰纳尔逊一个农场，靠奖学金赴英国卡文迪许实验室跟随汤姆逊（电子发现者）学习。1899 年区分了 α 射线和 β 射线，1909 年 α 粒子散射实验发现原子核，彻底推翻了汤姆逊的'葡萄干蛋糕'原子模型，建立了核式原子模型——这是 20 世纪物理学最重要的实验之一。1919 年实现了第一个人工核反应：用 α 粒子轰击氮核产生氧和质子，开创了核物理学。卡文迪许实验室在他领导下培养了大量诺贝尔奖得主。他曾打趣：'所有科学要么是物理，要么是集邮。'",
+    contribs:["发现并命名 α 射线、β 射线","α 粒子散射实验证明原子核的存在（1911）","建立核式原子模型","第一个人工核反应：¹⁴N + α → ¹⁷O + p（1919）","放射性半衰期概念的建立"],
+    awards:["诺贝尔化学奖（1908）——放射性研究"]
+  },
+  {
+    name:"威廉·拉姆齐", nameEn:"William Ramsay",
+    born:"1852-10-02", died:"1916-07-23", nationality:"🇬🇧 英国",
+    bio:"苏格兰格拉斯哥人，化学家。与物理学家瑞利勋爵注意到从空气中去除 O₂ 和 N₂ 后仍有少量气体，1894 年发现了氩（Ar）。随后系统研究，先后分离出氦（He，从铀矿中）、氖（Ne）、氪（Kr）、氙（Xe）。还与弗雷德里克·索迪合作确认了放射性气体（氡，Rn）。他在 4 年内发现了 5 种新元素，在周期表中填满了第 18 族，是发现稀有气体族的奠基人。",
+    contribs:["发现并分离氩、氦、氖、氪、氙","确立稀有气体作为周期表第 18 族","精确测定稀有气体原子量","从铀矿石中分离出地球上的氦","合作发现氡（放射性稀有气体）"],
+    awards:["诺贝尔化学奖（1904）"]
+  },
+];
+
+function renderChemists() {
+  const grid = document.getElementById('chemistsGrid');
+  grid.innerHTML = CHEMISTS.map(c => `
+    <div class="chemist-card">
+      <div class="chemist-name">${c.name}</div>
+      <div class="chemist-name-en">${c.nameEn}</div>
+      <div class="chemist-dates">
+        <span>📅 ${c.born.slice(0,4)} — ${c.died.slice(0,4)}</span>
+        <span>${c.nationality}</span>
+      </div>
+      <div class="chemist-bio">${c.bio}</div>
+      <div class="chemist-contrib">
+        <div class="chemist-contrib-title">主要贡献</div>
+        ${c.contribs.map(t => `<div class="contrib-item">${t}</div>`).join('')}
+      </div>
+      ${c.awards.length ? `
+      <div class="chemist-award">
+        ${c.awards.map(a => `<span class="award-badge">🏆 ${a}</span>`).join('')}
+      </div>` : ''}
+    </div>
+  `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', renderChemists);
+</script>
+</body>
+</html>

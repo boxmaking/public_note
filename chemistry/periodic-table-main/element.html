@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>元素详情 · 化学元素周期表</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="stylesheet" href="css/element.css"/>
+  <link rel="manifest" href="./manifest.json" />
+  <script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('SW registered:', reg.scope))
+      .catch(err => console.log('SW registration failed:', err));
+  });
+}
+</script>
+  <!-- marked.js Markdown渲染（多CDN容错） -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js" onerror="var s=document.createElement('script');s.src='https://unpkg.com/marked@9/marked.min.js';document.head.appendChild(s);"></script>
+  <!-- KaTeX 数学公式渲染 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js"></script>
+  <!-- Three.js 3D晶体结构渲染 -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160/examples/js/controls/OrbitControls.js"></script>
+  <!-- Chart.js 图表渲染（p5-trends / p5-abundance 需要） -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js" onerror="var s=document.createElement('script');s.src='https://unpkg.com/chart.js@4/dist/chart.umd.min.js';document.head.appendChild(s);"></script>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="nav-logo">⚛️</span>
+    <span class="nav-title" data-i18n="nav.title">化学元素周期表</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link" data-i18n="nav.home">周期表</a>
+    <a href="history.html" class="nav-link" data-i18n="nav.history">化学发展史</a>
+    <a href="element.html" class="nav-link active" data-i18n="nav.element">元素详情</a>
+  </div>
+  <div class="nav-search">
+    <input id="navSearch" type="text" placeholder="搜索元素..." data-i18n-placeholder="nav.search.short" autocomplete="off"/>
+    <div id="searchDropdown" class="search-dropdown hidden"></div>
+  </div>
+  <button id="langSwitchBtn" class="nav-lang-btn"></button>
+  <script defer src="js/i18n.js"></script>
+  <script defer src="js/data-completer.js"></script>
+</nav>
+
+<!-- 主体 -->
+<div class="detail-layout">
+
+    <!-- ===== 侧边栏（导航栏） ===== -->
+  <aside class="detail-sidebar">
+    <!-- 返回按钮 -->
+    <a href="index.html" class="back-btn" data-i18n="detail.back">← 返回周期表</a>
+
+    <!-- 元素英雄卡 -->
+    <div id="elHeroCard" class="el-hero-card">
+      <span id="elHeroRadio" class="el-hero-radio hidden">☢</span>
+      <span id="elHeroZ" class="el-hero-z">—</span>
+      <span id="elHeroSymbol" class="el-hero-symbol">?</span>
+      <span id="elHeroName" class="el-hero-name">加载中…</span>
+      <span id="elHeroNameEn" class="el-hero-name-en"></span>
+    </div>
+
+    <!-- 前/后元素导航 -->
+    <div class="nav-btns">
+      <a id="btnPrev" href="#" class="nav-btn" onclick="var z=parseInt(new URLSearchParams(location.search).get('z')||'1',10);if(z>1)location.href='element.html?z='+(z-1);return false;">← 上一个</a>
+      <a id="btnNext" href="#" class="nav-btn" onclick="var z=parseInt(new URLSearchParams(location.search).get('z')||'1',10);if(z&lt;118)location.href='element.html?z='+(z+1);return false;">下一个 →</a>
+    </div>
+
+    <!-- 角色视图切换器由 role-viewer.js 自动插入到这里 -->
+
+    <!-- 维度导航目录 -->
+    <nav class="dimension-nav" id="dimensionNav">
+      <div class="dimension-nav-title">📑 维度导航</div>
+      <ul id="dimensionNavList" class="dimension-nav-list"></ul>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════════
+         旧版数据源容器（隐藏）：保留所有原 ID，供现有 JS 继续渲染
+         页面初始化后会通过 organizeDimensionLayout() 搬运到右侧 section
+         ════════════════════════════════════════════════════ -->
+    <div id="legacySidebarSource" style="display:none">
+
+      <!-- 分组1：核心数据 -->
+      <div class="sidebar-group" data-group="core">
+        <div class="sidebar-group-body">
+          <div class="props-card props-inline"><div class="props-card-title">基本属性</div><div id="propsBody"></div></div>
+          <div class="props-card props-inline"><div class="props-card-title">物理性质</div><div id="physPropsBody"></div></div>
+          <div class="props-card props-inline"><div class="props-card-title">原子与晶体</div><div id="crystalPropsBody"></div>
+            <button class="view-3d-btn" id="btnView3D" onclick="toggle3DView()" style="margin-top:8px;width:100%;padding:6px 0;border-radius:6px;border:1.5px solid var(--accent-blue);background:transparent;color:var(--accent-blue);cursor:pointer;font-size:13px;font-weight:600">🌐 查看3D晶体结构</button></div>
+          <div class="props-card props-inline"><div class="props-card-title">材料与工程</div><div id="materialPropsBody"></div></div>
+          <div class="props-card props-inline"><div class="props-card-title">热力学数据 (298 K)</div><div id="thermoPropsBody"></div></div>
+          <div class="props-card props-inline"><div class="props-card-title">电化学数据</div><div id="electroPropsBody"></div></div>
+        </div>
+      </div>
+
+      <!-- 分组2：安全与工业 -->
+      <div class="sidebar-group" data-group="safety">
+        <div class="sidebar-group-body">
+          <div class="props-card props-inline" id="ghsCard"><div class="props-card-title">⚠️ GHS 安全分类</div><div id="ghsBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+          <div class="props-card props-inline" id="toxicCard"><div class="props-card-title">🧪 毒理与职业暴露</div><div id="toxicBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+          <div class="props-card props-inline" id="industrialCard"><div class="props-card-title">🏭 工业生产数据</div><div id="industrialBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+          <div class="props-card props-inline" id="emergencyCard"><div class="props-card-title">🚑 应急处置</div><div id="emergencyBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+        </div>
+      </div>
+
+      <!-- 分组3：科研数据 -->
+      <div class="sidebar-group" data-group="research">
+        <div class="sidebar-group-body">
+          <div class="props-card props-inline" id="spectralCard"><div class="props-card-title">🔬 光谱数据</div><div id="spectralBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+          <div class="props-card props-inline" id="advCrystalCard"><div class="props-card-title">💎 先进晶体学</div><div id="advCrystalBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+          <div class="props-card props-inline" id="researchCard"><div class="props-card-title">🔬 研究前沿</div><div id="researchBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+          <div class="props-card props-inline" id="orbitalCard"><div class="props-card-title">🌀 电子轨道 3D</div>
+            <div style="padding:12px 14px;text-align:center">
+              <button id="orbitalOpenBtn" style="padding:10px 22px;border-radius:10px;background:linear-gradient(135deg,#a371f7,#58a6ff);color:#fff;border:none;cursor:pointer;font-weight:600;font-size:13px;box-shadow:0 4px 14px rgba(163,113,247,0.35);transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px rgba(163,113,247,0.45)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 14px rgba(163,113,247,0.35)'">🔮 查看 3D 轨道</button>
+              <p style="margin-top:10px;font-size:11.5px;color:var(--text-muted)">可视化 s / p / d / f 轨道形状 · 支持鼠标拖拽旋转</p></div></div>
+          <div class="props-card props-inline" id="trendCard" style="display:none"><div class="props-card-title">📈 属性趋势图</div><div id="trendBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+          <div class="props-card props-inline" id="abundanceCard" style="display:none"><div class="props-card-title">🌍 元素丰度对比</div><div id="abundanceBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+          <div class="props-card props-inline" id="relationsCard" style="display:none"><div class="props-card-title">🔗 元素关系图</div><div id="relationsBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+          <div class="props-card props-inline" id="compoundsCard" style="display:none"><div class="props-card-title">🧪 重要化合物与衍生物</div><div id="compoundsBody"><p style="color:var(--text-muted)">加载中…</p></div></div>
+        </div>
+      </div>
+
+      <!-- 分组4：同位素 & 标识符 -->
+      <div class="sidebar-group" data-group="isotope">
+        <div class="sidebar-group-body">
+          <div class="props-card props-inline"><div class="props-card-title">同位素</div><div id="isotopeSummary"></div></div>
+          <div class="props-card props-inline"><div class="props-card-title">标识符与丰度</div><div id="idPropsBody"></div></div>
+          <div class="electron-vis">
+            <div class="electron-vis-title">核外电子排布</div>
+            <div id="electronShells" class="electron-shells"></div>
+          </div>
+          <div class="props-card"><div class="props-card-title">数据来源引用</div><div id="sourcesBody" style="font-size:10px;color:var(--text-muted);padding:8px 14px;line-height:1.6"></div></div>
+        </div>
+      </div>
+
+    </div><!-- /legacySidebarSource -->
+  </aside>
+
+  <!-- ===== 主内容（按维度分 Section） ===== -->
+  <main class="detail-main" id="detailMain">
+
+    <!-- 搜索框 -->
+    <section id="section-search" class="dimension-section">
+      <div class="search-bar">
+        <div class="search-bar-title">🔍 搜索</div>
+        <div class="search-row">
+          <input id="siteSearchInput" class="search-input" type="text" placeholder="在本站搜索元素（名称/符号/序号）…" autocomplete="off"/>
+          <button class="search-btn search-btn-site" onclick="doSiteSearch()">站内搜索</button>
+          <button class="search-btn search-btn-web" onclick="doWebSearch()">🌐 站外搜索</button>
+        </div>
+        <div class="search-shortcuts" id="searchShortcuts">
+          <!-- 动态生成快速跳转链接 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3D 晶体结构（默认隐藏，由按钮触发） -->
+    <section id="section-crystal3d" class="dimension-section hidden" data-dimension="crystal3d">
+      <div id="crystal3Dbody" class="content-card">
+        <h3>💎 3D 晶体结构</h3>
+        <div id="crystal3DContainer" style="width:100%;height:400px;background:#0a0a1a;border-radius:8px;position:relative;overflow:hidden">
+          <canvas id="crystalCanvas" style="width:100%;height:100%"></canvas>
+          <div id="crystalInfo" style="position:absolute;top:8px;left:12px;font-size:12px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.5);padding:4px 10px;border-radius:6px"></div>
+          <div id="crystalLlegend" style="position:absolute;bottom:8px;left:12px;font-size:11px;color:rgba(255,255,255,.6)"></div>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button onclick="resetCrystalView()" style="padding:4px 12px;border-radius:6px;border:1px solid var(--border-primary);background:var(--bg-input);color:var(--text-primary);cursor:pointer;font-size:12px">重置视角</button>
+          <button onclick="toggleCrystalAutoRotate()" id="btnAutoRotate" style="padding:4px 12px;border-radius:6px;border:1px solid var(--border-primary);background:var(--bg-input);color:var(--text-primary);cursor:pointer;font-size:12px">自动旋转：开</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 核心数据 -->
+    <section id="section-core" class="dimension-section" data-dimension="core">
+      <h2 class="section-title">📊 核心数据</h2>
+      <div class="section-grid" id="coreGrid"></div>
+    </section>
+
+    <!-- 安全与工业 -->
+    <section id="section-safety" class="dimension-section" data-dimension="safety">
+      <h2 class="section-title">⚠️ 安全与工业</h2>
+      <div class="section-grid" id="safetyGrid"></div>
+    </section>
+
+    <!-- 科研数据 -->
+    <section id="section-research" class="dimension-section" data-dimension="research">
+      <h2 class="section-title">🔬 科研数据</h2>
+      <div class="section-grid" id="researchGrid"></div>
+    </section>
+
+    <!-- 同位素与标识符 -->
+    <section id="section-isotope" class="dimension-section" data-dimension="isotope">
+      <h2 class="section-title">⚛️ 同位素与标识符</h2>
+      <div id="isotopeGrid"></div>
+      <!-- 同位素详细表容器（保持原 ID，供 buildIsotopeSection 填充） -->
+      <div id="isotopeCard" class="content-card" style="margin-top:16px">
+        <h3>🔬 同位素数据</h3>
+        <div id="isotopeTableWrap" style="overflow-x:auto">
+          <p style="color:var(--text-muted)">加载中…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 行业与交叉学科数据（P6/P7） -->
+    <section id="section-p6p7" class="dimension-section" data-dimension="p6p7">
+      <h2 class="section-title">🌐 行业与交叉学科数据</h2>
+      <div class="section-grid" id="p6p7Grid"></div>
+    </section>
+
+    <!-- 综合详情（Markdown） -->
+    <section id="section-detail" class="dimension-section" data-dimension="detail">
+      <h2 class="section-title">📖 综合详情</h2>
+      <div class="content-card">
+        <div id="mdContent" class="md-content">
+          <p style="color:var(--text-muted);text-align:center;padding:32px">加载元素详情中…</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- 页脚 -->
+<footer class="site-footer">
+  <p>⚛️ 化学元素周期表 · 专业版 v2.0 · 数据来源：IUPAC CIAAW 2024, CRC Handbook 105th ed., NIST Chemistry WebBook, PubChem NIH</p>
+</footer>
+
+<!-- 脚本 -->
+<script defer src="data/elements.js"></script>
+<script defer src="data/p3-safety.js"></script>
+<script defer src="data/p4-spectral.js"></script>
+<script defer src="data/p4-crystal.js"></script>
+<script defer src="data/p4-research.js"></script>
+<script defer src="data/abundance-data.js"></script>
+  <script defer src="data/element-details.js"></script>
+  <script defer src="js/element-details-enhanced.js"></script>
+  <script defer src="js/element-details-enhanced-v3.js"></script>
+  <script defer src="js/element-details-v4-patch.js"></script>
+  <script defer src="js/element-details-v5-patch.js"></script>
+  <script defer src="js/element-details-v6-patch.js"></script>
+  <script defer src="js/crystal-structure-svg.js"></script>
+  <script defer src="js/application-diagrams.js"></script>
+  <script defer src="js/equation-balancing-enhanced.js"></script>
+  <script defer src="js/equation-balancing-50.js"></script>
+  <script defer src="js/data-validation-enhanced.js"></script>
+<script defer src="data/compounds.js"></script>
+<script defer src="data/crystal-structures.js"></script>
+<!-- P6/P7 维度数据已改为按需懒加载（见 js/p6p7-loader.js，首屏不再同步加载约 1.85MB） -->
+<script defer src="js/search.js"></script>
+<script defer src="js/p3-render.js"></script>
+<script defer src="js/p4-renderer.js"></script>
+<script defer src="js/p5-orbital.js"></script>
+<script defer src="js/p5-trends.js"></script>
+<script defer src="js/p5-abundance.js"></script>
+<script defer src="js/p5-relations.js"></script>
+<script defer src="js/role-viewer.js"></script>
+<script defer src="js/p6p7-loader.js"></script>
+<!-- Three.js 已在 head 中加载 -->
+<script>
+/* ═══ 全局错误捕获（帮助诊断运行时问题） ═══ */
+window.addEventListener("error", function(e) {
+  console.error("[JS Error]", e.message, e.filename, ":", e.lineno);
+  var d = document.getElementById("jsErrorAlert");
+  if (!d) { d = document.createElement("div"); d.id = "jsErrorAlert";
+    d.style.cssText = "position:fixed;top:10px;right:10px;z-index:9999;background:#d32f2f;color:#fff;padding:8px 16px;border-radius:8px;font-size:12px;max-width:420px";
+    document.body.appendChild(d); }
+  d.innerHTML = "<strong>JS错误:</strong> " + e.message + " (" + e.filename + ":" + e.lineno + ")";
+});
+window.addEventListener("unhandledrejection", function(e) {
+  console.error("[Promise Error]", e.reason);
+});
+
+/* ─── 工具函数 ─── */
+function getParam(key) {
+  return new URLSearchParams(window.location.search).get(key);
+}
+function fmt(v, unit) {
+  if (v === null || v === undefined) return '<span style="color:var(--text-muted)">—</span>';
+  if (typeof v === 'number') {
+    // 科学计数法处理
+    if (Math.abs(v) < 0.001 || Math.abs(v) >= 1e12) return v.toExponential(3) + (unit || '');
+    // 小数点位数
+    var s = Math.abs(v) < 1 ? v.toFixed(6) : v.toFixed(2);
+    // 去掉末尾多余的0
+    if (s.indexOf('.') > -1) s = s.replace(/0+$/, '').replace(/\.$/, '');
+    return s + (unit || '');
+  }
+  return v + (unit || '');
+}
+
+const SHELL_NAMES = ['K','L','M','N','O','P','Q'];
+
+/* ── 异步加载 Markdown 详情（优先加载 details/{symbol}.md） ── */
+function loadMarkdownAsync(el) {
+  var mdUrl = 'details/' + el.symbol + '.md';
+  fetch(mdUrl)
+    .then(function(resp) {
+      if (!resp.ok) throw new Error('File not found');
+      return resp.text();
+    })
+    .then(function(mdRaw) {
+      renderMarkdown(mdRaw);
+    })
+    .catch(function() {
+      // fetch 失败，保持原有的同步加载内容（已有 getElementMarkdown 渲染结果）
+      // 如果原有内容也没有，显示提示
+      var current = document.getElementById('mdContent').innerHTML;
+      if (!current || current.indexOf('加载元素详情中') >= 0 || current.trim() === '') {
+        document.getElementById('mdContent').innerHTML =
+          '<p style="color:var(--text-muted);text-align:center;padding:32px">暂无该元素的详细介绍。</p>';
+      }
+    });
+}
+
+function renderMarkdown(mdRaw) {
+  if (typeof marked !== 'undefined' && marked.parse) {
+    marked.setOptions({ breaks: true, gfm: true });
+    try {
+      document.getElementById('mdContent').innerHTML = marked.parse(mdRaw);
+    } catch(e) {
+      document.getElementById('mdContent').innerHTML =
+        '<pre style="white-space:pre-wrap;color:var(--text-primary);padding:16px">' +
+        mdRaw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre>';
+    }
+  } else {
+    document.getElementById('mdContent').innerHTML =
+      '<pre style="white-space:pre-wrap;color:var(--text-primary);padding:16px">' +
+      mdRaw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre>';
+  }
+
+  // 旧版 sidebar 目录已移除，由 buildDimensionNav() 提供维度级导航
+
+  // KaTeX 渲染
+  try {
+    if (typeof renderMathInElement === 'function') {
+      renderMathInElement(document.getElementById('mdContent'), {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      });
+    }
+  } catch(e) {}
+}
+
+/* ── 中文映射常量（element.html 内联脚本需要） ── */
+var CATEGORY_CN = {
+  'alkali-metal':'碱金属', 'alkaline-earth':'碱土金属', 'transition':'过渡金属',
+  'post-transition':'后过渡金属','metalloid':'类金属(准金属)','nonmetal':'非金属',
+  'halogen':'卤素','noble-gas':'稀有气体','lanthanide':'镧系元素',
+  'actinide':'锕系元素','unknown':'未知'
+};
+var CRYSTAL_CN = {
+  'cubic':'立方晶系','fcc':'面心立方(FCC)','bcc':'体心立方(BCC)',
+  'hcp':'六方密堆积(HCP)','diamond':'金刚石结构','orthorhombic':'正交晶系',
+  'tetragonal':'四方晶系','rhombohedral':'三方晶系','hexagonal':'六方晶系',
+  'monoclinic':'单斜晶系','triclinic':'三斜晶系','unknown':'未知'
+};
+
+async function init() {
+  var z = parseInt(getParam('z') || '1', 10);
+  if (isNaN(z) || z < 1 || z > 118) z = 1;
+
+  var el = ELEMENTS.find(function(e) { return e.z === z; });
+  if (!el) { document.getElementById('mdContent').innerHTML = '<p>未找到该元素。</p>'; return; }
+
+  /* ── 绑定 3D 轨道按钮（el 必须在此作用域内） ── */
+  (function(_el) {
+    var btn = document.getElementById('orbitalOpenBtn');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        if (typeof createOrbitalPanel === 'function') {
+          createOrbitalPanel(_el);
+        } else {
+          alert('3D 库加载中，请稍后再试');
+        }
+      });
+    }
+  })(el);
+
+  /* ── 标题 ── */
+  document.title = el.name + '（' + el.symbol + '）· 化学元素周期表';
+
+  /* ── 英雄卡 ── */
+  var heroCard = document.getElementById('elHeroCard');
+  heroCard.className = 'el-hero-card cat-' + el.category;
+  document.getElementById('elHeroZ').textContent = el.z;
+  document.getElementById('elHeroSymbol').textContent = el.symbol;
+  document.getElementById('elHeroName').textContent = el.name;
+  document.getElementById('elHeroNameEn').textContent = el.nameEn;
+  if (el.radioactive) document.getElementById('elHeroRadio').classList.remove('hidden');
+
+  /* ── 基本属性表 ── */
+  var catCN   = (CATEGORY_CN && CATEGORY_CN[el.category]) || el.category;
+  var stateCN = {solid:'固态',liquid:'液态',gas:'气态',synthetic:'人造元素'}[el.state] || el.state;
+  document.getElementById('propsBody').innerHTML = [
+    ['原子序数', el.z],
+    ['符号', el.symbol],
+    ['英文名', el.nameEn],
+    ['原子量', fmt(el.mass, ' u')],
+    ['类别', catCN],
+    ['常温状态', stateCN],
+    ['放射性', el.radioactive ? '☢ 是' : '否'],
+    ['周期', '第 ' + el.period + ' 周期'],
+    ['族', '第 ' + el.group + ' 族'],
+  ].map(function(p){ return '<div class="prop-row"><span class="prop-label">'+p[0]+'</span><span class="prop-value">'+p[1]+'</span></div>'; }).join('');
+
+  /* ── 物理性质 ── */
+  document.getElementById('physPropsBody').innerHTML = [
+    ['熔点', fmt(el.meltingPoint, ' °C')],
+    ['沸点', fmt(el.boilingPoint, ' °C')],
+    ['密度 (20°C)', fmt(el.density, ' g/cm³')],
+    ['电负性 (Pauling)', el.electronegativity !== null ? el.electronegativity.toFixed(2) : '<span style="color:var(--text-muted)">—</span>'],
+    ['第一电离能', fmt(el.ionizationEnergy, ' kJ/mol')],
+    ['电子亲和能', fmt(el.electronAffinity, ' kJ/mol')],
+    ['常见氧化态', el.oxidationStates && el.oxidationStates.length > 0 ? el.oxidationStates.map(function(s){return (s>0?'+':'')+s;}).join(', ') : '<span style="color:var(--text-muted)">—</span>'],
+  ].map(function(p){ return '<div class="prop-row"><span class="prop-label">'+p[0]+'</span><span class="prop-value">'+p[1]+'</span></div>'; }).join('');
+
+  /* ── 原子与晶体 ── */
+  var crystalCN = (CRYSTAL_CN && CRYSTAL_CN[el.crystalStructure]) || el.crystalStructure || '未知';
+  document.getElementById('crystalPropsBody').innerHTML = [
+    ['原子半径', fmt(el.atomicRadius, ' pm')],
+    ['共价半径', fmt(el.covalentRadius, ' pm')],
+    ['范德华半径', fmt(el.vdwRadius, ' pm')],
+    ['晶体结构', crystalCN],
+    ['电阻率 (20°C)', el.electricalResistivity !== null ? (el.electricalResistivity > 1e6 ? el.electricalResistivity.toExponential(1) + ' nΩ·m' : fmt(el.electricalResistivity, ' nΩ·m')) : '<span style="color:var(--text-muted)">—</span>'],
+    ['热导率', fmt(el.thermalConductivity, ' W/(m·K)')],
+  ].map(function(p){ return '<div class="prop-row"><span class="prop-label">'+p[0]+'</span><span class="prop-value">'+p[1]+'</span></div>'; }).join('');
+
+  /* ── 材料与工程 ── */
+  document.getElementById('materialPropsBody').innerHTML = [
+    ['莫氏硬度', fmt(el.hardnessMohs)],
+    ['杨氏模量', fmt(el.youngsModulus, ' GPa')],
+    ['剪切模量', fmt(el.shearModulus, ' GPa')],
+    ['体积模量', fmt(el.bulkModulus, ' GPa')],
+  ].map(function(p){ return '<div class="prop-row"><span class="prop-label">'+p[0]+'</span><span class="prop-value">'+p[1]+'</span></div>'; }).join('');
+
+  /* ── 热力学数据 ── */
+  document.getElementById('thermoPropsBody').innerHTML = [
+    ['标准生成焓 ΔHf°', fmt(el.deltaHf, ' kJ/mol')],
+    ['标准生成吉布斯自由能 ΔGf°', fmt(el.deltaGf, ' kJ/mol')],
+    ['标准摩尔熵 S°', fmt(el.standardEntropy, ' J/(mol·K)')],
+    ['标准摩尔热容 Cp', fmt(el.molarHeatCapacity, ' J/(mol·K)')],
+  ].map(function(p){ return '<div class="prop-row"><span class="prop-label">'+p[0]+'</span><span class="prop-value">'+p[1]+'</span></div>'; }).join('');
+
+  /* ── 电化学数据 ── */
+  document.getElementById('electroPropsBody').innerHTML = [
+    ['标准电极电位 E°', el.stdElectrodePotential !== null ? fmt(el.stdElectrodePotential, ' V') + (el.redoxCouple ? '（' + el.redoxCouple + '）' : '') : '<span style="color:var(--text-muted)">—</span>'],
+    ['电化当量', el.electrochemicalEquivalent !== null ? fmt(el.electrochemicalEquivalent, ' g/A·h') : '<span style="color:var(--text-muted)">—</span>'],
+    ['常见离子半径', el.ionicRadius !== null ? fmt(el.ionicRadius, ' pm') : '<span style="color:var(--text-muted)">—</span>'],
+  ].map(function(p){ return '<div class="prop-row"><span class="prop-label">'+p[0]+'</span><span class="prop-value">'+p[1]+'</span></div>'; }).join('');
+
+  /* ── 同位素 ── */
+  buildIsotopeSection(el);
+
+  /* ── 标识符与丰度 ── */
+  document.getElementById('idPropsBody').innerHTML = [
+    ['地壳丰度', fmt(el.crustAbundance, ' ppm')],
+    ['CAS 号', el.casNumber ? '<a class="prop-link" href="https://commonchemistry.cas.org/detail?cas_rn='+el.casNumber+'" target="_blank" title="CAS Common Chemistry">'+el.casNumber+'</a>' : '<span style="color:var(--text-muted)">—</span>'],
+    ['PubChem CID', el.pubChemCid ? '<a class="prop-link" href="https://pubchem.ncbi.nlm.nih.gov/compound/'+el.pubChemCid+'" target="_blank" title="PubChem">'+el.pubChemCid+'</a>' : '<span style="color:var(--text-muted)">—</span>'],
+  ].map(function(p){ return '<div class="prop-row"><span class="prop-label">'+p[0]+'</span><span class="prop-value">'+p[1]+'</span></div>'; }).join('');
+
+  /* ── 数据来源 ── */
+  var srcHtml = '';
+  if (typeof DATA_SOURCES === 'object') {
+    srcHtml += '<div style="margin-bottom:2px"><strong>原子量：</strong>'+DATA_SOURCES.atomicWeight+'</div>';
+    srcHtml += '<div style="margin-bottom:2px"><strong>熔沸点：</strong>'+DATA_SOURCES.meltingBoiling+'</div>';
+    srcHtml += '<div style="margin-bottom:2px"><strong>密度/半径/电阻：</strong>'+DATA_SOURCES.radii+'</div>';
+    srcHtml += '<div style="margin-bottom:2px"><strong>电离能：</strong>'+DATA_SOURCES.ionizationEnergy+'</div>';
+    srcHtml += '<div style="margin-bottom:2px"><strong>热力学：</strong>'+DATA_SOURCES.thermodynamics+'</div>';
+    srcHtml += '<div style="margin-bottom:2px"><strong>晶体结构：</strong>'+DATA_SOURCES.crystalStructure+'</div>';
+    srcHtml += '<div style="margin-bottom:2px"><strong>CAS/PubChem：</strong>'+DATA_SOURCES.casNumber+'</div>';
+    srcHtml += '<div style="margin-bottom:2px"><strong>同位素：</strong>'+DATA_SOURCES.isotopes+'</div>';
+    srcHtml += '<div style="margin-bottom:2px"><strong>电化学：</strong>'+DATA_SOURCES.electrochemistry+'</div>';
+  } else {
+    srcHtml = '数据来源信息未加载';
+  }
+  document.getElementById('sourcesBody').innerHTML = srcHtml;
+
+  /* ── GHS 安全信息 ── */
+  buildGHSInfo(el);
+
+  /* ── P3：工业安全数据 ── */
+  if (typeof renderP3Cards === 'function') {
+    renderP3Cards(el);
+  }
+
+  /* ── P4：科研级数据 ── */
+  if (typeof renderP4Cards === 'function') {
+    renderP4Cards(el);
+  }
+
+  /* ── P5-5：属性趋势图 ── */
+  if (typeof renderTrendChart === 'function') {
+    renderTrendChart(el);
+  }
+
+  /* ── P5-6：元素丰度对比 ── */
+  if (typeof renderAbundanceChart === 'function') {
+    renderAbundanceChart(el);
+  }
+
+  /* ── P5-7：元素关系图 ── */
+  if (typeof renderRelationsChart === 'function') {
+    renderRelationsChart(el);
+  }
+
+  /* ── 电子壳层 ── */
+  var shellsHtml = el.electrons.map(function(n, i) {
+    return '<div class="electron-shell-row">'
+      + '<span class="shell-label">' + (SHELL_NAMES[i] || (i+1)) + '</span>'
+      + '<div class="shell-electrons">' + Array(n).fill('<div class="electron-dot"></div>').join('') + '</div>'
+      + '<span style="font-size:10px;color:var(--text-muted);margin-left:4px">'+n+'e⁻</span></div>';
+  }).join('');
+  document.getElementById('electronShells').innerHTML = shellsHtml;
+
+  /* ── 前/后导航 ── */
+  var prev = ELEMENTS.find(function(e) { return e.z === z - 1; });
+  var next = ELEMENTS.find(function(e) { return e.z === z + 1; });
+  var btnPrev = document.getElementById('btnPrev');
+  var btnNext = document.getElementById('btnNext');
+  if (prev) { btnPrev.href = 'element.html?z=' + prev.z; btnPrev.textContent = '← ' + prev.name; }
+  else { btnPrev.style.visibility = 'hidden'; }
+  if (next) { btnNext.href = 'element.html?z=' + next.z; btnNext.textContent = next.name + ' →'; }
+  else { btnNext.style.visibility = 'hidden'; }
+
+  /* ── 搜索框快捷链接 ── */
+  var shortcuts = ELEMENTS.filter(function(e2) { return e2.group === el.group && e2.z !== el.z; }).slice(0, 6);
+  document.getElementById('searchShortcuts').innerHTML =
+    '<span style="font-size:11px;color:var(--text-muted)">同族元素：</span>' +
+    shortcuts.map(function(e2){ return '<a class="search-shortcut" href="element.html?z='+e2.z+'">'+e2.symbol+' '+e2.name+'</a>'; }).join('');
+
+  /* ── Markdown 内容 ── */
+  var mdRaw;
+  try {
+    if (typeof getElementMarkdown !== 'function') {
+      throw new Error('element-details.js 未正确加载');
+    }
+    mdRaw = getElementMarkdown(el);
+  } catch(e) {
+    document.getElementById('mdContent').innerHTML =
+      '<p style="color:var(--accent-red);padding:32px;text-align:center">'
+      + '❌ 元素数据加载失败：' + e.message + '<br>'
+      + '<small>请检查 <code>data/element-details.js</code> 文件是否存在且语法正确</small></p>';
+    return;
+  }
+
+  if (typeof marked !== 'undefined' && marked.parse) {
+    marked.setOptions({ breaks: true, gfm: true });
+    try {
+      document.getElementById('mdContent').innerHTML = marked.parse(mdRaw);
+    } catch(e) {
+      document.getElementById('mdContent').innerHTML =
+        '<pre style="white-space:pre-wrap;color:var(--text-primary);padding:16px">' +
+        mdRaw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre>';
+    }
+  } else {
+    document.getElementById('mdContent').innerHTML =
+      '<pre style="white-space:pre-wrap;color:var(--text-primary);padding:16px">' +
+      mdRaw.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre>';
+  }
+
+  /* ── 旧版 sidebar 目录已移除，由 buildDimensionNav() 提供维度级导航 ── */
+
+  /* ── KaTeX 渲染数学公式 ── */
+  try {
+    if (typeof renderMathInElement === 'function') {
+      renderMathInElement(document.getElementById('mdContent'), {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$',  right: '$',  display: false}
+        ],
+        throwOnError: false
+      });
+    }
+  } catch(e) {}
+
+  /* ── 搜索框预填 ── */
+  document.getElementById('siteSearchInput').placeholder = '搜索元素，如：氢、Fe、' + (el.z + 1) + '…';
+
+  /* ── 化合物与衍生物知识卡 ── */
+  renderCompoundsCard(el);
+
+  /* ── 异步加载详情 Markdown（优先 details/{symbol}.md） ── */
+  loadMarkdownAsync(el);
+
+  /* ── 重新组织为「左侧导航 + 右侧维度内容」布局 ── */
+  organizeDimensionLayout(el);
+
+  /* ── 按需懒加载 P6/P7 维度数据（非阻塞，后台填充右侧维度区） ── */
+  if (typeof window.P6P7Loader !== 'undefined') {
+    window.P6P7Loader.load();
+  }
+}
+
+/* ════════════════════════════════════════════════════
+   左侧导航 + 右侧维度内容 布局组织器
+   将 legacySidebarSource 中渲染好的卡片搬运到对应 section
+   ════════════════════════════════════════════════════ */
+function organizeDimensionLayout(el) {
+  var source = document.getElementById('legacySidebarSource');
+  if (!source) return;
+
+  // 搬运核心数据
+  moveCards(source, 'core', document.getElementById('coreGrid'));
+  // 搬运安全与工业
+  moveCards(source, 'safety', document.getElementById('safetyGrid'));
+  // 搬运科研数据
+  moveCards(source, 'research', document.getElementById('researchGrid'));
+  // 搬运同位素与标识符
+  moveCards(source, 'isotope', document.getElementById('isotopeGrid'));
+
+  // 移除遗留空分组
+  source.style.display = 'none';
+
+  // 触发角色视图重新应用（让 P6/P7 卡片先渲染到 #p6p7Grid）
+  if (typeof RoleViewer !== 'undefined' && RoleViewer.refresh) {
+    RoleViewer.refresh();
+  }
+
+  // 生成分类导航（此时各 section 内容已就位）
+  buildDimensionNav();
+
+  // 初始化滚动高亮
+  initDimensionNavScrollSpy();
+}
+
+function moveCards(source, groupName, targetGrid) {
+  if (!source || !targetGrid) return;
+  var group = source.querySelector('.sidebar-group[data-group="' + groupName + '"]');
+  if (!group) return;
+  var cards = group.querySelectorAll('.props-card, .electron-vis');
+  cards.forEach(function(card) {
+    // 保持 display 状态（有些卡片默认隐藏）
+    targetGrid.appendChild(card);
+  });
+}
+
+function buildDimensionNav() {
+  var navList = document.getElementById('dimensionNavList');
+  if (!navList) return;
+  navList.innerHTML = '';
+
+  var dims = [
+    { id: 'section-search', label: '🔍 搜索', count: false },
+    { id: 'section-core', label: '📊 核心数据', count: true },
+    { id: 'section-safety', label: '⚠️ 安全与工业', count: true },
+    { id: 'section-research', label: '🔬 科研数据', count: true },
+    { id: 'section-isotope', label: '⚛️ 同位素与标识符', count: true },
+    { id: 'section-p6p7', label: '🌐 行业与交叉学科', count: true },
+    { id: 'section-detail', label: '📖 综合详情', count: false }
+  ];
+
+  dims.forEach(function(dim) {
+    var section = document.getElementById(dim.id);
+    if (!section) return;
+
+    var li = document.createElement('li');
+    li.className = 'dimension-nav-item';
+
+    var a = document.createElement('a');
+    a.className = 'dimension-nav-link';
+    a.href = '#' + dim.id;
+    a.setAttribute('data-target', dim.id);
+    a.innerHTML = '<span>' + dim.label + '</span>';
+
+    if (dim.count) {
+      var count = section.querySelectorAll('.props-card, .electron-vis').length;
+      if (count > 0) {
+        a.innerHTML += '<span class="dimension-nav-count">' + count + '</span>';
+      }
+    }
+
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, null, '#' + dim.id);
+    });
+
+    li.appendChild(a);
+    navList.appendChild(li);
+  });
+}
+
+function initDimensionNavScrollSpy() {
+  var sections = document.querySelectorAll('.dimension-section');
+  var navLinks = document.querySelectorAll('.dimension-nav-link');
+  if (!sections.length || !navLinks.length) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        navLinks.forEach(function(link) {
+          link.classList.toggle('active', link.getAttribute('data-target') === entry.target.id);
+        });
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '-80px 0px -60% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(function(section) { observer.observe(section); });
+}
+
+/* ── HTML 转义（防止 XSS） ── */
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+/* ── 化合物与衍生物渲染（增强版 v2） ── */
+function renderCompoundsCard(el) {
+  var card = document.getElementById('compoundsCard');
+  var body = document.getElementById('compoundsBody');
+  if (!card || !body) return;
+
+  var data = COMPOUNDS_DATA && COMPOUNDS_DATA[el.symbol];
+  if (!data || !data.compounds || data.compounds.length === 0) {
+    card.style.display = 'none';
+    return;
+  }
+
+  card.style.display = '';
+
+  // 颜色映射
+  function tc(type) {
+    return ({'单质':'#58a6ff','氧化物':'#f0883e','酸':'#f85149','碱':'#3fb950','盐':'#d2a8ff',
+      '有机物':'#56d364','配合物':'#f0883e','合金':'#a371f7','其他':'#8b949e'})[type] || '#8b949e';
+  }
+
+  var html = '';
+  // 元素概述
+  if (data.summary) {
+    html += '<div style="padding:12px 16px;background:rgba(88,166,255,0.06);border-radius:10px;margin-bottom:14px;border-left:4px solid #58a6ff">';
+    html += '<div style="font-size:11px;color:#58a6ff;font-weight:700;margin-bottom:4px">✦ ' + escapeHTML(el.nameZh) + ' 的化合物概览</div>';
+    html += '<div style="color:var(--text-secondary);font-size:12.5px;line-height:1.8">' + formatCompoundText(data.summary) + '</div></div>';
+  }
+
+  // 每个化合物 → 可折叠卡片
+  data.compounds.forEach(function(c, idx) {
+    var color = tc(c.type);
+    var cid = 'cpd-' + idx;
+
+    html += '<div class="compound-card" id="' + cid + '" style="border:1px solid var(--border-primary);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:box-shadow .2s" onmouseover="this.style.boxShadow=\'0 2px 12px rgba(0,0,0,.08)\'" onmouseout="this.style.boxShadow=\'\'">';
+
+    /* ═══ 标题栏（始终可见，可点击展开/折叠）═══ */
+    html += '<div class="cpd-header" onclick="toggleCpdSection(\'' + cid + '\')" style="cursor:pointer;padding:12px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:linear-gradient(135deg,' + color + '08,' + color + '03)">';
+    html += '<span class="cpd-toggle-icon" id="' + cid + '-icon" style="transition:transform .25s ease;font-size:12px;color:' + color + ';font-weight:bold;width:18px;text-align:center">▾</span>';
+    html += '<span style="font-weight:700;font-size:14px;color:var(--text-primary)">' + escapeHTML(c.nameZh) + '</span>';
+    if (c.nameEn) html += '<span style="font-size:11.5px;color:var(--text-muted)">(' + escapeHTML(c.nameEn) + ')</span>';
+    if (c.formula) html += '<span style="font-family:var(--font-mono);font-size:13px;color:' + color + ';background:' + color + '14;padding:2px 8px;border-radius:5px">' + c.formula + '</span>';
+    if (c.category) html += '<span style="font-size:10px;color:' + color + ';background:' + color + '14;padding:1px 7px;border-radius:6px;border:1px solid ' + color + '30">' + c.category + '</span>';
+    html += '<span style="font-size:10.5px;padding:2px 8px;border-radius:8px;background:' + color + '20;color:' + color + ';border:1px solid ' + color + '35;margin-left:auto">' + c.type + '</span>';
+    html += '</div>'; // header
+
+    /* ═══ 可折叠内容区 ═══ */
+    html += '<div class="cpd-body" id="' + cid + '-body" style="">';
+
+    // 基础性质（物理+化学）
+    if (c.physProp || c.chemProp) {
+      html += '<div class="cpd-section">';
+      if (c.physProp) {
+        html += '<div class="cpd-row"><span class="cpd-label" style="color:' + color + '">📐 物理性质</span><span class="cpd-val">' + formatCompoundText(c.physProp) + '</span></div>';
+      }
+      if (c.chemProp) {
+        html += '<div class="cpd-row"><span class="cpd-label" style="color:#3fb950">⚗️ 化学性质</span><span class="cpd-val">' + formatCompoundText(c.chemProp) + '</span></div>';
+      }
+      html += '</div>';
+    }
+
+    // 发现背景
+    if (c.background) {
+      html += '<div class="cpd-section cpd-highlight-bg" style="background:rgba(240,136,62,0.05);border-left:3px solid #f0883e">';
+      html += '<div class="cpd-section-title" style="color:#f0883e">📜 发现与历史</div>';
+      html += '<div class="cpd-val" style="font-size:12px;line-height:1.85">' + formatCompoundText(c.background) + '</div></div>';
+    }
+
+    // 作用原理（数组）
+    if (c.mechanism && c.mechanism.length > 0) {
+      html += '<div class="cpd-section cpd-highlight-mech" style="background:rgba(88,166,255,0.04);border-left:3px solid #58a6ff">';
+      html += '<div class="cpd-section-title" style="color:#58a6ff">⚙️ 作用原理 / 反应机理</div>';
+      c.mechanism.forEach(function(m) {
+        html += '<div class="cpd-mech-item" style="padding:6px 10px;margin:4px 0;background:rgba(255,255,255,0.6);border-radius:6px;font-size:11.8px;line-height:1.8;color:var(--text-secondary)">• ' + formatCompoundText(m) + '</div>';
+      });
+      html += '</div>';
+    }
+
+    // 主要应用（name+desc 结构化）
+    if (c.apps && c.apps.length > 0) {
+      html += '<div class="cpd-section">';
+      html += '<div class="cpd-section-title" style="color:#d2a8ff">🔬 主要应用与用途</div>';
+      c.apps.forEach(function(a) {
+        html += '<div class="cpd-app-item" style="margin:6px 0;padding:8px 12px;background:rgba(210,168,255,0.06);border-radius:8px;border:1px solid rgba(210,168,255,0.15)">';
+        html += '<div style="font-weight:600;font-size:12px;color:' + color + ';margin-bottom:2px">▸ ' + escapeHTML(a.name) + '</div>';
+        html += '<div style="font-size:11.5px;line-height:1.75;color:var(--text-secondary)">' + formatCompoundText(a.desc) + '</div></div>';
+      });
+      html += '</div>';
+    }
+
+    // 安全注意事项
+    if (c.safetyNote && (Array.isArray(c.safetyNote) ? c.safetyNote.length : c.safetyNote)) {
+      html += '<div class="cpd-section cpd-warn" style="background:rgba(248,81,73,0.04);border-left:3px solid #f85149">';
+      html += '<div class="cpd-section-title" style="color:#f85149">⚠️ 安全注意事项</div>';
+      var notes = Array.isArray(c.safetyNote) ? c.safetyNote : [c.safetyNote];
+      notes.forEach(function(n) {
+        html += '<div class="cpd-warn-item" style="padding:5px 10px;margin:3px 0;font-size:11.5px;line-height:1.75;color:var(--text-secondary)">⛔ ' + formatCompoundText(n) + '</div>';
+      });
+      html += '</div>';
+    }
+
+    // 危机处理 / 应急处置
+    if (c.emergencyHandling) {
+      html += '<div class="cpd-section cpd-emergency" style="background:rgba(248,81,73,0.07);border:1px dashed #f8514940;border-radius:8px;margin:6px 0">';
+      html += '<div class="cpd-section-title" style="color:#f85149;font-weight:700">🚨 危机处理 / 应急处置</div>';
+      html += '<div style="padding:6px 10px;font-size:11.5px;line-height:1.85;color:var(--text-secondary)">' + formatCompoundText(c.emergencyHandling) + '</div></div>';
+    }
+
+    // 特殊说明 / 趣味知识
+    if (c.special) {
+      html += '<div class="cpd-section cpd-fun" style="background:rgba(163,113,247,0.05);border-left:3px solid #a371f7">';
+      html += '<div class="cpd-section-title" style="color:#a371f7">💡 特殊知识 / 趣味延伸</div>';
+      var specials = Array.isArray(c.special) ? c.special : [c.special];
+      specials.forEach(function(s) {
+        html += '<div style="padding:6px 10px;margin:4px 0;font-size:11.8px;line-height:1.85;color:var(--text-muted)">' + formatCompoundText(s) + '</div>';
+      });
+      html += '</div>';
+    }
+
+    html += '</div>'; // body
+    html += '</div>'; // card
+  });
+
+  body.innerHTML = html;
+}
+
+/* 折叠/展开单个化合物卡片 */
+function toggleCpdSection(id) {
+  var body = document.getElementById(id + '-body');
+  var icon = document.getElementById(id + '-icon');
+  if (!body || !icon) return;
+  var hidden = body.style.display === 'none';
+  body.style.display = hidden ? '' : 'none';
+  icon.textContent = hidden ? '▾' : '▸';
+  icon.style.transform = hidden ? '' : 'rotate(-90deg)';
+}
+
+/* 格式化化合物文本（处理上标/下标） */
+function formatCompoundText(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/₀/g, '<sub>0</sub>').replace(/₁/g, '<sub>1</sub>').replace(/₂/g, '<sub>2</sub>')
+    .replace(/₃/g, '<sub>3</sub>').replace(/₄/g, '<sub>4</sub>').replace(/₅/g, '<sub>5</sub>')
+    .replace(/₆/g, '<sub>6</sub>').replace(/₇/g, '<sub>7</sub>').replace(/₈/g, '<sub>8</sub>')
+    .replace(/₉/g, '<sub>9</sub>')
+    .replace(/⁺/g, '<sup>+</sup>').replace(/⁻/g, '<sup>−</sup>')
+    .replace(/\^(\d+)/g, '<sup>$1</sup>').replace(/_(\d+)/g, '<sub>$1</sub>');
+}
+
+/* ── 同位素信息构建 ── */
+function buildIsotopeSection(el) {
+  var isotopes = el.isotopes || [];
+  if (isotopes.length === 0) {
+    document.getElementById('isotopeSummary').innerHTML = '<div class="prop-row"><span class="prop-label">数据</span><span class="prop-value" style="color:var(--text-muted)">暂无</span></div>';
+    document.getElementById('isotopeTableWrap').innerHTML = '<p style="color:var(--text-muted)">暂无同位素数据</p>';
+    return;
+  }
+
+  var stable = isotopes.filter(function(i) { return i.halfLife === 'stable'; });
+  var radioactive = isotopes.filter(function(i) { return i.halfLife !== 'stable'; });
+
+  // Sidebar summary
+  var summaryParts = [];
+  summaryParts.push('<div class="prop-row"><span class="prop-label">同位素总数</span><span class="prop-value">' + isotopes.length + ' 种</span></div>');
+  if (stable.length > 0) {
+    summaryParts.push('<div class="prop-row"><span class="prop-label">稳定同位素</span><span class="prop-value" style="color:var(--accent-green)">' + stable.length + ' 种</span></div>');
+  }
+  if (radioactive.length > 0) {
+    summaryParts.push('<div class="prop-row"><span class="prop-label">放射性同位素</span><span class="prop-value" style="color:var(--accent-orange)">' + radioactive.length + ' 种</span></div>');
+  }
+  // Show mass range
+  var masses = isotopes.map(function(i) { return i.massNumber; });
+  summaryParts.push('<div class="prop-row"><span class="prop-label">质量数范围</span><span class="prop-value">' + Math.min.apply(null, masses) + ' — ' + Math.max.apply(null, masses) + '</span></div>');
+  document.getElementById('isotopeSummary').innerHTML = summaryParts.join('');
+
+  // Detailed table
+  var tableHtml = '<table class="isotope-table"><thead><tr>'
+    + '<th>质量数</th><th>天然丰度</th><th>半衰期</th><th>衰变模式</th><th>备注</th>'
+    + '</tr></thead><tbody>';
+  for (var i = 0; i < isotopes.length; i++) {
+    var iso = isotopes[i];
+    var isStable = iso.halfLife === 'stable';
+    var rowClass = isStable ? 'iso-stable' : 'iso-radio';
+    var ab = iso.abundance !== null ? iso.abundance + '%' : '<span style="color:var(--text-muted)">—</span>';
+    var hl = isStable
+      ? '<span style="color:var(--accent-green)">✔ 稳定</span>'
+      : '<span style="color:var(--accent-orange)">' + iso.halfLife + '</span>';
+    var dm = iso.decayMode || (isStable ? '—' : '<span style="color:var(--text-muted)">—</span>');
+    var note = iso.note ? iso.note.replace(/^'(.*)'$/, '$1') : '—';
+    tableHtml += '<tr class="' + rowClass + '"><td><strong>' + iso.massNumber + '</strong></td>'
+      + '<td>' + ab + '</td><td>' + hl + '</td><td>' + dm + '</td><td style="font-size:11px;color:var(--text-muted)">' + note + '</td></tr>';
+  }
+  tableHtml += '</tbody></table>';
+
+  // Source info
+  if (typeof DATA_SOURCES === 'object' && DATA_SOURCES.isotopes) {
+    tableHtml += '<p style="font-size:10px;color:var(--text-muted);margin-top:8px">数据来源：' + DATA_SOURCES.isotopes + '</p>';
+  }
+  document.getElementById('isotopeTableWrap').innerHTML = tableHtml;
+}
+
+/* ── 侧边栏分组折叠 ── */
+function toggleSidebarGroup(groupName) {
+  var group = document.querySelector('.sidebar-group[data-group="' + groupName + '"]');
+  if (!group) return;
+  var body = group.querySelector('.sidebar-group-body');
+  var arrow = group.querySelector('.sg-arrow');
+  var isCollapsed = group.classList.contains('collapsed');
+  if (isCollapsed) {
+    group.classList.remove('collapsed');
+    if (body) body.style.display = '';
+    if (arrow) arrow.textContent = '▾';
+  } else {
+    group.classList.add('collapsed');
+    if (body) body.style.display = 'none';
+    if (arrow) arrow.textContent = '▸';
+  }
+}
+
+/* ── GHS 安全信息构建 ── */
+function buildGHSInfo(el) {
+  var container = document.getElementById('ghsBody');
+  var ghs = getGHSData(el);
+  if (!ghs || ghs.noData) {
+    container.innerHTML = '<p style="color:var(--text-muted);font-size:13px">' + (ghs ? ghs.note : '该元素安全数据待补充，请参考 ILO/WHO ICSC 国际化学品安全卡。') + '</p>';
+    if (!ghs || ghs.note) {
+      document.getElementById('ghsCard').style.display = 'block';
+    }
+    return;
+  }
+
+  var html = '';
+
+  // GHS 象形图
+  if (ghs.pictograms && ghs.pictograms.length > 0) {
+    html += '<div class="ghs-pictograms">';
+    html += ghs.pictograms.map(function(p) {
+      return '<span class="ghs-icon ghs-' + p + '" title="' + p + '">' + getGHSSymbol(p) + '</span>';
+    }).join('');
+    html += '</div>';
+  }
+
+  // 信号词
+  if (ghs.signal) {
+    html += '<div class="ghs-signal ' + (ghs.signal === 'Danger' ? 'ghs-danger' : 'ghs-warning') + '">'
+      + (ghs.signal === 'Danger' ? '⚠ 危险 Danger' : '⚡ 警告 Warning') + '</div>';
+  }
+
+  // H/P 编码
+  if (ghs.hCodes && ghs.hCodes.length > 0) {
+    html += '<div class="ghs-codes"><strong>H 编码 (危害声明)：</strong><br>';
+    html += ghs.hCodes.map(function(c) { return '<span class="ghs-code-tag">' + c + '</span>'; }).join(' ');
+    html += '</div>';
+  }
+  if (ghs.pCodes && ghs.pCodes.length > 0) {
+    html += '<div class="ghs-codes"><strong>P 编码 (防范说明)：</strong><br>';
+    html += ghs.pCodes.map(function(c) { return '<span class="ghs-code-tag">' + c + '</span>'; }).join(' ');
+    html += '</div>';
+  }
+
+  // UN 运输
+  if (ghs.unNumber) {
+    html += '<div class="ghs-un"><strong>UN 编号：</strong>' + ghs.unNumber + ' | 运输分类：' + (ghs.transportClass || '—') + '</div>';
+  }
+
+  // IDLH/OEL
+  if (ghs.idlh) {
+    html += '<div class="ghs-exposure"><strong>IDLH：</strong>' + ghs.idlh + '</div>';
+  }
+  if (ghs.oel) {
+    html += '<div class="ghs-exposure"><strong>OEL (8h TWA)：</strong>' + ghs.oel + '</div>';
+  }
+
+  // 泄漏处理
+  if (ghs.spillResponse) {
+    html += '<div class="ghs-spill"><strong>泄漏处理：</strong><br>' + ghs.spillResponse + '</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+/* ── GHS 数据（部分元素有） ── */
+function getGHSData(el) {
+  // 按元素提供基础GHS数据 — 覆盖高风险元素
+  var map = {
+    1:  {noData:true, note:'氢气为易燃气体，详细安全数据请参考 ILO/WHO ICSC 0001。'},
+    3:  {noData:true, note:'锂金属遇水反应剧烈，接触潮湿空气可能自燃。'},
+    4:  {pictograms:['GHS06','GHS08'], signal:'Danger', hCodes:['H301','H315','H317','H319','H330','H335','H350','H372'], pCodes:['P201','P260','P280','P284','P304+P340','P310'], unNumber:'UN 1567', transportClass:'6.1'},
+    9:  {pictograms:['GHS03','GHS06'], signal:'Danger', hCodes:['H270','H330','H314'], pCodes:['P220','P244','P260','P280','P303+P361+P353','P304+P340','P315'], unNumber:'UN 1045', transportClass:'2.2/5.1/8', oel:'1 ppm (F₂)', idlh:'25 ppm (F₂)'},
+    11: {pictograms:['GHS02','GHS05'], signal:'Danger', hCodes:['H260','H314'], pCodes:['P223','P231+P232','P280','P305+P351+P338','P370+P378'], unNumber:'UN 1428', transportClass:'4.3'},
+    15: {pictograms:['GHS02','GHS06'], signal:'Danger', hCodes:['H228','H412'], pCodes:['P210','P273'], unNumber:'UN 1338 (红磷)', transportClass:'4.1'},
+    16: {noData:true, note:'硫磺粉尘可能形成爆炸性混合物。SO₂ 吸入有毒，详细数据请参考 ICSC 0074。'},
+    17: {pictograms:['GHS03','GHS06','GHS09'], signal:'Danger', hCodes:['H270','H330','H315','H319','H335','H400'], pCodes:['P220','P260','P273','P280','P304+P340','P315','P403+P233'], unNumber:'UN 1017', transportClass:'2.2/5.1/8', idlh:'10 ppm', oel:'1 ppm (Cl₂)'},
+    24: {noData:true, note:'六价铬化合物具致癌性（IARC 1类）。金属铬粉尘可燃。'},
+    33: {pictograms:['GHS06','GHS09'], signal:'Danger', hCodes:['H301','H331','H410'], pCodes:['P261','P273','P301+P310','P311'], unNumber:'UN 1558', transportClass:'6.1'},
+    35: {pictograms:['GHS06','GHS09'], signal:'Danger', hCodes:['H330','H314','H400'], pCodes:['P260','P273','P280','P284','P305+P351+P338','P310'], unNumber:'UN 1744', transportClass:'8/6.1', idlh:'3 ppm (Br₂)'},
+    48: {pictograms:['GHS06','GHS08','GHS09'], signal:'Danger', hCodes:['H330','H341','H350','H361fd','H372','H410'], pCodes:['P201','P260','P273','P281','P304+P340','P310'], unNumber:'UN 2570', transportClass:'6.1'},
+    53: {noData:true, note:'碘蒸气刺激性强。碘晶体直接接触可灼伤皮肤。'},
+    80: {pictograms:['GHS06','GHS08','GHS09'], signal:'Danger', hCodes:['H330','H360D','H372','H410'], pCodes:['P201','P260','P273','P284','P304+P340','P310'], unNumber:'UN 2809', transportClass:'8/6.1', idlh:'10 mg/m³ (Hg)', oel:'0.025 mg/m³ (Hg)'},
+    82: {pictograms:['GHS08','GHS09'], signal:'Danger', hCodes:['H302','H332','H360Df','H373','H410'], pCodes:['P201','P260','P273','P308+P313'], unNumber:'UN 3077', transportClass:'9'},
+    86: {noData:true, note:'氡气为放射性惰性气体，吸入后α衰变产物沉积于肺部，是室内主要辐射源。'},
+    92: {pictograms:['GHS06','GHS08','GHS09'], signal:'Danger', hCodes:['H300','H330','H373','H413'], pCodes:['P260','P264','P270','P284','P301+P310','P304+P340'], unNumber:'UN 2978 (六氟化铀)', transportClass:'7'},
+    94: {pictograms:['GHS06','GHS08'], signal:'Danger', hCodes:['H300','H330','H373'], pCodes:['P260','P264','P270','P284','P301+P310'], unNumber:'UN 2918/2919', transportClass:'7', note:'钚为极毒放射性元素，吸入尤其危险。'}
+  };
+  return map[el.z] || {noData:true, note:'请参考 ILO/WHO ICSC 国际化学品安全卡获取完整信息。'};
+}
+
+function getGHSSymbol(code) {
+  var sym = {
+    'GHS01': '💥', 'GHS02': '🔥', 'GHS03': '⭕',
+    'GHS04': '💨', 'GHS05': '🧪', 'GHS06': '💀',
+    'GHS07': '❗', 'GHS08': '⚠️', 'GHS09': '🌊'
+  };
+  return sym[code] || code;
+}
+
+/* ── 站内搜索 ── */
+function doSiteSearch() {
+  var q = document.getElementById('siteSearchInput').value.trim();
+  if (!q) return;
+  var found = ELEMENTS.find(function(e) {
+    return e.name === q || e.symbol.toLowerCase() === q.toLowerCase() || String(e.z) === q;
+  }) || ELEMENTS.find(function(e) {
+    return e.name.includes(q) || e.symbol.toLowerCase().includes(q.toLowerCase()) || e.nameEn.toLowerCase().includes(q.toLowerCase());
+  });
+  if (found) {
+    window.location.href = 'element.html?z=' + found.z;
+  } else {
+    alert('未在本站找到"' + q + '"，请尝试站外搜索。');
+  }
+}
+
+function doWebSearch() {
+  var q = document.getElementById('siteSearchInput').value.trim() || document.title.split('（')[0].trim();
+  window.open('https://www.baidu.com/s?wd=' + encodeURIComponent(q + ' 化学元素'), '_blank');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    var result = init();
+    // init() 是 async 函数，需要 catch promise rejection
+    if (result && typeof result.catch === 'function') {
+      result.catch(function(e) {
+        console.error('[init() async error]', e);
+        var mc = document.getElementById('mdContent');
+        if (mc) mc.innerHTML =
+          '<p style="color:var(--accent-red);padding:32px;text-align:center">'
+          + '<strong>⚠ 页面初始化失败（异步）</strong><br><br>'
+          + '<code style="word-break:break-all;text-align:left;display:inline-block;font-size:11px">'
+          + String(e.stack || e.message).replace(/</g,'&lt;')
+          + '</code><br><br><small>请按 F12 打开控制台查看详情</small></p>';
+      });
+    }
+  } catch(e) {
+    document.getElementById('mdContent').innerHTML =
+      '<p style="color:var(--accent-red);padding:32px;text-align:center">'
+      + '❌ 页面初始化失败：' + e.message + '<br>'
+      + '<small>请打开浏览器控制台（F12）查看详细错误信息</small></p>';
+    console.error('init error:', e);
+  }
+  document.getElementById('siteSearchInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') doSiteSearch();
+  });
+});
+
+/* ═══════════════════════════════════════
+   3D 晶体结构渲染（Three.js）
+   ═══════════════════════════════════════ */
+let crystalScene = null, crystalCamera = null, crystalRenderer = null,
+    crystalControls = null, crystalAnimationId = null, crystalAutoRotate = true;
+
+window.toggle3DView = function() {
+  const card = document.getElementById('crystal3DCard');
+  if (!card) return;
+  card.classList.toggle('hidden');
+  if (!card.classList.contains('hidden')) {
+    // 延迟初始化，等待卡片渲染完成
+    setTimeout(() => initCrystalView(), 100);
+  } else {
+    disposeCrystalView();
+  }
+};
+
+function initCrystalView() {
+  const el = window.__currentElement;
+  if (!el) return;
+  const crystalData = (typeof ELEMENT_CRYSTAL !== 'undefined') ? ELEMENT_CRYSTAL[el.z] : null;
+  if (!crystalData || !crystalData.type) {
+    document.getElementById('crystalInfo').textContent = el.name + '（' + el.symbol + '）无可用晶体结构数据';
+    return;
+  }
+  initCrystalScene(el, crystalData);
+}
+
+function initCrystalScene(el, crystalData) {
+  const container = document.getElementById('crystal3DContainer');
+  if (!container) return;
+  const canvas = document.getElementById('crystalCanvas');
+  const w = container.clientWidth, h = container.clientHeight;
+  canvas.width = w; canvas.height = h;
+
+  // 场景
+  crystalScene = new THREE.Scene();
+  crystalScene.background = new THREE.Color(0x0a0a1a);
+
+  // 相机
+  crystalCamera = new THREE.PerspectiveCamera(50, w/h, 0.1, 1000);
+  crystalCamera.position.set(0, 0, 80);
+
+  // 渲染器
+  crystalRenderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+  crystalRenderer.setSize(w, h);
+  crystalRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // 灯光
+  const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+  crystalScene.add(ambientLight);
+  const dirLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
+  dirLight1.position.set(5, 10, 7);
+  crystalScene.add(dirLight1);
+  const dirLight2 = new THREE.DirectionalLight(0x8888ff, 0.3);
+  dirLight2.position.set(-5, -3, -5);
+  crystalScene.add(dirLight2);
+
+  // 控制器
+  if (typeof THREE.OrbitControls !== 'undefined') {
+    crystalControls = new THREE.OrbitControls(crystalCamera, canvas);
+    crystalControls.enableDamping = true;
+    crystalControls.dampingFactor = 0.08;
+    crystalControls.autoRotate = crystalAutoRotate;
+    crystalControls.autoRotateSpeed = 1.5;
+  }
+
+  // 根据晶体类型生成结构
+  buildCrystal(el, crystalData);
+
+  // 动画循环
+  function animate() {
+    crystalAnimationId = requestAnimationFrame(animate);
+    if (crystalControls) {
+      crystalControls.update();
+    }
+    crystalRenderer.render(crystalScene, crystalCamera);
+  }
+  animate();
+
+  // 窗口大小变化
+  window.addEventListener('resize', onCrystalResize);
+  document.getElementById('crystalInfo').textContent =
+    el.name + '（' + el.symbol + '）· ' + (CRYSTAL_STRUCTURES[crystalData.type] ? CRYSTAL_STRUCTURES[crystalData.type].name : crystalData.type);
+}
+
+function buildCrystal(el, crystalData) {
+  if (!crystalScene) return;
+  const type = crystalData.type;
+  const a = crystalData.a ? crystalData.a * 0.01 : 4.0; // 转换为 Å 并缩放
+  const c = crystalData.c ? crystalData.c * 0.01 : a * 1.5;
+
+  // 原子颜色（根据元素类别）
+  const catColor = {
+    'alkali-metal':'#e74c3c','alkaline-earth':'#e67e22','transition':'#3498db',
+    'post-transition':'#2ecc71','metalloid':'#1abc9c','nonmetal':'#9b59b6',
+    'halogen':'#f39c12','noble-gas':'#e91e8c','lanthanide':'#00bcd4','actinide':'#ff5722',
+  };
+  const atomColor = new THREE.Color(catColor[el.category] || '#aaa');
+
+  // 原子材质
+  const atomMaterial = new THREE.MeshStandardMaterial({ color: atomColor, metalness: 0.4, roughness: 0.3 });
+
+  // 化学键材质
+  const bondMaterial = new THREE.MeshStandardMaterial({ color: 0x888888, transparent: true, opacity: 0.6 });
+
+  // 根据晶体类型生成原子位置
+  let positions = []; // [{x,y,z}]
+
+  if (type === 'BCC') {
+    // 体心立方：角点 + 体心
+    const basis = [[0,0,0],[0.5,0.5,0.5]];
+    positions = generateLattice(basis, a, a, a, 3);
+  } else if (type === 'FCC') {
+    // 面心立方：角点 + 三个面心
+    const basis = [[0,0,0],[0.5,0.5,0],[0.5,0,0.5],[0,0.5,0.5]];
+    positions = generateLattice(basis, a, a, a, 3);
+  } else if (type === 'HCP') {
+    // 六方最密堆积
+    const basis = [[0,0,0],[2/3,1/3,0.5]];
+    positions = generateHCPLattice(basis, a, c, 3);
+  } else if (type === 'DIA') {
+    // 金刚石型：FCC + 内部4个原子
+    const basis = [[0,0,0],[0.5,0.5,0],[0.5,0,0.5],[0,0.5,0.5],
+                   [0.25,0.25,0.25],[0.75,0.75,0.25],[0.75,0.25,0.75],[0.25,0.75,0.75]];
+    positions = generateLattice(basis, a, a, a, 2);
+  } else if (type === 'CUB') {
+    // 简单立方
+    const basis = [[0,0,0]];
+    positions = generateLattice(basis, a, a, a, 3);
+  } else {
+    // 默认：简单立方
+    const basis = [[0,0,0]];
+    positions = generateLattice(basis, a, a, a, 3);
+  }
+
+  // 限制原子数量（性能考虑）
+  if (positions.length > 200) positions = positions.slice(0, 200);
+
+  // 创建原子球体
+  const sphereGeo = new THREE.SphereGeometry(0.4, 24, 24);
+  positions.forEach(pos => {
+    const mesh = new THREE.Mesh(sphereGeo, atomMaterial);
+    mesh.position.set(pos[0], pos[1], pos[2]);
+    crystalScene.add(mesh);
+  });
+
+  // 添加晶格框线
+  const edgesGeo = new THREE.BoxGeometry(a, a, a);
+  const edges = new THREE.EdgesGeometry(edgesGeo);
+  const edgesMat = new THREE.LineBasicMaterial({ color: 0x444488, transparent: true, opacity: 0.3 });
+  // 为每个晶胞添加框线
+  const range = type === 'HCP' ? 2 : 2;
+  for (let ix = -range; ix <= range; ix++) {
+    for (let iy = -range; iy <= range; iy++) {
+      for (let iz = -range; iz <= range; iz++) {
+        if (type === 'HCP') {
+          // 六方晶格框线（简化）
+          continue;
+        }
+        const line = new THREE.LineSegments(edges, edgesMat);
+        line.position.set(ix*a, iy*a, iz*a);
+        crystalScene.add(line);
+      }
+    }
+  }
+
+  // 相机适应
+  const maxA = Math.max(a, c);
+  crystalCamera.position.set(maxA*2, maxA*1.5, maxA*2);
+  if (crystalControls) crystalControls.target.set(0,0,0);
+}
+
+function generateLattice(basis, a, b, c, n) {
+  const positions = [];
+  for (let ix = -n; ix <= n; ix++) {
+    for (let iy = -n; iy <= n; iy++) {
+      for (let iz = -n; iz <= n; iz++) {
+        basis.forEach(([bx, by, bz]) => {
+          positions.push([
+            (ix + bx) * a,
+            (iy + by) * b,
+            (iz + bz) * c,
+          ]);
+        });
+      }
+    }
+  }
+  return positions;
+}
+
+function generateHCPLattice(basis, a, c, n) {
+  // 六方晶格（简化实现）
+  const positions = [];
+  for (let ix = -n; ix <= n; ix++) {
+    for (let iy = -n; iy <= n; iy++) {
+      for (let iz = -n; iz <= n; iz++) {
+        basis.forEach(([bx, by, bz]) => {
+          // 六方坐标转笛卡尔
+          const x = ((ix + bx) + 0.5 * (iy + by)) * a;
+          const y = Math.sqrt(3)/2 * (iy + by) * a;
+          const z = (iz + bz) * c;
+          positions.push([x, y, z]);
+        });
+      }
+    }
+  }
+  return positions;
+}
+
+function onCrystalResize() {
+  const container = document.getElementById('crystal3DContainer');
+  if (!container || !crystalCamera || !crystalRenderer) return;
+  const w = container.clientWidth, h = container.clientHeight;
+  crystalCamera.aspect = w/h;
+  crystalCamera.updateProjectionMatrix();
+  crystalRenderer.setSize(w, h);
+}
+
+window.resetCrystalView = function() {
+  if (!crystalCamera || !crystalControls) return;
+  crystalCamera.position.set(40, 30, 40);
+  crystalControls.target.set(0,0,0);
+  crystalControls.update();
+};
+
+window.toggleCrystalAutoRotate = function() {
+  crystalAutoRotate = !crystalAutoRotate;
+  if (crystalControls) crystalControls.autoRotate = crystalAutoRotate;
+  const btn = document.getElementById('btnAutoRotate');
+  if (btn) btn.textContent = '自动旋转：' + (crystalAutoRotate ? '开' : '关');
+};
+
+function disposeCrystalView() {
+  if (crystalAnimationId) cancelAnimationFrame(crystalAnimationId);
+  crystalAnimationId = null;
+  if (crystalScene) {
+    crystalScene.traverse(obj => {
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) obj.material.dispose();
+    });
+    crystalScene = null;
+  }
+  if (crystalRenderer) { crystalRenderer.dispose(); crystalRenderer = null; }
+  crystalCamera = null; crystalControls = null;
+  window.removeEventListener('resize', onCrystalResize);
+}
+</script>
+</body>
+</html>

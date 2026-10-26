@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temp files
+*.tmp
+*.bak
+*.cache
+
+# Build output (if added later)
+dist/
+build/
+
+# Environment
+.env
+.env.local
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local organized material archive (copy of project files, not source)
+project-materials/
+preview-element-nav*.png
+
+# Playwright CLI debug session data
+.playwright-cli/

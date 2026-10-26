@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>化学方程式配平练习</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    body { max-width: 900px; margin: 0 auto; padding: 20px; font-family: 'Segoe UI', sans-serif; }
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { color: #2c3e50; }
+    .exercise-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .exercise-card h3 { margin-top: 0; color: #2c3e50; }
+    .equation-display { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0; flex-wrap: wrap; }
+    .coeff-input { width: 50px; text-align: center; padding: 5px; border: 2px solid #3498db; border-radius: 5px; font-size: 16px; }
+    .compound { font-size: 18px; }
+    .arrow { font-size: 24px; color: #3498db; font-weight: bold; }
+    .exercise-btns { display: flex; gap: 10px; margin-top: 15px; }
+    .btn-check { padding: 8px 20px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .btn-hint { padding: 8px 20px; background: #f39c12; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .btn-answer { padding: 8px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .exercise-result { margin-top: 15px; padding: 10px; border-radius: 5px; display: none; }
+    .exercise-hint { margin-top: 15px; padding: 10px; background: #fff3cd; border-radius: 5px; display: none; }
+    sub { font-size: 0.8em; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>⚖️ 化学方程式配平练习</h1>
+  <p>在输入框中填入适当系数，使方程式配平</p>
+</div>
+
+<!-- 练习1：铁与盐酸 -->
+<div class="exercise-card" id="exercise1"></div>
+
+<!-- 练习2：铝与氧气 -->
+<div class="exercise-card" id="exercise2"></div>
+
+<!-- 练习3：合成氨 -->
+<div class="exercise-card" id="exercise3"></div>
+
+<!-- 加载配平模块 -->
+<script src="js/equation-balancing.js"></script>
+
+<script>
+// ===== 练习数据 =====
+const exercises = [
+  {
+    id: 'exercise1',
+    equation: 'Fe + HCl -> FeCl2 + H2',
+    hint: '注意FeCl₂中有2个Cl，所以HCl前系数至少是2。H₂中有2个H，来自2个HCl。',
+    answer: '1, 2, 1, 1'
+  },
+  {
+    id: 'exercise2',
+    equation: 'Al + O2 -> Al2O3',
+    hint: 'Al₂O₃中有2个Al和3个O。O₂中有2个O，所以需要3/2个O₂。为了消除分数，将所有系数乘以2。',
+    answer: '4, 3, 2'
+  },
+  {
+    id: 'exercise3',
+    equation: 'N2 + H2 -> NH3',
+    hint: 'NH₃中有1个N和3个H。N₂中有2个N，所以需要2个NH₃。2个NH₃中有6个H，来自3个H₂。',
+    answer: '1, 3, 2'
+  }
+];
+
+// ===== 初始化配平练习 =====
+function initExercises() {
+  exercises.forEach(function(ex, idx) {
+    const container = document.getElementById(ex.id);
+    if (!container) return;
+    
+    // 解析方程式
+    const parts = ex.equation.split('->').map(s => s.trim());
+    const reactants = parts[0].split('+').map(s => s.trim());
+    const products = parts[1].split('+').map(s => s.trim());
+    
+    let html = '<h3>练习 ' + (idx + 1) + '</h3>';
+    html += '<div class="equation-display">';
+    
+    // 反应物
+    reactants.forEach((c, i) => {
+      if (i > 0) html += ' + ';
+      html += '<input type="number" class="coeff-input" data-ex="' + ex.id + '" data-side="r" data-idx="' + i + '" min="1" max="20" value="1"> ';
+      html += '<span class="compound">' + formatCompound(c) + '</span>';
+    });
+    
+    html += '<span class="arrow">→</span>';
+    
+    // 生成物
+    products.forEach((c, i) => {
+      if (i > 0) html += ' + ';
+      html += '<input type="number" class="coeff-input" data-ex="' + ex.id + '" data-side="p" data-idx="' + i + '" min="1" max="20" value="1"> ';
+      html += '<span class="compound">' + formatCompound(c) + '</span>';
+    });
+    
+    html += '</div>';
+    html += '<div class="exercise-btns">';
+    html += '<button class="btn-check" onclick="checkExercise(\'' + ex.id + '\')">检查答案</button>';
+    html += '<button class="btn-hint" onclick="showHint(\'' + ex.id + '\')">提示</button>';
+    html += '<button class="btn-answer" onclick="showAnswer(\'' + ex.id + '\')">显示答案</button>';
+    html += '</div>';
+    html += '<div class="exercise-result" id="result-' + ex.id + '"></div>';
+    html += '<div class="exercise-hint" id="hint-' + ex.id + '"><strong>💡 提示：</strong>' + ex.hint + '</div>';
+    
+    container.innerHTML = html;
+  });
+}
+
+// ===== 格式化化学式 =====
+function formatCompound(c) {
+  return c.replace(/(\d+)/g, '<sub>$1</sub>');
+}
+
+// ===== 检查答案 =====
+function checkExercise(exId) {
+  const ex = exercises.find(e => e.id === exId);
+  if (!ex) return;
+  
+  const parts = ex.equation.split('->').map(s => s.trim());
+  const reactants = parts[0].split('+').map(s => s.trim());
+  const products = parts[1].split('+').map(s => s.trim());
+  
+  // 获取用户输入的系数
+  const inputs = document.querySelectorAll('#' + exId + ' .coeff-input');
+  const userCoeffs = { r: [], p: [] };
+  let rIdx = 0, pIdx = 0;
+  
+  inputs.forEach(input => {
+    const side = input.getAttribute('data-side');
+    const coeff = parseInt(input.value) || 1;
+    if (side === 'r') {
+      userCoeffs.r.push(coeff);
+    } else {
+      userCoeffs.p.push(coeff);
+    }
+  });
+  
+  // 计算两边元素个数
+  const rElements = countElements(reactants, userCoeffs.r);
+  const pElements = countElements(products, userCoeffs.p);
+  
+  // 比较
+  const isCorrect = compareElements(rElements, pElements);
+  
+  // 显示结果
+  const resultDiv = document.getElementById('result-' + exId);
+  resultDiv.style.display = 'block';
+  if (isCorrect) {
+    resultDiv.style.background = '#d5f5e3';
+    resultDiv.style.color = '#27ae60';
+    resultDiv.innerHTML = '✅ <strong>正确！</strong> 方程式已配平。';
+  } else {
+    resultDiv.style.background = '#fadbd8';
+    resultDiv.style.color = '#e74c3c';
+    resultDiv.innerHTML = '❌ <strong>未配平</strong>，请检查系数。';
+  }
+}
+
+// ===== 计算元素个数 =====
+function countElements(compounds, coeffs) {
+  const elements = {};
+  compounds.forEach((c, i) => {
+    const coeff = coeffs[i] || 1;
+    const parsed = parseSimpleFormula(c);
+    for (const [el, count] of Object.entries(parsed)) {
+      elements[el] = (elements[el] || 0) + count * coeff;
+    }
+  });
+  return elements;
+}
+
+// ===== 简单化学式解析 =====
+function parseSimpleFormula(formula) {
+  const elements = {};
+  const regex = /([A-Z][a-z]?)(\d*)/g;
+  let match;
+  while ((match = regex.exec(formula)) !== null) {
+    const el = match[1];
+    const count = match[2] ? parseInt(match[2]) : 1;
+    elements[el] = (elements[el] || 0) + count;
+  }
+  return elements;
+}
+
+// ===== 比较元素 =====
+function compareElements(el1, el2) {
+  const allEl = new Set([...Object.keys(el1), ...Object.keys(el2)]);
+  for (const el of allEl) {
+    if ((el1[el] || 0) !== (el2[el] || 0)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+// ===== 显示提示 =====
+function showHint(exId) {
+  const hintDiv = document.getElementById('hint-' + exId);
+  if (hintDiv) {
+    hintDiv.style.display = 'block';
+  }
+}
+
+// ===== 显示答案 =====
+function showAnswer(exId) {
+  const ex = exercises.find(e => e.id === exId);
+  if (!ex) return;
+  
+  const resultDiv = document.getElementById('result-' + exId);
+  resultDiv.style.display = 'block';
+  resultDiv.style.background = '#d6eaf8';
+  resultDiv.style.color = '#3498db';
+  resultDiv.innerHTML = '📝 <strong>答案：</strong> ' + ex.answer;
+}
+
+// ===== 初始化 =====
+window.addEventListener('DOMContentLoaded', function() {
+  initExercises();
+});
+</script>
+
+</body>
+</html>

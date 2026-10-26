@@ -1,0 +1,1198 @@
+{
+  "totalElements": 118,
+  "totalNullFields": 453,
+  "nullStatsByElement": {
+    "1": {
+      "symbol": "H",
+      "nullCount": 5,
+      "nullFields": [
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus"
+      ]
+    },
+    "2": {
+      "symbol": "He",
+      "nullCount": 10,
+      "nullFields": [
+        "electronegativity",
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "3": {
+      "symbol": "Li",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "4": {
+      "symbol": "Be",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "5": {
+      "symbol": "B",
+      "nullCount": 3,
+      "nullFields": [
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "6": {
+      "symbol": "C",
+      "nullCount": 4,
+      "nullFields": [
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "7": {
+      "symbol": "N",
+      "nullCount": 7,
+      "nullFields": [
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "8": {
+      "symbol": "O",
+      "nullCount": 6,
+      "nullFields": [
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "9": {
+      "symbol": "F",
+      "nullCount": 6,
+      "nullFields": [
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "10": {
+      "symbol": "Ne",
+      "nullCount": 11,
+      "nullFields": [
+        "electronegativity",
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "11": {
+      "symbol": "Na",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "12": {
+      "symbol": "Mg",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "13": {
+      "symbol": "Al",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "14": {
+      "symbol": "Si",
+      "nullCount": 3,
+      "nullFields": [
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "15": {
+      "symbol": "P",
+      "nullCount": 5,
+      "nullFields": [
+        "youngsModulus",
+        "shearModulus",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "16": {
+      "symbol": "S",
+      "nullCount": 5,
+      "nullFields": [
+        "youngsModulus",
+        "shearModulus",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "17": {
+      "symbol": "Cl",
+      "nullCount": 4,
+      "nullFields": [
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "18": {
+      "symbol": "Ar",
+      "nullCount": 10,
+      "nullFields": [
+        "electronegativity",
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "19": {
+      "symbol": "K",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "20": {
+      "symbol": "Ca",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "21": {
+      "symbol": "Sc",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "22": {
+      "symbol": "Ti",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "23": {
+      "symbol": "V",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "24": {
+      "symbol": "Cr",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "25": {
+      "symbol": "Mn",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "26": {
+      "symbol": "Fe",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "27": {
+      "symbol": "Co",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "28": {
+      "symbol": "Ni",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "29": {
+      "symbol": "Cu",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "30": {
+      "symbol": "Zn",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "31": {
+      "symbol": "Ga",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "32": {
+      "symbol": "Ge",
+      "nullCount": 3,
+      "nullFields": [
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "33": {
+      "symbol": "As",
+      "nullCount": 4,
+      "nullFields": [
+        "shearModulus",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "34": {
+      "symbol": "Se",
+      "nullCount": 3,
+      "nullFields": [
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "35": {
+      "symbol": "Br",
+      "nullCount": 4,
+      "nullFields": [
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "36": {
+      "symbol": "Kr",
+      "nullCount": 10,
+      "nullFields": [
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "37": {
+      "symbol": "Rb",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "38": {
+      "symbol": "Sr",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "39": {
+      "symbol": "Y",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "40": {
+      "symbol": "Zr",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "41": {
+      "symbol": "Nb",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "42": {
+      "symbol": "Mo",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "43": {
+      "symbol": "Tc",
+      "nullCount": 8,
+      "nullFields": [
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "44": {
+      "symbol": "Ru",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "45": {
+      "symbol": "Rh",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "46": {
+      "symbol": "Pd",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "47": {
+      "symbol": "Ag",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "48": {
+      "symbol": "Cd",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "49": {
+      "symbol": "In",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "50": {
+      "symbol": "Sn",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "51": {
+      "symbol": "Sb",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "52": {
+      "symbol": "Te",
+      "nullCount": 3,
+      "nullFields": [
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "53": {
+      "symbol": "I",
+      "nullCount": 4,
+      "nullFields": [
+        "youngsModulus",
+        "shearModulus",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "54": {
+      "symbol": "Xe",
+      "nullCount": 10,
+      "nullFields": [
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "55": {
+      "symbol": "Cs",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "56": {
+      "symbol": "Ba",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "57": {
+      "symbol": "La",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "58": {
+      "symbol": "Ce",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "59": {
+      "symbol": "Pr",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "60": {
+      "symbol": "Nd",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "61": {
+      "symbol": "Pm",
+      "nullCount": 4,
+      "nullFields": [
+        "hardnessMohs",
+        "deltaHf",
+        "deltaGf",
+        "annualProduction"
+      ]
+    },
+    "62": {
+      "symbol": "Sm",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "63": {
+      "symbol": "Eu",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "64": {
+      "symbol": "Gd",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "65": {
+      "symbol": "Tb",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "66": {
+      "symbol": "Dy",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "67": {
+      "symbol": "Ho",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "68": {
+      "symbol": "Er",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "69": {
+      "symbol": "Tm",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "70": {
+      "symbol": "Yb",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "71": {
+      "symbol": "Lu",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "72": {
+      "symbol": "Hf",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "73": {
+      "symbol": "Ta",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "74": {
+      "symbol": "W",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "75": {
+      "symbol": "Re",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "76": {
+      "symbol": "Os",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "77": {
+      "symbol": "Ir",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "78": {
+      "symbol": "Pt",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "79": {
+      "symbol": "Au",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "80": {
+      "symbol": "Hg",
+      "nullCount": 3,
+      "nullFields": [
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus"
+      ]
+    },
+    "81": {
+      "symbol": "Tl",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "82": {
+      "symbol": "Pb",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "83": {
+      "symbol": "Bi",
+      "nullCount": 0,
+      "nullFields": []
+    },
+    "84": {
+      "symbol": "Po",
+      "nullCount": 8,
+      "nullFields": [
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent"
+      ]
+    },
+    "85": {
+      "symbol": "At",
+      "nullCount": 10,
+      "nullFields": [
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "86": {
+      "symbol": "Rn",
+      "nullCount": 10,
+      "nullFields": [
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "87": {
+      "symbol": "Fr",
+      "nullCount": 7,
+      "nullFields": [
+        "electronAffinity",
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction"
+      ]
+    },
+    "88": {
+      "symbol": "Ra",
+      "nullCount": 5,
+      "nullFields": [
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction"
+      ]
+    },
+    "89": {
+      "symbol": "Ac",
+      "nullCount": 7,
+      "nullFields": [
+        "electronAffinity",
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction"
+      ]
+    },
+    "90": {
+      "symbol": "Th",
+      "nullCount": 1,
+      "nullFields": [
+        "electronAffinity"
+      ]
+    },
+    "91": {
+      "symbol": "Pa",
+      "nullCount": 2,
+      "nullFields": [
+        "electronAffinity",
+        "annualProduction"
+      ]
+    },
+    "92": {
+      "symbol": "U",
+      "nullCount": 1,
+      "nullFields": [
+        "electronAffinity"
+      ]
+    },
+    "93": {
+      "symbol": "Np",
+      "nullCount": 6,
+      "nullFields": [
+        "electronAffinity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction"
+      ]
+    },
+    "94": {
+      "symbol": "Pu",
+      "nullCount": 4,
+      "nullFields": [
+        "electronAffinity",
+        "hardnessMohs",
+        "bulkModulus",
+        "annualProduction"
+      ]
+    },
+    "95": {
+      "symbol": "Am",
+      "nullCount": 7,
+      "nullFields": [
+        "electronAffinity",
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "annualProduction"
+      ]
+    },
+    "96": {
+      "symbol": "Cm",
+      "nullCount": 10,
+      "nullFields": [
+        "electronAffinity",
+        "electricalResistivity",
+        "thermalConductivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "97": {
+      "symbol": "Bk",
+      "nullCount": 12,
+      "nullFields": [
+        "covalentRadius",
+        "electronAffinity",
+        "electricalResistivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "98": {
+      "symbol": "Cf",
+      "nullCount": 13,
+      "nullFields": [
+        "covalentRadius",
+        "electronAffinity",
+        "electricalResistivity",
+        "thermalConductivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "99": {
+      "symbol": "Es",
+      "nullCount": 13,
+      "nullFields": [
+        "covalentRadius",
+        "electronAffinity",
+        "electricalResistivity",
+        "thermalConductivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "100": {
+      "symbol": "Fm",
+      "nullCount": 15,
+      "nullFields": [
+        "boilingPoint",
+        "density",
+        "covalentRadius",
+        "electronAffinity",
+        "electricalResistivity",
+        "thermalConductivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "101": {
+      "symbol": "Md",
+      "nullCount": 16,
+      "nullFields": [
+        "boilingPoint",
+        "density",
+        "atomicRadius",
+        "covalentRadius",
+        "electronAffinity",
+        "electricalResistivity",
+        "thermalConductivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "102": {
+      "symbol": "No",
+      "nullCount": 16,
+      "nullFields": [
+        "boilingPoint",
+        "density",
+        "atomicRadius",
+        "covalentRadius",
+        "electronAffinity",
+        "electricalResistivity",
+        "thermalConductivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "103": {
+      "symbol": "Lr",
+      "nullCount": 16,
+      "nullFields": [
+        "boilingPoint",
+        "density",
+        "atomicRadius",
+        "covalentRadius",
+        "electronAffinity",
+        "electricalResistivity",
+        "thermalConductivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "104": {
+      "symbol": "Rf",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "105": {
+      "symbol": "Db",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "106": {
+      "symbol": "Sg",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "107": {
+      "symbol": "Bh",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "108": {
+      "symbol": "Hs",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "109": {
+      "symbol": "Mt",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "110": {
+      "symbol": "Ds",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "111": {
+      "symbol": "Rg",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "112": {
+      "symbol": "Cn",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "113": {
+      "symbol": "Nh",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "114": {
+      "symbol": "Fl",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "115": {
+      "symbol": "Mc",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "116": {
+      "symbol": "Lv",
+      "nullCount": 8,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "thermalConductivity",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction"
+      ]
+    },
+    "117": {
+      "symbol": "Ts",
+      "nullCount": 17,
+      "nullFields": [
+        "boilingPoint",
+        "electronAffinity",
+        "electricalResistivity",
+        "thermalConductivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    },
+    "118": {
+      "symbol": "Og",
+      "nullCount": 18,
+      "nullFields": [
+        "meltingPoint",
+        "boilingPoint",
+        "electronAffinity",
+        "electricalResistivity",
+        "thermalConductivity",
+        "hardnessMohs",
+        "youngsModulus",
+        "shearModulus",
+        "bulkModulus",
+        "deltaHf",
+        "deltaGf",
+        "standardEntropy",
+        "molarHeatCapacity",
+        "annualProduction",
+        "stdElectrodePotential",
+        "redoxCouple",
+        "electrochemicalEquivalent",
+        "ionicRadius"
+      ]
+    }
+  },
+  "fieldsWithNulls": [
+    {
+      "field": "annualProduction",
+      "count": 38
+    },
+    {
+      "field": "shearModulus",
+      "count": 35
+    },
+    {
+      "field": "youngsModulus",
+      "count": 34
+    },
+    {
+      "field": "hardnessMohs",
+      "count": 33
+    },
+    {
+      "field": "electronAffinity",
+      "count": 31
+    },
+    {
+      "field": "bulkModulus",
+      "count": 29
+    },
+    {
+      "field": "electrochemicalEquivalent",
+      "count": 26
+    },
+    {
+      "field": "electricalResistivity",
+      "count": 24
+    },
+    {
+      "field": "deltaHf",
+      "count": 23
+    },
+    {
+      "field": "deltaGf",
+      "count": 23
+    },
+    {
+      "field": "standardEntropy",
+      "count": 23
+    },
+    {
+      "field": "molarHeatCapacity",
+      "count": 23
+    },
+    {
+      "field": "thermalConductivity",
+      "count": 22
+    },
+    {
+      "field": "stdElectrodePotential",
+      "count": 20
+    },
+    {
+      "field": "redoxCouple",
+      "count": 20
+    },
+    {
+      "field": "boilingPoint",
+      "count": 19
+    },
+    {
+      "field": "ionicRadius",
+      "count": 12
+    },
+    {
+      "field": "covalentRadius",
+      "count": 7
+    },
+    {
+      "field": "density",
+      "count": 4
+    },
+    {
+      "field": "electronegativity",
+      "count": 3
+    },
+    {
+      "field": "atomicRadius",
+      "count": 3
+    },
+    {
+      "field": "meltingPoint",
+      "count": 1
+    }
+  ]
+}

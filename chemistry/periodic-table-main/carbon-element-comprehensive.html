@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>碳元素 · 万物之基 — 碳的全面知识图谱</title>
+<style>
+:root {
+  --c-50: #EEEDFE; --c-100: #CECBF6; --c-200: #AFA9EC; --c-400: #7F77DD;
+  --c-600: #534AB7; --c-800: #3C3489; --c-900: #26215C;
+  --teal-50: #E1F5EE; --teal-100: #9FE1CB; --teal-200: #5DCAA5; --teal-400: #1D9E75;
+  --teal-600: #0F6E56; --teal-800: #085041;
+  --amber-50: #FAEEDA; --amber-100: #FAC775; --amber-200: #EF9F27; --amber-400: #BA7517;
+  --amber-600: #854F0B; --amber-800: #633806;
+  --blue-50: #E6F1FB; --blue-100: #B5D4F4; --blue-200: #85B7EB; --blue-400: #378ADD;
+  --blue-600: #185FA5; --blue-800: #0C447C;
+  --gray-50: #F1EFE8; --gray-100: #D3D1C7; --gray-200: #B4B2A9; --gray-400: #888780;
+  --gray-600: #5F5E5A; --gray-800: #444441; --gray-900: #2C2C2A;
+  --coral-50: #FAECE7; --coral-100: #F5C4B3; --coral-200: #F0997B; --coral-400: #D85A30;
+  --coral-600: #993C1D;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #f7f6f3; color: #2C2C2A; line-height: 1.75; font-size: 15px;
+}
+.hero {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+  color: #fff; padding: 80px 24px 100px; text-align: center; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(circle at 20% 30%, rgba(127,119,221,0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(29,158,117,0.1) 0%, transparent 50%);
+}
+.hero-inner { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+.hero .symbol {
+  font-size: 120px; font-weight: 200; letter-spacing: -5px; margin-bottom: 10px;
+  background: linear-gradient(135deg, #fff 0%, #AFA9EC 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero .num { font-size: 22px; color: #AFA9EC; margin-bottom: 8px; letter-spacing: 4px; }
+.hero h1 { font-size: 42px; font-weight: 600; margin-bottom: 16px; letter-spacing: 2px; }
+.hero .subtitle { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto 40px; }
+.hero-meta {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px;
+}
+.hero-meta span {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  padding: 8px 18px; border-radius: 20px; font-size: 14px; color: rgba(255,255,255,0.85);
+}
+nav.toc {
+  position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px); border-bottom: 1px solid #e0dfd9;
+  padding: 12px 24px; overflow-x: auto; white-space: nowrap;
+  display: flex; gap: 6px; justify-content: center;
+}
+nav.toc a {
+  display: inline-block; padding: 6px 14px; border-radius: 16px; font-size: 13px;
+  color: #5F5E5A; text-decoration: none; transition: all 0.2s; font-weight: 500;
+}
+nav.toc a:hover { background: var(--c-50); color: var(--c-600); }
+nav.toc a.active { background: var(--c-600); color: #fff; }
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+section { margin-bottom: 60px; scroll-margin-top: 70px; }
+section h2 {
+  font-size: 28px; font-weight: 700; margin-bottom: 8px; color: #1a1a2e;
+  display: flex; align-items: center; gap: 12px;
+}
+section h2 .icon {
+  width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center;
+  justify-content: center; font-size: 18px; color: #fff; flex-shrink: 0;
+}
+section .lead { color: #5F5E5A; font-size: 16px; margin-bottom: 24px; }
+h3 { font-size: 19px; font-weight: 600; margin: 28px 0 12px; color: #2C2C2A; }
+h4 { font-size: 16px; font-weight: 600; margin: 20px 0 10px; color: #444441; }
+p { margin-bottom: 14px; }
+.card {
+  background: #fff; border-radius: 14px; padding: 24px 28px; margin-bottom: 20px;
+  border: 1px solid #ebeae5;
+}
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+.info-card {
+  background: #fff; border-radius: 12px; padding: 20px; border: 1px solid #ebeae5;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.info-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+.info-card .label { font-size: 12px; color: #888780; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.info-card .value { font-size: 22px; font-weight: 700; color: #1a1a2e; }
+.info-card .unit { font-size: 14px; color: #888780; font-weight: 400; }
+.info-card .desc { font-size: 13px; color: #5F5E5A; margin-top: 6px; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+th { background: #f4f3f0; padding: 12px 14px; text-align: left; font-weight: 600; color: #444441; border-bottom: 2px solid #e0dfd9; }
+td { padding: 10px 14px; border-bottom: 1px solid #eee; color: #2C2C2A; }
+tr:hover td { background: #fafaf9; }
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px;
+  font-weight: 500; margin: 2px 4px 2px 0;
+}
+.badge-purple { background: var(--c-50); color: var(--c-600); }
+.badge-teal { background: var(--teal-50); color: var(--teal-600); }
+.badge-amber { background: var(--amber-50); color: var(--amber-600); }
+.badge-blue { background: var(--blue-50); color: var(--blue-600); }
+.badge-coral { background: var(--coral-50); color: var(--coral-600); }
+.highlight-box {
+  background: linear-gradient(135deg, #f5f4ff 0%, #eef9f4 100%);
+  border-left: 4px solid var(--c-600); border-radius: 0 12px 12px 0;
+  padding: 18px 24px; margin: 20px 0;
+}
+.highlight-box.teal { border-left-color: var(--teal-600); background: linear-gradient(135deg, #effaf5 0%, #e6f1fb 100%); }
+.highlight-box.amber { border-left-color: var(--amber-200); background: linear-gradient(135deg, #fef9ed 0%, #fdf0e8 100%); }
+.highlight-box.blue { border-left-color: var(--blue-600); background: linear-gradient(135deg, #eef5fc 0%, #eef9f4 100%); }
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.formula {
+  font-family: 'Cambria Math', 'Times New Roman', serif; font-style: italic;
+  background: #f4f3f0; padding: 2px 8px; border-radius: 4px; font-size: 15px;
+}
+.sub-list { list-style: none; padding-left: 0; }
+.sub-list li {
+  padding: 10px 0 10px 24px; border-bottom: 1px solid #f0f0ee; position: relative;
+}
+.sub-list li:last-child { border-bottom: none; }
+.sub-list li::before {
+  content: ''; position: absolute; left: 0; top: 18px; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--c-200);
+}
+.allotrope-card {
+  background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid #ebeae5;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.allotrope-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,0.08); }
+.allotrope-card .head { padding: 16px 20px; color: #fff; }
+.allotrope-card .head h4 { color: #fff; margin: 0; font-size: 18px; }
+.allotrope-card .head .en { font-size: 12px; opacity: 0.8; }
+.allotrope-card .body { padding: 18px 20px; }
+.allotrope-card .body p { font-size: 13px; color: #5F5E5A; margin-bottom: 8px; }
+.allotrope-card .props { font-size: 12px; color: #888780; border-top: 1px solid #f0f0ee; padding-top: 10px; }
+.diamond-bg { background: linear-gradient(135deg, #b9d4f4, #378ADD); }
+.graphite-bg { background: linear-gradient(135deg, #888780, #444441); }
+.graphene-bg { background: linear-gradient(135deg, #AFA9EC, #534AB7); }
+.fullerene-bg { background: linear-gradient(135deg, #FAC775, #BA7517); }
+.cnt-bg { background: linear-gradient(135deg, #5DCAA5, #0F6E56); }
+.amorphous-bg { background: linear-gradient(135deg, #D3D1C7, #888780); }
+.graphyne-bg { background: linear-gradient(135deg, #F0997B, #993C1D); }
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(to bottom, var(--c-200), var(--teal-200), var(--amber-200));
+}
+.timeline-item { position: relative; margin-bottom: 24px; }
+.timeline-item::before {
+  content: ''; position: absolute; left: -28px; top: 4px; width: 14px; height: 14px;
+  border-radius: 50%; background: #fff; border: 3px solid var(--c-400);
+}
+.timeline-item .year { font-weight: 700; color: var(--c-600); font-size: 15px; }
+.timeline-item .event { color: #2C2C2A; font-size: 14px; margin-top: 4px; }
+.cycle-diagram {
+  background: #fff; border-radius: 14px; padding: 28px; border: 1px solid #ebeae5; text-align: center;
+}
+.cycle-diagram .circle-flow {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin: 20px 0;
+}
+.cycle-diagram .flow-item {
+  background: var(--teal-50); border: 1px solid var(--teal-100); border-radius: 12px;
+  padding: 14px 18px; min-width: 140px; text-align: center;
+}
+.cycle-diagram .flow-item .name { font-weight: 600; color: var(--teal-800); font-size: 14px; }
+.cycle-diagram .flow-item .val { font-size: 12px; color: var(--teal-600); margin-top: 4px; }
+.arrow { font-size: 24px; color: #888780; align-self: center; }
+.compare-table th { background: #1a1a2e; color: #fff; }
+.compare-table th:first-child { border-radius: 8px 0 0 0; }
+.compare-table th:last-child { border-radius: 0 8px 0 0; }
+.fun-fact {
+  background: linear-gradient(135deg, #fef9ed, #f5f4ff);
+  border-radius: 14px; padding: 20px 24px; margin: 16px 0;
+  border: 1px dashed var(--amber-200);
+}
+.fun-fact .title { font-weight: 600; color: var(--amber-600); margin-bottom: 8px; font-size: 14px; }
+footer {
+  background: #1a1a2e; color: rgba(255,255,255,0.6); text-align: center;
+  padding: 40px 24px; font-size: 13px;
+}
+footer a { color: var(--c-200); text-decoration: none; }
+.quote {
+  font-size: 18px; font-style: italic; color: #444441; text-align: center;
+  padding: 24px; max-width: 700px; margin: 0 auto; line-height: 1.8;
+}
+.quote .author { display: block; font-size: 14px; color: #888780; margin-top: 10px; font-style: normal; }
+@media (max-width: 768px) {
+  .hero .symbol { font-size: 80px; }
+  .hero h1 { font-size: 28px; }
+  nav.toc a { font-size: 12px; padding: 5px 10px; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Hero ===== -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="num">第 6 号元素 · 第 14 族 · 第二周期</div>
+    <div class="symbol">C</div>
+    <h1>碳 · Carbonium</h1>
+    <p class="subtitle">生命的骨架，文明的燃料，宇宙中第四丰富的元素。从钻石到DNA，从石墨烯到星际尘埃——碳，是万物之基。</p>
+    <div class="hero-meta">
+      <span>原子量 12.011</span>
+      <span>电子构型 [He] 2s² 2p²</span>
+      <span>熔点 3550°C</span>
+      <span>密度 2.267 g/cm³</span>
+      <span>电负性 2.55</span>
+      <span>已知化合物 >1000万种</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Navigation ===== -->
+<nav class="toc" id="toc">
+  <a href="#sec1">基本属性</a>
+  <a href="#sec2">原子结构</a>
+  <a href="#sec3">同位素</a>
+  <a href="#sec4">物理性质</a>
+  <a href="#sec5">化学性质</a>
+  <a href="#sec6">同素异形体</a>
+  <a href="#sec7">有机化学</a>
+  <a href="#sec8">生物化学</a>
+  <a href="#sec9">碳循环</a>
+  <a href="#sec10">环境与气候</a>
+  <a href="#sec11">工业应用</a>
+  <a href="#sec12">纳米技术</a>
+  <a href="#sec13">核物理</a>
+  <a href="#sec14">天体物理</a>
+  <a href="#sec15">地质学</a>
+  <a href="#sec16">发现历史</a>
+  <a href="#sec17">量子化学</a>
+  <a href="#sec18">光谱学</a>
+  <a href="#sec19">未来展望</a>
+</nav>
+
+<div class="container">
+
+<!-- ===== 1. 基本属性 ===== -->
+<section id="sec1">
+  <h2><span class="icon" style="background:var(--c-600);">1</span>基本属性</h2>
+  <p class="lead">碳是化学元素周期表中的第6号元素，属于第14族（碳族元素），第二周期。它是地球上所有已知生命体系的核心元素，也是已知形成化合物种类最多的元素。</p>
+
+  <div class="grid grid-4">
+    <div class="info-card"><div class="label">原子序数</div><div class="value">6</div><div class="desc">质子数 = 电子数 = 6</div></div>
+    <div class="info-card"><div class="label">相对原子质量</div><div class="value">12.011</div><div class="unit">u</div><div class="desc">以¹²C为基准（恰好12u）</div></div>
+    <div class="info-card"><div class="label">元素类别</div><div class="value" style="font-size:16px;">非金属</div><div class="desc">碳族元素，p区</div></div>
+    <div class="info-card"><div class="label">族/周期</div><div class="value" style="font-size:16px;">14 / 2</div><div class="desc">第IVA族，第二周期</div></div>
+    <div class="info-card"><div class="label">电负性</div><div class="value">2.55</div><div class="desc">鲍林标度，中等偏强</div></div>
+    <div class="info-card"><div class="label">原子半径</div><div class="value">70</div><div class="unit">pm（共价）</div><div class="desc">范德华半径 170 pm</div></div>
+    <div class="info-card"><div class="label">氧化态</div><div class="value" style="font-size:14px;">-4 ~ +4</div><div class="desc">常见：+4, +2, 0, -4</div></div>
+    <div class="info-card"><div class="label">晶体结构</div><div class="value" style="font-size:14px;">多种</div><div class="desc">金刚石/石墨等六方</div></div>
+  </div>
+
+  <div class="card">
+    <h3>基本参数总表</h3>
+    <table>
+      <tr><th>属性</th><th>数值</th><th>属性</th><th>数值</th></tr>
+      <tr><td>符号</td><td>C</td><td>原子量</td><td>12.011 u</td></tr>
+      <tr><td>熔点</td><td>3550 °C（升华，约3825 K）</td><td>沸点</td><td>4027 °C（约4300 K）</td></tr>
+      <tr><td>密度（石墨）</td><td>2.267 g/cm³</td><td>密度（金刚石）</td><td>3.515 g/cm³</td></tr>
+      <tr><td>比热容</td><td>0.709 J/(g·K)</td><td>导热率（金刚石）</td><td>~2200 W/(m·K)</td></tr>
+      <tr><td>第一电离能</td><td>1086.5 kJ/mol</td><td>第二电离能</td><td>2352.6 kJ/mol</td></tr>
+      <tr><td>电子亲和能</td><td>121.9 kJ/mol</td><td>熔化热</td><td>~117 kJ/mol</td></tr>
+      <tr><td>磁序</td><td>抗磁性</td><td>电阻率（石墨，基面）</td><td>2.5×10⁻⁶ Ω·m</td></tr>
+      <tr><td>电阻率（金刚石）</td><td>~10¹³ Ω·m（绝缘体）</td><td>CAS号</td><td>7440-44-0</td></tr>
+      <tr><td>发现年代</td><td>史前已知</td><td>命名来源</td><td>拉丁语 carbo（木炭）</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 2. 原子结构 ===== -->
+<section id="sec2">
+  <h2><span class="icon" style="background:var(--c-600);">2</span>原子结构</h2>
+  <p class="lead">碳原子的核外电子排布为 1s² 2s² 2p²，价电子层有4个电子。这种"不多不少"的4个价电子，使碳能够通过sp、sp²、sp³杂化形成极其多样的化学键，这是碳化学多样性的根本来源。</p>
+
+  <div class="card">
+    <h3>电子排布</h3>
+    <p><strong>完整电子排布：</strong> <span class="formula">1s² 2s² 2p²</span></p>
+    <p><strong>价电子排布（简化）：</strong> <span class="formula">[He] 2s² 2p²</span></p>
+    <p><strong>价电子数：</strong> 4（2s² 2p²），位于第二主层的s和p轨道</p>
+    <p>碳原子核内有6个质子和（通常）6个中子，核外有6个电子分布在两个电子层上。K层（n=1）有2个电子（1s轨道），L层（n=2）有4个电子（2s和2p轨道）。</p>
+  </div>
+
+  <div class="card">
+    <h3>轨道杂化 —— 碳化学多样性的核心</h3>
+    <p>碳原子在形成化学键时，2s和2p轨道会发生杂化（混合），形成三种不同的杂化方式，每种产生不同的几何构型和键性质：</p>
+
+    <table class="compare-table">
+      <tr><th>杂化类型</th><th>轨道组成</th><th>几何构型</th><th>键角</th><th>实例</th><th>键性质</th></tr>
+      <tr>
+        <td><strong>sp³</strong></td>
+        <td>1个s + 3个p</td>
+        <td>正四面体</td>
+        <td>109.5°</td>
+        <td>甲烷(CH₄)、金刚石、乙烷</td>
+        <td>4个σ键，无π键</td>
+      </tr>
+      <tr>
+        <td><strong>sp²</strong></td>
+        <td>1个s + 2个p</td>
+        <td>平面三角</td>
+        <td>120°</td>
+        <td>乙烯(C₂H₄)、石墨、苯、石墨烯</td>
+        <td>3个σ键 + 1个π键</td>
+      </tr>
+      <tr>
+        <td><strong>sp</strong></td>
+        <td>1个s + 1个p</td>
+        <td>直线型</td>
+        <td>180°</td>
+        <td>乙炔(C₂H₂)、CO₂、HCN</td>
+        <td>2个σ键 + 2个π键</td>
+      </tr>
+    </table>
+
+    <div class="highlight-box">
+      <p><strong>关键洞察：</strong>正是这三种杂化方式的灵活组合，使碳能够形成单键、双键、三键，构建从直链到环状、从平面到立体的无数分子结构。没有其他元素能像碳一样展现出如此丰富的成键模式。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>碳原子核</h3>
+    <p>碳原子核由6个质子和若干中子组成。最常见的同位素¹²C的核含有6个质子和6个中子。原子核的稳定性来源于强核力与库仑斥力之间的平衡。</p>
+    <ul class="sub-list">
+      <li><strong>质子数（Z）：</strong> 6，决定了碳的化学身份</li>
+      <li><strong>中子数（N）：</strong> 随同位素变化（5～16）</li>
+      <li><strong>核自旋：</strong> ¹²C的核自旋为0（NMR活性为零），¹³C的核自旋为1/2（NMR活性）</li>
+      <li><strong>核结合能：</strong> 约92.16 MeV（每个核子约7.68 MeV）</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 3. 同位素 ===== -->
+<section id="sec3">
+  <h2><span class="icon" style="background:var(--c-600);">3</span>同位素</h2>
+  <p class="lead">碳已知有15种同位素（⁸C到²²C），其中只有¹²C和¹³C是稳定同位素，¹⁴C是半衰期最长的放射性同位素。同位素的应用贯穿考古学、医学、地质学等多个领域。</p>
+
+  <div class="card">
+    <h3>主要同位素详情</h3>
+    <table>
+      <tr><th>同位素</th><th>质量(u)</th><th>天然丰度</th><th>半衰期</th><th>衰变方式</th><th>核自旋</th><th>主要应用</th></tr>
+      <tr>
+        <td><strong>¹²C</strong></td>
+        <td>12（精确定义）</td>
+        <td>98.93%</td>
+        <td>稳定</td>
+        <td>—</td>
+        <td>0</td>
+        <td>原子质量基准；NMR不敏感</td>
+      </tr>
+      <tr>
+        <td><strong>¹³C</strong></td>
+        <td>13.003355</td>
+        <td>1.07%</td>
+        <td>稳定</td>
+        <td>—</td>
+        <td>1/2</td>
+        <td>¹³C NMR光谱学；代谢示踪</td>
+      </tr>
+      <tr>
+        <td><strong>¹⁴C</strong></td>
+        <td>14.003242</td>
+        <td>~10⁻¹²</td>
+        <td>5730年</td>
+        <td>β⁻衰变 → ¹⁴N</td>
+        <td>0</td>
+        <td>放射性碳年代测定</td>
+      </tr>
+      <tr>
+        <td>¹¹C</td>
+        <td>11.011434</td>
+        <td>痕量（人工）</td>
+        <td>20.3分钟</td>
+        <td>β⁺衰变 → ¹¹B</td>
+        <td>3/2</td>
+        <td>PET医学成像示踪剂</td>
+      </tr>
+      <tr>
+        <td>¹⁰C</td>
+        <td>10.016853</td>
+        <td>人工</td>
+        <td>19.3秒</td>
+        <td>β⁺衰变 → ¹⁰B</td>
+        <td>0</td>
+        <td>核物理研究</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>¹⁴C放射性碳测年法</h3>
+    <p>¹⁴C测年是考古学和地质学中最重要的年代测定方法之一，由威拉德·利比（Willard Libby）于1949年发明，他因此获得1960年诺贝尔化学奖。</p>
+
+    <div class="highlight-box teal">
+      <p><strong>原理：</strong>宇宙射线中的中子与大气中的¹⁴N反应生成¹⁴C（¹⁴N + n → ¹⁴C + p）。¹⁴C在高层大气中被氧化为CO₂，进入碳循环。活体生物体内的¹⁴C/¹²C比值与大气保持一致。生物死亡后停止交换碳，¹⁴C以5730年半衰期衰变，通过测量残留¹⁴C含量即可推算年代。</p>
+    </div>
+
+    <ul class="sub-list">
+      <li><strong>有效测年范围：</strong> 约300年至50,000年</li>
+      <li><strong>校准：</strong>需用树轮年代学（ dendrochronology）校准，因大气¹⁴C浓度随时间波动</li>
+      <li><strong>局限：</strong>超过50,000年的样品¹⁴C含量过低，无法准确测量</li>
+      <li><strong>应用实例：</strong>死海古卷测定、都灵裹尸布分析、石器年代测定</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>同位素分馏与地球化学</h3>
+    <p>在自然界中，物理、化学和生物过程会对¹²C和¹³C产生不同程度的分馏（同位素分馏效应），导致不同碳库的δ¹³C值不同：</p>
+    <table>
+      <tr><th>碳库</th><th>δ¹³C (‰, PDB)</th><th>意义</th></tr>
+      <tr><td>大气CO₂</td><td>约 -7‰</td><td>基准参考</td></tr>
+      <tr><td>海洋碳酸盐</td><td>约 0‰</td><td>无机碳沉淀</td></tr>
+      <tr><td>C3植物（树木、小麦）</td><td>约 -27‰</td><td>光合作用强烈分馏</td></tr>
+      <tr><td>C4植物（玉米、甘蔗）</td><td>约 -13‰</td><td>Hatch-Slack途径分馏较小</td></tr>
+      <tr><td>CAM植物（仙人掌）</td><td>约 -20‰</td><td>介于C3和C4之间</td></tr>
+      <tr><td>化石燃料</td><td>约 -25‰</td><td>来源于古代生物</td></tr>
+    </table>
+    <p>δ¹³C值被广泛用于古气候重建、食物链分析、石油来源追踪等领域。</p>
+  </div>
+</section>
+
+<!-- ===== 4. 物理性质 ===== -->
+<section id="sec4">
+  <h2><span class="icon" style="background:var(--c-600);">4</span>物理性质</h2>
+  <p class="lead">碳的物理性质因其同素异形体不同而存在巨大差异——金刚石是最硬的天然物质且是电绝缘体，而石墨是软质固体却是良导体。这种极端差异源于碳原子间排列方式的不同。</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>金刚石的物理性质</h3>
+      <table>
+        <tr><td>莫氏硬度</td><td>10（最高）</td></tr>
+        <tr><td>密度</td><td>3.515 g/cm³</td></tr>
+        <tr><td>折射率</td><td>2.417</td></tr>
+        <tr><td>色散率</td><td>0.044（高色散，产生"火彩"）</td></tr>
+        <tr><td>导热率</td><td>~2200 W/(m·K)（极高）</td></tr>
+        <tr><td>电阻率</td><td>~10¹³ Ω·m（绝缘体）</td></tr>
+        <tr><td>光学带隙</td><td>5.5 eV（宽禁带半导体）</td></tr>
+        <tr><td>声速</td><td>~18,000 m/s（固体中最快）</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>石墨的物理性质</h3>
+      <table>
+        <tr><td>莫氏硬度</td><td>1-2（极软）</td></tr>
+        <tr><td>密度</td><td>2.267 g/cm³</td></tr>
+        <tr><td>电阻率（基面）</td><td>2.5×10⁻⁶ Ω·m（导体）</td></tr>
+        <tr><td>电阻率（c轴）</td><td>~3×10⁻³ Ω·m（各向异性）</td></tr>
+        <tr><td>导热率（基面）</td><td>~2000 W/(m·K)（高导热）</td></tr>
+        <tr><td>层间距</td><td>3.35 Å</td></tr>
+        <tr><td>C-C键长（层内）</td><td>1.42 Å</td></tr>
+        <tr><td>润滑性</td><td>极佳（层间弱范德华力）</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>热力学性质</h3>
+    <table>
+      <tr><th>性质</th><th>数值</th><th>说明</th></tr>
+      <tr><td>熔点</td><td>~3550 °C（3823 K）</td><td>在高压下（>10 MPa）才能熔化</td></tr>
+      <tr><td>升华点（1 atm）</td><td>~3642 °C（3915 K）</td><td>常压下直接升华</td></tr>
+      <tr><td>三相点</td><td>~4600 K, 10.8 MPa</td><td>金刚石-石墨-液态碳三相共存</td></tr>
+      <tr><td>标准生成焓（ΔHf°）</td><td>0 kJ/mol</td><td>碳为参考态（元素）</td></tr>
+      <tr><td>标准熵（S°）</td><td>5.74 J/(mol·K)</td><td>石墨的标准摩尔熵</td></tr>
+      <tr><td>标准摩尔热容（Cp）</td><td>8.53 J/(mol·K)</td><td>石墨，298 K</td></tr>
+      <tr><td>升华焓</td><td>716.7 kJ/mol</td><td>极高，反映C-C键强度</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>相图：碳的高压高温行为</h3>
+    <p>碳的相图极为特殊，在高温高压下呈现复杂的相行为：</p>
+    <ul class="sub-list">
+      <li><strong>金刚石稳定区：</strong>高温高压（>1.5 GPa, >200°C）下金刚石热力学稳定</li>
+      <li><strong>石墨稳定区：</strong>常温常压下石墨是热力学最稳定的形式</li>
+      <li><strong>液态碳：</strong>在10 MPa以上压力、4600 K以上温度时存在</li>
+      <li><strong>超离子相：</strong>理论预测在极端条件下（>1000 GPa）存在</li>
+      <li><strong>金属碳：</strong>超高压下预测可能具有金属性</li>
+    </ul>
+    <div class="highlight-box">
+      <p><strong>事实：</strong>虽然常温常压下金刚石在热力学上"不稳定"（倾向于转为石墨），但由于金刚石→石墨的转化动力学极其缓慢（活化能极高），金刚石实际上可以永久保存——这就是"钻石恒久远"的科学基础。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. 化学性质 ===== -->
+<section id="sec5">
+  <h2><span class="icon" style="background:var(--c-600);">5</span>化学性质</h2>
+  <p class="lead">碳的化学性质极其丰富——它可以与几乎所有元素形成化合物，已知碳化合物超过1000万种（占所有已知化合物的绝大部分）。碳的化学反应性在很大程度上取决于其同素异形体和键合方式。</p>
+
+  <div class="card">
+    <h3>成键特征</h3>
+    <table>
+      <tr><th>键类型</th><th>键能 (kJ/mol)</th><th>键长 (Å)</th><th>实例</th></tr>
+      <tr><td>C-C（单键）</td><td>346</td><td>1.54</td><td>乙烷、金刚石</td></tr>
+      <tr><td>C=C（双键）</td><td>614</td><td>1.34</td><td>乙烯、石墨</td></tr>
+      <tr><td>C≡C（三键）</td><td>839</td><td>1.20</td><td>乙炔</td></tr>
+      <tr><td>C-H</td><td>411</td><td>1.09</td><td>几乎所有有机物</td></tr>
+      <tr><td>C-O</td><td>358</td><td>1.43</td><td>醇、醚</td></tr>
+      <tr><td>C=O</td><td>745（醛酮799）</td><td>1.23</td><td>CO₂、醛、酮</td></tr>
+      <tr><td>C-N</td><td>305</td><td>1.47</td><td>胺、氨基酸</td></tr>
+      <tr><td>C≡N</td><td>891</td><td>1.16</td><td>氰化物、腈</td></tr>
+      <tr><td>C-S</td><td>272</td><td>1.82</td><td>硫醇、含硫氨基酸</td></tr>
+      <tr><td>C-Cl</td><td>327</td><td>1.77</td><td>氯代烃</td></tr>
+      <tr><td>C-F</td><td>485</td><td>1.35</td><td>特氟龙（PTFE）</td></tr>
+      <tr><td>C-Si</td><td>318</td><td>1.86</td><td>有机硅化合物</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>氧化态与典型化合物</h3>
+    <table>
+      <tr><th>氧化态</th><th>典型化合物</th><th>说明</th></tr>
+      <tr><td><strong>-4</strong></td><td>CH₄（甲烷）、Al₄C₃</td><td>碳获得4个电子，完全还原态</td></tr>
+      <tr><td><strong>-3 ~ -1</strong></td><td>C₂H₆(-3)、C₂H₄(-2)、C₂H₂(-1)</td><td>有机化合物中的部分还原态</td></tr>
+      <tr><td><strong>0</strong></td><td>金刚石、石墨、C(石墨)</td><td>元素态，参考态</td></tr>
+      <tr><td><strong>+2</strong></td><td>CO（一氧化碳）</td><td>剧毒，配体能力强</td></tr>
+      <tr><td><strong>+4</strong></td><td>CO₂、CCl₄、CS₂、CaCO₃</td><td>完全氧化态，最稳定高价态</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>与各元素的反应性</h3>
+    <h4>与氧气反应（燃烧）</h4>
+    <p>碳在充足氧气中完全燃烧生成CO₂，在不足氧气中不完全燃烧生成CO：</p>
+    <p><span class="formula">C + O₂ → CO₂</span>（ΔH = -393.5 kJ/mol，完全燃烧）</p>
+    <p><span class="formula">2C + O₂ → 2CO</span>（ΔH = -110.5 kJ/mol，不完全燃烧）</p>
+    <p><span class="formula">2CO + O₂ → 2CO₂</span>（ΔH = -566 kJ/mol）</p>
+
+    <h4>与金属反应</h4>
+    <p>碳在高温下可与许多金属反应生成碳化物：</p>
+    <p><span class="formula">Ca + 2C → CaC₂</span>（电石，碳化钙）</p>
+    <p><span class="formula">4Al + 3C → Al₄C₃</span>（碳化铝）</p>
+    <p><span class="formula">Fe + C → Fe₃C</span>（渗碳体，钢铁中的关键相）</p>
+
+    <h4>与水蒸气反应</h4>
+    <p>高温下碳与水蒸气反应生成水煤气（合成气）：</p>
+    <p><span class="formula">C + H₂O(g) → CO + H₂</span>（吸热反应，~1000°C）</p>
+
+    <h4>与卤素反应</h4>
+    <p><span class="formula">C + 2F₂ → CF₄</span>（与氟剧烈反应）</p>
+    <p>与氯、溴的反应需要催化剂或光照条件</p>
+
+    <h4>与氧化物反应（还原性）</h4>
+    <p>碳是重要的工业还原剂：</p>
+    <p><span class="formula">2Fe₂O₃ + 3C → 4Fe + 3CO₂</span>（炼铁）</p>
+    <p><span class="formula">SiO₂ + 2C → Si + 2CO</span>（制硅）</p>
+    <p><span class="formula">ZnO + C → Zn + CO</span>（炼锌）</p>
+  </div>
+
+  <div class="card">
+    <h3>酸碱稳定性</h3>
+    <p>碳在常温下对绝大多数酸、碱呈惰性：</p>
+    <ul class="sub-list">
+      <li>不溶于盐酸、硫酸、硝酸、氢氟酸（常温）</li>
+      <li>不溶于NaOH、KOH等强碱溶液</li>
+      <li>可被强氧化性混合酸（如浓HNO₃ + HClO₄）在高温下缓慢氧化</li>
+      <li>熔融KOH可侵蚀石墨</li>
+      <li>这种化学惰性使碳电极、碳坩埚在化学工业中得到广泛应用</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 6. 同素异形体 ===== -->
+<section id="sec6">
+  <h2><span class="icon" style="background:var(--c-600);">6</span>同素异形体</h2>
+  <p class="lead">碳拥有所有元素中最多的同素异形体（allotropes）——从最硬的金刚石到最软的石墨，从零维的富勒烯到一维的碳纳米管，从二维的石墨烯到三维的石墨。每种同素异形体都拥有独特的物理化学性质。</p>
+
+  <div class="grid grid-2">
+    <div class="allotrope-card">
+      <div class="head diamond-bg">
+        <h4>金刚石</h4>
+        <div class="en">Diamond</div>
+      </div>
+      <div class="body">
+        <p>每个碳原子以sp³杂化与4个相邻碳原子形成共价键，构成三维四面体网络结构。C-C键长1.54 Å，键角109.5°。</p>
+        <p><strong>特征：</strong>天然最硬物质、极高导热率、光学透明（宽禁带）、电绝缘。</p>
+        <div class="props">硬度10 | 密度3.52 | 带隙5.5eV | 晶系：立方</div>
+      </div>
+    </div>
+
+    <div class="allotrope-card">
+      <div class="head graphite-bg">
+        <h4>石墨</h4>
+        <div class="en">Graphite</div>
+      </div>
+      <div class="body">
+        <p>碳原子以sp²杂化形成六角蜂窝平面层，层内C-C键长1.42 Å（强共价键），层间以范德华力结合（3.35 Å间距，弱相互作用）。</p>
+        <p><strong>特征：</strong>层间易滑动（润滑性）、层内导电（离域π电子）、耐高温、化学惰性。</p>
+        <div class="props">硬度1-2 | 密度2.27 | 导电 | 晶系：六方</div>
+      </div>
+    </div>
+
+    <div class="allotrope-card">
+      <div class="head graphene-bg">
+        <h4>石墨烯</h4>
+        <div class="en">Graphene</div>
+      </div>
+      <div class="body">
+        <p>单层石墨——仅一个原子厚的二维碳材料。2004年由安德烈·海姆和康斯坦丁·诺沃肖洛夫分离，获2010年诺贝尔物理学奖。</p>
+        <p><strong>特征：</strong>已知最强材料（强度为钢的100倍）、极高电子迁移率、室温量子霍尔效应、高透光率（97.7%）。</p>
+        <div class="props">强度130 GPa | 迁移率200,000 cm²/Vs | 透光97.7%</div>
+      </div>
+    </div>
+
+    <div class="allotrope-card">
+      <div class="head fullerene-bg">
+        <h4>富勒烯</h4>
+        <div class="en">Fullerene (C₆₀)</div>
+      </div>
+      <div class="body">
+        <p>由60个碳原子组成的截角二十面体球形分子，形似足球。1985年由克罗托、斯莫利和柯尔发现，获1996年诺贝尔化学奖。又称"巴克球"（Buckyball）。</p>
+        <p><strong>特征：</strong>零维纳米结构、可填充金属原子、超导性（掺钾后）、优异电子受体。</p>
+        <div class="props">直径0.71 nm | 12个五边形+20个六边形 | C-C键1.40/1.46 Å</div>
+      </div>
+    </div>
+
+    <div class="allotrope-card">
+      <div class="head cnt-bg">
+        <h4>碳纳米管</h4>
+        <div class="en">Carbon Nanotube (CNT)</div>
+      </div>
+      <div class="body">
+        <p>由石墨烯片层卷曲形成的一维管状结构。1991年由饭岛澄男发现。分为单壁（SWCNT）和多壁（MWCNT）。按卷曲方式分为扶手椅型、锯齿型和螺旋型。</p>
+        <p><strong>特征：</strong>极高抗拉强度、优异导电性（取决于手性）、高热导率、大长径比。</p>
+        <div class="props">强度63 GPa | 密度1.3 g/cm³ | 导电性取决于手性</div>
+      </div>
+    </div>
+
+    <div class="allotrope-card">
+      <div class="head amorphous-bg">
+        <h4>无定形碳</h4>
+        <div class="en">Amorphous Carbon</div>
+      </div>
+      <div class="body">
+        <p>不具有长程有序晶体结构的碳，包括木炭、焦炭、炭黑、活性炭、玻璃碳等。实际上是纳米级石墨微晶的混合物。</p>
+        <p><strong>特征：</strong>高比表面积（活性炭可达3000 m²/g）、吸附性强、导电性变化大。</p>
+        <div class="props">结构不规则 | 高吸附性 | 含杂原子</div>
+      </div>
+    </div>
+
+    <div class="allotrope-card">
+      <div class="head graphyne-bg">
+        <h4>石墨炔</h4>
+        <div class="en">Graphyne</div>
+      </div>
+      <div class="body">
+        <p>由sp和sp²杂化碳原子构成的二维网络结构，含乙炔键（-C≡C-）连接的六角环。理论预测具有独特的电子性质，2010年后被成功合成。</p>
+        <p><strong>特征：</strong>天然带隙、可直接用于半导体器件、预测存在狄拉克锥。</p>
+        <div class="props">含sp+sp²杂化 | 天然带隙 | 半导体性质</div>
+      </div>
+    </div>
+
+    <div class="allotrope-card">
+      <div class="head diamond-bg">
+        <h4>蓝丝黛尔石</h4>
+        <div class="en">Lonsdaleite</div>
+      </div>
+      <div class="body">
+        <p>六方金刚石，碳原子以sp³杂化但排列为六方晶系而非立方晶系。在陨石撞击坑中发现，理论上比立方金刚石更硬。</p>
+        <p><strong>特征：</strong>陨石撞击产生、理论硬度超金刚石、亚稳态。</p>
+        <div class="props">六方晶系 | sp³杂化 | 天然产自陨石</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>同素异形体对比总表</h3>
+    <table class="compare-table">
+      <tr><th>性质</th><th>金刚石</th><th>石墨</th><th>石墨烯</th><th>富勒烯C₆₀</th><th>碳纳米管</th></tr>
+      <tr><td>维度</td><td>3D</td><td>3D（层状）</td><td>2D</td><td>0D</td><td>1D</td></tr>
+      <tr><td>杂化</td><td>sp³</td><td>sp²</td><td>sp²</td><td>sp²（主要）</td><td>sp²</td></tr>
+      <tr><td>硬度</td><td>10（最高）</td><td>1-2</td><td>—（2D）</td><td>—（分子）</td><td>—（管状）</td></tr>
+      <tr><td>导电性</td><td>绝缘体</td><td>导体（面内）</td><td>优异导体</td><td>半导体</td><td>金属性/半导体性</td></tr>
+      <tr><td>密度(g/cm³)</td><td>3.52</td><td>2.27</td><td>~2.3</td><td>1.65</td><td>1.3-2.0</td></tr>
+      <tr><td>透明性</td><td>透明</td><td>不透明</td><td>~97.7%透光</td><td>棕色溶液</td><td>不透明</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ===== 7. 有机化学 ===== -->
+<section id="sec7">
+  <h2><span class="icon" style="background:var(--c-600);">7</span>有机化学</h2>
+  <p class="lead">有机化学本质上是"碳的化学"——研究含碳化合物的结构、性质、反应和合成。碳通过其独特的成键能力，构成了已知超过1000万种化合物的有机化学世界。</p>
+
+  <div class="card">
+    <h3>碳为什么能形成如此多的化合物？</h3>
+    <ul class="sub-list">
+      <li><strong>四价性：</strong>碳有4个价电子，可形成4个共价键，构建复杂骨架</li>
+      <li><strong>适中键能：</strong>C-C键能346 kJ/mol，足够稳定又可断裂重组</li>
+      <li><strong>成链成环：</strong>碳原子之间可形成长链、支链和环状结构</li>
+      <li><strong>多重键：</strong>可形成单键、双键、三键，以及共轭体系</li>
+      <li><strong>杂化灵活性：</strong>sp³、sp²、sp三种杂化产生不同几何构型</li>
+      <li><strong>与其他元素成键：</strong>可与H、O、N、S、P、卤素等几乎所有元素成键</li>
+      <li><strong>手性中心：</strong>sp³碳可成为手性中心，产生立体异构体</li>
+      <li><strong>适中的电负性：</strong>2.55，与多数元素形成极性适中的共价键</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>有机化合物分类</h3>
+
+    <h4>按官能团分类</h4>
+    <table>
+      <tr><th>类别</th><th>官能团</th><th>通式</th><th>典型化合物</th></tr>
+      <tr><td>烷烃</td><td>无（C-C单键）</td><td>CₙH₂ₙ₊₂</td><td>甲烷、乙烷、辛烷</td></tr>
+      <tr><td>烯烃</td><td>C=C</td><td>CₙH₂ₙ</td><td>乙烯、丙烯</td></tr>
+      <tr><td>炔烃</td><td>C≡C</td><td>CₙH₂ₙ₋₂</td><td>乙炔</td></tr>
+      <tr><td>芳香烃</td><td>苯环</td><td>—</td><td>苯、甲苯、萘</td></tr>
+      <tr><td>醇</td><td>-OH</td><td>R-OH</td><td>乙醇、甘油</td></tr>
+      <tr><td>醛</td><td>-CHO</td><td>R-CHO</td><td>甲醛、乙醛</td></tr>
+      <tr><td>酮</td><td>C=O</td><td>R-CO-R'</td><td>丙酮</td></tr>
+      <tr><td>羧酸</td><td>-COOH</td><td>R-COOH</td><td>乙酸（醋酸）</td></tr>
+      <tr><td>酯</td><td>-COO-</td><td>R-COO-R'</td><td>乙酸乙酯</td></tr>
+      <tr><td>醚</td><td>-O-</td><td>R-O-R'</td><td>乙醚</td></tr>
+      <tr><td>胺</td><td>-NH₂</td><td>R-NH₂</td><td>甲胺、苯胺</td></tr>
+      <tr><td>酰胺</td><td>-CONH-</td><td>R-CONH-R'</td><td>蛋白质肽键</td></tr>
+      <tr><td>腈</td><td>-C≡N</td><td>R-CN</td><td>丙烯腈</td></tr>
+      <tr><td>卤代烃</td><td>-X</td><td>R-X</td><td>氯仿、特氟龙</td></tr>
+    </table>
+
+    <h4>按碳骨架分类</h4>
+    <ul class="sub-list">
+      <li><strong>开链化合物（脂肪族）：</strong>直链或支链，如正丁烷</li>
+      <li><strong>脂环化合物：</strong>碳原子成环但非芳香性，如环己烷</li>
+      <li><strong>芳香族化合物：</strong>含苯环或其他芳香环系，如苯、萘、蒽</li>
+      <li><strong>杂环化合物：</strong>环中含杂原子（O、N、S等），如吡啶、呋喃、嘧啶</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>重要有机反应类型</h3>
+    <table>
+      <tr><th>反应类型</th><th>描述</th><th>典型实例</th></tr>
+      <tr><td>取代反应</td><td>原子/基团被替换</td><td>甲烷氯代、苯硝化</td></tr>
+      <tr><td>加成反应</td><td>不饱和键打开加原子</td><td>乙烯加氢、丙烯水合</td></tr>
+      <tr><td>消除反应</td><td>脱去小分子形成不饱和键</td><td>乙醇脱水生成乙烯</td></tr>
+      <tr><td>氧化还原</td><td>碳氧化态改变</td><td>乙醇氧化为乙酸</td></tr>
+      <tr><td>缩合反应</td><td>两个分子结合脱去小分子</td><td>酯化反应</td></tr>
+      <tr><td>重排反应</td><td>碳骨架重排</td><td>频哪醇重排</td></tr>
+      <tr><td>周环反应</td><td>环状过渡态协同反应</td><td>Diels-Alder环加成</td></tr>
+      <tr><td>自由基反应</td><td>通过自由基中间体</td><td>烷烃卤代</td></tr>
+      <tr><td>亲核加成</td><td>亲核试剂攻击C=O</td><td>醛酮加成</td></tr>
+      <tr><td>偶联反应</td><td>过渡金属催化C-C成键</td><td>Suzuki偶联、Heck反应</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>立体化学</h3>
+    <p>碳的sp³杂化产生的四面体几何，使碳原子可以成为手性中心（连接4个不同基团时），由此产生对映异构体（R/S构型）和非对映异构体。立体化学是药物设计的关键——很多药物的对映体活性差异巨大（如沙利度胺悲剧）。</p>
+    <ul class="sub-list">
+      <li><strong>对映异构：</strong>互为镜像但不能重叠（如L-氨基酸和D-氨基酸）</li>
+      <li><strong>顺反异构（几何异构）：</strong>双键或环限制旋转产生（如顺式/反式脂肪）</li>
+      <li><strong>构象异构：</strong>单键旋转产生不同构象（如乙烷的交叉式/重叠式）</li>
+      <li><strong>手性合成：</strong>2001年诺贝尔化学奖（Knowles、Noyori、Sharpless）</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 8. 生物化学 ===== -->
+<section id="sec8">
+  <h2><span class="icon" style="background:var(--c-600);">8</span>生物化学与生命</h2>
+  <p class="lead">碳是生命的基石——所有已知生命都基于碳。从DNA的遗传密码到蛋白质的三维结构，从细胞膜的脂质双分子层到能量代谢的ATP，碳原子构成了生命的每一个分子基础。</p>
+
+  <div class="card">
+    <h3>为什么碳是生命的元素？</h3>
+    <div class="highlight-box teal">
+      <p>碳之所以成为生命的核心元素，在于其独一无二的化学特性：4个价电子使其能形成稳定的4个共价键；C-C键足够稳定以维持复杂分子结构，又能在酶催化下断裂重组；碳能形成长链、支链和环状结构，为信息存储和功能实现提供无穷可能。硅虽然也在同一族，但Si-Si键弱得多，Si-O键过强，无法支撑类似碳的化学多样性。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>四大生物分子</h3>
+    <table>
+      <tr><th>类别</th><th>组成</th><th>碳的角色</th><th>功能</th></tr>
+      <tr>
+        <td><strong>蛋白质</strong></td>
+        <td>氨基酸（20种）通过肽键连接</td>
+        <td>每个氨基酸含α-碳（手性中心）、羧基碳、侧链碳</td>
+        <td>酶催化、结构支持、信号传递、免疫</td>
+      </tr>
+      <tr>
+        <td><strong>核酸</strong></td>
+        <td>核苷酸（碱基+糖+磷酸）</td>
+        <td>糖环（核糖/脱氧核糖）、碱基（嘌呤/嘧啶环）</td>
+        <td>遗传信息存储与传递（DNA/RNA）</td>
+      </tr>
+      <tr>
+        <td><strong>脂质</strong></td>
+        <td>脂肪酸+甘油/其他醇</td>
+        <td>脂肪酸长碳链（通常16-22个碳）</td>
+        <td>能量储存、细胞膜结构、信号分子</td>
+      </tr>
+      <tr>
+        <td><strong>碳水化合物</strong></td>
+        <td>碳、氢、氧（通常H:O=2:1）</td>
+        <td>碳骨架构成糖分子（醛/酮+多羟基）</td>
+        <td>能量来源、结构组分（纤维素、壳多糖）</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>关键生物化学过程</h3>
+
+    <h4>光合作用</h4>
+    <p><span class="formula">6CO₂ + 6H₂O + 光能 → C₆H₁₂O₆ + 6O₂</span></p>
+    <p>植物和蓝细菌利用光能将CO₂还原为糖类。卡尔文循环中，核酮糖-1,5-二磷酸羧化酶（RuBisCO）催化CO₂固定——这是地球上最丰富的蛋白质，也是碳从无机界进入有机界的关键入口。</p>
+
+    <h4>细胞呼吸</h4>
+    <p><span class="formula">C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP（能量）</span></p>
+    <p>糖酵解→柠檬酸循环→氧化磷酸化，逐步释放糖类中储存的能量。</p>
+
+    <h4>碳固定途径</h4>
+    <ul class="sub-list">
+      <li><strong>C3途径（卡尔文循环）：</strong>大多数植物，CO₂固定产物为3-磷酸甘油酸（3碳）</li>
+      <li><strong>C4途径（Hatch-Slack）：</strong>玉米、甘蔗等，先在叶肉细胞固定为4碳化合物，再转运到维管束鞘细胞释放CO₂</li>
+      <li><strong>CAM途径（景天酸代谢）：</strong>仙人掌等，夜间固定CO₂为苹果酸，白天释放进行光合作用</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>碳与人体</h3>
+    <ul class="sub-list">
+      <li>人体约18.5%为碳（质量分数），仅次于氧（65%）</li>
+      <li>一个70kg的人体内约含碳13kg</li>
+      <li>碳在体内以有机分子形式存在：蛋白质、脂肪、糖类、核酸</li>
+      <li>血液中以CO₂（碳酸氢盐形式）运输呼吸代谢产物</li>
+      <li>血红蛋白中的卟啉环以碳为骨架</li>
+      <li>所有代谢途径的核心——糖酵解、TCA循环、脂肪酸代谢——都是碳化学</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 9. 碳循环 ===== -->
+<section id="sec9">
+  <h2><span class="icon" style="background:var(--c-600);">9</span>碳循环</h2>
+  <p class="lead">碳循环是地球上最重要的生物地球化学循环之一，描述了碳在大气、生物圈、海洋和岩石圈之间的交换过程。碳循环的平衡对维持地球气候和生态系统至关重要。</p>
+
+  <div class="cycle-diagram">
+    <h3>全球碳循环主要通量（年均）</h3>
+    <div class="circle-flow">
+      <div class="flow-item"><div class="name">大气CO₂</div><div class="val">~870 GtC（含人为贡献）</div></div>
+      <div class="arrow">↔</div>
+      <div class="flow-item"><div class="name">陆地植被</div><div class="val">~450-650 GtC</div></div>
+      <div class="arrow">↔</div>
+      <div class="flow-item"><div class="name">土壤有机碳</div><div class="val">~1500-2400 GtC</div></div>
+    </div>
+    <div class="circle-flow">
+      <div class="flow-item"><div class="name">海洋表层</div><div class="val">~900 GtC</div></div>
+      <div class="arrow">↔</div>
+      <div class="flow-item"><div class="name">深海</div><div class="val">~37000 GtC</div></div>
+      <div class="arrow">↔</div>
+      <div class="flow-item"><div class="name">化石燃料储量</div><div class="val">~1000-4000 GtC</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>碳循环的关键过程</h3>
+    <table>
+      <tr><th>过程</th><th>方向</th><th>年通量(GtC/yr)</th><th>说明</th></tr>
+      <tr><td>光合作用</td><td>大气→生物</td><td>~120</td><td>总初级生产力(GPP)</td></tr>
+      <tr><td>呼吸作用</td><td>生物→大气</td><td>~119</td><td>植物+微生物呼吸</td></tr>
+      <tr><td>海洋吸收</td><td>大气→海洋</td><td>~92</td><td>物理溶解+生物泵</td></tr>
+      <tr><td>海洋释放</td><td>海洋→大气</td><td>~90</td><td>CO₂分压差驱动</td></tr>
+      <tr><td>化石燃料燃烧</td><td>岩石圈→大气</td><td>~10</td><td>人为源（2020年代）</td></tr>
+      <tr><td>土地利用变化</td><td>生物→大气</td><td>~1.5</td><td>森林砍伐等</td></tr>
+      <tr><td>风化作用</td><td>岩石→海洋</td><td>~0.4</td><td>硅酸盐风化消耗CO₂</td></tr>
+      <tr><td>火山排放</td><td>岩石→大气</td><td>~0.1</td><td>自然地质源</td></tr>
+      <tr><td>沉积埋藏</td><td>海洋→岩石</td><td>~0.2</td><td>碳酸盐沉积</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>碳循环的时间尺度</h3>
+    <ul class="sub-list">
+      <li><strong>快速循环（天~年）：</strong>光合作用-呼吸作用、海洋-大气交换</li>
+      <li><strong>中等循环（十年~千年）：</strong>土壤碳周转、深海混合</li>
+      <li><strong>慢速循环（万年~百万年）：</strong>岩石风化、火山释放、沉积岩形成</li>
+    </ul>
+    <div class="highlight-box">
+      <p><strong>关键认识：</strong>人为化石燃料燃烧将慢速碳循环中储存的碳（形成于数亿年前）在几十年内释放到大气中，其速率远超自然碳循环的缓冲能力，导致大气CO₂浓度急剧上升。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 10. 环境与气候 ===== -->
+<section id="sec10">
+  <h2><span class="icon" style="background:var(--c-600);">10</span>环境与气候</h2>
+  <p class="lead">碳与全球气候系统密不可分。大气CO₂是最重要的温室气体之一，工业革命以来的人为碳排放正在深刻改变地球的气候系统。</p>
+
+  <div class="card">
+    <h3>大气CO₂浓度变化</h3>
+    <table>
+      <tr><th>时期</th><th>CO₂浓度</th><th>说明</th></tr>
+      <tr><td>工业革命前（~1750年）</td><td>~280 ppm</td><td>过去80万年自然波动范围</td></tr>
+      <tr><td>1958年（Keeling曲线起始）</td><td>~315 ppm</td><td>查尔斯·基林开始连续监测</td></tr>
+      <tr><td>2013年</td><td>400 ppm</td><td>首次突破400 ppm</td></tr>
+      <tr><td>2024年</td><td>~424 ppm</td><td>年增速约2.5 ppm</td></tr>
+      <tr><td>过去80万年最高值</td><td>~300 ppm</td><td>冰芯数据记录</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>温室效应原理</h3>
+    <p>CO₂分子通过振动-转动跃迁吸收地球表面发射的红外辐射（主要在15 μm波段），并将能量重新辐射，部分返回地表，导致大气低层增温。</p>
+    <ul class="sub-list">
+      <li>CO₂是仅次于水蒸气的第二重要温室气体</li>
+      <li>辐射强迫：CO₂每增加1 ppm约增加0.015 W/m²</li>
+      <li>CO₂的全球增温潜势（GWP）在100年尺度上为1（基准）</li>
+      <li>甲烷(CH₄)GWP约为28，但大气寿命约12年</li>
+      <li>一氧化二氮(N₂O)GWP约为265</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>碳排放与气候影响</h3>
+    <table>
+      <tr><th>影响领域</th><th>具体表现</th></tr>
+      <tr><td>全球升温</td><td>工业革命以来已升温约1.1-1.2°C（2024年）</td></tr>
+      <tr><td>海平面上升</td><td>热膨胀+冰盖融化，约3.4 mm/年（当前速率）</td></tr>
+      <tr><td>海洋酸化</td><td>海水pH从8.2降至8.1（已酸化约30%）</td></tr>
+      <tr><td>极端天气</td><td>热浪、暴雨、干旱频率和强度增加</td></tr>
+      <tr><td>冰盖融化</td><td>北极海冰面积持续缩小，格陵兰/南极冰盖质量损失</td></tr>
+      <tr><td>生态系统</td><td>物种分布改变、珊瑚白化、森林火灾增加</td></tr>
+      <tr><td>冻土融化</td><td>释放甲烷和CO₂，形成正反馈</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>碳减排与碳中和</h3>
+    <ul class="sub-list">
+      <li><strong>《巴黎协定》（2015）：</strong>目标将全球升温控制在2°C以内，争取1.5°C</li>
+      <li><strong>碳预算：</strong>1.5°C目标剩余碳预算约250-500 GtCO₂（2024年起算）</li>
+      <li><strong>碳中和：</strong>人为排放=人为吸收（碳汇/CCUS），中国目标2060年实现</li>
+      <li><strong>碳捕集与封存（CCS）：</strong>从排放源捕集CO₂并注入地下封存</li>
+      <li><strong>碳捕集利用与封存（CCUS）：</strong>将捕集的CO₂利用（如合成燃料、强化采油）</li>
+      <li><strong>直接空气捕集（DAC）：</strong>从大气中直接移除CO₂，成本约$100-1000/吨</li>
+      <li><strong>碳交易市场：</strong>欧盟ETS、中国全国碳市场等定价机制</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 11. 工业应用 ===== -->
+<section id="sec11">
+  <h2><span class="icon" style="background:var(--c-600);">11</span>工业应用</h2>
+  <p class="lead">碳及其化合物是现代工业的基础——从钢铁冶炼到石油化工，从碳纤维到电池电极，碳几乎渗透到了每一个工业领域。</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>冶金工业</h3>
+      <ul class="sub-list">
+        <li><strong>炼铁/炼钢：</strong>焦炭作为还原剂和热源，是钢铁工业核心</li>
+        <li><strong>碳含量决定钢的性质：</strong>低碳钢（<0.3%C）、中碳钢（0.3-0.6%C）、高碳钢（0.6-2.1%C）</li>
+        <li><strong>铸铁：</strong>含碳2.1-4.0%，含石墨或渗碳体</li>
+        <li><strong>碳电极：</strong>电弧炉炼钢用石墨电极</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>能源工业</h3>
+      <ul class="sub-list">
+        <li><strong>化石燃料：</strong>煤、石油、天然气（主要成分为碳氢化合物）</li>
+        <li><strong>焦炭：</strong>高温干馏煤得到，用于冶金和化工</li>
+        <li><strong>活性炭：</strong>水净化、空气净化、脱色</li>
+        <li><strong>碳黑：</strong>轮胎补强剂、油墨、涂料</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>材料工业</h3>
+      <ul class="sub-list">
+        <li><strong>碳纤维：</strong>高强度/轻量复合材料，航空航天、汽车、体育用品</li>
+        <li><strong>石墨制品：</strong>润滑剂、电池电极、核反应堆慢化剂</li>
+        <li><strong>金刚石工具：</strong>切割、研磨、钻探</li>
+        <li><strong>活性炭：</strong>比表面积可达3000 m²/g，用于吸附分离</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>化学工业</h3>
+      <ul class="sub-list">
+        <li><strong>石油化工：</strong>乙烯、丙烯、苯等基础化工原料</li>
+        <li><strong>合成氨（间接）：</strong>合成气(CO+H₂)来源与碳相关</li>
+        <li><strong>碳化钙（电石）：</strong>CaC₂ + H₂O → C₂H₂（乙炔化工）</li>
+        <li><strong>一氧化碳：</strong>羰基化反应、冶金还原剂</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>电子与能源</h3>
+      <ul class="sub-list">
+        <li><strong>锂电池负极：</strong>石墨是锂离子电池标准负极材料</li>
+        <li><strong>超级电容器：</strong>活性炭电极</li>
+        <li><strong>燃料电池：</strong>碳载铂催化剂</li>
+        <li><strong>半导体：</strong>金刚石半导体（高功率）、石墨烯电子学</li>
+        <li><strong>导电碳黑：</strong>塑料/橡胶导电填料</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>医药与日常</h3>
+      <ul class="sub-list">
+        <li><strong>药物分子：</strong>绝大多数药物以碳为骨架</li>
+        <li><strong>¹¹C-PET示踪剂：</strong>肿瘤诊断</li>
+        <li><strong>活性炭解毒：</strong>口服治疗中毒</li>
+        <li><strong>牙科/骨科：</strong>碳纤维增强复合材料</li>
+        <li><strong>日常用品：</strong>铅笔芯、墨水、化妆品</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 12. 纳米技术 ===== -->
+<section id="sec12">
+  <h2><span class="icon" style="background:var(--c-600);">12</span>碳纳米技术</h2>
+  <p class="lead">碳纳米技术是21世纪最具革命性的技术领域之一。从富勒烯到石墨烯，碳纳米材料正在改变电子学、医学、能源和材料科学的面貌。</p>
+
+  <div class="card">
+    <h3>石墨烯的突破性应用</h3>
+    <table>
+      <tr><th>应用领域</th><th>优势</th><th>当前状态</th></tr>
+      <tr><td>柔性电子</td><td>柔性透明导电膜，替代ITO</td><td>研发/早期商业化</td></tr>
+      <tr><td>高频晶体管</td><td>极高载流子迁移率</td><td>研发</td></tr>
+      <tr><td>传感器</td><td>单分子检测灵敏度</td><td>商业化初期</td></tr>
+      <tr><td>储能</td><td>超级电容器高功率密度</td><td>研发/中试</td></tr>
+      <tr><td>复合材料</td><td>轻质高强增强相</td><td>商业化</td></tr>
+      <tr><td>海水淡化</td><td>氧化石墨烯滤膜</td><td>研发</td></tr>
+      <tr><td>生物医学</td><td>药物递送、生物传感</td><td>临床前研究</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>碳纳米管的应用</h3>
+    <ul class="sub-list">
+      <li><strong>复合材料增强：</strong>航天器、汽车、运动器材</li>
+      <li><strong>碳纳米管纤维：</strong>比凯夫拉更强、更轻的防弹材料</li>
+      <li><strong>电子器件：</strong>碳纳米管晶体管（CNFET）、互连线</li>
+      <li><strong>场发射显示：</strong>平板显示器、X射线源</li>
+      <li><strong>储氢：</strong>碳纳米管吸附储氢</li>
+      <li><strong>药物递送：</strong>功能性碳纳米管穿透细胞膜</li>
+      <li><strong>神经接口：</strong>碳纳米管与神经元交互</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>富勒烯的应用</h3>
+    <ul class="sub-list">
+      <li><strong>光伏电池：</strong>PCBM作为有机太阳能电池电子受体</li>
+      <li><strong>超导材料：</strong>K₃C₆₀在18K超导</li>
+      <li><strong>抗氧化剂：</strong>C₆₀衍生物清除自由基</li>
+      <li><strong>药物递送：</strong>富勒烯内嵌金属原子用于MRI造影剂</li>
+      <li><strong>润滑添加剂：</strong>富勒烯"滚珠"轴承概念</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>其他碳纳米结构</h3>
+    <ul class="sub-list">
+      <li><strong>碳气凝胶：</strong>世界最轻固体，密度低至0.16 mg/cm³，用于隔热和吸附</li>
+      <li><strong>碳量子点：</strong>荧光纳米颗粒，生物成像和传感</li>
+      <li><strong>碳纳米洋葱：</strong>多层同心球壳结构，固体润滑</li>
+      <li><strong>碳纳米角：</strong>锥形纳米结构，催化剂载体</li>
+      <li><strong>金刚石纳米颗粒：</strong>纳米金刚石，生物标记和药物载体</li>
+      <li><strong>碳点：</strong>尺寸<10nm，光致发光，低毒性生物探针</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 13. 核物理 ===== -->
+<section id="sec13">
+  <h2><span class="icon" style="background:var(--c-600);">13</span>核物理</h2>
+  <p class="lead">碳在核物理和核天体物理中扮演着关键角色——碳核合成是恒星演化的关键步骤，碳-12核是核物理中重要的研究对象。</p>
+
+  <div class="card">
+    <h3>恒星核合成中的碳</h3>
+    <p>碳在恒星内部通过三氦过程（triple-alpha process）生成：</p>
+    <p><span class="formula">⁴He + ⁴He → ⁸Be</span>（不稳定，半衰期~10⁻¹⁶秒）</p>
+    <p><span class="formula">⁸Be + ⁴He → ¹²C + γ</span>（7.65 MeV激发态，霍伊尔态）</p>
+    <div class="highlight-box">
+      <p><strong>霍伊尔态的预言：</strong>1954年，弗雷德·霍伊尔预言¹²C存在一个7.65 MeV的激发态（0⁺态），否则三氦过程的速率太低无法解释宇宙中观测到的碳丰度。这一预言后来被实验证实，是 anthropic principle（人择原理）的经典案例——如果碳-12核的能级稍有不同，宇宙中就不会有足够的碳来形成生命。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>碳-氮-氧循环（CNO循环）</h3>
+    <p>在比太阳更重的恒星中，CNO循环是氢聚变为氦的另一条途径，碳作为催化剂：</p>
+    <p><span class="formula">¹²C + ¹H → ¹³N + γ → ¹³C + e⁺ + νₑ</span></p>
+    <p><span class="formula">¹³C + ¹H → ¹⁴N + γ</span></p>
+    <p><span class="formula">¹⁴N + ¹H → ¹⁵O + γ → ¹⁵N + e⁺ + νₑ</span></p>
+    <p><span class="formula">¹⁵N + ¹H → ¹²C + ⁴He</span></p>
+    <p>净结果：4¹H → ⁴He + 2e⁺ + 2νₑ + γ，碳在循环中再生。</p>
+  </div>
+
+  <div class="card">
+    <h3>碳核结构</h3>
+    <ul class="sub-list">
+      <li><strong>¹²C基态：</strong>自旋宇称0⁺，结合能92.16 MeV</li>
+      <li><strong>霍伊尔态：</strong>7.65 MeV激发态，具有α粒子团簇结构（3个α粒子呈等边三角形成松散束缚态）</li>
+      <li><strong>α团簇模型：</strong>¹²C核在激发态下表现为3个α粒子的松散组合，是核物理中少数可以直接用分子模型描述的核</li>
+      <li><strong>12.71 MeV态：</strong>1⁺态，对研究核力有重要意义</li>
+      <li><strong>结态结构：</strong>激发态的结态/分子态结构是当前核物理前沿研究</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>碳在核技术中的应用</h3>
+    <ul class="sub-list">
+      <li><strong>石墨慢化剂：</strong>核反应堆中慢化中子（芝加哥1号堆、英国Magnox堆）</li>
+      <li><strong>¹⁴C测年：</strong>考古学和第四纪地质学标准工具</li>
+      <li><strong>¹¹C-PET：</strong>正电子发射断层扫描示踪剂（半衰期20.3分钟）</li>
+      <li><strong>维格纳效应：</strong>中子辐照导致石墨晶格损伤，曾影响英国反应堆运行</li>
+      <li><strong>碳复合材料：</strong>核聚变堆第一壁材料候选</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 14. 天体物理 ===== -->
+<section id="sec14">
+  <h2><span class="icon" style="background:var(--c-600);">14</span>天体物理</h2>
+  <p class="lead">碳是宇宙中第四丰富的元素（仅次于氢、氦、氧），在恒星演化、星际化学和行星形成中扮演关键角色。</p>
+
+  <div class="card">
+    <h3>宇宙中的碳丰度</h3>
+    <table>
+      <tr><th>位置</th><th>碳丰度（相对于氢）</th><th>说明</th></tr>
+      <tr><td>宇宙平均</td><td>~3×10⁻⁴</td><td>按原子数，第四丰富</td></tr>
+      <tr><td>太阳</td><td>~2.7×10⁻⁴</td><td>太阳光谱测定</td></tr>
+      <tr><td>太阳系</td><td>~3×10⁻⁴</td><td>与太阳一致</td></tr>
+      <tr><td>地球地壳</td><td>~0.02%（200 ppm）</td><td>低于宇宙平均（碳在地球形成时大部分挥发了）</td></tr>
+      <tr><td>人体</td><td>~12%</td><td>生命富集碳</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>星际碳化学</h3>
+    <p>在星际空间和星周盘中，碳以多种形式存在：</p>
+    <ul class="sub-list">
+      <li><strong>CO分子：</strong>星际空间中最丰富的双原子分子之一（仅次于H₂），是分子云的主要示踪剂</li>
+      <li><strong>多环芳烃（PAHs）：</strong>红外波段发射特征谱线，被认为是星际碳的主要存在形式之一</li>
+      <li><strong>富勒烯：</strong>在行星状星云中检测到C₆₀</li>
+      <li><strong>碳星：</strong>晚期AGB恒星，大气富含碳（C/O > 1），通过其尘埃贡献大量碳到星际介质</li>
+      <li><strong>星际纳米金刚石：</strong>在陨石和星际尘埃中发现</li>
+      <li><strong>CH₄冰：</strong>在冷分子云和行星表面以冰的形式存在</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>碳在恒星演化中的角色</h3>
+    <ul class="sub-list">
+      <li><strong>主序星：</strong>CNO循环中碳作为催化剂</li>
+      <li><strong>红巨星：</strong>氦燃烧（三氦过程）生成碳</li>
+      <li><strong>渐近巨型支（AGB）：</strong>碳通过对流被带到恒星表面，形成碳星</li>
+      <li><strong>超新星：</strong>大质量恒星爆炸将碳（及更重元素）抛射到星际空间</li>
+      <li><strong>白矮星：</strong>碳-氧白矮星是中低质量恒星的最终残骸</li>
+      <li><strong>Ia型超新星：</strong>碳-氧白矮星吸积或并积超过钱德拉塞卡极限后爆炸，是宇宙中铁元素的重要来源</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>太阳系中的碳</h3>
+    <ul class="sub-list">
+      <li><strong>碳质球粒陨石：</strong>含有机分子和碳化合物最丰富的陨石类型（如默奇森陨石含氨基酸）</li>
+      <li><strong>土卫六（泰坦）：</strong>大气含5%甲烷，表面有甲烷/乙烷湖泊</li>
+      <li><strong>木星/土星：</strong>大气深处可能存在金刚石雨（高压下甲烷分解）</li>
+      <li><strong>天王星/海王星：</strong>内部碳含量高，可能存在液态碳或金刚石层</li>
+      <li><strong>彗星：</strong>含CO、CO₂、CH₄和复杂有机分子</li>
+      <li><strong>火星：</strong>大气CO₂为主（95.3%），极冠干冰</li>
+      <li><strong>金星：</strong>大气96.5%为CO₂，极端温室效应</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 15. 地质学 ===== -->
+<section id="sec15">
+  <h2><span class="icon" style="background:var(--c-600);">15</span>地质学</h2>
+  <p class="lead">碳在地球地质过程中扮演多重角色——从碳酸盐岩的形成到化石燃料的沉积，从金刚石的深地成因到碳在板块构造中的循环。</p>
+
+  <div class="card">
+    <h3>地球碳库</h3>
+    <table>
+      <tr><th>碳库</th><th>碳储量(GtC)</th><th>主要存在形式</th></tr>
+      <tr><td>大气</td><td>~870</td><td>CO₂、CH₄</td></tr>
+      <tr><td>陆地生物圈</td><td>~500-650</td><td>植被生物量</td></tr>
+      <tr><td>土壤</td><td>~1500-2400</td><td>土壤有机碳</td></tr>
+      <tr><td>海洋（表层）</td><td>~900</td><td>溶解CO₂、碳酸氢根</td></tr>
+      <tr><td>海洋（深海）</td><td>~37000</td><td>溶解无机碳</td></tr>
+      <tr><td>海洋沉积物</td><td>~6000</td><td>碳酸盐沉积</td></tr>
+      <tr><td>化石燃料</td><td>~1000-4000</td><td>煤、石油、天然气</td></tr>
+      <tr><td>地壳碳酸盐岩</td><td>~6×10⁷</td><td>石灰岩、白云岩</td></tr>
+      <tr><td>地幔</td><td>~10⁸-10⁹</td><td>金刚石、碳化物、溶解碳</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>碳酸盐岩与碳酸盐系统</h3>
+    <p>碳酸盐岩（石灰岩、白云岩）是地壳中最大的碳库：</p>
+    <ul class="sub-list">
+      <li><strong>碳酸钙（CaCO₃）：</strong>方解石、文石，由生物沉积（珊瑚、贝类）或化学沉积形成</li>
+      <li><strong>白云石（CaMg(CO₃)₂）：</strong>成岩作用转化产物</li>
+      <li><strong>碳酸盐补偿深度（CCD）：</strong>约4-5 km深度以下CaCO₃溶解速率超过沉积速率</li>
+      <li><strong>海洋碳酸盐系统：</strong>CO₂ ↔ H₂CO₃ ↔ HCO₃⁻ ↔ CO₃²⁻，控制海洋pH和CO₂交换</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>化石燃料地质</h3>
+    <ul class="sub-list">
+      <li><strong>煤：</strong>远古植物在缺氧环境下经泥炭→褐煤→烟煤→无烟煤的成煤作用</li>
+      <li><strong>石油：</strong>海洋微体生物（藻类）经热降解生成，储存在多孔岩层中</li>
+      <li><strong>天然气：</strong>主要成分为甲烷，生物成因或热成因</li>
+      <li><strong>可燃冰（天然气水合物）：</strong>甲烷被包裹在冰晶中，存在于深海沉积物和冻土带</li>
+      <li><strong>油页岩/油砂：</strong>含干酪根的沉积岩，非常规油气资源</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>金刚石的地质成因</h3>
+    <p>天然金刚石形成于地球深部150-250 km（甚至更深至400-600 km）的地幔中：</p>
+    <ul class="sub-list">
+      <li><strong>形成条件：</strong>高温（900-1300°C）高压（4.5-6 GPa）</li>
+      <li><strong>年龄：</strong>多数天然金刚石形成于10亿至33亿年前</li>
+      <li><strong>运移：</strong>通过金伯利岩管火山喷发带到地表</li>
+      <li><strong>包裹体：</strong>金刚石中包裹的矿物提供地幔深部的信息</li>
+      <li><strong>超深金刚石：</strong>部分金刚石形成深度超过660 km（上下地幔过渡带以下）</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>地质碳循环</h3>
+    <p>慢速碳循环（地质时间尺度）包括：</p>
+    <ul class="sub-list">
+      <li><strong>硅酸盐风化：</strong>CaSiO₃ + 2CO₂ + H₂O → Ca²⁺ + 2HCO₃⁻ + SiO₂</li>
+      <li><strong>碳酸盐沉积：</strong>Ca²⁺ + 2HCO₃⁻ → CaCO₃ + CO₂ + H₂O</li>
+      <li><strong>俯冲带：</strong>碳酸盐岩随板块俯冲进入地幔</li>
+      <li><strong>火山释放：</strong>俯冲板片中的碳通过火山活动返回大气</li>
+      <li><strong>时间尺度：</strong>完整地质碳循环周期约数百万年</li>
+      <li><strong>气候调节：</strong>硅酸盐风化是地球长期的CO₂恒温器</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 16. 发现历史 ===== -->
+<section id="sec16">
+  <h2><span class="icon" style="background:var(--c-600);">16</span>发现历史</h2>
+  <p class="lead">碳是人类最早认识和利用的元素之一。从史前人类使用木炭到现代纳米碳材料，碳的历史贯穿了整个人类文明。</p>
+
+  <div class="card">
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="year">史前（~37500年前）</div>
+        <div class="event">人类已知使用木炭作为燃料和绘图材料（南非布隆伯斯洞穴的碳质绘图材料）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">~公元前3750年</div>
+        <div class="event">埃及人和苏美尔人使用木炭冶炼铜和铁，碳作为还原剂的最早应用</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">~公元前2500年</div>
+        <div class="event">中国已知使用煤作为燃料，《山海经》中有石炭（煤）的记载</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">公元前4世纪</div>
+        <div class="event">印度已知金刚石，亚历山大大帝将金刚石引入欧洲</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1704年</div>
+        <div class="event">艾萨克·牛顿提出金刚石可能是可燃物质（预言了金刚石的碳本质）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1772年</div>
+        <div class="event">安托万·拉瓦锡证明金刚石燃烧产生CO₂，证明金刚石由碳组成</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1779年</div>
+        <div class="event">卡尔·舍勒证明石墨与金刚石为同一元素的不同形式</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1789年</div>
+        <div class="event">拉瓦锡将碳列为元素表中的元素，命名来源于拉丁语"carbo"（木炭）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1828年</div>
+        <div class="event">弗里德里希·维勒人工合成尿素（CO(NH₂)₂），打破"生命力"理论，开创有机合成</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1855年</div>
+        <div class="event">本杰明·布罗迪发现石墨层间化合物，开启碳嵌插化学</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1860年</div>
+        <div class="event">凯库勒和库珀提出碳四价理论和碳-碳成键概念，奠定有机化学理论基础</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1865年</div>
+        <div class="event">凯库勒提出苯环结构，解决芳香族化学的核心问题</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1874年</div>
+        <div class="event">范特霍夫和勒贝尔独立提出碳的四面体构型，创立立体化学</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1953年</div>
+        <div class="event">人工合成金刚石首次成功（ASEA公司，瑞典；随后通用电气1955年复现）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1955年</div>
+        <div class="event">维尔纳·埃伯哈特等人确认石墨-金刚石相变条件</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1985年</div>
+        <div class="event">克罗托、斯莫利、柯尔发现富勒烯C₆₀（1996年诺贝尔化学奖）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">1991年</div>
+        <div class="event">饭岛澄男发现碳纳米管</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2004年</div>
+        <div class="event">海姆和诺沃肖洛夫用胶带法分离出石墨烯（2010年诺贝尔物理学奖）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2010年</div>
+        <div class="event">石墨炔被成功合成</div>
+      </div>
+      <div class="timeline-item">
+        <div class="year">2018年</div>
+        <div class="event">魔角石墨烯（twisted bilayer graphene）超导性被发现</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 17. 量子化学 ===== -->
+<section id="sec17">
+  <h2><span class="icon" style="background:var(--c-600);">17</span>量子化学</h2>
+  <p class="lead">碳的量子化学性质是其独特化学行为的根本来源。从分子轨道理论到共轭体系，碳化学的每个方面都根植于量子力学。</p>
+
+  <div class="card">
+    <h3>分子轨道理论</h3>
+    <h4>σ键和π键</h4>
+    <ul class="sub-list">
+      <li><strong>σ键：</strong>电子云沿键轴方向重叠（头对头），围绕键轴呈圆柱对称，能量较低，化学惰性较高</li>
+      <li><strong>π键：</strong>p轨道侧面重叠（肩并肩），电子云分布在键轴上方和下方，能量较高，化学反应活性更高</li>
+      <li><strong>单键=1σ；双键=1σ+1π；三键=1σ+2π</strong></li>
+    </ul>
+
+    <h4>共轭体系</h4>
+    <p>当多个sp²杂化的碳原子相邻时，p轨道侧面重叠形成离域π电子体系：</p>
+    <ul class="sub-list">
+      <li><strong>1,3-丁二烯：</strong>最简单的共轭体系，π电子在4个碳原子间离域</li>
+      <li><strong>苯：</strong>6个π电子完全离域，形成芳香性（Hückel规则：4n+2个π电子）</li>
+      <li><strong>石墨：</strong>无限延伸的二维共轭体系，离域电子导致导电性</li>
+      <li><strong>石墨烯：</strong>Dirac锥能带结构，电子表现为无质量狄拉克费米子</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>芳香性</h3>
+    <p>芳香性是有机化学中最重要的概念之一，由Hückel规则定义：</p>
+    <div class="highlight-box teal">
+      <p><strong>Hückel规则：</strong>一个环状、平面、完全共轭的体系，当含有(4n+2)个π电子时（n=0,1,2,...），具有芳香性（特殊稳定性）。</p>
+    </div>
+    <ul class="sub-list">
+      <li><strong>苯（6个π电子）：</strong>n=1，经典芳香性</li>
+      <li><strong>萘（10个π电子）：</strong>n=2，多环芳香烃</li>
+      <li><strong>环丙烯正离子（2个π电子）：</strong>n=0，最小芳香性环</li>
+      <li><strong>C₆₀富勒烯：</strong>具有"球面芳香性"（3D芳香性）</li>
+      <li><strong>反芳香性：</strong>4n个π电子的环状共轭体系（如环丁二烯），特别不稳定</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>石墨烯的量子性质</h3>
+    <ul class="sub-list">
+      <li><strong>狄拉克锥：</strong>在布里渊区K点和K'点，导带和价带线性相交于一点（狄拉克点）</li>
+      <li><strong>无质量费米子：</strong>电子的有效质量为零，由狄拉克方程而非薛定谔方程描述</li>
+      <li><strong>极高迁移率：</strong>室温下载流子迁移率可达200,000 cm²/(V·s)，远超硅</li>
+      <li><strong>量子霍尔效应：</strong>室温下即可观测到（其他材料需要极低温）</li>
+      <li><strong>克莱因隧穿：</strong>势垒无法完全反射狄拉克费米子</li>
+      <li><strong>最小电导率：</strong>即使载流子浓度为零仍有最小电导率e²/h</li>
+      <li><strong>手性：</strong>电子的自旋与动量锁定</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>碳的同位素效应（量子力学）</h3>
+    <p>不同同位素的量子力学差异（主要是质量差异）导致化学性质的细微差别：</p>
+    <ul class="sub-list">
+      <li><strong>动力学同位素效应：</strong>¹²C-H键比¹³C-H键断裂更快（零点能差异）</li>
+      <li><strong>平衡同位素分馏：</strong>热力学平衡时不同同位素在不同相间分配不同</li>
+      <li><strong>零点能差异：</strong>¹²C-¹²C键的零点能高于¹³C-¹²C键</li>
+      <li><strong>核量子效应：</strong>在低温下，氢原子的隧穿效应受碳同位素影响</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 18. 光谱学 ===== -->
+<section id="sec18">
+  <h2><span class="icon" style="background:var(--c-600);">18</span>光谱学</h2>
+  <p class="lead">碳的光谱学是化学分析、天体物理观测和材料表征的核心工具。不同碳环境和碳化合物产生独特的光谱特征。</p>
+
+  <div class="card">
+    <h3>¹³C核磁共振（NMR）</h3>
+    <ul class="sub-list">
+      <li><strong>原理：</strong>¹³C核自旋1/2，在外磁场中产生塞曼分裂，射频激发后返回基态释放信号</li>
+      <li><strong>化学位移范围：</strong>0-220 ppm（TMS为0 ppm基准）</li>
+      <li><strong>典型位移值：</strong>烷基碳0-50 ppm，醇/醚50-100 ppm，芳香碳100-160 ppm，羰基碳160-220 ppm</li>
+      <li><strong>DEPT实验：</strong>区分CH₃、CH₂、CH和C（季碳）</li>
+      <li><strong>二维NMR：</strong>HSQC、HMBC、COSY等用于复杂分子结构解析</li>
+      <li><strong>固体NMR：</strong>用于材料科学（碳材料、聚合物）表征</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>红外光谱（IR）</h3>
+    <table>
+      <tr><th>官能团</th><th>特征频率(cm⁻¹)</th><th>说明</th></tr>
+      <tr><td>C-H伸缩（烷基）</td><td>2850-2960</td><td>饱和C-H</td></tr>
+      <tr><td>C-H伸缩（芳基）</td><td>3000-3100</td><td>芳香C-H</td></tr>
+      <tr><td>C-H伸缩（炔基）</td><td>~3300</td><td>≡C-H</td></tr>
+      <tr><td>C=O伸缩</td><td>1650-1780</td><td>酮、醛、酸、酯（强吸收）</td></tr>
+      <tr><td>C=C伸缩</td><td>1620-1680</td><td>烯烃</td></tr>
+      <tr><td>C≡C伸缩</td><td>2100-2260</td><td>炔烃</td></tr>
+      <tr><td>C-O伸缩</td><td>1000-1300</td><td>醇、醚、酯</td></tr>
+      <tr><td>C≡N伸缩</td><td>2210-2260</td><td>腈</td></tr>
+      <tr><td>CO₂</td><td>2349（反对称伸缩）</td><td>大气CO₂检测</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>拉曼光谱</h3>
+    <p>拉曼光谱是碳材料表征的核心工具，特别用于碳纳米材料：</p>
+    <ul class="sub-list">
+      <li><strong>G峰（~1580 cm⁻¹）：</strong>石墨面内sp² C-C伸缩振动，所有sp²碳材料的特征峰</li>
+      <li><strong>D峰（~1350 cm⁻¹）：</strong>缺陷诱导的呼吸模式，反映石墨结构的无序度/缺陷</li>
+      <li><strong>2D峰（~2700 cm⁻¹）：</strong>G峰的二阶模式，用于判断石墨烯层数（单层石墨烯2D峰尖锐且强度远大于G峰）</li>
+      <li><strong>ID/IG比值：</strong>定量评估碳材料的缺陷密度</li>
+      <li><strong>径向呼吸模式（RBM）：</strong>碳纳米管特征峰（100-300 cm⁻¹），可推算管径</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>X射线光电子能谱（XPS）</h3>
+    <p>XPS中C 1s峰可用于分析碳的化学态：</p>
+    <table>
+      <tr><th>碳环境</th><th>结合能(eV)</th><th>典型材料</th></tr>
+      <tr><td>C-C/C-H（sp³）</td><td>284.0-285.0</td><td>烷烃、金刚石</td></tr>
+      <tr><td>C=C（sp²）</td><td>284.0-284.5</td><td>石墨、石墨烯</td></tr>
+      <tr><td>C-O</td><td>286.0-286.5</td><td>醇、醚</td></tr>
+      <tr><td>C=O</td><td>287.5-288.0</td><td>酮、醛</td></tr>
+      <tr><td>O-C=O</td><td>288.5-289.0</td><td>羧酸、酯</td></tr>
+      <tr><td>CO₂</td><td>~291.2（π*跃迁）</td><td>NEXAFS特征</td></tr>
+      <tr><td>C-F</td><td>289-291</td><td>氟代烃（如PTFE）</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>星际碳的光谱检测</h3>
+    <ul class="sub-list">
+      <li><strong>CO转动光谱：</strong>2.6 mm波段（J=1→0），分子云的主要示踪剂</li>
+      <li><strong>多环芳烃红外发射：</strong>3.3, 6.2, 7.7, 8.6, 11.3 μm特征带</li>
+      <li><strong>C₆₀富勒烯红外：</strong>17.4和18.9 μm发射特征</li>
+      <li><strong>C₄⁺等碳链离子：</strong>在星际弥漫云中通过吸收谱检测</li>
+      <li><strong>CH、CH⁺：</strong>最早检测到的星际分子之一</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 19. 未来展望 ===== -->
+<section id="sec19">
+  <h2><span class="icon" style="background:var(--c-600);">19</span>前沿与未来</h2>
+  <p class="lead">碳科学正在以前所未有的速度发展。从魔角石墨烯的超导性到碳基量子计算，从碳捕获技术到碳基生命工程，碳元素的前沿研究正在开辟人类科技的新疆界。</p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>凝聚态物理前沿</h3>
+      <ul class="sub-list">
+        <li><strong>魔角石墨烯：</strong>两层石墨烯以1.1°扭转，出现莫尔超晶格，展现关联绝缘态和非常规超导性（2018年）</li>
+        <li><strong>三层/多层扭转石墨烯：</strong>可调控超导性的新平台</li>
+        <li><strong>石墨烯纳米带：</strong>边缘态具有磁性，可能用于自旋电子学</li>
+        <li><strong>碳基拓扑材料：</strong>石墨炔等预测存在拓扑态</li>
+        <li><strong>金刚石NV色心：</strong>量子计算和量子传感的候选平台</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>能源与环境</h3>
+      <ul class="sub-list">
+        <li><strong>碳捕获与利用：</strong>CO₂转化为燃料、化学品和建筑材料</li>
+        <li><strong>电催化CO₂还原：</strong>将CO₂电化学转化为乙烯、乙醇等</li>
+        <li><strong>碳基电池：</strong>钠离子电池硬碳负极、锂硫电池碳宿主</li>
+        <li><strong>碳基储氢：</strong>碳纳米管/石墨烯储氢材料</li>
+        <li><strong>生物炭固碳：</strong>生物质热解为稳定碳归还土壤</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>生物医学</h3>
+      <ul class="sub-list">
+        <li><strong>碳基药物递送：</strong>石墨烯/碳管/碳点载药系统</li>
+        <li><strong>碳基生物传感器：</strong>血糖检测、DNA测序</li>
+        <li><strong>碳纤维植入物：</strong>生物相容性骨科/牙科材料</li>
+        <li><strong>合成生物学：</strong>设计非天然碳基代谢途径</li>
+        <li><strong>人工光合作用：</strong>碳基催化剂还原CO₂</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>材料与制造</h3>
+      <ul class="sub-list">
+        <li><strong>碳纤维复合材料：</strong>飞机、汽车轻量化</li>
+        <li><strong>碳基超材料：</strong>电磁波操控、隐身材料</li>
+        <li><strong>3D打印碳材料：</strong>定制结构碳基器件</li>
+        <li><strong>碳/碳复合材料：</strong>高超音速飞行器热防护</li>
+        <li><strong>智能碳材料：</strong>刺激响应性碳基致动器</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>计算与信息</h3>
+      <ul class="sub-list">
+        <li><strong>碳纳米管计算机：</strong>2013年首次实现，正在向实用化推进</li>
+        <li><strong>石墨烯逻辑器件：</strong>高频射频电子学</li>
+        <li><strong>金刚石量子计算：</strong>NV色心量子比特</li>
+        <li><strong>碳基存储：</strong>相变存储、阻变存储的碳电极</li>
+        <li><strong>神经形态计算：</strong>碳基突触器件</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>基础科学问题</h3>
+      <ul class="sub-list">
+        <li><strong>碳基生命是否唯一？</strong>硅基生命、硼基生命的可能性探讨</li>
+        <li><strong>地幔深部碳：</strong>地球深部碳循环的完整图景</li>
+        <li><strong>碳核结构：</strong>霍伊尔态的精确结构和α团簇模型</li>
+        <li><strong>碳的极端条件行为：</strong>超高压下的金属碳相</li>
+        <li><strong>星际碳化学：</strong>宇宙中有机分子的形成路径</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="fun-fact">
+    <div class="title">碳的数字之最</div>
+    <div class="grid grid-4" style="margin-top:12px;">
+      <div><strong>1000万+</strong><br><span style="font-size:13px;color:#888780;">已知碳化合物数量</span></div>
+      <div><strong>100倍</strong><br><span style="font-size:13px;color:#888780;">石墨烯强度 vs 钢</span></div>
+      <div><strong>5730年</strong><br><span style="font-size:13px;color:#888780;">¹⁴C半衰期</span></div>
+      <div><strong>200,000</strong><br><span style="font-size:13px;color:#888780;">石墨烯电子迁移率(cm²/Vs)</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <p class="quote">
+      "我们都是星辰的尘埃——而碳，是恒星赐予生命的礼物。在宇宙最深处的核熔炉中诞生，穿越亿万光年的时空，最终组成了你思考这句话时的每一个神经元。"
+      <span class="author">—— 碳的宇宙诗篇</span>
+    </p>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p>碳元素全面知识图谱 · 基于已知的化学、物理、生物、地质、天文等多学科知识编制</p>
+  <p style="margin-top:8px;">涵盖 19 个知识维度 · 从原子核到星际空间 · 从史前木炭到魔角石墨烯</p>
+</footer>
+
+<script>
+(function() {
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('nav.toc a[href^="#"]');
+  var navToc = document.getElementById('toc');
+
+  // Build id-to-link map for O(1) lookup
+  var linkMap = {};
+  navLinks.forEach(function(lnk) {
+    var href = lnk.getAttribute('href').replace('#', '');
+    linkMap[href] = lnk;
+  });
+
+  // Use IntersectionObserver for reliable active state tracking
+  var observerOptions = {
+    rootMargin: '-15% 0px -70% 0px',
+    threshold: [0, 0.1, 0.5]
+  };
+
+  var observer = new IntersectionObserver(function(entries) {
+    var lastVisibleId = null;
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && entry.intersectionRatio > 0) {
+        lastVisibleId = entry.target.id;
+      }
+    });
+    if (lastVisibleId) setActive(lastVisibleId);
+  }, observerOptions);
+
+  sections.forEach(function(sec) { observer.observe(sec); });
+
+  function setActive(id) {
+    navLinks.forEach(function(l) { l.classList.remove('active'); });
+    if (linkMap[id]) linkMap[id].classList.add('active');
+    // Also auto-scroll the nav bar to keep the active item visible
+    var activeLink = linkMap[id];
+    if (activeLink && navToc) {
+      var rect = activeLink.getBoundingClientRect();
+      var navRect = navToc.getBoundingClientRect();
+      if (rect.left < navRect.left + 10 || rect.right > navRect.right - 10) {
+        activeLink.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }
+
+  // Fallback: scroll event for browsers without good IO support
+  function onScroll() {
+    var scrollTop = window.scrollY || window.pageYOffset;
+    var viewHeight = window.innerHeight;
+    var bestMatch = null;
+    var minDist = Infinity;
+
+    sections.forEach(function(sec) {
+      var top = sec.offsetTop - 80; // offset for sticky header
+      if (scrollTop >= top) {
+        var dist = scrollTop - top;
+        if (dist < minDist) {
+          minDist = dist;
+          bestMatch = sec.id;
+        }
+      }
+    });
+
+    if (bestMatch) setActive(bestMatch);
+  }
+
+  // Debounced scroll listener
+  var scrollTimer = null;
+  window.addEventListener('scroll', function() {
+    if (!scrollTimer) onScroll();
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function() { scrollTimer = null; }, 80);
+  }, { passive: true });
+
+  // Initial state
+  setTimeout(onScroll, 100);
+})();
+
+// Smooth scroll to section on click
+document.querySelectorAll('nav.toc a[href^="#"]').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    var href = this.getAttribute('href');
+    var target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', href);
+    }
+  });
+});
+</script>
+
+</body>
+</html>

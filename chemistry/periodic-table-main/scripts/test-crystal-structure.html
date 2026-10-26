@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>晶体结构SVG测试</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    body { max-width: 1000px; margin: 0 auto; padding: 20px; }
+    .test-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .test-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+    .test-card h3 { margin-top: 0; color: #2c3e50; }
+    .test-card svg { max-width: 100%; height: auto; }
+    .nav { margin-bottom: 20px; }
+    .nav a { display: inline-block; padding: 8px 15px; background: #3498db; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px; }
+  </style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="element.html?z=26">铁（BCC）</a>
+  <a href="element.html?z=13">铝（FCC）</a>
+  <a href="element.html?z=12">镁（HCP）</a>
+  <a href="element.html?z=6">碳（金刚石）</a>
+</div>
+
+<h2>🔬 晶体结构SVG渲染测试</h2>
+<p>以下为各元素的晶体结构SVG示意图：</p>
+
+<div class="test-container" id="testContainer">
+  <p>加载中...</p>
+</div>
+
+<!-- 加载数据 -->
+<script src="data/elements.js"></script>
+<script src="data/p4-crystal.js"></script>
+<script src="js/crystal-structure-svg.js"></script>
+
+<script>
+// 测试元素列表
+const testElements = [
+  { z: 26, name: '铁（Fe）', expected: 'bcc' },
+  { z: 13, name: '铝（Al）', expected: 'fcc' },
+  { z: 12, name: '镁（Mg）', expected: 'hcp' },
+  { z: 6, name: '碳（C）', expected: 'diamond' },
+  { z: 29, name: '铜（Cu）', expected: 'fcc' },
+  { z: 11, name: '钠（Na）', expected: 'bcc' }
+];
+
+// 渲染测试卡片
+function renderTestCards() {
+  const container = document.getElementById('testContainer');
+  container.innerHTML = '';
+  
+  testElements.forEach(function(item) {
+    const el = typeof ELEMENTS !== 'undefined' ? ELEMENTS[item.z - 1] : null;
+    if (!el) return;
+    
+    const card = document.createElement('div');
+    card.className = 'test-card';
+    
+    let html = '<h3>' + el.name + '（' + el.symbol + '）</h3>';
+    html += '<p style="color: #7f8c8d; font-size: 13px;">晶体结构：' + (el.crystalStructure || '未知') + '</p>';
+    
+    // 调用渲染器
+    if (typeof CrystalStructureSVGRenderer !== 'undefined') {
+      const svg = CrystalStructureSVGRenderer.render(el);
+      html += svg;
+    } else {
+      html += '<p style="color: #e74c3c;">渲染器未加载</p>';
+    }
+    
+    card.innerHTML = html;
+    container.appendChild(card);
+  });
+}
+
+// 初始化
+window.addEventListener('DOMContentLoaded', function() {
+  setTimeout(renderTestCards, 500);
+});
+</script>
+
+</body>
+</html>

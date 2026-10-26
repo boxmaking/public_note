@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>增强生成器 v3.0 功能测试</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #1e1e1e; color: #d4d4d4; }
+    .pass { color: #4ec9b0; }
+    .fail { color: #f48771; }
+    .section { margin: 20px 0; padding: 10px; border-left: 3px solid #444; }
+    h1 { color: #569cd6; }
+    h2 { color: #4ec9b0; }
+    pre { background: #252526; padding: 10px; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>🔬 增强生成器 v3.0 功能测试</h1>
+  <div id="testResults"></div>
+  
+  <script src="data/elements.js"></script>
+  <script src="js/data-completer.js"></script>
+  <script src="js/element-details-enhanced-v3.js"></script>
+  <script src="test-v3-generator.js"></script>
+  
+  <script>
+    // 在页面上显示测试结果
+    const originalConsoleLog = console.log;
+    const originalConsoleError = console.error;
+    const resultsDiv = document.getElementById('testResults');
+    let output = '';
+    
+    console.log = function(...args) {
+      originalConsoleLog.apply(console, args);
+      output += args.join(' ') + '\n';
+      resultsDiv.innerHTML = '<pre>' + output + '</pre>';
+    };
+    
+    console.error = function(...args) {
+      originalConsoleError.apply(console, args);
+      output += '<span class="fail">' + args.join(' ') + '</span>\n';
+      resultsDiv.innerHTML = '<pre>' + output + '</pre>';
+    };
+    
+    // 运行测试
+    setTimeout(() => {
+      resultsDiv.innerHTML = '<h2>测试进行中...</h2>';
+      // 测试脚本会自动运行
+    }, 100);
+  </script>
+</body>
+</html>

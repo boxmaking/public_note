@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>化学元素周期表网站 — 专业化改进路线图</title>
+<style>
+:root {
+  --bg: #0d1117; --card: #161b22; --border: #30363d;
+  --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff;
+  --green: #3fb950; --orange: #d29922; --red: #f85149;
+  --purple: #a371f7; --cyan: #39d2c0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  line-height: 1.7; padding: 40px 20px;
+}
+.container { max-width: 1100px; margin: 0 auto; }
+h1 {
+  font-size: 32px; text-align: center;
+  background: linear-gradient(135deg, #58a6ff, #3fb950, #a371f7);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+}
+.subtitle { text-align: center; color: var(--muted); margin-bottom: 40px; }
+h2 {
+  font-size: 22px; color: var(--accent);
+  border-left: 4px solid var(--accent); padding-left: 12px;
+  margin: 40px 0 16px;
+}
+h3 { font-size: 17px; color: var(--green); margin: 24px 0 10px; }
+h4 { font-size: 14px; color: var(--orange); margin: 16px 0 8px; }
+p, li { color: var(--text); font-size: 14px; }
+ul, ol { padding-left: 20px; margin: 8px 0; }
+li { margin: 4px 0; }
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 24px; margin: 16px 0;
+}
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: 12px;
+  font-size: 12px; font-weight: 600; margin-right: 6px;
+}
+.badge-p0 { background: rgba(248,81,73,0.2); color: var(--red); border: 1px solid var(--red); }
+.badge-p1 { background: rgba(211,153,34,0.2); color: var(--orange); border: 1px solid var(--orange); }
+.badge-p2 { background: rgba(63,185,80,0.2); color: var(--green); border: 1px solid var(--green); }
+.badge-aud { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid var(--accent); }
+
+table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+th { background: var(--border); padding: 8px 12px; text-align: left; font-weight: 600; }
+td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+tr:hover td { background: rgba(48,54,61,0.3); }
+
+.source-link { color: var(--cyan); text-decoration: none; }
+.source-link:hover { text-decoration: underline; }
+
+.phase-timeline {
+  display: flex; gap: 0; margin: 20px 0; flex-wrap: wrap;
+}
+.phase-node {
+  flex: 1; min-width: 160px; text-align: center; padding: 16px 8px;
+  border: 1px solid var(--border); position: relative;
+}
+.phase-node:first-child { border-radius: 8px 0 0 8px; }
+.phase-node:last-child { border-radius: 0 8px 8px 0; }
+.phase-num {
+  font-size: 28px; font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.phase-title { font-size: 14px; font-weight: 600; margin: 8px 0; }
+.phase-desc { font-size: 12px; color: var(--muted); }
+
+.ref-table td:first-child { white-space: nowrap; font-weight: 600; color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>⚛️ 化学元素周期表网站</h1>
+<p class="subtitle">专业化改进路线图 — 从科普到科研/工业全覆盖</p>
+
+<!-- ====== 当前基线分析 ====== -->
+<h2>一、当前能力基线</h2>
+<div class="card">
+  <table>
+    <tr><th style="width:200px">维度</th><th>现状</th></tr>
+    <tr><td>元素基础数据</td><td>118 个元素含原子序数、符号、名称、原子量、电子排布、物态、类别、放射性</td></tr>
+    <tr><td>元素详情</td><td>仅 8 个元素有完整 Markdown 详情（H、C、O、Na、Cl、Fe、Au、U），其余 110 个为自动生成模板</td></tr>
+    <tr><td>详情内容结构</td><td>发现史 → 物理性质 → 化学性质(含方程式) → 应用原理 → 注意事项/泄漏处理 → 发展前景</td></tr>
+    <tr><td>化学史</td><td>有独立页面，含时间线和 8 位化学家简介</td></tr>
+    <tr><td>周期表视图</td><td>经典简化视图 + 完整视图，按族/周期排列</td></tr>
+    <tr><td>搜索</td><td>站内元素搜索 + 站外百度搜索</td></tr>
+    <tr><td>渲染引擎</td><td>Markdown（marked.js）+ KaTeX 数学公式</td></tr>
+    <tr><td>引用体系</td><td>❌ 无</td></tr>
+    <tr><td>数据字段深度</td><td>❌ 缺热力学、电化学、晶体学、光谱、同位素、毒性等数据</td></tr>
+    <tr><td>工业数据</td><td>❌ 无产量、价格、GHS 分类、MSDS、UN 运输编号</td></tr>
+    <tr><td>交互能力</td><td>❌ 无元素对比、数据筛选、3D 结构、API</td></tr>
+  </table>
+</div>
+
+<!-- ====== 用户分层需求矩阵 ====== -->
+<h2>二、多层级用户需求矩阵</h2>
+<div class="card">
+  <table>
+    <tr><th>用户层级</th><th>核心需求</th><th>缺失的关键能力</th></tr>
+    <tr>
+      <td><strong>🏫 中学生</strong></td>
+      <td>基本信息、直观的颜色编码、典型化学反应、安全常识、趣味实验</td>
+      <td>基础可视化不足；缺少化学反应演示动画</td>
+    </tr>
+    <tr>
+      <td><strong>🎓 大学生</strong></td>
+      <td>热力学数据、标准电极电位、晶体结构、分子轨道理论、配合物化学、有机金属化学</td>
+      <td>完全缺失热力学/电化学/晶体学数据</td>
+    </tr>
+    <tr>
+      <td><strong>🔬 硕士/博士研究生</strong></td>
+      <td>最新研究文献追踪、光谱数据(NMR/IR/XPS)、相图、同位素标记应用、催化机理、前沿综述</td>
+      <td>无文献引用系统；无光谱数据库</td>
+    </tr>
+    <tr>
+      <td><strong>🧪 化学研究人员</strong></td>
+      <td>权威数据来源(IUPAC/NIST)、精确原子量、同位素丰度与半衰期、衰变链、核性质、超重元素最新进展</td>
+      <td>无引用溯源；同位素数据仅二元标记</td>
+    </tr>
+    <tr>
+      <td><strong>💡 化学爱好者</strong></td>
+      <td>有趣的历史故事、视觉化呈现、3D 分子结构、化学实验视频链接、冷知识</td>
+      <td>无 3D 结构；无多媒体内容</td>
+    </tr>
+    <tr>
+      <td><strong>🏭 化工/生产/管理部门</strong></td>
+      <td>GHS 分类、MSDS 数据、工业制备方法、全球产量/价格趋势、储存运输规范、环保处理、职业暴露限值</td>
+      <td>完全缺失工业安全与法规数据</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ====== 权威数据来源 ====== -->
+<h2>三、权威数据来源与可验证引用体系</h2>
+<div class="card">
+  <p>以下是各数据领域的<strong>国际公认权威来源</strong>，均可在线查询验证：</p>
+  <table class="ref-table">
+    <tr><th style="width:200px">数据领域</th><th>权威来源</th><th>可验证性</th></tr>
+    <tr>
+      <td>原子量标准</td>
+      <td><a class="source-link" href="https://www.ciaaw.org/" target="_blank">IUPAC CIAAW</a> — 国际纯粹与应用化学联合会原子量与同位素丰度委员会</td>
+      <td>✅ 官网公开，每年更新</td>
+    </tr>
+    <tr>
+      <td>热力学数据</td>
+      <td><a class="source-link" href="https://webbook.nist.gov/chemistry/" target="_blank">NIST Chemistry WebBook</a> — 美国国家标准与技术研究院</td>
+      <td>✅ 免费公开，可检索 ΔH°<sub>f</sub>、ΔG°<sub>f</sub>、S°、C<sub>p</sub></td>
+    </tr>
+    <tr>
+      <td>化合物综合数据</td>
+      <td><a class="source-link" href="https://pubchem.ncbi.nlm.nih.gov/" target="_blank">PubChem (NIH)</a> — 美国国立卫生研究院</td>
+      <td>✅ 开放 API，含 CID/CAS/性质/毒性/光谱</td>
+    </tr>
+    <tr>
+      <td>晶体学数据</td>
+      <td><a class="source-link" href="https://www.ccdc.cam.ac.uk/" target="_blank">CCDC (剑桥晶体学数据中心)</a> / <a class="source-link" href="https://www.crystallography.net/cod/" target="_blank">COD (开放晶体学数据库)</a></td>
+      <td>✅ COD 完全开放；CCDC 部分开放</td>
+    </tr>
+    <tr>
+      <td>光谱数据</td>
+      <td><a class="source-link" href="https://www.nist.gov/pml/atomic-spectra-database" target="_blank">NIST Atomic Spectra Database</a> / <a class="source-link" href="https://sdbs.db.aist.go.jp/" target="_blank">SDBS (日本)</a></td>
+      <td>✅ 免费在线查询</td>
+    </tr>
+    <tr>
+      <td>核/同位素数据</td>
+      <td><a class="source-link" href="https://www.nndc.bnl.gov/nudat3/" target="_blank">NuDat (BNL)</a> / <a class="source-link" href="https://www-nds.iaea.org/" target="_blank">IAEA 核数据中心</a></td>
+      <td>✅ 全球核数据权威</td>
+    </tr>
+    <tr>
+      <td>电化学数据</td>
+      <td><a class="source-link" href="https://www.acs.org/" target="_blank">CRC Handbook</a> / <a class="source-link" href="https://srdata.nist.gov/solubility/" target="_blank">NIST 溶解度数据库</a></td>
+      <td>✅ CRC 第 105 版起有在线版</td>
+    </tr>
+    <tr>
+      <td>安全与毒理</td>
+      <td><a class="source-link" href="https://www.ilo.org/dyn/icsc/" target="_blank">ILO/WHO ICSC</a> (国际化学品安全卡) / 中国 <a class="source-link" href="https://hgt.cirs-group.com/" target="_blank">《危险化学品目录》</a></td>
+      <td>✅ 多语言公开，含 GHS/UN/应急措施</td>
+    </tr>
+    <tr>
+      <td>化学文摘</td>
+      <td><a class="source-link" href="https://www.cas.org/" target="_blank">CAS (Chemical Abstracts Service)</a></td>
+      <td>✅ CAS 号是化合物唯一标识</td>
+    </tr>
+    <tr>
+      <td>矿床/矿物</td>
+      <td><a class="source-link" href="https://www.mindat.org/" target="_blank">Mindat.org</a> / <a class="source-link" href="https://rruff.info/ima/" target="_blank">IMA 矿物列表</a></td>
+      <td>✅ 全球最大矿物数据库</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ====== Phase 概览 ====== -->
+<h2>四、改进路线图总览</h2>
+<div class="phase-timeline">
+  <div class="phase-node">
+    <div class="phase-num">P1</div>
+    <div class="phase-title">数据补全</div>
+    <div class="phase-desc">118 元素全量详情<br>+ 基础热力学/电化学</div>
+  </div>
+  <div class="phase-node">
+    <div class="phase-num">P2</div>
+    <div class="phase-title">权威引用</div>
+    <div class="phase-desc">建立引用溯源体系<br>每项数据标来源</div>
+  </div>
+  <div class="phase-node">
+    <div class="phase-num">P3</div>
+    <div class="phase-title">工业安全</div>
+    <div class="phase-desc">GHS/MSDS/法规<br>生产方法/产量/价格</div>
+  </div>
+  <div class="phase-node">
+    <div class="phase-num">P4</div>
+    <div class="phase-title">科研深化</div>
+    <div class="phase-desc">光谱/晶体/相图<br>同位素/文献/前沿</div>
+  </div>
+  <div class="phase-node">
+    <div class="phase-num">P5</div>
+    <div class="phase-title">交互升级</div>
+    <div class="phase-desc">3D结构/对比/筛选<br>API/导出/可视化</div>
+  </div>
+</div>
+
+<!-- ====== Phase 1 ====== -->
+<h2>五、Phase 1：数据补全 — 从 8 个到 118 个元素的完整覆盖</h2>
+<div class="card">
+  <h3>5.1 新增数据字段（每个元素至少包含）</h3>
+  <table>
+    <tr><th>字段名</th><th>说明</th><th>适用层级</th><th>来源</th></tr>
+    <tr>
+      <td>melting_point / boiling_point</td>
+      <td>熔点/沸点 (°C)，精确到 0.01°C</td>
+      <td><span class="badge badge-aud">全体</span></td>
+      <td>CRC Handbook / NIST</td>
+    </tr>
+    <tr>
+      <td>density</td>
+      <td>密度 (g/cm³ at 20°C)</td>
+      <td><span class="badge badge-aud">全体</span></td>
+      <td>CRC Handbook</td>
+    </tr>
+    <tr>
+      <td>electronegativity</td>
+      <td>电负性 (Pauling) + (Allen) + (Mulliken) 三种标度</td>
+      <td><span class="badge badge-aud">大学+</span></td>
+      <td>IUPAC / 教材</td>
+    </tr>
+    <tr>
+      <td>ionization_energies</td>
+      <td>第 1–N 级电离能 (kJ/mol)</td>
+      <td><span class="badge badge-aud">大学+</span></td>
+      <td>NIST</td>
+    </tr>
+    <tr>
+      <td>electron_affinity</td>
+      <td>电子亲和能 (kJ/mol)</td>
+      <td><span class="badge badge-aud">大学+</span></td>
+      <td>NIST</td>
+    </tr>
+    <tr>
+      <td>atomic_radius / covalent_radius / vdw_radius</td>
+      <td>原子半径/共价半径/范德华半径 (pm)</td>
+      <td><span class="badge badge-aud">大学+</span></td>
+      <td>CRC / IUPAC</td>
+    </tr>
+    <tr>
+      <td>oxidation_states</td>
+      <td>常见氧化态列表</td>
+      <td><span class="badge badge-aud">全体</span></td>
+      <td>教材</td>
+    </tr>
+    <tr>
+      <td>crystal_structure</td>
+      <td>晶体结构类型 (fcc/bcc/hcp/...)</td>
+      <td><span class="badge badge-aud">大学+</span></td>
+      <td>COD / CCDC</td>
+    </tr>
+    <tr>
+      <td>electrical_resistivity</td>
+      <td>电阻率 (Ω·m at 20°C)</td>
+      <td><span class="badge badge-aud">研究/工业</span></td>
+      <td>CRC</td>
+    </tr>
+    <tr>
+      <td>thermal_conductivity</td>
+      <td>热导率 (W/(m·K))</td>
+      <td><span class="badge badge-aud">研究/工业</span></td>
+      <td>CRC</td>
+    </tr>
+    <tr>
+      <td>magnetic_ordering</td>
+      <td>磁性类型 (铁磁/反铁磁/顺磁/抗磁)</td>
+      <td><span class="badge badge-aud">研究</span></td>
+      <td>CRC</td>
+    </tr>
+    <tr>
+      <td>youngs_modulus</td>
+      <td>杨氏模量/剪切模量/体积模量 (GPa)</td>
+      <td><span class="badge badge-aud">工业</span></td>
+      <td>ASM / CRC</td>
+    </tr>
+    <tr>
+      <td>hardness</td>
+      <td>莫氏硬度/维氏硬度/布氏硬度</td>
+      <td><span class="badge badge-aud">工业</span></td>
+      <td>ASM</td>
+    </tr>
+    <tr>
+      <td>speed_of_sound</td>
+      <td>声速 (m/s)</td>
+      <td><span class="badge badge-aud">研究</span></td>
+      <td>CRC</td>
+    </tr>
+    <tr>
+      <td>thermal_expansion</td>
+      <td>热膨胀系数 (µm/(m·K))</td>
+      <td><span class="badge badge-aud">工业/研究</span></td>
+      <td>CRC</td>
+    </tr>
+  </table>
+
+  <h3>5.2 热力学标准数据（每个元素）</h3>
+  <table>
+    <tr><th>字段</th><th>说明</th><th>来源</th></tr>
+    <tr><td>ΔH°<sub>f</sub> (gas/solid/liquid)</td><td>标准生成焓</td><td>NIST Webbook</td></tr>
+    <tr><td>ΔG°<sub>f</sub></td><td>标准生成自由能</td><td>NIST Webbook</td></tr>
+    <tr><td>S°</td><td>标准摩尔熵</td><td>NIST Webbook</td></tr>
+    <tr><td>C<sub>p</sub></td><td>标准摩尔热容</td><td>NIST Webbook</td></tr>
+    <tr><td>ΔH<sub>fus</sub> / ΔH<sub>vap</sub></td><td>熔化焓/汽化焓</td><td>CRC</td></tr>
+  </table>
+
+  <h3>5.3 电化学标准数据（每个元素）</h3>
+  <table>
+    <tr><th>字段</th><th>说明</th><th>来源</th></tr>
+    <tr><td>E° (M<sup>n+</sup>/M)</td><td>标准电极电位（主要氧化还原电对）</td><td>CRC Handbook 第 8 章</td></tr>
+    <tr><td>Electrochemical Series</td><td>电化序中的位置</td><td>CRC</td></tr>
+  </table>
+</div>
+
+<!-- ====== Phase 2 ====== -->
+<h2>六、Phase 2：权威引用与可验证溯源体系</h2>
+<div class="card">
+  <h3>6.1 引用体系设计</h3>
+  <p>每条数据均应标注来源，形成可追溯的信息链：</p>
+  <ul>
+    <li><strong>数据引用标注格式</strong>：<code>[来源: 机构, 年份, 版本]</code>，如 <code>[IUPAC CIAAW, 2024, 原子量标准]</code></li>
+    <li><strong>DOI/URL 超链接</strong>：文献引用直接链接到原文 DOI（如 <code>doi.org/10.1515/pac-2022-0802</code>）</li>
+    <li><strong>CAS 号</strong>：每个元素的常见化合物标注 CAS 注册号（如硫酸 CAS 7664-93-9）</li>
+    <li><strong>PubChem CID</strong>：化合物标注 PubChem 化合物 ID</li>
+    <li><strong>更新时间戳</strong>：每个数据页面标注上次更新日期，保证时效透明</li>
+  </ul>
+
+  <h3>6.2 关键参考出版物</h3>
+  <table>
+    <tr><th>出版物</th><th>用途</th><th>获取方式</th></tr>
+    <tr><td>CRC Handbook of Chemistry and Physics (第 105 版+)</td><td>绝大多数理化常数</td><td>hbcponline.com（付费）</td></tr>
+    <tr><td>IUPAC "Atomic weights of the elements" (Pure Appl. Chem.)</td><td>原子量权威值</td><td>ciaaw.org（免费）</td></tr>
+    <tr><td>NIST-JANAF Thermochemical Tables</td><td>热力学数据</td><td>NIST（免费）</td></tr>
+    <tr><td>Lange's Handbook of Chemistry</td><td>综合化学数据</td><td>McGraw-Hill</td></tr>
+    <tr><td>中国《危险化学品目录》(2022 版)</td><td>中国法规合规</td><td>应急管理部官网</td></tr>
+    <tr><td>ILO/WHO ICSC 国际化学品安全卡</td><td>安全与应急</td><td>ilo.org/dyn/icsc/（免费多语言）</td></tr>
+  </table>
+
+  <h3>6.3 数据时效性保障机制</h3>
+  <ul>
+    <li><strong>原子量</strong>：每 2 年一次复查（IUPAC 更新周期）</li>
+    <li><strong>同位素半衰期</strong>：跟随 NuDat 3.0 数据库更新</li>
+    <li><strong>超重元素</strong>：跟踪 IUPAC/JWP 确认公告</li>
+    <li><strong>安全法规</strong>：跟随 GB 标准及 GHS 更新</li>
+    <li><strong>价格/产量</strong>：跟随 USGS Mineral Commodity Summaries（年度报告）</li>
+  </ul>
+</div>
+
+<!-- ====== Phase 3 ====== -->
+<h2>七、Phase 3：工业、安全与合规数据</h2>
+<div class="card">
+  <h3>7.1 GHS 危害分类（每个元素的常见形态）</h3>
+  <table>
+    <tr><th>数据项</th><th>说明</th></tr>
+    <tr><td>GHS 象形图</td><td>火焰/腐蚀/骷髅/环境危害等标准图标</td></tr>
+    <tr><td>信号词</td><td>危险(Danger) / 警告(Warning)</td></tr>
+    <tr><td>H 编码 (Hazard Statements)</td><td>如 H228 易燃固体、H314 造成严重皮肤灼伤</td></tr>
+    <tr><td>P 编码 (Precautionary Statements)</td><td>如 P210 远离热源、P280 戴防护手套</td></tr>
+    <tr><td>UN 编号</td><td>危险货物联合国编号（如 UN 1017 氯气）</td></tr>
+    <tr><td>运输分类</td><td>危险货物类别与包装等级</td></tr>
+  </ul>
+
+  <h3>7.2 毒理与暴露数据</h3>
+  <table>
+    <tr><th>数据项</th><th>来源</th></tr>
+    <tr><td>LD₅₀（半数致死量，口服/皮肤/吸入）</td><td>ECHA / NIOSH</td></tr>
+    <tr><td>LC₅₀（吸入半数致死浓度）</td><td>ECHA</td></tr>
+    <tr><td>OEL（职业接触限值）：中国 OELs + ACGIH TLV-TWA</td><td>国标 GBZ 2.1 / ACGIH</td></tr>
+    <tr><td>IDLH（立即威胁生命和健康浓度）</td><td>NIOSH</td></tr>
+    <tr><td>致癌性分类 (IARC / NTP / ACGIH)</td><td>IARC Monographs</td></tr>
+    <tr><td>生态毒性 (LC₅₀ 水生生物，生物富集性 BCF)</td><td>ECHA</td></tr>
+  </ul>
+
+  <h3>7.3 工业生产数据</h3>
+  <ul>
+    <li><strong>工业制备方法</strong>：主要工艺路线（如氯碱法、拜耳法、Kroll 法）及对应化学方程式</li>
+    <li><strong>全球年产量</strong>：源自 USGS Mineral Commodity Summaries</li>
+    <li><strong>主要生产国/企业</strong>：全球产能分布</li>
+    <li><strong>价格趋势</strong>：近年市场价格（如 ¥/kg 或 $/tonne），标注来源（如 SMM 上海有色网）</li>
+    <li><strong>主要矿物</strong>：含该元素的天然矿物列表（来源：Mindat.org / IMA）</li>
+    <li><strong>地壳丰度</strong>：ppm 或 mg/kg（来源：CRC）</li>
+  </ul>
+
+  <h3>7.4 专业级泄漏与应急处置</h3>
+  <ul>
+    <li><strong>ERG 指南编号</strong>：对应北美应急响应指南 (Emergency Response Guidebook)</li>
+    <li><strong>隔离距离</strong>：小/大泄漏的初始隔离与防护距离</li>
+    <li><strong>个人防护装备(PPE)</strong>：具体的呼吸器类型（如自给式正压呼吸器）、防护服材质要求</li>
+    <li><strong>灭火介质</strong>：适用与禁用的灭火剂</li>
+    <li><strong>中和/吸收方法</strong>：具体化学处理方案（含方程式）</li>
+    <li><strong>废水/废气处理</strong>：排放标准（GB 8978 / GB 16297）+ 处理方法</li>
+  </ul>
+</div>
+
+<!-- ====== Phase 4 ====== -->
+<h2>八、Phase 4：科研级深度数据</h2>
+<div class="card">
+  <h3>8.1 同位素完整数据</h3>
+  <p>从目前的<code>radioactive: true/false</code> 二元标注，升级为：</p>
+  <ul>
+    <li>每种同位素的<strong>质量数、精确质量</strong>（amu）</li>
+    <li><strong>天然丰度</strong>（%），带不确定度</li>
+    <li><strong>半衰期</strong>（含单位：y, d, h, min, s, ms, μs, ns）</li>
+    <li><strong>衰变模式</strong>（α, β⁻, β⁺, EC, SF, IT, p, n, 2β 等）</li>
+    <li><strong>衰变能</strong>（MeV）</li>
+    <li><strong>子体核素</strong></li>
+    <li><strong>衰变链</strong>可视化（对铀、钍等天然放射系）</li>
+    <li>来源：NuDat 3.0 (BNL) + IAEA LiveChart of Nuclides</li>
+  </ul>
+
+  <h3>8.2 光谱数据</h3>
+  <ul>
+    <li><strong>原子发射光谱</strong>：特征谱线波长(nm)及强度（来源：NIST ASD）</li>
+    <li><strong>X 射线光谱</strong>：Kα、Kβ、Lα 线的能量(keV)（来源：NIST）</li>
+    <li><strong>XPS 结合能</strong>：常见轨道电子结合能(eV)（来源：NIST XPS Database）</li>
+    <li><strong>NMR 性质</strong>：核自旋、自然丰度 NMR 核、旋磁比、参考化合物化学位移</li>
+  </ul>
+
+  <h3>8.3 晶体学数据</h3>
+  <p>对每种元素的常见同素异形体/晶型：</p>
+  <ul>
+    <li>空间群 (Space group)</li>
+    <li>晶格参数 a, b, c (Å) 及 α, β, γ (°)</li>
+    <li>单胞原子数 Z</li>
+    <li>配位数</li>
+    <li>x, y, z 原子分数坐标</li>
+    <li>来源：COD / ICSD / Pearson's Crystal Data</li>
+  </ul>
+
+  <h3>8.4 研究前沿</h3>
+  <ul>
+    <li>每个元素的<strong>研究前沿方向</strong>（如："2024 年 Nature/Science 相关论文"）</li>
+    <li>关键综述文献引用（DOI 链接，一年内）</li>
+    <li>中国研究团队突出贡献标注</li>
+    <li>开放研究问题/未解决问题</li>
+    <li>超重元素最新合成进展（如 Z=119, 120 的合成尝试）</li>
+  </ul>
+</div>
+
+<!-- ====== Phase 5 ====== -->
+<h2>九、Phase 5：交互功能与可视化升级</h2>
+<div class="card">
+  <h3>9.1 高级搜索与筛选</h3>
+  <ul>
+    <li><strong>多条件筛选器</strong>：按族、周期、物态、磁性、导电性、价格区间等筛选</li>
+    <li><strong>属性排序</strong>：按原子量/密度/电负性/熔点等属性排序展示</li>
+    <li><strong>正则 + 模糊搜索</strong>：支持化学式（如 "Fe₂O₃"）直接搜索</li>
+    <li><strong>中文拼音搜索</strong>：输入 "qing" → 匹配"氢"</li>
+  </ul>
+
+  <h3>9.2 元素对比工具</h3>
+  <ul>
+    <li>并排对比 2–4 个元素的全部属性</li>
+    <li>差异高亮（Δ 计算）</li>
+    <li>对比结果可导出为 PDF/表格</li>
+  </ul>
+
+  <h3>9.3 3D 可视化</h3>
+  <ul>
+    <li><strong>晶体结构</strong>：使用 Three.js 渲染 fcc/bcc/hcp 等晶格 3D 模型</li>
+    <li><strong>电子轨道</strong>：s/p/d/f 轨道形状 3D 展示</li>
+    <li><strong>分子结构</strong>：常见化合物分子 3D 模型（可旋转/缩放）</li>
+  </ul>
+
+  <h3>9.4 数据可视化</h3>
+  <ul>
+    <li><strong>属性热力图</strong>：周期表上按电负性/原子半径/密度着色</li>
+    <li><strong>趋势图</strong>：族/周期内属性变化趋势线图（Plotly/Chart.js）</li>
+    <li><strong>丰度图</strong>：地壳/太阳系/人体元素丰度对比图</li>
+    <li><strong>同位素图</strong>：核素图（Z vs N，标注稳定性）</li>
+  </ul>
+
+  <h3>9.5 API 与数据导出</h3>
+  <ul>
+    <li><strong>RESTful JSON API</strong>：<code>/api/elements</code>、<code>/api/elements/{Z}</code></li>
+    <li><strong>数据导出</strong>：CSV、JSON、XML 格式</li>
+    <li><strong>嵌入卡片</strong>：提供 iframe/Web Component 嵌入到其他网站</li>
+  </ul>
+</div>
+
+<!-- ====== 优先级 ====== -->
+<h2>十、实施优先级建议</h2>
+<div class="card">
+  <table>
+    <tr><th style="width:60px">优先级</th><th>模块</th><th>理由</th><th>预估工作量</th></tr>
+    <tr>
+      <td><span class="badge badge-p0">P0</span></td>
+      <td>补全 118 元素物理性质基础数据</td>
+      <td>填补"只有 8 个元素有详情"的最大短板</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p0">P0</span></td>
+      <td>建立引用标注与来源体系</td>
+      <td>信息可信度是专业性的根基</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p0">P0</span></td>
+      <td>增加 GHS 安全数据</td>
+      <td>对化工从业者是最关键需求</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td>增加热力学 + 电化学数据</td>
+      <td>大学生/研究者刚需</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td>同位素完整数据 + 衰变链</td>
+      <td>核化学/放射化学核心数据</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p1">P1</span></td>
+      <td>工业制备方法 + 产量数据</td>
+      <td>工业用户核心需求</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p2">P2</span></td>
+      <td>高级搜索/筛选/元素对比</td>
+      <td>显著提升所有层级用户体验</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p2">P2</span></td>
+      <td>光谱数据 + 晶体学数据</td>
+      <td>研究生/研究人员核心工具</td>
+      <td>高</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p2">P2</span></td>
+      <td>3D 可视化 + 属性热力图</td>
+      <td>提升教育/科普价值</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-p2">P2</span></td>
+      <td>数据 API + 导出功能</td>
+      <td>赋能二次开发与集成</td>
+      <td>低</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ====== 数据架构 ====== -->
+<h2>十一、建议的数据架构升级</h2>
+<div class="card">
+  <p>当前 <code>elements.js</code> 是单一扁平数组。建议升级为模块化 JSON 架构：</p>
+<pre style="background:#0d1117;color:#e6edf3;padding:16px;border-radius:6px;overflow-x:auto;font-size:13px">
+// /data/elements/hydrogen.json — 示例
+{
+  "z": 1, "symbol": "H", "name": "氢", "nameEn": "Hydrogen",
+  "sources": {
+    "atomic_weight": "IUPAC CIAAW 2024",
+    "thermo": "NIST Webbook #69",
+    "electrochemical": "CRC Handbook 105th ed."
+  },
+  "basic": { "mass": [1.00784, 1.00811], "state": "gas", ... },
+  "thermo": { "ΔHf_gas": 217.97, "S°": 130.680, "Cp": 28.836, ... },
+  "electrochemical": [
+    { "halfReaction": "2H⁺ + 2e⁻ ⇌ H₂", "E°": 0.000, "notes": "定义参考" }
+  ],
+  "isotopes": [
+    { "A":1, "mass":1.007825, "abundance":99.9885, "stable":true },
+    { "A":2, "mass":2.014102, "abundance":0.0115,  "stable":true },
+    { "A":3, "mass":3.016049, "halfLife":"12.33y", "decay":"β⁻", "daughter":"³He" }
+  ],
+  "safety": {
+    "ghs": { "pictograms":["GHS02","GHS04"], "signal":"Danger",
+      "hCodes":["H220","H280"], "pCodes":["P210","P377","P381","P403"] },
+    "toxicity": { "LD50_oral": null, "OEL_TWA": null },
+    "unNumber": "UN 1049", "transportClass": "2.1",
+    "spillResponse": { ... }
+  },
+  "spectra": {
+    "emission_lines": [
+      { "wavelength":656.28,"intensity":"strong","transition":"3→2 (Hα)"}
+    ],
+    "xray": { "Kα": 0.000, "notes": "H 无 X 射线荧光" }
+  },
+  "production": {
+    "methods": ["蒸汽重整", "电解水", "氯碱副产"],
+    "annualProduction": "~7000 万吨 (全球, 2023)",
+    "price": "~¥3–4/kg (工业氢)"
+  },
+  "researchFrontiers": [
+    { "topic":"绿氢电解催化剂", "doi":"10.1038/s41560-023-..." },
+    { "topic":"金属氢超导", "doi":"..." }
+  ],
+  "detailMD": "## 氢...（完整 Markdown 详情，含方程式等）"
+}
+</pre>
+  <p>此结构优点：</p>
+  <ul>
+    <li>每个元素一个独立 JSON 文件，按需加载（Lazy Loading），避免首页加载全部 118 个详情</li>
+    <li>结构化数据可直接用于 API 响应、图表渲染、对比计算</li>
+    <li>便于增量更新和版本控制</li>
+    <li>Markdown 详情文本与结构化数据并存，各取所需</li>
+  </ul>
+</div>
+
+<p style="text-align:center;color:var(--muted);margin-top:40px;font-size:12px">
+  化学元素周期表网站 · 专业化改进路线图 · 2026-06-18
+</p>
+
+</div>
+</body>
+</html>

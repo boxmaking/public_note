@@ -1,0 +1,311 @@
+/* ========================================
+   table.css - 周期表布局样式
+   ======================================== */
+
+/* ── 周期表容器 ── */
+.periodic-table-wrapper {
+  max-width: 1520px;
+  margin: 0 auto;
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+
+.periodic-table {
+  display: grid;
+  /* 18列 + 1列用于周期序号 */
+  grid-template-columns: 28px repeat(18, 1fr);
+  grid-template-rows: auto;
+  gap: 3px;
+  min-width: 860px;
+}
+
+/* ── 简化元素卡片 ── */
+.el-card {
+  position: relative;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  text-align: center;
+  user-select: none;
+  border: 1px solid transparent;
+  overflow: hidden;
+}
+
+/* 简化视图尺寸 */
+.el-card.simple {
+  padding: 5px 2px 4px;
+  min-height: 52px;
+}
+
+.el-card.simple .el-z {
+  font-size: 9px;
+  color: rgba(255,255,255,.5);
+  line-height: 1;
+  display: block;
+}
+.el-card.simple .el-symbol {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  display: block;
+  color: #fff;
+}
+.el-card.simple .el-name {
+  font-size: 9px;
+  color: rgba(255,255,255,.7);
+  line-height: 1;
+  display: block;
+}
+
+/* ── 完整视图尺寸 ── */
+.periodic-table.pt-full {
+  gap: 2px;
+}
+
+.el-card.full {
+  padding: 4px 2px 3px;
+  min-height: 70px;
+}
+.el-card.full .el-z {
+  font-size: 8px;
+  color: rgba(255,255,255,.5);
+  line-height: 1;
+  display: block;
+}
+.el-card.full .el-symbol {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  display: block;
+  color: #fff;
+}
+.el-card.full .el-name {
+  font-size: 8px;
+  color: rgba(255,255,255,.7);
+  line-height: 1.1;
+  display: block;
+}
+.el-card.full .el-mass {
+  font-size: 7.5px;
+  color: rgba(255,255,255,.55);
+  line-height: 1.2;
+  display: block;
+  margin-top: 1px;
+}
+.el-card.full .el-config {
+  font-size: 7px;
+  color: rgba(255,255,255,.45);
+  line-height: 1.1;
+  display: block;
+}
+.el-card.full .el-state {
+  position: absolute;
+  bottom: 2px;
+  right: 3px;
+  font-size: 7px;
+  font-weight: 700;
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+.el-card.full .state-s { background:rgba(255,255,255,.15); color:rgba(255,255,255,.7); }
+.el-card.full .state-l { background:rgba(0,120,200,.5); color:#fff; }
+.el-card.full .state-g { background:rgba(0,180,60,.3); color:#7fff7f; }
+.el-card.full .state-m { background:rgba(255,180,0,.3); color:#ffc107; }
+
+/* 放射性角标 */
+.el-card .radio-flag {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  font-size: 8px;
+  color: #f85149;
+}
+
+/* ── 元素类别背景色 ── */
+.cat-alkali-metal    { background: linear-gradient(135deg, #c0392b, #e74c3c); }
+.cat-alkaline-earth  { background: linear-gradient(135deg, #d35400, #e67e22); }
+.cat-transition      { background: linear-gradient(135deg, #1a5276, #3498db); }
+.cat-post-transition { background: linear-gradient(135deg, #1a6b3a, #2ecc71); }
+.cat-metalloid       { background: linear-gradient(135deg, #117a65, #1abc9c); }
+.cat-nonmetal        { background: linear-gradient(135deg, #6c3483, #9b59b6); }
+.cat-halogen         { background: linear-gradient(135deg, #b7770d, #f39c12); }
+.cat-noble-gas       { background: linear-gradient(135deg, #922b6e, #e91e8c); }
+.cat-lanthanide      { background: linear-gradient(135deg, #006064, #00bcd4); }
+.cat-actinide        { background: linear-gradient(135deg, #bf360c, #ff5722); }
+
+.el-card:hover {
+  transform: scale(1.12) translateZ(0);
+  z-index: 10;
+  box-shadow: 0 6px 24px rgba(0,0,0,.6);
+  border-color: rgba(255,255,255,.4);
+  filter: brightness(1.15);
+}
+.el-card:active { transform: scale(1.06); }
+
+/* ── 周期序号标签 ── */
+.period-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ── 族序号行 ── */
+.group-row {
+  display: contents;
+}
+.group-label {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 10px;
+  padding: 2px 0;
+}
+
+/* ── 空白占位 ── */
+.el-empty {
+  /* 空白格，不显示 */
+}
+
+/* ── 镧系/锕系分隔区 ── */
+.lanthanide-row,
+.actinide-row {
+  max-width: 1520px;
+  margin: 10px auto 0;
+  display: grid;
+  grid-template-columns: 100px repeat(15, 1fr);
+  gap: 3px;
+  padding: 0 0 0 calc(28px + 3px + (2 * (100%/19)));
+}
+
+.series-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ── 悬停高亮同类 ── */
+.el-card.dim {
+  filter: brightness(0.35) saturate(0.4);
+  transform: scale(1) !important;
+}
+
+/* ── 选中状态 ── */
+.el-card.selected {
+  box-shadow: 0 0 0 2px #fff, 0 0 16px rgba(255,255,255,.4);
+  z-index: 5;
+}
+
+/* ── 信息卡浮层（简化/完整视图右侧信息展示） ── */
+.info-panel {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 240px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  z-index: 100;
+  display: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+}
+
+/* ========================================
+   移动端响应式 (≤768px)
+   ======================================== */
+@media (max-width: 768px) {
+  .periodic-table-wrapper {
+    max-width: 100%;
+    padding-bottom: 16px;
+  }
+
+  /* 略微增大卡片触控区域 */
+  .el-card.simple {
+    min-height: 56px;
+    padding: 6px 2px 5px;
+  }
+  .el-card.simple .el-symbol { font-size: 17px; }
+  .el-card.simple .el-name  { font-size: 10px; }
+
+  .el-card.full {
+    min-height: 74px;
+    padding: 5px 2px 4px;
+  }
+  .el-card.full .el-symbol { font-size: 16px; }
+  .el-card.full .el-name   { font-size: 9px; }
+  .el-card.full .el-mass   { font-size: 8px; }
+  .el-card.full .el-config { font-size: 7.5px; }
+
+  /* 信息面板在移动端改为底部抽屉 */
+  .info-panel {
+    position: fixed;
+    right: auto;
+    left: 8px;
+    bottom: 8px;
+    top: auto;
+    transform: none;
+    width: calc(100% - 16px);
+    max-height: 50vh;
+    overflow-y: auto;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 13px;
+  }
+
+  /* 镧系/锕系行 */
+  .lanthanide-row,
+  .actinide-row {
+    max-width: 100%;
+    grid-template-columns: 80px repeat(15, 1fr);
+    padding-left: calc(28px + 3px);
+    gap: 2px;
+  }
+  .series-label { font-size: 10px; padding-right: 4px; }
+}
+
+/* ========================================
+   小屏手机 (≤480px)
+   ======================================== */
+@media (max-width: 480px) {
+  .periodic-table {
+    grid-template-columns: 22px repeat(18, 1fr);
+    gap: 2px;
+    min-width: 720px;
+  }
+
+  .el-card.simple {
+    min-height: 50px;
+    padding: 4px 1px 3px;
+  }
+  .el-card.simple .el-z      { font-size: 8px; }
+  .el-card.simple .el-symbol { font-size: 15px; }
+  .el-card.simple .el-name   { font-size: 8px; }
+
+  .el-card.full {
+    min-height: 64px;
+    padding: 3px 1px;
+  }
+  .el-card.full .el-z      { font-size: 7px; }
+  .el-card.full .el-symbol { font-size: 14px; }
+  .el-card.full .el-name   { font-size: 7.5px; }
+  .el-card.full .el-mass   { font-size: 7px; }
+  .el-card.full .el-config { font-size: 6px; display: none; }
+
+  .period-label { font-size: 9px; }
+  .group-label  { font-size: 8px; }
+
+  .lanthanide-row,
+  .actinide-row {
+    grid-template-columns: 60px repeat(15, 1fr);
+    gap: 2px;
+    padding-left: calc(22px + 2px);
+  }
+}

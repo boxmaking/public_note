@@ -1,0 +1,26 @@
+{
+  "name": "化学元素周期表",
+  "name_en": "Periodic Table of Elements",
+  "short_name": "周期表",
+  "short_name_en": "PeriodicTable",
+  "description": "交互式化学元素周期表 — 118个元素完整数据、3D可视化、学习测验",
+  "description_en": "Interactive Periodic Table of Elements — 118 elements with complete data, 3D visualization, and learning quizzes",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#00d4ff",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["education", "science", "reference"]
+}
