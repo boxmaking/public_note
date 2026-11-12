@@ -1,0 +1,222 @@
+#+SETUPFILE: ~/.emacs.d/org-other-file/org-level-1.org
+#+TITLE: windows文件夹隐藏方式
+#+SUBTITLE: Windows 文件夹伪装成系统图标的完整方案
+#+AUTHOR: pengshao
+#+FILETAGS: :windows:文件管理:伪装:
+#+STARTUP: overview
+#+OPTIONS: toc:3 num:nil
+#+LANGUAGE: zh-CN
+#+DATE:<2025-02-17-048/Monday>
+
+
+* 概述
+本笔记记录在 Windows 下把普通文件夹伪装成"回收站"等系统图标的完整
+可复用方案。已在 Windows 10 专业版 22H2 Build 19045 上完成实测验证。
+
+** 能力边界
+| 维度       | 说明                                                     |
+|------------+----------------------------------------------------------|
+| 本质       | 视觉伪装 + 路径遮挡，不是访问控制，也不是加密            |
+| 能挡住     | 随手双击、随意翻找                                       |
+| 挡不住     | 知道完整路径的人、命令行、Everything 等搜索工具           |
+| 数据安全   | 文件夹及内部文件完全无损，不移动数据，操作瞬时完成        |
+| 需要加密时 | 走 VeraCrypt 整分区加密或 BitLocker，本方案不适用         |
+
+** 适用场景
+- 电脑与他人共用同一 Windows 账户，不想被随手翻到某个目录
+- 想让某个大体积目录"看起来不存在"
+- 临时遮挡，事后可一键恢复
+
+** 原理
+Explorer 外壳会解析文件夹名末尾的 CLSID 字符串。当文件夹名形如
+=目录名.{CLSID}= 时，资源管理器会使用该 CLSID 对应的系统图标显示，
+并把双击行为交给对应系统组件处理。
+
+因此把 =temp= 改名成 =temp.{645FF040-5081-101B-9F08-00AA002F954E}=
+之后，它会显示为回收站图标，双击进入看到的是回收站内容而非真实文件。
+
+#+BEGIN_QUOTE
+GUID 只是"图标外观 + 双击行为"的绑定，不改变任何文件系统语义。
+#+END_QUOTE
+
+** 核心实测结论
+:PROPERTIES:
+:CUSTOM_ID: 实测结论
+:END:
+
+1. *cmd 的 ren 命令不可用*
+   #+BEGIN_SRC cmd
+   ren "I:\temp" "temp.{645FF040-5081-101B-9F08-00AA002F954E}"
+   :: 结果：系统找不到指定的文件
+   #+END_SRC
+   原因：隐藏属性目录 + 完整路径的组合导致 ren 无法解析。
+2. *必须使用 Rename-Item -LiteralPath*
+   名称中含 ={= =}= 等字符，=-Path= 会按通配符解析而失败。
+3. *Hidden 属性会自动保留*，改名后无需重新设置。
+4. *不需要管理员权限*（针对当前用户拥有的数据盘目录）。
+5. *=if exist= 判断可靠*，可用于脚本状态自检。
+   #+BEGIN_SRC cmd
+   if exist "I:\temp.{645FF040-5081-101B-9F08-00AA002F954E}" (echo 已伪装)
+   if exist "I:\temp" (echo 正常名称)
+   #+END_SRC
+
+* 前置条件
+- 目标位于 NTFS 分区
+- 目标文件夹未被任何进程当作工作目录、缓存目录或下载目录占用
+- 已知目标文件夹的完整路径
+
+** 方法一：手动命令
+*** 隐藏
+#+BEGIN_SRC powershell
+Rename-Item -LiteralPath 'I:\temp' -NewName 'temp.{645FF040-5081-101B-9F08-00AA002F954E}'
+#+END_SRC
+
+*** 恢复
+#+BEGIN_SRC powershell
+Rename-Item -LiteralPath 'I:\temp.{645FF040-5081-101B-9F08-00AA002F954E}' -NewName 'temp'
+#+END_SRC
+
+#+BEGIN_TIP
+把 =I:\temp= 替换成自己的目标路径即可通用。所有 GUID 必须前后一致。
+#+END_TIP
+
+** 方法二：一键批处理
+批处理的两个文件内容见下。保存时必须使用 *ANSI（GBK / 代码页 936）*
+编码，否则 cmd 窗口中中文会乱码。
+
+*** 隐藏.bat
+#+BEGIN_SRC bat
+@echo off
+chcp 936 >nul
+setlocal
+title 隐藏 I:\temp
+set "GUIDNAME=temp.{645FF040-5081-101B-9F08-00AA002F954E}"
+
+echo ============================================
+echo   隐藏 I:\temp  -^>  伪装成回收站文件夹
+echo ============================================
+echo.
+
+if exist "I:\%GUIDNAME%\" (
+    echo [提示] I:\temp 当前已经是隐藏伪装状态，无需重复操作。
+    goto :done
+)
+
+if not exist "I:\temp\" (
+    echo [错误] 未找到 I:\temp，请确认该目录是否存在。
+    goto :done
+)
+
+echo 正在执行改名，请稍候...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Rename-Item -LiteralPath 'I:\temp' -NewName '%GUIDNAME%' -ErrorAction Stop"
+
+if exist "I:\%GUIDNAME%\" (
+    echo.
+    echo [成功] 已隐藏 I:\temp
+    echo        当前名称: %GUIDNAME%
+    echo        双击打开会提示找不到文件，属于正常伪装效果。
+) else (
+    echo.
+    echo [失败] 改名未成功。
+    echo        可能原因: 有程序正在占用 I:\temp。
+) 
+
+:done
+echo.
+pause
+#+END_SRC
+
+*** 恢复.bat
+#+BEGIN_SRC bat
+@echo off
+chcp 936 >nul
+setlocal
+title 恢复 I:\temp
+set "GUIDNAME=temp.{645FF040-5081-101B-9F08-00AA002F954E}"
+
+echo ============================================
+echo   恢复 I:\temp  -^>  取消隐藏伪装
+echo ============================================
+echo.
+
+if not exist "I:\%GUIDNAME%\" (
+    if exist "I:\temp\" (
+        echo [提示] I:\temp 当前已是正常名称，无需恢复。
+    ) else (
+        echo [错误] 既未找到伪装目录，也未找到 I:\temp。
+    )
+    goto :done
+)
+
+echo 正在执行改名，请稍候...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Rename-Item -LiteralPath 'I:\%GUIDNAME%' -NewName 'temp' -ErrorAction Stop"
+
+if exist "I:\temp\" (
+    echo.
+    echo [成功] 已恢复为 I:\temp
+) else (
+    echo.
+    echo [失败] 恢复未成功，可能有程序正在占用该目录。
+)
+
+:done
+echo.
+pause
+#+END_SRC
+
+** 图标 GUID 对照表
+| 显示效果   | GUID                                   |
+|------------+----------------------------------------|
+| 回收站     | {645FF040-5081-101B-9F08-00AA002F954E} |
+| 此电脑     | {20D04FE0-3AEA-1069-A2D8-08002B30309D} |
+| 控制面板   | {21EC2020-3AEA-1069-A2DD-08002B30309D} |
+| 网络       | {F02C1A0D-BE21-4350-88B0-7367FC96EF3C} |
+| 打印机     | {2227A280-3AEA-1069-A2DE-08002B30309D} |
+| 我的文档   | {450D8FBA-AD25-11D0-98A8-0800361B1103} |
+
+推荐优先使用回收站 GUID，双击行为最自然，最不易引起注意。
+
+*** 排错手册
+**** ren 提示找不到文件
+改用 =Rename-Item -LiteralPath=。参见 [[#实测结论][核心实测结论]] 第 1 条。
+
+**** Rename-Item 提示路径不存在
+检查是否误用 =-Path=，必须使用 =-LiteralPath=。
+
+**** 提示另一个程序正在使用此文件
+有句柄占用目标目录。依次关闭：资源管理器窗口 → 命令提示符 →
+播放器/下载工具/编辑器工程 → 重试。必要时注销账户。
+
+**** 改名成功但图标没变
+资源管理器图标缓存未刷新。按 =F5=，或重启 explorer.exe。
+
+**** 忘了改成什么名字了
+#+BEGIN_SRC powershell
+[System.IO.Directory]::GetDirectories("I:\")
+#+END_SRC
+用 .NET 接口枚举可看到含 GUID 后缀的真实名称。
+
+**** bat 运行中文乱码
+保存编码不是 ANSI/GBK。用记事本"另存为"，编码选 ANSI。
+
+*** 注意事项
+1. 伪装状态下若某软件把该目录作为工作路径，会报错，但文件不会损坏，
+   改回原名即可恢复。
+2. 知道完整路径的人可以绕过伪装，因此它只防随手翻找。
+3. 严禁对系统目录（Windows、Program Files、ProgramData）做此操作。
+4. 建议同时保留恢复命令，避免遗忘 GUID 后缀后无法还原。
+5. 大体积目录改名是瞬时操作（仅重命名，不移动数据），无需担心耗时。
+
+* 本机验证记录
+| 验证项             | 结果                                       |
+|--------------------+--------------------------------------------|
+| 隐藏脚本执行       | 成功，真实名变为 =temp.{645FF040-...}=     |
+| 隐藏脚本重复执行   | 提示已处于隐藏状态，无副作用               |
+| 恢复脚本执行       | 成功，恢复为 =I:\temp=                     |
+| 恢复脚本重复执行   | 提示已是正常名称，无副作用                 |
+| 改名后属性检查     | Hidden + Directory + Archive 保持不变      |
+| bat 中文显示       | GBK / 代码页 936 下正常                    |
+| 验证对象           | I:\temp，395.79 GB，59561 文件 / 745 子目录 |
+
+** 结论
+方案可复用，两个脚本已验证幂等安全，可直接用于其他机器与目录。

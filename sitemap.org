@@ -8,6 +8,7 @@
   - [[file:c/c-learn.org][c语言学习笔记]]
 - chemistry
   - [[file:chemistry/2chapter.org][2元素周期表的规律,离子键,共价键,极性键,非极性键识别区别]]
+  - [[file:chemistry/3chaprer.org][3杂化轨道与碳的四价本质（第 3 天）]]
   - [[file:chemistry/1chapter.org][chemistry基础第一章节]]
 - emacs
   - [[file:emacs/eshell.org][Eshell使用记录]]
@@ -79,6 +80,7 @@
   - [[file:org/org-mobile.org][设置MobileOrg,让org如影随形]]
 - other
   - [[file:other/2025-f1-calendar.org][2025赛季F1赛事GTD追踪（北京时间）]]
+  - [[file:other/folder-hide-tutorial.org][windows文件夹隐藏方式]]
   - [[file:other/hex-color.org][十六进制HEX色卡查询以及与RGB格式对照表]]
   - [[file:other/work.org][工作相关的一些常用计算公式]]
   - [[file:other/moon-phase.org][月相相关的名词解释,以及月相形成原因]]
